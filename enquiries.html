@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Enquiries | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-slate);
@@ -146,6 +146,7 @@
     }
     .enquiry-status-tag.pending { background: #FEF3C7; color: #92400E; }
     .enquiry-status-tag.confirmed { background: #DCFCE7; color: #166534; }
+    .enquiry-status-tag.completed { background: #E2E8F0; color: #334155; }
 
     .btn-action-accept {
       background: var(--emerald); color: #ffffff; border: none; padding: 8px 16px; border-radius: var(--btn-radius); font-size: 12.5px; font-weight: 800; cursor: pointer; transition: var(--transition);
@@ -164,16 +165,10 @@
     }
     .btn-action-chat:hover { background: #20BA5A; }
 
-    /* FLOATING THREE-BUTTON DOCK (STRICTLY MOBILE ONLY) */
-    .mobile-bottom-dock {
-      display: none;
-    }
+    .mobile-bottom-dock { display: none; }
 
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: 92px !important;
-      }
-
+      body.logged-in-mobile { padding-bottom: 92px !important; }
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1.15fr 1fr 1fr;
@@ -190,61 +185,20 @@
         z-index: 9999;
         align-items: center;
       }
-
       .dock-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 10px 4px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        transition: var(--transition);
-        position: relative;
-        border: 1.5px solid #CBD5E1;
-        background: #FFFFFF;
-        color: #0A192F;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
+        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
+        background: #FFFFFF; color: #0A192F; position: relative;
       }
-
-      .dock-btn.dock-btn-primary {
-        background: #0A192F;
-        color: #FFFFFF;
-        border-color: #0A192F;
-      }
-
-      .dock-btn.dock-btn-primary i {
-        color: #FFFFFF;
-        font-size: 13px;
-      }
-
-      .dock-btn-label-stacked {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
+      .dock-btn.dock-btn-primary { background: #0A192F; color: #FFFFFF; border-color: #0A192F; }
+      .dock-btn.dock-btn-primary i { color: #FFFFFF; font-size: 13px; }
+      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
       .dock-badge {
-        position: absolute;
-        top: -5px;
-        right: -4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        line-height: 1.2;
-        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
+        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
       }
-
-      .enquiries-card {
-        padding: 20px 16px;
-      }
+      .enquiries-card { padding: 20px 16px; }
     }
 
     .hidden { display: none !important; }
@@ -275,7 +229,7 @@
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:10px;">
       <div>
         <h3 style="font-size:20px;color:var(--apex-navy);font-weight:800;">Tuition Enquiries & Confirmation</h3>
-        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Showing active Pending and Confirmed tuitions.</p>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:2px;">Showing active Pending, Confirmed, and Ended tuitions.</p>
       </div>
       <button onclick="loadUserEnquiries()" style="border:none;background:none;color:var(--royal-blue);font-weight:700;font-size:13px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
         <i class="fa-solid fa-rotate"></i> Refresh
@@ -296,7 +250,7 @@
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <a href="profile.html" class="dock-btn dock-btn-outline">
+  <a href="profile.html" class="dock-btn">
     <i class="fa-solid fa-user" style="color: #6366F1;"></i>
     <div class="dock-btn-label-stacked">
       <span>View My</span>
@@ -304,7 +258,7 @@
     </div>
   </a>
 
-  <a href="browse.html" class="dock-btn dock-btn-outline">
+  <a href="browse.html" class="dock-btn">
     <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
     <div class="dock-btn-label-stacked">
       <span>Browse</span>
@@ -336,7 +290,6 @@ async function loadUserEnquiries() {
   const { data, error } = await db
     .from("enquiries")
     .select("*")
-    .in("status", ["Pending", "Confirmed"])
     .order("created_at", { ascending: false });
 
   if (error || !data || !data.length) {
@@ -359,7 +312,6 @@ async function loadUserEnquiries() {
            (currentMobile && (sMob === currentMobile || rMob === currentMobile));
   });
 
-  // Update live pending badge
   const pendingCount = myEnquiries.filter(e => e.recipient_id === currentUserId && e.status === 'Pending').length;
   const dBadge = document.getElementById("dockEnquiryBadge");
   if (dBadge) {
@@ -381,6 +333,8 @@ async function loadUserEnquiries() {
     return;
   }
 
+  const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
   container.innerHTML = myEnquiries.map(enq => {
     const sId = String(enq.sender_id || "").trim();
     const rId = String(enq.recipient_id || "").trim();
@@ -392,6 +346,29 @@ async function loadUserEnquiries() {
     const waPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
     const status = enq.status || 'Pending';
 
+    // 30-day timeline calculation
+    let timelineNote = "";
+    if (status === 'Confirmed' && enq.confirmed_at) {
+      const confTime = new Date(enq.confirmed_at).getTime();
+      const eligibleTime = new Date(confTime + THIRTY_DAYS_MS);
+      const daysPassed = Math.floor((Date.now() - confTime) / (1000 * 60 * 60 * 24));
+      
+      timelineNote = `
+        <div style="font-size:11.5px;color:#047857;margin-top:4px;font-weight:700;">
+          📅 Day ${daysPassed}/30 Completed • Eligible for Star badge credit on ${eligibleTime.toLocaleDateString("en-GB")}
+        </div>
+      `;
+    } else if (status === 'Completed') {
+      const confTime = new Date(enq.confirmed_at || enq.created_at).getTime();
+      const endTime = new Date(enq.ended_at || Date.now()).getTime();
+      const isSuccessful = (endTime - confTime) >= THIRTY_DAYS_MS;
+      timelineNote = `
+        <div style="font-size:11.5px;color:${isSuccessful ? '#166534' : '#64748b'};margin-top:4px;font-weight:700;">
+          ${isSuccessful ? '⭐ Completed 30+ days (Counted as Successful Tuition)' : 'Ended before 30 days (Not counted towards Stars)'}
+        </div>
+      `;
+    }
+
     return `
       <div class="enquiry-item-box ${status.toLowerCase()}">
         <div>
@@ -402,6 +379,7 @@ async function loadUserEnquiries() {
           <b style="font-size:16px;color:var(--apex-navy);">${counterpartName || 'Tuition Member'}</b>
           <div style="font-size:13px;color:var(--royal-blue);font-weight:700;margin-top:2px;">Subject: ${enq.subject || 'All Subjects'}</div>
           <div style="font-size:12px;color:#64748B;margin-top:2px;">WhatsApp: ${counterpartPhone || 'Direct'}</div>
+          ${timelineNote}
         </div>
 
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
@@ -433,7 +411,14 @@ async function loadUserEnquiries() {
 }
 
 async function updateEnquiryStatus(enquiryId, newStatus) {
-  const { error } = await db.from("enquiries").update({ status: newStatus }).eq("id", enquiryId);
+  const updates = { status: newStatus };
+  if (newStatus === 'Confirmed') {
+    updates.confirmed_at = new Date().toISOString();
+  } else if (newStatus === 'Completed') {
+    updates.ended_at = new Date().toISOString();
+  }
+
+  const { error } = await db.from("enquiries").update(updates).eq("id", enquiryId);
   if (error) {
     alert("Error updating status: " + error.message);
   } else {
@@ -446,7 +431,6 @@ window.addEventListener("load", async () => {
   if (!session) return window.location.replace("index.html?auth=login");
   currentUser = session.user;
 
-  // Activate bottom dock on mobile
   document.body.classList.add("logged-in-mobile");
 
   const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
@@ -467,6 +451,5 @@ window.addEventListener("load", async () => {
   loadUserEnquiries();
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
