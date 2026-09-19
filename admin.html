@@ -18,7 +18,6 @@
     min-height: 100vh;
   }
 
-  /* FULL-SCREEN PIN GATE */
   #adminGate {
     position: fixed;
     inset: 0;
@@ -77,7 +76,6 @@
     margin-top: 8px;
   }
 
-  /* MAIN TRACKER LAYOUT */
   .admin-wrap {
     max-width: 1360px;
     margin: 0 auto;
@@ -134,7 +132,6 @@
   .btn-lock { background: #dc2626; }
   .btn-home { background: #475569; }
 
-  /* METRICS STRIP */
   .metrics-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -149,7 +146,7 @@
   .m-blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
   .m-green { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
   .m-amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
-  .m-slate { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; }
+  .m-gold { background: #fffdf0; border: 1.5px solid #fcd34d; color: #b45309; }
   .m-box b { font-size: 22px; display: block; }
   .m-box span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
@@ -161,7 +158,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 12.5px;
-    min-width: 820px;
+    min-width: 920px;
   }
   thead tr {
     background: #0A192F;
@@ -225,7 +222,6 @@
   .wa-recipient { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
   .wa-btn:hover { filter: brightness(0.95); }
 
-  /* PIN UPDATE MODAL */
   #pinChangeModal {
     position: fixed;
     inset: 0;
@@ -278,7 +274,6 @@
 </head>
 <body>
 
-<!-- 1. PIN GATE -->
 <div id="adminGate">
   <div class="gate-box">
     <i class="fa-solid fa-lock" style="font-size:32px;color:#0A192F;margin-bottom:8px;"></i>
@@ -290,7 +285,6 @@
   </div>
 </div>
 
-<!-- 2. PIN CHANGE MODAL -->
 <div id="pinChangeModal" class="hidden">
   <div class="modal-box">
     <h3><i class="fa-solid fa-key" style="color:#4f46e5;"></i> Change Admin PIN</h3>
@@ -308,11 +302,10 @@
   </div>
 </div>
 
-<!-- 3. MAIN TRACKER CONSOLE -->
 <div class="admin-wrap hidden" id="adminMainWrap">
   <div class="admin-card">
     <div class="top-bar">
-      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries & Tuition Tracker</h1>
+      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries & Star Audit Tracker</h1>
       <div class="btn-group">
         <button class="btn-action btn-export" onclick="exportDataToCSV()"><i class="fa-solid fa-file-excel"></i> Export to Sheets</button>
         <button class="btn-action btn-pin" onclick="openPinModal()"><i class="fa-solid fa-key"></i> Change PIN</button>
@@ -336,9 +329,9 @@
         <b id="statPending">0</b>
         <span>Pending Approval</span>
       </div>
-      <div class="m-box m-slate">
-        <b id="statEnded">0</b>
-        <span>Tuition Ended</span>
+      <div class="m-box m-gold">
+        <b id="statStars">0</b>
+        <span>⭐ 30+ Day Successful</span>
       </div>
     </div>
 
@@ -346,18 +339,19 @@
       <table>
         <thead>
           <tr>
-            <th>Date</th>
-            <th>Initiator (Started Contact)</th>
-            <th>Recipient (Received Contact)</th>
+            <th>Date Contacted</th>
+            <th>Initiator</th>
+            <th>Recipient</th>
             <th>Subject</th>
             <th>Status</th>
+            <th>30-Day Star Status</th>
             <th>Update Status</th>
-            <th>Direct WhatsApp Contact</th>
+            <th>WhatsApp</th>
           </tr>
         </thead>
         <tbody id="trackerTableBody">
           <tr>
-            <td colspan="7" style="padding:20px;text-align:center;color:#64748b;">
+            <td colspan="8" style="padding:20px;text-align:center;color:#64748b;">
               <i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...
             </td>
           </tr>
@@ -374,6 +368,7 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 const DEFAULT_PIN = "1985";
 let cachedEnquiriesData = [];
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 function getActiveAdminPin() {
   return localStorage.getItem("apex_custom_admin_pin") || DEFAULT_PIN;
@@ -437,19 +432,20 @@ function saveNewAdminPin() {
   closePinModal();
 }
 
-/* EXPORT ENQUIRIES TO GOOGLE SHEETS / EXCEL CSV */
 function exportDataToCSV() {
   if (!cachedEnquiriesData || cachedEnquiriesData.length === 0) {
     alert("No records to export.");
     return;
   }
 
-  const headers = ["Date", "Initiator Role", "Initiator Name", "Initiator Mobile", "Recipient Role", "Recipient Name", "Recipient Mobile", "Subject", "Status"];
+  const headers = ["Date Contacted", "Confirmed Date", "Ended Date", "Initiator Role", "Initiator Name", "Initiator Mobile", "Recipient Role", "Recipient Name", "Recipient Mobile", "Subject", "Status", "30-Day Star Status"];
   const csvRows = [headers.join(",")];
 
   cachedEnquiriesData.forEach(row => {
     const values = [
       `"${row.dateStr}"`,
+      `"${row.confDateStr}"`,
+      `"${row.endDateStr}"`,
       `"${row.initiatorRole}"`,
       `"${(row.sender_name || '').replace(/"/g, '""')}"`,
       `"${row.sender_mobile || ''}"`,
@@ -457,7 +453,8 @@ function exportDataToCSV() {
       `"${(row.recipient_name || '').replace(/"/g, '""')}"`,
       `"${row.recipient_mobile || ''}"`,
       `"${(row.subject || '').replace(/"/g, '""')}"`,
-      `"${row.displayStatus}"`
+      `"${row.displayStatus}"`,
+      `"${row.starCreditStatus}"`
     ];
     csvRows.push(values.join(","));
   });
@@ -466,7 +463,7 @@ function exportDataToCSV() {
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;
-  link.setAttribute("download", `Apex_Enquiries_${new Date().toISOString().split('T')[0]}.csv`);
+  link.setAttribute("download", `Apex_Enquiries_StarAudit_${new Date().toISOString().split('T')[0]}.csv`);
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
@@ -480,7 +477,7 @@ function escapeHtml(str) {
 
 async function fetchLiveEnquiries() {
   const tbody = document.getElementById("trackerTableBody");
-  tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
 
   const [enqRes, teachersRes, studentsRes] = await Promise.all([
     db.from("enquiries").select("*").order("created_at", { ascending: false }),
@@ -489,7 +486,7 @@ async function fetchLiveEnquiries() {
   ]);
 
   if (enqRes.error) {
-    tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#ef4444;">Error: ${enqRes.error.message} (Verify Supabase RLS policy for enquiries)</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#ef4444;">Error: ${enqRes.error.message}</td></tr>`;
     return;
   }
 
@@ -499,24 +496,13 @@ async function fetchLiveEnquiries() {
   const list = enqRes.data || [];
   const confirmedCount = list.filter(x => String(x.status).toLowerCase() === "confirmed").length;
   const pendingCount = list.filter(x => String(x.status).toLowerCase() === "pending").length;
-  const endedCount = list.filter(x => {
-    const s = String(x.status).toLowerCase();
-    return s === "completed" || s === "ended";
-  }).length;
-
-  document.getElementById("statTotal").textContent = list.length;
-  document.getElementById("statConfirmed").textContent = confirmedCount;
-  document.getElementById("statPending").textContent = pendingCount;
-  document.getElementById("statEnded").textContent = endedCount;
-
-  if (list.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" style="padding:24px;text-align:center;color:#64748b;">No enquiries recorded yet.</td></tr>`;
-    cachedEnquiriesData = [];
-    return;
-  }
+  
+  let starCreditCount = 0;
 
   cachedEnquiriesData = list.map(item => {
     const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString("en-GB") : "Recent";
+    const confDateStr = item.confirmed_at ? new Date(item.confirmed_at).toLocaleDateString("en-GB") : "-";
+    const endDateStr = item.ended_at ? new Date(item.ended_at).toLocaleDateString("en-GB") : "-";
     const stRaw = String(item.status || "Pending").toLowerCase();
 
     const sId = String(item.sender_id || '');
@@ -532,19 +518,52 @@ async function fetchLiveEnquiries() {
     else if (studentIdSet.has(rId)) recipientRole = "Student";
 
     let displayStatus = "Pending";
-    if (stRaw === "confirmed") displayStatus = "Confirmed Active";
-    else if (stRaw === "completed" || stRaw === "ended") displayStatus = "Tuition Ended";
-    else if (stRaw === "rejected") displayStatus = "Rejected";
+    let starCreditStatus = "Not eligible";
+
+    if (stRaw === "confirmed") {
+      displayStatus = "Confirmed Active";
+      if (item.confirmed_at) {
+        const confTime = new Date(item.confirmed_at).getTime();
+        const days = Math.floor((Date.now() - confTime) / (1000 * 60 * 60 * 24));
+        starCreditStatus = `Active (${days}/30 days completed)`;
+      }
+    } else if (stRaw === "completed" || stRaw === "ended") {
+      displayStatus = "Tuition Ended";
+      const start = new Date(item.confirmed_at || item.created_at).getTime();
+      const end = new Date(item.ended_at || Date.now()).getTime();
+
+      if ((end - start) >= THIRTY_DAYS_MS) {
+        starCreditStatus = "✅ 1 Successful Tuition (Counted for Star)";
+        starCreditCount++;
+      } else {
+        starCreditStatus = "❌ Ended before 30 days (Not counted)";
+      }
+    } else if (stRaw === "rejected") {
+      displayStatus = "Rejected";
+    }
 
     return {
       ...item,
       dateStr,
+      confDateStr,
+      endDateStr,
       stRaw,
       initiatorRole,
       recipientRole,
-      displayStatus
+      displayStatus,
+      starCreditStatus
     };
   });
+
+  document.getElementById("statTotal").textContent = list.length;
+  document.getElementById("statConfirmed").textContent = confirmedCount;
+  document.getElementById("statPending").textContent = pendingCount;
+  document.getElementById("statStars").textContent = starCreditCount;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:24px;text-align:center;color:#64748b;">No enquiries recorded yet.</td></tr>`;
+    return;
+  }
 
   tbody.innerHTML = cachedEnquiriesData.map(item => {
     let badgeClass = "badge-pending";
@@ -557,6 +576,8 @@ async function fetchLiveEnquiries() {
 
     const rDigits = cleanDigits(item.recipient_mobile);
     const waRecipient = rDigits.length === 10 ? "91" + rDigits : rDigits;
+
+    const isStarEarned = item.starCreditStatus.includes("✅");
 
     return `
       <tr>
@@ -573,6 +594,9 @@ async function fetchLiveEnquiries() {
         </td>
         <td><b>${escapeHtml(item.subject || 'Tuition')}</b></td>
         <td><span class="badge ${badgeClass}">${item.displayStatus}</span></td>
+        <td style="font-size:11.5px;font-weight:700;color:${isStarEarned ? '#059669' : '#64748b'};">
+          ${item.starCreditStatus}
+        </td>
         <td>
           <select class="select-override" onchange="overrideStatus('${item.id}', this.value)">
             <option value="Pending" ${item.stRaw === 'pending' ? 'selected' : ''}>Pending</option>
@@ -584,13 +608,13 @@ async function fetchLiveEnquiries() {
         <td>
           <div style="display:flex;flex-direction:column;gap:3px;">
             ${waSender ? `
-              <a href="https://wa.me/${waSender}" target="_blank" class="wa-btn wa-initiator" title="Chat with the person who initiated this request">
-                <i class="fa-brands fa-whatsapp"></i> Chat Initiator
+              <a href="https://wa.me/${waSender}" target="_blank" class="wa-btn wa-initiator" title="Chat with Initiator">
+                <i class="fa-brands fa-whatsapp"></i> Initiator
               </a>
             ` : ''}
             ${waRecipient ? `
-              <a href="https://wa.me/${waRecipient}" target="_blank" class="wa-btn wa-recipient" title="Chat with the person who received this request">
-                <i class="fa-brands fa-whatsapp"></i> Chat Recipient
+              <a href="https://wa.me/${waRecipient}" target="_blank" class="wa-btn wa-recipient" title="Chat with Recipient">
+                <i class="fa-brands fa-whatsapp"></i> Recipient
               </a>
             ` : ''}
           </div>
@@ -601,7 +625,14 @@ async function fetchLiveEnquiries() {
 }
 
 async function overrideStatus(id, newStatus) {
-  const { error } = await db.from("enquiries").update({ status: newStatus }).eq("id", id);
+  const updates = { status: newStatus };
+  if (newStatus === 'Confirmed') {
+    updates.confirmed_at = new Date().toISOString();
+  } else if (newStatus === 'Completed') {
+    updates.ended_at = new Date().toISOString();
+  }
+
+  const { error } = await db.from("enquiries").update(updates).eq("id", id);
   if (error) {
     alert("Error updating status: " + error.message);
   } else {
