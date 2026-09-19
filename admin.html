@@ -18,6 +18,7 @@
     min-height: 100vh;
   }
 
+  /* FULL-SCREEN PIN GATE */
   #adminGate {
     position: fixed;
     inset: 0;
@@ -76,6 +77,7 @@
     margin-top: 8px;
   }
 
+  /* MAIN TRACKER LAYOUT */
   .admin-wrap {
     max-width: 1360px;
     margin: 0 auto;
@@ -106,11 +108,16 @@
     align-items: center;
     gap: 8px;
   }
+  .btn-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
   .btn-action {
     background: #0A192F;
     color: #ffffff;
     border: none;
-    padding: 7px 14px;
+    padding: 7px 12px;
     border-radius: 8px;
     font-size: 12px;
     font-weight: 700;
@@ -119,8 +126,15 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    transition: 0.2s;
   }
+  .btn-action:hover { filter: brightness(1.1); }
+  .btn-export { background: #059669; }
+  .btn-pin { background: #4f46e5; }
+  .btn-lock { background: #dc2626; }
+  .btn-home { background: #475569; }
 
+  /* METRICS STRIP */
   .metrics-strip {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -211,6 +225,54 @@
   .wa-recipient { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
   .wa-btn:hover { filter: brightness(0.95); }
 
+  /* PIN UPDATE MODAL */
+  #pinChangeModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 25, 47, 0.7);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    padding: 16px;
+  }
+  .modal-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  .modal-box h3 {
+    color: #0A192F;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .modal-box label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    margin: 8px 0 4px;
+    text-transform: uppercase;
+  }
+  .modal-box input {
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .modal-box input:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+
   .hidden { display: none !important; }
 </style>
 </head>
@@ -222,21 +284,41 @@
     <i class="fa-solid fa-lock" style="font-size:32px;color:#0A192F;margin-bottom:8px;"></i>
     <h2>Apex Management PIN</h2>
     <p style="font-size:12px;color:#64748b;">Enter PIN to view live enquiries and tuitions</p>
-    <input type="password" id="pinInput" placeholder="••••" maxlength="10" autofocus onkeydown="if(event.key==='Enter') verifyGatePin()">
+    <input type="password" id="pinInput" placeholder="••••" maxlength="15" autofocus onkeydown="if(event.key==='Enter') verifyGatePin()">
     <button class="btn-gate" onclick="verifyGatePin()">Unlock Tracker</button>
     <div id="gateError" class="gate-error hidden">❌ Invalid PIN.</div>
   </div>
 </div>
 
-<!-- 2. MAIN TRACKER CONSOLE -->
+<!-- 2. PIN CHANGE MODAL -->
+<div id="pinChangeModal" class="hidden">
+  <div class="modal-box">
+    <h3><i class="fa-solid fa-key" style="color:#4f46e5;"></i> Change Admin PIN</h3>
+    <label>Current PIN</label>
+    <input type="password" id="oldPinInput" placeholder="Enter current PIN">
+    <label>New PIN</label>
+    <input type="password" id="newPinInput" placeholder="Enter new PIN">
+    <label>Confirm New PIN</label>
+    <input type="password" id="confirmNewPinInput" placeholder="Confirm new PIN">
+    <div id="pinChangeErr" style="color:#ef4444;font-size:11.5px;font-weight:700;margin-top:4px;" class="hidden"></div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button onclick="saveNewAdminPin()" style="flex:1;height:38px;background:#4f46e5;color:#fff;border:none;border-radius:8px;font-weight:800;font-size:12.5px;cursor:pointer;">Update PIN</button>
+      <button onclick="closePinModal()" style="flex:1;height:38px;background:#e2e8f0;color:#475569;border:none;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- 3. MAIN TRACKER CONSOLE -->
 <div class="admin-wrap hidden" id="adminMainWrap">
   <div class="admin-card">
     <div class="top-bar">
       <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries & Tuition Tracker</h1>
-      <div style="display:flex;gap:6px;">
+      <div class="btn-group">
+        <button class="btn-action btn-export" onclick="exportDataToCSV()"><i class="fa-solid fa-file-excel"></i> Export to Sheets</button>
+        <button class="btn-action btn-pin" onclick="openPinModal()"><i class="fa-solid fa-key"></i> Change PIN</button>
         <button class="btn-action" onclick="fetchLiveEnquiries()"><i class="fa-solid fa-rotate"></i> Refresh</button>
-        <button class="btn-action" style="background:#dc2626;" onclick="lockConsole()"><i class="fa-solid fa-lock"></i> Lock</button>
-        <a href="index.html" class="btn-action" style="background:#475569;">Home</a>
+        <button class="btn-action btn-lock" onclick="lockConsole()"><i class="fa-solid fa-lock"></i> Lock</button>
+        <a href="index.html" class="btn-action btn-home">Home</a>
       </div>
     </div>
 
@@ -290,11 +372,16 @@ const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const PIN_CODE = "1985";
+const DEFAULT_PIN = "1985";
+let cachedEnquiriesData = [];
+
+function getActiveAdminPin() {
+  return localStorage.getItem("apex_custom_admin_pin") || DEFAULT_PIN;
+}
 
 function verifyGatePin() {
   const entered = document.getElementById("pinInput").value.trim();
-  if (entered === PIN_CODE) {
+  if (entered === getActiveAdminPin()) {
     sessionStorage.setItem("apex_admin_auth", "true");
     document.getElementById("adminGate").classList.add("hidden");
     document.getElementById("adminMainWrap").classList.remove("hidden");
@@ -311,6 +398,80 @@ function lockConsole() {
   window.location.reload();
 }
 
+function openPinModal() {
+  document.getElementById("oldPinInput").value = "";
+  document.getElementById("newPinInput").value = "";
+  document.getElementById("confirmNewPinInput").value = "";
+  document.getElementById("pinChangeErr").classList.add("hidden");
+  document.getElementById("pinChangeModal").classList.remove("hidden");
+}
+
+function closePinModal() {
+  document.getElementById("pinChangeModal").classList.add("hidden");
+}
+
+function saveNewAdminPin() {
+  const oldPin = document.getElementById("oldPinInput").value.trim();
+  const newPin = document.getElementById("newPinInput").value.trim();
+  const confirmPin = document.getElementById("confirmNewPinInput").value.trim();
+  const errEl = document.getElementById("pinChangeErr");
+
+  if (oldPin !== getActiveAdminPin()) {
+    errEl.textContent = "Current PIN is incorrect.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  if (!newPin || newPin.length < 4) {
+    errEl.textContent = "New PIN must be at least 4 digits.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  if (newPin !== confirmPin) {
+    errEl.textContent = "New PINs do not match.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+
+  localStorage.setItem("apex_custom_admin_pin", newPin);
+  alert("✓ Admin Security PIN updated successfully!");
+  closePinModal();
+}
+
+/* EXPORT ENQUIRIES TO GOOGLE SHEETS / EXCEL CSV */
+function exportDataToCSV() {
+  if (!cachedEnquiriesData || cachedEnquiriesData.length === 0) {
+    alert("No records to export.");
+    return;
+  }
+
+  const headers = ["Date", "Initiator Role", "Initiator Name", "Initiator Mobile", "Recipient Role", "Recipient Name", "Recipient Mobile", "Subject", "Status"];
+  const csvRows = [headers.join(",")];
+
+  cachedEnquiriesData.forEach(row => {
+    const values = [
+      `"${row.dateStr}"`,
+      `"${row.initiatorRole}"`,
+      `"${(row.sender_name || '').replace(/"/g, '""')}"`,
+      `"${row.sender_mobile || ''}"`,
+      `"${row.recipientRole}"`,
+      `"${(row.recipient_name || '').replace(/"/g, '""')}"`,
+      `"${row.recipient_mobile || ''}"`,
+      `"${(row.subject || '').replace(/"/g, '""')}"`,
+      `"${row.displayStatus}"`
+    ];
+    csvRows.push(values.join(","));
+  });
+
+  const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", `Apex_Enquiries_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
 
 function escapeHtml(str) {
@@ -321,7 +482,6 @@ async function fetchLiveEnquiries() {
   const tbody = document.getElementById("trackerTableBody");
   tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
 
-  // Fetch enquiries along with teachers and students to determine exact roles
   const [enqRes, teachersRes, studentsRes] = await Promise.all([
     db.from("enquiries").select("*").order("created_at", { ascending: false }),
     db.from("teachers").select("id"),
@@ -351,42 +511,47 @@ async function fetchLiveEnquiries() {
 
   if (list.length === 0) {
     tbody.innerHTML = `<tr><td colspan="7" style="padding:24px;text-align:center;color:#64748b;">No enquiries recorded yet.</td></tr>`;
+    cachedEnquiriesData = [];
     return;
   }
 
-  tbody.innerHTML = list.map(item => {
+  cachedEnquiriesData = list.map(item => {
     const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString("en-GB") : "Recent";
     const stRaw = String(item.status || "Pending").toLowerCase();
 
-    // Determine roles of initiator vs recipient
     const sId = String(item.sender_id || '');
     const rId = String(item.recipient_id || '');
 
     let initiatorRole = "Member";
     let recipientRole = "Member";
 
-    if (teacherIdSet.has(sId)) initiatorRole = "Educator 👨‍🏫";
-    else if (studentIdSet.has(sId)) initiatorRole = "Student 🎓";
+    if (teacherIdSet.has(sId)) initiatorRole = "Educator";
+    else if (studentIdSet.has(sId)) initiatorRole = "Student";
 
-    if (teacherIdSet.has(rId)) recipientRole = "Educator 👨‍🏫";
-    else if (studentIdSet.has(rId)) recipientRole = "Student 🎓";
+    if (teacherIdSet.has(rId)) recipientRole = "Educator";
+    else if (studentIdSet.has(rId)) recipientRole = "Student";
 
-    // Status Badge Styling
-    let badgeClass = "badge-pending";
     let displayStatus = "Pending";
+    if (stRaw === "confirmed") displayStatus = "Confirmed Active";
+    else if (stRaw === "completed" || stRaw === "ended") displayStatus = "Tuition Ended";
+    else if (stRaw === "rejected") displayStatus = "Rejected";
 
-    if (stRaw === "confirmed") {
-      badgeClass = "badge-confirmed";
-      displayStatus = "✓ Confirmed Active";
-    } else if (stRaw === "completed" || stRaw === "ended") {
-      badgeClass = "badge-ended";
-      displayStatus = "Tuition Ended";
-    } else if (stRaw === "rejected") {
-      badgeClass = "badge-rejected";
-      displayStatus = "Rejected";
-    }
+    return {
+      ...item,
+      dateStr,
+      stRaw,
+      initiatorRole,
+      recipientRole,
+      displayStatus
+    };
+  });
 
-    // Two distinct phone numbers for Initiator and Recipient
+  tbody.innerHTML = cachedEnquiriesData.map(item => {
+    let badgeClass = "badge-pending";
+    if (item.stRaw === "confirmed") badgeClass = "badge-confirmed";
+    else if (item.stRaw === "completed" || item.stRaw === "ended") badgeClass = "badge-ended";
+    else if (item.stRaw === "rejected") badgeClass = "badge-rejected";
+
     const sDigits = cleanDigits(item.sender_mobile);
     const waSender = sDigits.length === 10 ? "91" + sDigits : sDigits;
 
@@ -395,25 +560,25 @@ async function fetchLiveEnquiries() {
 
     return `
       <tr>
-        <td style="color:#64748b;font-size:12px;">${dateStr}</td>
+        <td style="color:#64748b;font-size:12px;">${item.dateStr}</td>
         <td>
-          <span class="role-pill ${initiatorRole.includes('Educator') ? 'role-teacher' : 'role-student'}">${initiatorRole}</span><br>
+          <span class="role-pill ${item.initiatorRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.initiatorRole}</span><br>
           <b>${escapeHtml(item.sender_name || 'Initiator')}</b><br>
           <small style="color:#64748b;">${item.sender_mobile || 'No Phone'}</small>
         </td>
         <td>
-          <span class="role-pill ${recipientRole.includes('Educator') ? 'role-teacher' : 'role-student'}">${recipientRole}</span><br>
+          <span class="role-pill ${item.recipientRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.recipientRole}</span><br>
           <b>${escapeHtml(item.recipient_name || 'Recipient')}</b><br>
           <small style="color:#64748b;">${item.recipient_mobile || 'No Phone'}</small>
         </td>
         <td><b>${escapeHtml(item.subject || 'Tuition')}</b></td>
-        <td><span class="badge ${badgeClass}">${displayStatus}</span></td>
+        <td><span class="badge ${badgeClass}">${item.displayStatus}</span></td>
         <td>
           <select class="select-override" onchange="overrideStatus('${item.id}', this.value)">
-            <option value="Pending" ${stRaw === 'pending' ? 'selected' : ''}>Pending</option>
-            <option value="Confirmed" ${stRaw === 'confirmed' ? 'selected' : ''}>Confirm</option>
-            <option value="Completed" ${stRaw === 'completed' || stRaw === 'ended' ? 'selected' : ''}>Tuition Ended</option>
-            <option value="Rejected" ${stRaw === 'rejected' ? 'selected' : ''}>Reject</option>
+            <option value="Pending" ${item.stRaw === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="Confirmed" ${item.stRaw === 'confirmed' ? 'selected' : ''}>Confirm</option>
+            <option value="Completed" ${item.stRaw === 'completed' || item.stRaw === 'ended' ? 'selected' : ''}>Tuition Ended</option>
+            <option value="Rejected" ${item.stRaw === 'rejected' ? 'selected' : ''}>Reject</option>
           </select>
         </td>
         <td>
