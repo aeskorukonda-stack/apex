@@ -6,6 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>Admin Control & Tuition Tracker - Apex Online Tuitions</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -138,9 +139,63 @@
   tbody tr { border-bottom: 1px solid #e2e8f0; }
 
   .hidden { display: none !important; }
+
+  /* IN-PAGE PIN OVERLAY */
+  #pinGateOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(14, 47, 82, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    padding: 16px;
+  }
+
+  .pin-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 28px 24px;
+    max-width: 360px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+
+  .pin-box input {
+    width: 100%;
+    height: 42px;
+    font-size: 18px;
+    letter-spacing: 4px;
+    text-align: center;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-family: inherit;
+  }
+  .pin-box input:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
 </style>
 </head>
 <body>
+
+<!-- PIN GATE MODAL -->
+<div id="pinGateOverlay">
+  <div class="pin-box">
+    <div style="font-size:32px;color:#0e2f52;margin-bottom:8px;"><i class="fa-solid fa-shield-halved"></i></div>
+    <h3 style="font-size:17px;color:#0e2f52;font-weight:800;margin-bottom:4px;">Management Security</h3>
+    <p style="font-size:12px;color:#64748b;">Enter secret PIN to unlock the tracker:</p>
+    <input type="password" id="gatePinInput" placeholder="••••" autofocus onkeydown="if(event.key==='Enter') verifyAdminPin()">
+    <button class="btn btn-alt" style="width:100%;height:40px;font-size:13px;" onclick="verifyAdminPin()">Unlock Console</button>
+    <div id="pinErrorMsg" style="color:#ef4444;font-size:11.5px;font-weight:700;margin-top:8px;" class="hidden">❌ Invalid PIN</div>
+  </div>
+</div>
 
 <div id="fullWidthAdminView" class="fullwidth-page-wrap hidden">
   <div class="box-card">
@@ -163,7 +218,7 @@
         <div id="statConfirmedTuitions" class="metric-val">0</div>
       </div>
       <div class="metric-card metric-amber">
-        <div class="metric-label">🟡 IN DISCUSSION</div>
+        <div class="metric-label">🟡 IN DISCUSSION / PENDING</div>
         <div id="statDiscussingTuitions" class="metric-val">0</div>
       </div>
     </div>
@@ -193,27 +248,27 @@
 </div>
 
 <script>
-// SUPABASE CLIENT (Direct connection from source file)
 const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// SECRET ADMIN ACCESS PIN
 const ADMIN_SECRET_KEY = "1985";
 
 function escapeHtml(val) {
   return String(val || "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" })[m]);
 }
 
-function promptAdminAccess() {
-  const pin = prompt("🔐 Enter Admin Access Key:");
+function verifyAdminPin() {
+  const pin = document.getElementById("gatePinInput").value.trim();
   if (pin === ADMIN_SECRET_KEY) {
     sessionStorage.setItem("apex_admin_authed", "true");
+    document.getElementById("pinGateOverlay").classList.add("hidden");
     document.getElementById("fullWidthAdminView").classList.remove("hidden");
     loadAdminTuitionInquiries();
   } else {
-    alert("❌ Invalid Access Key.");
-    window.location.replace("index.html");
+    document.getElementById("pinErrorMsg").classList.remove("hidden");
+    document.getElementById("gatePinInput").value = "";
+    document.getElementById("gatePinInput").focus();
   }
 }
 
@@ -222,15 +277,44 @@ function exitAdminView() {
   window.location.replace("index.html");
 }
 
-// ADMIN TABLE LOADER (Exact matching query and mapping logic)
+// QUERY BOTH TABLES (tuition_inquiries + enquiries)
 async function loadAdminTuitionInquiries() {
   const tbody = document.getElementById("adminInquiriesTableBody");
-  tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748b;">Loading tuition data...</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading tuition data...</td></tr>`;
 
   try {
-    const { data, error } = await db.from("tuition_inquiries").select("*").order("created_at", { ascending: false });
+    // 1. Try querying tuition_inquiries
+    let allRecords = [];
+    const { data: tiData, error: tiErr } = await db.from("tuition_inquiries").select("*").order("created_at", { ascending: false });
+    if (!tiErr && tiData) {
+      allRecords = allRecords.concat(tiData);
+    }
 
-    if (error || !data || !data.length) {
+    // 2. Also query enquiries table to capture records created via WhatsApp connect
+    const { data: enqData, error: enqErr } = await db.from("enquiries").select("*").order("created_at", { ascending: false });
+    if (!enqErr && enqData) {
+      enqData.forEach(e => {
+        // Map enquiries schema to table display format
+        allRecords.push({
+          created_at: e.created_at,
+          teacher_name: e.recipient_name || e.recipient_mobile || "Teacher",
+          student_name: e.sender_name || e.sender_mobile || "Student",
+          subject: e.subject || "Tuition",
+          teacher_status: e.status ? e.status.toLowerCase() : "contacted",
+          student_status: e.status ? e.status.toLowerCase() : "contacted",
+          teacher_confirmed: String(e.status).toLowerCase() === "confirmed",
+          student_confirmed: String(e.status).toLowerCase() === "confirmed",
+          status: e.status ? e.status.toLowerCase() : "contacted"
+        });
+      });
+    }
+
+    if (allRecords.length === 0) {
+      // Diagnostic check: report if RLS prevented access
+      if (tiErr && enqErr) {
+        tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#ef4444;">Database Permission Error: ${tiErr.message || enqErr.message}</td></tr>`;
+        return;
+      }
       tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748b;">No connections recorded yet.</td></tr>`;
       document.getElementById("statTotalInquiries").textContent = "0";
       document.getElementById("statConfirmedTuitions").textContent = "0";
@@ -238,22 +322,34 @@ async function loadAdminTuitionInquiries() {
       return;
     }
 
-    const confirmed = data.filter(d => d.status === 'confirmed').length;
-    const discussing = data.filter(d => d.status === 'discussing' || d.status === 'contacted').length;
+    const confirmed = allRecords.filter(d => String(d.status).toLowerCase() === 'confirmed').length;
+    const discussing = allRecords.filter(d => {
+      const st = String(d.status).toLowerCase();
+      return st === 'discussing' || st === 'contacted' || st === 'pending';
+    }).length;
 
-    document.getElementById("statTotalInquiries").textContent = data.length;
+    document.getElementById("statTotalInquiries").textContent = allRecords.length;
     document.getElementById("statConfirmedTuitions").textContent = confirmed;
     document.getElementById("statDiscussingTuitions").textContent = discussing;
 
-    tbody.innerHTML = data.map((d, index) => {
+    tbody.innerHTML = allRecords.map((d, index) => {
       const isEven = (index % 2 === 0);
       const dateStr = d.created_at ? new Date(d.created_at).toLocaleDateString('en-GB') : 'Recent';
       
+      const st = String(d.status || '').toLowerCase();
       let badgeColor = '#0284c7';
       let statusLabel = 'CONTACTED';
-      if (d.status === 'confirmed') { badgeColor = '#059669'; statusLabel = '✅ CONFIRMED TUITION'; }
-      else if (d.status === 'discussing') { badgeColor = '#d97706'; statusLabel = '⏳ IN DISCUSSION'; }
-      else if (d.status === 'cancelled' || d.status === 'not_started') { badgeColor = '#dc2626'; statusLabel = '❌ CANCELLED'; }
+
+      if (st === 'confirmed') { 
+        badgeColor = '#059669'; 
+        statusLabel = '✅ CONFIRMED TUITION'; 
+      } else if (st === 'discussing' || st === 'pending') { 
+        badgeColor = '#d97706'; 
+        statusLabel = '⏳ IN DISCUSSION / PENDING'; 
+      } else if (st === 'cancelled' || st === 'rejected' || st === 'not_started') { 
+        badgeColor = '#dc2626'; 
+        statusLabel = '❌ CANCELLED / REJECTED'; 
+      }
 
       return `
         <tr style="border-bottom:1px solid #e2e8f0;background:${isEven ? '#ffffff' : '#f8fafc'};">
@@ -276,13 +372,11 @@ async function loadAdminTuitionInquiries() {
   }
 }
 
-// Initial authorization check
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
   if (sessionStorage.getItem("apex_admin_authed") === "true") {
+    document.getElementById("pinGateOverlay").classList.add("hidden");
     document.getElementById("fullWidthAdminView").classList.remove("hidden");
     loadAdminTuitionInquiries();
-  } else {
-    promptAdminAccess();
   }
 });
 </script>
