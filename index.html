@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   
   <title>Apex Tuitions | Direct Connect Between Educators & Learners</title>
   <meta name="description" content="Connect directly with verified tutors for CBSE, ICSE, State Boards, and competitive exams. 100% free with zero commission and direct WhatsApp connect.">
@@ -41,7 +41,8 @@
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    html, body { width: 100%; overflow-x: hidden !important; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-slate);
@@ -62,6 +63,7 @@
       top: 0;
       z-index: 1000;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      width: 100%;
     }
     .header-wrap {
       max-width: 1280px;
@@ -69,6 +71,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
     }
     .brand-group {
       display: flex;
@@ -174,17 +177,6 @@
     .btn-header-cta:hover {
       box-shadow: 0 6px 18px rgba(245, 158, 11, 0.4);
       transform: translateY(-1px);
-    }
-
-    .badge-counter {
-      background: #EF4444;
-      color: #ffffff;
-      font-size: 10.5px;
-      font-weight: 800;
-      padding: 2px 7px;
-      border-radius: 12px;
-      margin-left: 4px;
-      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.35);
     }
 
     .mobile-menu-toggle {
@@ -703,10 +695,7 @@
       text-decoration: underline;
       text-underline-offset: 2px;
     }
-    .terms-consent.terms-error {
-      border-color: #FCA5A5;
-      background: #FEF2F2;
-    }
+    .terms-consent.terms-error { border-color: #FCA5A5; background: #FEF2F2; }
     .terms-consent.terms-error .terms-checkbox { color: #991B1B; }
 
     .login-terms-consent {
@@ -716,10 +705,7 @@
       border: 1px solid #E2E8F0;
       border-radius: 8px;
     }
-    .login-terms-consent.terms-error {
-      border-color: #FCA5A5;
-      background: #FEF2F2;
-    }
+    .login-terms-consent.terms-error { border-color: #FCA5A5; background: #FEF2F2; }
     .login-terms-checkbox {
       display: flex;
       align-items: flex-start;
@@ -758,10 +744,8 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* EXACT THREE-BUTTON FLOATING BOTTOM BAR (MOBILE ONLY) */
-    .mobile-bottom-dock {
-      display: none;
-    }
+    /* FLOATING THREE-BUTTON DOCK (MOBILE ONLY - MATCHES SCREENSHOT) */
+    .mobile-bottom-dock { display: none; }
 
     /* FOOTER */
     footer {
@@ -770,6 +754,7 @@
       padding: 56px 24px 28px;
       border-top: 1px solid rgba(255,255,255,0.08);
       margin-top: 48px;
+      width: 100%;
     }
     .footer-grid {
       max-width: 1280px;
@@ -790,16 +775,8 @@
     }
     .footer-col ul { list-style: none; }
     .footer-col ul li { margin-bottom: 8px; }
-    .footer-col ul li a {
-      color: #94A3B8;
-      text-decoration: none;
-      font-size: 13px;
-      transition: var(--transition);
-    }
-    .footer-col ul li a:hover {
-      color: #ffffff;
-      padding-left: 4px;
-    }
+    .footer-col ul li a { color: #94A3B8; text-decoration: none; font-size: 13px; }
+    .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
     .footer-social-icons { display: flex; gap: 10px; margin-top: 14px; }
     .footer-social-icons a {
       width: 36px; height: 36px; border-radius: 50%;
@@ -808,7 +785,6 @@
       transition: var(--transition);
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
-    .footer-social-icons a:hover { transform: translateY(-3px); }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
       padding-top: 22px;
@@ -819,31 +795,18 @@
       margin: 0 auto;
     }
 
-    /* MOBILE SPECIFIC RULES */
+    /* RESPONSIVE LAYOUT (MOBILE) */
     @media (max-width: 960px) {
-      .hero-container {
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
-      }
-      .auth-portal-card {
-        order: 1; /* Moves login directly below header on mobile */
-        max-width: 100%;
-        margin: 0;
-      }
-      .hero-content {
-        order: 2;
-      }
+      .hero-container { display: flex; flex-direction: column; gap: 24px; }
+      .auth-portal-card { order: 1; max-width: 100%; margin: 0; }
+      .hero-content { order: 2; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
     }
 
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: 92px !important;
-      }
-
+      body.logged-in-mobile { padding-bottom: 92px !important; }
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1.15fr 1fr 1fr;
@@ -860,56 +823,18 @@
         z-index: 9999;
         align-items: center;
       }
-
       .dock-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 10px 4px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        transition: var(--transition);
-        position: relative;
-        border: 1.5px solid #CBD5E1;
-        background: #FFFFFF;
-        color: #0A192F;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
+        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
+        background: #FFFFFF; color: #0A192F; position: relative;
       }
-
-      .dock-btn.dock-btn-primary {
-        background: #0A192F;
-        color: #FFFFFF;
-        border-color: #0A192F;
-      }
-
-      .dock-btn.dock-btn-primary i {
-        color: #FFFFFF;
-        font-size: 13px;
-      }
-
-      .dock-btn-label-stacked {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
+      .dock-btn.dock-btn-primary { background: #0A192F; color: #FFFFFF; border-color: #0A192F; }
+      .dock-btn.dock-btn-primary i { color: #FFFFFF; font-size: 13px; }
+      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
       .dock-badge {
-        position: absolute;
-        top: -5px;
-        right: -4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        line-height: 1.2;
-        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
+        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
       }
     }
 
@@ -932,6 +857,7 @@
 
 <header>
   <div class="header-wrap">
+    <!-- Clean, regular navigation on logo -->
     <a href="index.html" class="brand-group">
       <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
       <div class="brand-text">
@@ -977,7 +903,7 @@
       <div class="edutech-showcase-card" id="homeBannerBox">
         <div class="showcase-header">
           <h2>Direct Learning. <span>Zero Middlemen.</span></h2>
-          <p>Apex connects verified teachers and ambitious learners across school, college, non-academic skills, and competitive milestones with zero commissions and direct WhatsApp coordination.</p>
+          <p>Apex connects verified teachers and ambitious learners across school, college, non-academic skills, and competitive milestones with zero commissions and direct WhatsApp coordination[cite: 6].</p>
         </div>
 
         <div class="metrics-ribbon">
@@ -1011,23 +937,23 @@
           <div class="process-step">
             <div class="process-step-num">1</div>
             <h4>Register Free</h4>
-            <p>Select multiple grades, subjects, or competitive tracks.</p>
+            <p>Select multiple grades, subjects, or competitive tracks[cite: 6].</p>
           </div>
           <div class="process-step">
             <div class="process-step-num">2</div>
             <h4>Explore Matches</h4>
-            <p>Filter by mode (Online/Home), board, and curriculum.</p>
+            <p>Filter by mode (Online/Home), board, and curriculum[cite: 6].</p>
           </div>
           <div class="process-step">
             <div class="process-step-num">3</div>
             <h4>Connect Directly</h4>
-            <p>Coordinate tuition terms transparently on WhatsApp.</p>
+            <p>Coordinate tuition terms transparently on WhatsApp[cite: 6].</p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT PORTAL / TOP ON MOBILE -->
+    <!-- RIGHT PORTAL: AUTHENTICATION -->
     <div class="auth-portal-card" id="authPortalContainer">
       <!-- 1. WELCOME CARD -->
       <div id="heroLoggedInView" class="hidden">
@@ -1041,7 +967,7 @@
           </div>
 
           <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:12px;line-height:1.5;">
-            Welcome back to Apex Tuitions. Browse verified listings, communicate with confirmed learners, or manage your profile.
+            Welcome back to Apex Tuitions. Browse verified listings, communicate with confirmed learners, or manage your profile[cite: 6].
           </p>
 
           <div class="welcome-action-grid">
@@ -1061,7 +987,7 @@
         </div>
       </div>
 
-      <!-- 2. STREAMLINED LOGIN FORM -->
+      <!-- 2. LOGIN FORM -->
       <div id="viewLogin">
         <div class="panel-role-actions" id="guestRoleCards">
           <button type="button" class="btn-panel-role role-student" onclick="openAuthForm('student')">
@@ -1107,7 +1033,7 @@
         <div id="loginTermsBox" class="login-terms-consent">
           <label class="login-terms-checkbox">
             <input type="checkbox" id="loginTerms">
-            <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+            <span>I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>[cite: 6].</span>
           </label>
         </div>
 
@@ -1123,7 +1049,7 @@
           <h3 class="auth-card-title">Reset Password</h3>
           <button onclick="openAuthForm('login')" style="border:none;background:none;color:var(--royal-blue);font-size:12px;font-weight:800;cursor:pointer;">← Sign In</button>
         </div>
-        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">Enter your registered email address to receive a password reset link.</p>
+        <p style="font-size: 12.5px; color: var(--text-muted); margin-bottom: 12px;">Enter your registered email address to receive a password reset link[cite: 6].</p>
         
         <div class="form-group-full" style="margin-bottom: 10px;">
           <label>Email Address</label>
@@ -1200,7 +1126,7 @@
             <div class="terms-consent" id="teacherTermsBox">
               <label class="terms-checkbox">
                 <input type="checkbox" id="teacherTerms">
-                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>[cite: 6].</span>
               </label>
             </div>
             <div class="wizard-nav-btns">
@@ -1264,7 +1190,7 @@
             <div class="terms-consent" id="studentTermsBox">
               <label class="terms-checkbox">
                 <input type="checkbox" id="studentTerms">
-                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.</span>
+                <span>I agree to the <a href="terms.html" target="_blank" rel="noopener noreferrer">Terms &amp; Conditions</a> and <a href="privacy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a>[cite: 6].</span>
               </label>
             </div>
             <div class="wizard-nav-btns">
@@ -1279,7 +1205,7 @@
   </div>
 </section>
 
-<!-- EXACT THREE-BUTTON FLOATING BOTTOM BAR (MOBILE ONLY - MATCHES SCREENSHOT) -->
+<!-- THREE BUTTONS PERSISTENT BOTTOM DOCK (Mobile Only) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn dock-btn-primary">
     <i class="fa-solid fa-clipboard-list"></i>
@@ -1287,7 +1213,7 @@
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <a href="profile.html" class="dock-btn dock-btn-outline">
+  <a href="profile.html" class="dock-btn">
     <i class="fa-solid fa-user" style="color: #6366F1;"></i>
     <div class="dock-btn-label-stacked">
       <span>View My</span>
@@ -1295,7 +1221,7 @@
     </div>
   </a>
 
-  <a href="browse.html" class="dock-btn dock-btn-outline">
+  <a href="browse.html" class="dock-btn">
     <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
     <div class="dock-btn-label-stacked">
       <span>Browse</span>
@@ -1310,10 +1236,10 @@
     <div class="footer-col">
       <h4 style="color:#ffffff;">APEX TUITIONS</h4>
       <p style="font-size:12.5px;color:#CBD5E1;line-height:1.6;margin-bottom:12px;">
-        A zero-commission, non-profit educational network under Apex Global Educational Society connecting verified educators directly with learners without agency finder cuts.
+        A zero-commission, non-profit educational network under Apex Global Educational Society connecting verified educators directly with learners without agency finder cuts[cite: 6].
       </p>
       <p style="font-size:11.5px;color:#94A3B8;">
-        +91 9533450665 • aeskorukonda@gmail.com<br>Andhra Pradesh, India
+        +91 9533450665 • aeskorukonda@gmail.com<br>Andhra Pradesh, India[cite: 6]
       </p>
       <div class="footer-social-icons">
         <a href="https://wa.me/919533450665" target="_blank" rel="noopener noreferrer" style="background:#25D366;"><i class="fa-brands fa-whatsapp"></i></a>
@@ -1352,8 +1278,9 @@
     </div>
   </div>
 
-  <div class="footer-bottom">
-    © 2026 Apex Tuitions. All rights reserved.
+  <!-- MULTI-TAP TRIGGER ON FOOTER TEXT: Rapid 5 taps for secret access -->
+  <div class="footer-bottom" id="footerCopyNotice" onclick="handleFooterSecretTaps()">
+    © 2026 Apex Tuitions. All rights reserved[cite: 6].
     <span style="margin:0 8px;color:#64748B;">•</span>
     <a href="terms.html" style="color:#CBD5E1;text-decoration:none;">Terms</a>
     <span style="margin:0 6px;color:#64748B;">•</span>
@@ -1614,8 +1541,6 @@ async function renderAuthenticatedHome(user) {
   document.getElementById("viewRegisterTeacher")?.classList.add("hidden");
 
   document.getElementById("heroLoggedInView")?.classList.remove("hidden");
-
-  // Show floating 3-button dock on mobile
   document.body.classList.add("logged-in-mobile");
 
   let roleText = "Verified Member ✓";
@@ -1640,7 +1565,6 @@ async function renderAuthenticatedHome(user) {
     }
   }
 
-  // Set browse button target label matching screenshot
   const dockBrowseLabel = document.getElementById("dockBrowseLabel");
   if (dockBrowseLabel) {
     dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
@@ -1661,6 +1585,52 @@ function renderGuestHome() {
   document.getElementById("mNavLogin")?.classList.remove("hidden");
 }
 
+/* =========================================================
+   SECRET ADMIN ACCESS (CTRL + SHIFT + A OR 5 FOOTER TAPS)
+   ========================================================= */
+const SECRET_ADMIN_PIN = "1985";
+
+function triggerAdminPinPrompt() {
+  const entered = prompt("🔐 Enter Admin Access Key:");
+  if (entered === SECRET_ADMIN_PIN) {
+    sessionStorage.setItem("apex_admin_auth", "true");
+    window.location.href = "admin.html";
+  } else if (entered !== null) {
+    alert("❌ Invalid Access Key.");
+  }
+}
+
+// 1. Keyboard Shortcut (Desktop): Ctrl + Shift + A (or Cmd + Shift + A)
+window.addEventListener("keydown", (e) => {
+  if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
+    e.preventDefault();
+    triggerAdminPinPrompt();
+  }
+});
+
+// 2. Mobile Footer Secret Trigger (5 quick taps on footer copyright within 2 seconds)
+let footerTapCount = 0;
+let footerTapTimer = null;
+function handleFooterSecretTaps() {
+  footerTapCount++;
+  clearTimeout(footerTapTimer);
+  if (footerTapCount >= 5) {
+    footerTapCount = 0;
+    triggerAdminPinPrompt();
+  } else {
+    footerTapTimer = setTimeout(() => {
+      footerTapCount = 0;
+    }, 2000);
+  }
+}
+
+// 3. Direct URL Hash Trigger (#admin)
+window.addEventListener("hashchange", () => {
+  if (window.location.hash === "#admin") {
+    triggerAdminPinPrompt();
+  }
+});
+
 window.addEventListener("load", async () => {
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
@@ -1676,6 +1646,10 @@ window.addEventListener("load", async () => {
     }
   }
 
+  if (window.location.hash === "#admin") {
+    triggerAdminPinPrompt();
+  }
+
   db.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user) {
       localStorage.setItem("apex_cached_auth", "true");
@@ -1687,6 +1661,5 @@ window.addEventListener("load", async () => {
   });
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
