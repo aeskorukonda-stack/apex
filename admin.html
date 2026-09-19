@@ -77,7 +77,7 @@
   }
 
   .admin-wrap {
-    max-width: 1320px;
+    max-width: 1360px;
     margin: 0 auto;
     width: 100%;
   }
@@ -123,7 +123,7 @@
 
   .metrics-strip {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 10px;
     margin-bottom: 14px;
   }
@@ -135,8 +135,9 @@
   .m-blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
   .m-green { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
   .m-amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .m-slate { background: #f1f5f9; border: 1px solid #cbd5e1; color: #475569; }
   .m-box b { font-size: 22px; display: block; }
-  .m-box span { font-size: 10.5px; font-weight: 800; text-transform: uppercase; }
+  .m-box span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
   .table-scroll {
     overflow-x: auto;
@@ -146,7 +147,7 @@
     width: 100%;
     border-collapse: collapse;
     font-size: 12.5px;
-    min-width: 660px;
+    min-width: 820px;
   }
   thead tr {
     background: #0A192F;
@@ -156,6 +157,7 @@
     padding: 10px 12px;
     text-align: left;
     border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
   }
   th { font-size: 11px; font-weight: 800; text-transform: uppercase; }
 
@@ -169,10 +171,22 @@
   }
   .badge-confirmed { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
   .badge-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
-  .badge-other { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+  .badge-ended { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; }
+  .badge-rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+  .role-pill {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .role-teacher { background: #eff6ff; color: #1d4ed8; }
+  .role-student { background: #f5f3ff; color: #6d28d9; }
 
   .select-override {
-    padding: 4px 8px;
+    padding: 5px 8px;
     border: 1px solid #cbd5e1;
     border-radius: 6px;
     font-size: 11.5px;
@@ -181,26 +195,44 @@
     cursor: pointer;
   }
 
+  .wa-btn {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    margin: 2px 0;
+  }
+  .wa-initiator { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .wa-recipient { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .wa-btn:hover { filter: brightness(0.95); }
+
   .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
+<!-- 1. PIN GATE -->
 <div id="adminGate">
   <div class="gate-box">
     <i class="fa-solid fa-lock" style="font-size:32px;color:#0A192F;margin-bottom:8px;"></i>
     <h2>Apex Management PIN</h2>
-    <p style="font-size:12px;color:#64748b;">Enter PIN to view live inquiries</p>
+    <p style="font-size:12px;color:#64748b;">Enter PIN to view live enquiries and tuitions</p>
     <input type="password" id="pinInput" placeholder="••••" maxlength="10" autofocus onkeydown="if(event.key==='Enter') verifyGatePin()">
     <button class="btn-gate" onclick="verifyGatePin()">Unlock Tracker</button>
     <div id="gateError" class="gate-error hidden">❌ Invalid PIN.</div>
   </div>
 </div>
 
+<!-- 2. MAIN TRACKER CONSOLE -->
 <div class="admin-wrap hidden" id="adminMainWrap">
   <div class="admin-card">
     <div class="top-bar">
-      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries Tracker Console</h1>
+      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries & Tuition Tracker</h1>
       <div style="display:flex;gap:6px;">
         <button class="btn-action" onclick="fetchLiveEnquiries()"><i class="fa-solid fa-rotate"></i> Refresh</button>
         <button class="btn-action" style="background:#dc2626;" onclick="lockConsole()"><i class="fa-solid fa-lock"></i> Lock</button>
@@ -208,18 +240,23 @@
       </div>
     </div>
 
+    <!-- METRICS -->
     <div class="metrics-strip">
       <div class="m-box m-blue">
         <b id="statTotal">0</b>
-        <span>Total Enquiries</span>
+        <span>Total Contacts</span>
       </div>
       <div class="m-box m-green">
         <b id="statConfirmed">0</b>
-        <span>Confirmed Active</span>
+        <span>Active Confirmed</span>
       </div>
       <div class="m-box m-amber">
         <b id="statPending">0</b>
         <span>Pending Approval</span>
+      </div>
+      <div class="m-box m-slate">
+        <b id="statEnded">0</b>
+        <span>Tuition Ended</span>
       </div>
     </div>
 
@@ -228,18 +265,18 @@
         <thead>
           <tr>
             <th>Date</th>
-            <th>Initiator (Student / Parent)</th>
-            <th>Recipient (Teacher)</th>
+            <th>Initiator (Started Contact)</th>
+            <th>Recipient (Received Contact)</th>
             <th>Subject</th>
             <th>Status</th>
-            <th>Override Status</th>
-            <th>WhatsApp</th>
+            <th>Update Status</th>
+            <th>Direct WhatsApp Contact</th>
           </tr>
         </thead>
         <tbody id="trackerTableBody">
           <tr>
             <td colspan="7" style="padding:20px;text-align:center;color:#64748b;">
-              <i class="fa-solid fa-spinner fa-spin"></i> Fetching records from database...
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...
             </td>
           </tr>
         </tbody>
@@ -284,23 +321,33 @@ async function fetchLiveEnquiries() {
   const tbody = document.getElementById("trackerTableBody");
   tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
 
-  const { data, error } = await db
-    .from("enquiries")
-    .select("*")
-    .order("created_at", { ascending: false });
+  // Fetch enquiries along with teachers and students to determine exact roles
+  const [enqRes, teachersRes, studentsRes] = await Promise.all([
+    db.from("enquiries").select("*").order("created_at", { ascending: false }),
+    db.from("teachers").select("id"),
+    db.from("students").select("id")
+  ]);
 
-  if (error) {
-    tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#ef4444;">Error: ${error.message} (Ensure RLS policy is applied in Supabase)</td></tr>`;
+  if (enqRes.error) {
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:20px;text-align:center;color:#ef4444;">Error: ${enqRes.error.message} (Verify Supabase RLS policy for enquiries)</td></tr>`;
     return;
   }
 
-  const list = data || [];
-  const confirmed = list.filter(x => String(x.status).toLowerCase() === "confirmed").length;
-  const pending = list.filter(x => String(x.status).toLowerCase() === "pending").length;
+  const teacherIdSet = new Set((teachersRes.data || []).map(t => String(t.id)));
+  const studentIdSet = new Set((studentsRes.data || []).map(s => String(s.id)));
+
+  const list = enqRes.data || [];
+  const confirmedCount = list.filter(x => String(x.status).toLowerCase() === "confirmed").length;
+  const pendingCount = list.filter(x => String(x.status).toLowerCase() === "pending").length;
+  const endedCount = list.filter(x => {
+    const s = String(x.status).toLowerCase();
+    return s === "completed" || s === "ended";
+  }).length;
 
   document.getElementById("statTotal").textContent = list.length;
-  document.getElementById("statConfirmed").textContent = confirmed;
-  document.getElementById("statPending").textContent = pending;
+  document.getElementById("statConfirmed").textContent = confirmedCount;
+  document.getElementById("statPending").textContent = pendingCount;
+  document.getElementById("statEnded").textContent = endedCount;
 
   if (list.length === 0) {
     tbody.innerHTML = `<tr><td colspan="7" style="padding:24px;text-align:center;color:#64748b;">No enquiries recorded yet.</td></tr>`;
@@ -309,39 +356,79 @@ async function fetchLiveEnquiries() {
 
   tbody.innerHTML = list.map(item => {
     const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString("en-GB") : "Recent";
-    const st = String(item.status || "Pending");
-    const stLower = st.toLowerCase();
+    const stRaw = String(item.status || "Pending").toLowerCase();
 
+    // Determine roles of initiator vs recipient
+    const sId = String(item.sender_id || '');
+    const rId = String(item.recipient_id || '');
+
+    let initiatorRole = "Member";
+    let recipientRole = "Member";
+
+    if (teacherIdSet.has(sId)) initiatorRole = "Educator 👨‍🏫";
+    else if (studentIdSet.has(sId)) initiatorRole = "Student 🎓";
+
+    if (teacherIdSet.has(rId)) recipientRole = "Educator 👨‍🏫";
+    else if (studentIdSet.has(rId)) recipientRole = "Student 🎓";
+
+    // Status Badge Styling
     let badgeClass = "badge-pending";
-    if (stLower === "confirmed") badgeClass = "badge-confirmed";
-    else if (stLower === "rejected" || stLower === "completed") badgeClass = "badge-other";
+    let displayStatus = "Pending";
 
-    const digits = cleanDigits(item.recipient_mobile || item.sender_mobile);
-    const waPhone = digits.length === 10 ? "91" + digits : digits;
+    if (stRaw === "confirmed") {
+      badgeClass = "badge-confirmed";
+      displayStatus = "✓ Confirmed Active";
+    } else if (stRaw === "completed" || stRaw === "ended") {
+      badgeClass = "badge-ended";
+      displayStatus = "Tuition Ended";
+    } else if (stRaw === "rejected") {
+      badgeClass = "badge-rejected";
+      displayStatus = "Rejected";
+    }
+
+    // Two distinct phone numbers for Initiator and Recipient
+    const sDigits = cleanDigits(item.sender_mobile);
+    const waSender = sDigits.length === 10 ? "91" + sDigits : sDigits;
+
+    const rDigits = cleanDigits(item.recipient_mobile);
+    const waRecipient = rDigits.length === 10 ? "91" + rDigits : rDigits;
 
     return `
       <tr>
-        <td style="color:#64748b;">${dateStr}</td>
+        <td style="color:#64748b;font-size:12px;">${dateStr}</td>
         <td>
-          <b>${escapeHtml(item.sender_name || 'Student')}</b><br>
-          <small style="color:#64748b;">${item.sender_mobile || ''}</small>
+          <span class="role-pill ${initiatorRole.includes('Educator') ? 'role-teacher' : 'role-student'}">${initiatorRole}</span><br>
+          <b>${escapeHtml(item.sender_name || 'Initiator')}</b><br>
+          <small style="color:#64748b;">${item.sender_mobile || 'No Phone'}</small>
         </td>
         <td>
-          <b>${escapeHtml(item.recipient_name || 'Teacher')}</b><br>
-          <small style="color:#64748b;">${item.recipient_mobile || ''}</small>
+          <span class="role-pill ${recipientRole.includes('Educator') ? 'role-teacher' : 'role-student'}">${recipientRole}</span><br>
+          <b>${escapeHtml(item.recipient_name || 'Recipient')}</b><br>
+          <small style="color:#64748b;">${item.recipient_mobile || 'No Phone'}</small>
         </td>
-        <td>${escapeHtml(item.subject || 'Tuition')}</td>
-        <td><span class="badge ${badgeClass}">${escapeHtml(st)}</span></td>
+        <td><b>${escapeHtml(item.subject || 'Tuition')}</b></td>
+        <td><span class="badge ${badgeClass}">${displayStatus}</span></td>
         <td>
           <select class="select-override" onchange="overrideStatus('${item.id}', this.value)">
-            <option value="Confirmed" ${stLower === 'confirmed' ? 'selected' : ''}>Confirm</option>
-            <option value="Pending" ${stLower === 'pending' ? 'selected' : ''}>Pending</option>
-            <option value="Completed" ${stLower === 'completed' ? 'selected' : ''}>End/Complete</option>
-            <option value="Rejected" ${stLower === 'rejected' ? 'selected' : ''}>Reject</option>
+            <option value="Pending" ${stRaw === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="Confirmed" ${stRaw === 'confirmed' ? 'selected' : ''}>Confirm</option>
+            <option value="Completed" ${stRaw === 'completed' || stRaw === 'ended' ? 'selected' : ''}>Tuition Ended</option>
+            <option value="Rejected" ${stRaw === 'rejected' ? 'selected' : ''}>Reject</option>
           </select>
         </td>
         <td>
-          ${waPhone ? `<a href="https://wa.me/${waPhone}" target="_blank" style="color:#16a34a;font-weight:700;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> Chat</a>` : '—'}
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            ${waSender ? `
+              <a href="https://wa.me/${waSender}" target="_blank" class="wa-btn wa-initiator" title="Chat with the person who initiated this request">
+                <i class="fa-brands fa-whatsapp"></i> Chat Initiator
+              </a>
+            ` : ''}
+            ${waRecipient ? `
+              <a href="https://wa.me/${waRecipient}" target="_blank" class="wa-btn wa-recipient" title="Chat with the person who received this request">
+                <i class="fa-brands fa-whatsapp"></i> Chat Recipient
+              </a>
+            ` : ''}
+          </div>
         </td>
       </tr>
     `;
@@ -351,7 +438,7 @@ async function fetchLiveEnquiries() {
 async function overrideStatus(id, newStatus) {
   const { error } = await db.from("enquiries").update({ status: newStatus }).eq("id", id);
   if (error) {
-    alert("Error updating: " + error.message);
+    alert("Error updating status: " + error.message);
   } else {
     fetchLiveEnquiries();
   }
