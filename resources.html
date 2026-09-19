@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Educational Resources Hub | Apex Tuitions</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --apex-navy: #0A192F;
+      --apex-navy-dark: #070F1E;
+      --royal-blue: #2563EB;
+      --apex-gold: #F59E0B;
+      --apex-gold-hover: #D97706;
+      --emerald: #10B981;
+      --bg-slate: #F8FAFC;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-subtle: #E2E8F0;
+      --card-radius: 18px;
+      --btn-radius: 10px;
+      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    header {
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 28px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    .header-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .header-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      object-fit: cover;
+      border: 2px solid #ffffff;
+    }
+    .brand-text h1 {
+      font-size: 21px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .nav-links-desktop {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: #CBD5E1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .dropdown-parent { 
+      position: relative; 
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+    .dropdown-menu {
+      position: absolute; top: 100%; right: 0; background: #ffffff;
+      border-radius: 12px; border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16); min-width: 185px;
+      padding: 8px; display: none; z-index: 2000;
+    }
+    .dropdown-parent:hover .dropdown-menu { display: block; }
+    .dropdown-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+      color: #334155; font-size: 13px; font-weight: 700; text-decoration: none;
+      border-radius: 8px;
+    }
+    .dropdown-item:hover { background: #EFF6FF; color: var(--royal-blue); }
+
+    .btn-header-cta {
+      background: linear-gradient(135deg, var(--apex-gold) 0%, var(--apex-gold-hover) 100%);
+      color: var(--apex-navy) !important;
+      font-weight: 800 !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13.5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mobile-menu-toggle {
+      display: none; background: none; border: none; color: #ffffff; font-size: 24px; cursor: pointer;
+    }
+    .mobile-drawer {
+      display: none; position: fixed; top: 74px; left: 0; right: 0; background: var(--apex-navy);
+      padding: 20px 24px; border-bottom: 3.5px solid var(--apex-gold); flex-direction: column; gap: 10px; z-index: 999;
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    main { flex: 1; padding: 44px 24px 60px; }
+    .hub-container {
+      max-width: 1160px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+    }
+    .hub-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 32px;
+      border-bottom: 1px solid #F1F5F9;
+      background: #FAFCFF;
+    }
+    .hub-top-bar h2 {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hub-btn-back {
+      background: #475569;
+      color: #ffffff;
+      padding: 8px 20px;
+      border-radius: var(--btn-radius);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .hub-btn-back:hover { background: #334155; }
+
+    .hub-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      padding: 36px 32px 44px;
+    }
+    .hub-card {
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 36px 28px 32px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(10, 25, 47, 0.04);
+    }
+    .hub-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.1);
+      border-color: var(--royal-blue);
+    }
+    .hub-card-icon {
+      font-size: 42px;
+      color: var(--royal-blue);
+      margin-bottom: 16px;
+    }
+    .hub-card h3 {
+      font-size: 21px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      margin-bottom: 10px;
+    }
+    .hub-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 26px;
+    }
+
+    .btn-hub-action {
+      width: 100%;
+      height: 46px;
+      border-radius: var(--btn-radius);
+      font-size: 14px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-hub-upload { background: var(--emerald); color: #ffffff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25); }
+    .btn-hub-upload:hover { background: #059669; transform: translateY(-1px); }
+    .btn-hub-browse { background: var(--royal-blue); color: #ffffff; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
+    .btn-hub-browse:hover { background: #1D4ED8; transform: translateY(-1px); }
+
+    .resource-sub-view { padding: 0 32px 40px; }
+    
+    .file-constraint-notice {
+      background: #FEF3C7;
+      border: 1px solid #FCD34D;
+      color: #92400E;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hidden { display: none !important; }
+
+    footer {
+      background: var(--apex-navy-dark);
+      color: #94A3B8;
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 12.5px;
+      margin-top: auto;
+    }
+
+    @media (max-width: 860px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <a href="index.html" class="brand-group">
+      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <div class="brand-text">
+        <h1>APEX TUITIONS</h1>
+      </div>
+    </a>
+    
+    <nav class="nav-links-desktop">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="browse.html" class="nav-link">Browse</a>
+      <a href="resources.html" class="nav-link active">Resources</a>
+      
+      <div class="dropdown-parent">
+        <a href="javascript:void(0)" class="nav-link">More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
+        <div class="dropdown-menu">
+          <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
+          <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
+          <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
+        </div>
+      </div>
+
+      <a href="index.html?auth=login" class="btn-header-cta" id="navBtnLogin">Sign In</a>
+    </nav>
+
+    <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="index.html">🏠 Home</a>
+    <a href="browse.html">🔍 Browse</a>
+    <a href="resources.html">📚 Resources</a>
+    <a href="about.html">ℹ️ About Apex</a>
+    <a href="feedback.html">💬 Feedback</a>
+    <a href="donate.html">💛 Donate</a>
+    <a href="index.html?auth=login" id="mNavLogin">🔐 Sign In</a>
+  </div>
+</header>
+
+<main>
+  <div class="hub-container">
+    <div class="hub-top-bar">
+      <h2><i class="fa-solid fa-book-bookmark" style="color:var(--royal-blue);"></i> Educational Resources Hub</h2>
+      <a href="index.html" class="hub-btn-back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+    </div>
+
+    <div class="hub-grid" id="hubMainCards">
+      <div class="hub-card">
+        <div>
+          <div class="hub-card-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
+          <h3>Add Resources</h3>
+          <p><b>Verified Teachers Only:</b> Upload classroom worksheets, formula sheets, notes, and study PDFs.</p>
+        </div>
+        <button class="btn-hub-action btn-hub-upload" onclick="openUploadForm()">
+          <i class="fa-solid fa-plus"></i> Upload Resource
+        </button>
+      </div>
+
+      <div class="hub-card">
+        <div>
+          <div class="hub-card-icon"><i class="fa-solid fa-file-arrow-down"></i></div>
+          <h3>Download Resources</h3>
+          <p>Browse, filter, and download verified study materials and reference guides.</p>
+        </div>
+        <button class="btn-hub-action btn-hub-browse" onclick="openDownloadBrowser()">
+          <i class="fa-solid fa-file-lines"></i> Browse Downloads
+        </button>
+      </div>
+    </div>
+
+    <div id="viewUploadSection" class="resource-sub-view hidden">
+      <div style="background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:14px;padding:28px;max-width:540px;margin:0 auto;box-shadow:0 4px 14px rgba(0,0,0,0.03);">
+        <h4 style="font-size:18px;color:var(--apex-navy);margin-bottom:12px;font-weight:800;">Share Classroom Resource</h4>
+        
+        <div class="file-constraint-notice">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <span>Instruction: The upload file must be in PDF format and size up to 2MB.</span>
+        </div>
+
+        <input id="resTitle" type="text" placeholder="Document Title (e.g. CBSE 10 Math Formula Deck)" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:8px;margin-bottom:12px;font-size:13.5px;">
+        <input id="resSubject" type="text" placeholder="Subject / Grade" style="width:100%;padding:10px 14px;border:1.5px solid #CBD5E1;border-radius:8px;margin-bottom:12px;font-size:13.5px;">
+        
+        <label style="font-size:11px;font-weight:800;color:#475569;text-transform:uppercase;display:block;margin-bottom:4px;">Select PDF File (Max 2MB)</label>
+        <input id="resFile" type="file" accept=".pdf,application/pdf" style="margin-bottom:18px;display:block;width:100%;">
+        
+        <div style="display:flex;gap:12px;">
+          <button onclick="closeSubViews()" style="flex:1;padding:10px;border:1.5px solid #CBD5E1;border-radius:8px;background:#fff;cursor:pointer;font-weight:700;">Cancel</button>
+          <button onclick="submitMockResource()" class="btn-hub-action btn-hub-upload" style="flex:1;height:42px;">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="viewDownloadsSection" class="resource-sub-view hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <h4 style="font-size:18px;color:var(--apex-navy);font-weight:800;">Verified Downloads</h4>
+        <button onclick="closeSubViews()" style="border:none;background:none;color:var(--royal-blue);font-weight:700;font-size:13px;cursor:pointer;">← Hub</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(290px, 1fr));gap:18px;">
+        <div style="border:1.5px solid #E2E8F0;border-radius:12px;padding:18px;background:#F8FAFC;">
+          <h4 style="font-size:15.5px;color:var(--apex-navy);margin-bottom:6px;font-weight:800;">CBSE Class 10 Physics Mechanics</h4>
+          <p style="font-size:13px;color:var(--text-muted);margin-bottom:14px;">Motion & Work numerical solutions guide (PDF • 1.4 MB).</p>
+          <a href="#" class="btn-hub-action btn-hub-browse" style="height:38px;font-size:12.5px;">Download PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 Apex Tuitions. All rights reserved.
+</footer>
+
+<script>
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function toggleMobileNav() {
+  document.getElementById("mobileDrawer").classList.toggle("open");
+}
+
+function openUploadForm() {
+  document.getElementById("hubMainCards").classList.add("hidden");
+  document.getElementById("viewUploadSection").classList.remove("hidden");
+  document.getElementById("viewDownloadsSection").classList.add("hidden");
+}
+function openDownloadBrowser() {
+  document.getElementById("hubMainCards").classList.add("hidden");
+  document.getElementById("viewDownloadsSection").classList.remove("hidden");
+  document.getElementById("viewUploadSection").classList.add("hidden");
+}
+function closeSubViews() {
+  document.getElementById("hubMainCards").classList.remove("hidden");
+  document.getElementById("viewUploadSection").classList.add("hidden");
+  document.getElementById("viewDownloadsSection").classList.add("hidden");
+}
+
+function submitMockResource() {
+  const fileInput = document.getElementById("resFile");
+  const file = fileInput.files[0];
+
+  if (!file) {
+    alert("Please select a file to upload.");
+    return;
+  }
+
+  // Enforce PDF format
+  const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+  if (!isPdf) {
+    alert("Invalid file format. The file must be a PDF document.");
+    return;
+  }
+
+  // Enforce 2MB maximum size limit (2 * 1024 * 1024 bytes)
+  const maxBytes = 2 * 1024 * 1024;
+  if (file.size > maxBytes) {
+    alert("File size exceeds 2MB limit. Please upload a smaller PDF file.");
+    return;
+  }
+
+  alert("✓ Resource uploaded successfully!");
+  closeSubViews();
+}
+
+window.addEventListener("load", async () => {
+  const { data: { session } } = await db.auth.getSession();
+  const navLogin = document.getElementById("navBtnLogin");
+  const mNavLogin = document.getElementById("mNavLogin");
+
+  if (session && session.user) {
+    navLogin?.classList.add("hidden");
+    mNavLogin?.classList.add("hidden");
+  } else {
+    navLogin?.classList.remove("hidden");
+    mNavLogin?.classList.remove("hidden");
+  }
+});
+</script>
+<script src="mobile-layout-fix.js"></script>
+</body>
+</html>
