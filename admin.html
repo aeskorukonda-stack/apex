@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Control & Tuition Tracker - Apex Online Tuitions</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    background: linear-gradient(135deg, #f4f7fb 0%, #e9edf5 50%, #f1f5f9 100%);
+    color: #1e293b;
+    line-height: 1.5;
+    min-height: 100vh;
+    padding: 20px 12px;
+  }
+
+  .fullwidth-page-wrap {
+    max-width: 1380px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .box-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(14, 47, 82, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.9);
+  }
+
+  .admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .admin-header h2 {
+    margin: 0;
+    color: #123c69;
+    font-size: 19px;
+    font-weight: 800;
+  }
+
+  .admin-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  .btn {
+    border: 0;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 12.5px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s;
+  }
+
+  .btn-alt {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: #ffffff;
+  }
+
+  .btn-secondary {
+    background: #64748b;
+    color: #ffffff;
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(0.95);
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+
+  .metric-card {
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+
+  .metric-blue { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .metric-green { background: #ecfdf5; border: 1px solid #a7f3d0; }
+  .metric-amber { background: #fffbeb; border: 1px solid #fde68a; }
+
+  .metric-label { font-size: 11px; font-weight: 700; }
+  .metric-blue .metric-label { color: #1e40af; }
+  .metric-green .metric-label { color: #065f46; }
+  .metric-amber .metric-label { color: #92400e; }
+
+  .metric-val { font-size: 22px; font-weight: 900; margin-top: 2px; }
+  .metric-blue .metric-val { color: #1e3a8a; }
+  .metric-green .metric-val { color: #047857; }
+  .metric-amber .metric-val { color: #b45309; }
+
+  .table-scroll {
+    overflow-x: auto;
+    width: 100%;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    text-align: left;
+    min-width: 680px;
+  }
+
+  thead tr {
+    background: #0e2f52;
+    color: #ffffff;
+  }
+
+  th, td {
+    padding: 10px 12px;
+  }
+
+  th:first-child { border-radius: 6px 0 0 0; }
+  th:last-child { border-radius: 0 6px 0 0; }
+
+  tbody tr { border-bottom: 1px solid #e2e8f0; }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="fullWidthAdminView" class="fullwidth-page-wrap hidden">
+  <div class="box-card">
+    <div class="admin-header">
+      <h2>🔒 Admin Control & Tuition Tracker</h2>
+      <div class="admin-actions">
+        <button class="btn btn-alt" onclick="loadAdminTuitionInquiries()">🔄 Refresh Data</button>
+        <button class="btn btn-secondary" onclick="exitAdminView()">Exit Admin</button>
+      </div>
+    </div>
+
+    <!-- ADMIN SUMMARY METRICS -->
+    <div class="metrics-grid">
+      <div class="metric-card metric-blue">
+        <div class="metric-label">TOTAL CONNECTIONS</div>
+        <div id="statTotalInquiries" class="metric-val">0</div>
+      </div>
+      <div class="metric-card metric-green">
+        <div class="metric-label">🟢 CONFIRMED TUITIONS</div>
+        <div id="statConfirmedTuitions" class="metric-val">0</div>
+      </div>
+      <div class="metric-card metric-amber">
+        <div class="metric-label">🟡 IN DISCUSSION</div>
+        <div id="statDiscussingTuitions" class="metric-val">0</div>
+      </div>
+    </div>
+
+    <!-- LIVE DATA TABLE -->
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date Contacted</th>
+            <th>Teacher</th>
+            <th>Student</th>
+            <th>Subject</th>
+            <th>Teacher Decision</th>
+            <th>Student Decision</th>
+            <th>Tuition Status</th>
+          </tr>
+        </thead>
+        <tbody id="adminInquiriesTableBody">
+          <tr>
+            <td colspan="7" style="padding:16px;text-align:center;color:#64748b;">Loading tuition data...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+// SUPABASE CLIENT (Direct connection from source file)
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// SECRET ADMIN ACCESS PIN
+const ADMIN_SECRET_KEY = "1985";
+
+function escapeHtml(val) {
+  return String(val || "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" })[m]);
+}
+
+function promptAdminAccess() {
+  const pin = prompt("🔐 Enter Admin Access Key:");
+  if (pin === ADMIN_SECRET_KEY) {
+    sessionStorage.setItem("apex_admin_authed", "true");
+    document.getElementById("fullWidthAdminView").classList.remove("hidden");
+    loadAdminTuitionInquiries();
+  } else {
+    alert("❌ Invalid Access Key.");
+    window.location.replace("index.html");
+  }
+}
+
+function exitAdminView() {
+  sessionStorage.removeItem("apex_admin_authed");
+  window.location.replace("index.html");
+}
+
+// ADMIN TABLE LOADER (Exact matching query and mapping logic)
+async function loadAdminTuitionInquiries() {
+  const tbody = document.getElementById("adminInquiriesTableBody");
+  tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748b;">Loading tuition data...</td></tr>`;
+
+  try {
+    const { data, error } = await db.from("tuition_inquiries").select("*").order("created_at", { ascending: false });
+
+    if (error || !data || !data.length) {
+      tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#64748b;">No connections recorded yet.</td></tr>`;
+      document.getElementById("statTotalInquiries").textContent = "0";
+      document.getElementById("statConfirmedTuitions").textContent = "0";
+      document.getElementById("statDiscussingTuitions").textContent = "0";
+      return;
+    }
+
+    const confirmed = data.filter(d => d.status === 'confirmed').length;
+    const discussing = data.filter(d => d.status === 'discussing' || d.status === 'contacted').length;
+
+    document.getElementById("statTotalInquiries").textContent = data.length;
+    document.getElementById("statConfirmedTuitions").textContent = confirmed;
+    document.getElementById("statDiscussingTuitions").textContent = discussing;
+
+    tbody.innerHTML = data.map((d, index) => {
+      const isEven = (index % 2 === 0);
+      const dateStr = d.created_at ? new Date(d.created_at).toLocaleDateString('en-GB') : 'Recent';
+      
+      let badgeColor = '#0284c7';
+      let statusLabel = 'CONTACTED';
+      if (d.status === 'confirmed') { badgeColor = '#059669'; statusLabel = '✅ CONFIRMED TUITION'; }
+      else if (d.status === 'discussing') { badgeColor = '#d97706'; statusLabel = '⏳ IN DISCUSSION'; }
+      else if (d.status === 'cancelled' || d.status === 'not_started') { badgeColor = '#dc2626'; statusLabel = '❌ CANCELLED'; }
+
+      return `
+        <tr style="border-bottom:1px solid #e2e8f0;background:${isEven ? '#ffffff' : '#f8fafc'};">
+          <td style="padding:8px 10px;color:#64748b;">${dateStr}</td>
+          <td style="padding:8px 10px;font-weight:700;color:#123c69;">${escapeHtml(d.teacher_name)}</td>
+          <td style="padding:8px 10px;font-weight:700;color:#0f172a;">${escapeHtml(d.student_name)}</td>
+          <td style="padding:8px 10px;color:#334155;">${escapeHtml(d.subject)}</td>
+          <td style="padding:8px 10px;">${d.teacher_confirmed ? '✅ Confirmed' : escapeHtml(d.teacher_status || 'contacted')}</td>
+          <td style="padding:8px 10px;">${d.student_confirmed ? '✅ Confirmed' : escapeHtml(d.student_status || 'contacted')}</td>
+          <td style="padding:8px 10px;">
+            <span style="background:${badgeColor}15;color:${badgeColor};padding:3px 8px;border-radius:4px;font-weight:800;font-size:10.5px;border:1px solid ${badgeColor}40;">
+              ${statusLabel}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join("");
+  } catch (err) {
+    tbody.innerHTML = `<tr><td colspan="7" style="padding:14px;text-align:center;color:#ef4444;">Error loading table: ${err.message}</td></tr>`;
+  }
+}
+
+// Initial authorization check
+window.addEventListener("load", () => {
+  if (sessionStorage.getItem("apex_admin_authed") === "true") {
+    document.getElementById("fullWidthAdminView").classList.remove("hidden");
+    loadAdminTuitionInquiries();
+  } else {
+    promptAdminAccess();
+  }
+});
+</script>
+</body>
+</html>
