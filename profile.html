@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Profile | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,8 @@
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    html, body { overflow-x: hidden !important; width: 100%; }
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background-color: var(--bg-slate);
@@ -101,31 +102,16 @@
       background: rgba(255, 255, 255, 0.12);
     }
 
-    .dropdown-parent { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
-    .dropdown-menu {
-      position: absolute; top: 100%; right: 0; background: #ffffff;
-      border-radius: 12px; border: 1px solid var(--border-subtle);
-      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16); min-width: 185px;
-      padding: 8px; display: none; z-index: 2000;
-    }
-    .dropdown-parent:hover .dropdown-menu { display: block; }
-    .dropdown-item {
-      display: flex; align-items: center; gap: 10px; padding: 10px 12px;
-      color: #334155; font-size: 13px; font-weight: 700; text-decoration: none;
-      border-radius: 8px; transition: var(--transition);
-    }
-    .dropdown-item:hover { background: #EFF6FF; color: var(--royal-blue); }
-
     .profile-container {
       max-width: 880px; margin: 32px auto 56px; padding: 0 20px; width: 100%; flex: 1;
     }
     .profile-card {
       background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-subtle);
-      padding: 34px; box-shadow: var(--shadow-card); position: relative;
+      padding: 34px; box-shadow: var(--shadow-card); position: relative; width: 100%;
     }
     .profile-header {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 28px; flex-wrap: wrap; gap: 20px;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
     }
     .profile-summary-box {
       display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
@@ -133,7 +119,7 @@
     
     .avatar-wrapper { position: relative; display: inline-block; }
     .profile-avatar-large {
-      width: 130px; height: 130px; border-radius: 16px; object-fit: cover;
+      width: 120px; height: 120px; border-radius: 16px; object-fit: cover;
       border: 3.5px solid var(--royal-blue); background: #F1F5F9; display: block;
       box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
     }
@@ -144,10 +130,10 @@
       cursor: pointer; transition: var(--transition);
     }
     .profile-meta h2 {
-      font-size: 24px; font-weight: 800; color: var(--apex-navy); margin-bottom: 6px;
+      font-size: 22px; font-weight: 800; color: var(--apex-navy); margin-bottom: 6px;
     }
     .badge-verified {
-      background: #DCFCE7; color: #166534; padding: 5px 12px; border-radius: 16px;
+      background: #DCFCE7; color: #166534; padding: 4px 12px; border-radius: 16px;
       font-size: 12px; font-weight: 800; display: inline-block;
     }
     .btn-edit-inline {
@@ -157,94 +143,95 @@
 
     .details-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
     .details-table tr { border-bottom: 1px solid #F1F5F9; }
-    .details-table td { padding: 13px 8px; font-size: 14px; }
+    .details-table td { padding: 12px 8px; font-size: 13.5px; }
     .details-table td:first-child { 
       font-weight: 800; color: #64748B; width: 34%; text-transform: uppercase; font-size: 11.5px;
     }
     .details-table td:last-child { color: #0F172A; font-weight: 600; }
 
+    /* EDIT FORM (REPLICATING REGISTRATION FORM EXACTLY) */
     .edit-inline-form {
       margin-top: 16px; border-top: 1px solid #E2E8F0; padding-top: 20px;
     }
-    .edit-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px; }
-    .grid-span-2 { grid-column: span 2; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .form-group-full { grid-column: span 2; }
+    .form-group-half { grid-column: span 1; }
     
     label {
       display: block; font-size: 11px; font-weight: 800; color: #475569;
-      text-transform: uppercase; margin: 8px 0 4px; letter-spacing: 0.3px;
+      text-transform: uppercase; margin: 4px 0; letter-spacing: 0.3px;
     }
     input, select, textarea {
-      width: 100%; min-height: 40px; padding: 8px 12px; border: 1.5px solid var(--border-subtle);
-      border-radius: 8px; font-size: 13px; background: #F8FAFC; transition: var(--transition);
+      width: 100%; height: 40px; min-height: 40px; padding: 6px 12px; border: 1.5px solid var(--border-subtle);
+      border-radius: 8px; font-size: 13px; font-family: inherit; background: #F8FAFC; color: var(--text-main); transition: var(--transition);
     }
     input:focus, select:focus, textarea:focus {
-      outline: none; border-color: var(--royal-blue); background: #ffffff; box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.15);
+      outline: none; border-color: var(--royal-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
-
-    .custom-multiselect { position: relative; width: 100%; }
-    .multiselect-trigger {
-      width: 100%; min-height: 40px; padding: 8px 12px; border: 1.5px solid var(--border-subtle);
-      border-radius: 8px; font-size: 13px; background: #F8FAFC; color: var(--text-main);
-      display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;
-    }
-    .multiselect-trigger.open {
-      border-color: var(--royal-blue); background: #FFFFFF;
-    }
-    .multiselect-dropdown-box {
-      position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 180px;
-      overflow-y: auto; background: #FFFFFF; border: 1.5px solid var(--border-subtle);
-      border-radius: 10px; box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15); z-index: 3000; padding: 6px; display: none;
-    }
-    .multiselect-dropdown-box.show { display: block; }
-    .multiselect-item {
-      display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 6px; font-size: 12.5px; cursor: pointer;
-    }
-    .multiselect-item:hover { background: #EFF6FF; }
-    .multiselect-item input[type="checkbox"] { width: 15px; height: 15px; min-height: 15px; cursor: pointer; accent-color: var(--royal-blue); }
+    textarea { min-height: 56px; height: 56px; padding: 8px 12px; }
 
     .cropper-modal-box {
       background: #F8FAFC; border: 1.5px solid var(--border-subtle); border-radius: 14px;
-      padding: 20px; margin-bottom: 22px;
+      padding: 16px; margin-bottom: 20px;
     }
     .crop-viewport {
-      width: 240px; height: 240px; margin: 0 auto 14px; position: relative; overflow: hidden;
+      width: 220px; height: 220px; margin: 0 auto 12px; position: relative; overflow: hidden;
       border: 2px dashed var(--royal-blue); border-radius: 12px; background: #000; cursor: grab;
     }
     .crop-viewport canvas { position: absolute; top: 0; left: 0; }
     .zoom-controls-bar {
-      display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px;
+      display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;
     }
     .btn-apply-crop {
-      background: var(--emerald); color: #ffffff; border: none; padding: 8px 20px; border-radius: 8px;
+      background: var(--emerald); color: #ffffff; border: none; padding: 8px 16px; border-radius: 8px;
       font-weight: 800; font-size: 13px; cursor: pointer;
     }
 
-    .edit-form-btns { display: flex; gap: 12px; margin-top: 24px; grid-column: span 2; }
-    .btn-save-inline { flex: 1; height: 44px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; }
-    .btn-cancel-inline { flex: 1; height: 44px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; }
+    .edit-form-btns { display: flex; gap: 12px; margin-top: 20px; grid-column: span 2; }
+    .btn-save-inline { flex: 1.5; height: 44px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; font-size: 13.5px; }
+    .btn-cancel-inline { flex: 1; height: 44px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; font-size: 13.5px; }
     .btn-logout {
       width: 100%; background: #FEE2E2; color: #991B1B; border: 1.5px solid #FECACA; padding: 12px;
-      border-radius: var(--btn-radius); font-size: 13.5px; font-weight: 800; cursor: pointer; margin-top: 28px;
+      border-radius: var(--btn-radius); font-size: 13.5px; font-weight: 800; cursor: pointer; margin-top: 24px;
     }
 
-    /* FLOATING THREE-BUTTON DOCK (STRICTLY MOBILE ONLY) */
-    .mobile-bottom-dock {
-      display: none;
-    }
+    .mobile-bottom-dock { display: none; }
+    .hidden { display: none !important; }
 
+    /* MOBILE SPECIFIC CSS */
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: 92px !important;
+      body.logged-in-mobile { padding-bottom: 96px !important; }
+      header { padding: 10px 14px !important; }
+      .brand-group { gap: 8px !important; }
+      .header-logo { width: 36px !important; height: 36px !important; }
+      .brand-text h1 { font-size: 16px !important; }
+      .nav-links-desktop { display: none !important; }
+
+      .profile-container { padding: 0 12px !important; margin-top: 16px !important; }
+      .profile-card { padding: 20px 14px !important; }
+      .profile-header { flex-direction: column !important; align-items: center !important; }
+      .profile-summary-box { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+      .btn-edit-inline { width: 100% !important; margin-top: 8px !important; }
+
+      .details-table, .details-table tbody, .details-table tr, .details-table td {
+        display: block !important;
+        width: 100% !important;
       }
+      .details-table tr { padding: 8px 0 !important; }
+      .details-table td:first-child { font-size: 11px !important; color: var(--text-muted) !important; padding-bottom: 2px !important; }
+      .details-table td:last-child { font-size: 13.5px !important; word-break: break-word !important; }
+
+      .form-grid-2 { display: flex !important; flex-direction: column !important; gap: 10px !important; }
+      .edit-form-btns { display: flex !important; flex-direction: column !important; gap: 8px !important; }
 
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1.15fr 1fr 1fr;
         gap: 8px;
         position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
         background: #FFFFFF;
         padding: 8px 10px;
         border-radius: 16px;
@@ -253,69 +240,19 @@
         z-index: 9999;
         align-items: center;
       }
-
       .dock-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 10px 4px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        transition: var(--transition);
-        position: relative;
-        border: 1.5px solid #CBD5E1;
-        background: #FFFFFF;
-        color: #0A192F;
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
+        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
+        background: #FFFFFF; color: #0A192F; position: relative;
       }
-
-      .dock-btn.dock-btn-primary {
-        background: #0A192F;
-        color: #FFFFFF;
-        border-color: #0A192F;
-      }
-
-      .dock-btn.dock-btn-primary i {
-        color: #FFFFFF;
-        font-size: 13px;
-      }
-
-      .dock-btn-label-stacked {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-      }
-
+      .dock-btn.dock-btn-primary { background: #0A192F; color: #FFFFFF; border-color: #0A192F; }
+      .dock-btn.dock-btn-primary i { color: #FFFFFF; font-size: 13px; }
+      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
       .dock-badge {
-        position: absolute;
-        top: -5px;
-        right: -4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        line-height: 1.2;
-        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
+        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
       }
-
-      .profile-card {
-        padding: 22px 16px;
-      }
-    }
-
-    .hidden { display: none !important; }
-
-    @media (max-width: 600px) {
-      .edit-grid-2 { grid-template-columns: 1fr; }
-      .grid-span-2 { grid-column: span 1; }
-      .edit-form-btns { grid-column: span 1; }
     }
   </style>
 </head>
@@ -373,7 +310,7 @@
         <input type="range" id="zoomRange" min="1" max="3" step="0.05" value="1" oninput="applyZoom(this.value)">
         <i class="fa-solid fa-magnifying-glass-plus" style="font-size:13px;color:#64748B;"></i>
         <button type="button" class="btn-apply-crop" onclick="confirmCroppedImage()">
-          <i class="fa-solid fa-check"></i> Apply & Save Photo
+          <i class="fa-solid fa-check"></i> Save Photo
         </button>
       </div>
     </div>
@@ -400,108 +337,119 @@
       </button>
     </div>
 
-    <!-- 2. INLINE EDIT FORM -->
+    <!-- 2. REGISTRATION-REPLICATED EDIT FORM -->
     <div id="profileEditInlineView" class="edit-inline-form hidden">
       <h4 style="font-size:16px;color:var(--apex-navy);margin-bottom:4px;font-weight:800;">Edit Profile Details</h4>
-      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Update and save modifications to your public listing.</p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Replicating entire registration schema.</p>
 
-      <div class="edit-grid-2">
-        <div><label>Full Name</label><input id="editName" type="text"></div>
-        <div><label>WhatsApp Number</label><input id="editMobile" type="tel"></div>
-        
-        <div>
-          <label>Tuition Mode</label>
-          <select id="editMode" onchange="toggleEditAddressBox()">
-            <option value="Online">Online</option>
-            <option value="Home">Home</option>
-            <option value="Both">Both</option>
-          </select>
-        </div>
-        <div><label>Location / City</label><input id="editLocation" type="text"></div>
-        <div class="grid-span-2 hidden" id="editAddressBox"><label>Home / Work Address</label><textarea id="editAddress" placeholder="Street, area"></textarea></div>
-
-        <div class="grid-span-2">
-          <label>Category</label>
-          <select id="editCategory" onchange="handleEditCategoryChange()">
-            <option value="Academic">Academic (School & College)</option>
-            <option value="Non-Academic">Non-Academic & Creative Skills</option>
-            <option value="Competitive">Competitive & Jobs</option>
-            <option value="Others">Others</option>
-          </select>
-        </div>
-
-        <div class="grid-span-2" id="editAcademicGradesBox">
-          <label>Grades (1 to 12)</label>
-          <div class="custom-multiselect">
-            <div class="multiselect-trigger" id="editGradesTrigger" onclick="toggleMultiBox('editGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-            <div class="multiselect-dropdown-box" id="editGradesDropdown"></div>
-          </div>
-        </div>
-
-        <div class="grid-span-2" id="editAcademicSubjectsBox">
-          <label>Subjects</label>
-          <input id="editSubject" type="text" placeholder="e.g. Mathematics, Physics, Chemistry">
-        </div>
-
-        <div class="grid-span-2" id="editAcademicBoardsBox">
-          <label>Boards</label>
-          <div class="custom-multiselect">
-            <div class="multiselect-trigger" id="editBoardsTrigger" onclick="toggleMultiBox('editBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-            <div class="multiselect-dropdown-box" id="editBoardsDropdown">
-              <label class="multiselect-item" style="border-bottom: 1px solid var(--border-subtle); font-weight:700;">
-                <input type="checkbox" id="editBoardAllCheckbox" onchange="toggleAllEditBoards(this)"> All Boards
-              </label>
-              <label class="multiselect-item"><input type="checkbox" class="edit-board-checkbox" value="CBSE" onchange="handleEditBoardChange()"> CBSE</label>
-              <label class="multiselect-item"><input type="checkbox" class="edit-board-checkbox" value="ICSE" onchange="handleEditBoardChange()"> ICSE</label>
-              <label class="multiselect-item"><input type="checkbox" class="edit-board-checkbox" value="IGCSE" onchange="handleEditBoardChange()"> IGCSE</label>
-              <label class="multiselect-item"><input type="checkbox" class="edit-board-checkbox" value="IB" onchange="handleEditBoardChange()"> IB</label>
-              <label class="multiselect-item"><input type="checkbox" class="edit-board-checkbox" value="State" onchange="handleEditBoardChange()"> State Board</label>
-              <label class="multiselect-item"><input type="checkbox" id="editBoardOtherCb" value="Others" onchange="handleEditBoardChange()"> Others</label>
+      <!-- TEACHER EDIT FORM -->
+      <div id="editTeacherContainer" class="hidden">
+        <div class="form-grid-2">
+          <div class="form-group-half"><label>Name</label><input id="editTName" type="text" placeholder="Full name"></div>
+          <div class="form-group-half"><label>WhatsApp</label>
+            <div style="display:flex;gap:4px;">
+              <input id="editTCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+              <input id="editTMobile" type="tel" style="flex:1;" placeholder="Phone">
             </div>
           </div>
-          <input id="editBoardOtherInput" type="text" class="hidden" placeholder="Specify board" style="margin-top:6px;">
-        </div>
-
-        <div class="grid-span-2 hidden" id="editNonAcademicBox">
-          <label>Non-Academic Skills</label>
-          <input id="editNonAcadInput" type="text" placeholder="e.g. Abacus, Vocal, Instruments, Art & Craft">
-        </div>
-
-        <div class="grid-span-2 hidden" id="editCompetitiveBox">
-          <label>Competitive Exams & Jobs</label>
-          <input id="editCompInput" type="text" placeholder="e.g. RRB, SSC, Banking, Civils, NEET/JEE">
-        </div>
-
-        <div class="grid-span-2 hidden" id="editOtherCategoryBox">
-          <label>Other Category Specification</label>
-          <input id="editOtherCategoryInput" type="text" placeholder="Specify specialization">
-        </div>
-
-        <div id="teacherQualField" class="hidden"><label>Qualification</label><input id="editQual" type="text" placeholder="e.g. M.Sc, B.Ed"></div>
-        <div id="teacherExpField" class="hidden"><label>Experience (Years)</label><input id="editExp" type="text" placeholder="e.g. 5"></div>
-
-        <div class="grid-span-2 hidden" id="teacherTimingsField">
-          <label>Available Timings & GMT Zone</label>
-          <input id="editTimings" type="text" placeholder="e.g. 5:00 PM – 8:00 PM (GMT+5:30)">
-        </div>
-
-        <div class="grid-span-2 hidden" id="teacherFeeField">
-          <label>Fee & Currency</label>
-          <div style="display:flex;gap:6px;">
-            <select id="editCurrency" style="flex:0.8;">
-              <option value="INR">INR (₹)</option>
-              <option value="USD">USD ($)</option>
-              <option value="EUR">EUR (€)</option>
-              <option value="GBP">GBP (£)</option>
+          <div class="form-group-half"><label>Mode</label>
+            <select id="editTMode" onchange="toggleEditModeAddress('editT')">
+              <option value="Online">Online</option>
+              <option value="Home">Home</option>
+              <option value="Both">Both</option>
             </select>
-            <input id="editFeeAmount" type="text" placeholder="Amount" style="flex:1.5;">
+          </div>
+          <div class="form-group-half"><label>Location</label><input id="editTLocation" type="text" placeholder="City, State"></div>
+          <div class="form-group-full hidden" id="editTAddressBox"><label>Address</label><textarea id="editTAddress" placeholder="Street, area"></textarea></div>
+          <div class="form-group-half"><label>Qualification</label><input id="editTQual" type="text" placeholder="e.g. M.Sc., B.Ed."></div>
+          <div class="form-group-half"><label>Experience (Yrs)</label><input id="editTExp" type="number" min="0" placeholder="e.g. 5"></div>
+
+          <div class="form-group-full">
+            <label>Category</label>
+            <select id="editTCategory">
+              <option value="Academic">Academic</option>
+              <option value="Non-Academic">Non-Academic</option>
+              <option value="Competitive">Competitive</option>
+            </select>
+          </div>
+          <div class="form-group-half"><label>Grades</label><input id="editTClasses" type="text" placeholder="e.g. Class 9, Class 10"></div>
+          <div class="form-group-half"><label>Board</label>
+            <select id="editTBoard">
+              <option value="All Boards">All Boards</option>
+              <option value="CBSE">CBSE</option>
+              <option value="ICSE">ICSE</option>
+              <option value="State">State Board</option>
+            </select>
+          </div>
+          <div class="form-group-full"><label>Subjects</label><input id="editTSubject" type="text" placeholder="e.g. Mathematics, Physics"></div>
+
+          <div class="form-group-full"><label>Expected Fee</label>
+            <div style="display:flex;gap:4px;">
+              <select id="editTCurrency" style="flex:0.7;">
+                <option value="INR">INR (₹)</option>
+                <option value="USD">USD ($)</option>
+              </select>
+              <input id="editTFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
+              <select id="editTFeeType" style="flex:0.8;">
+                <option value="Per class">Per class</option>
+                <option value="Per month">Per month</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-half"><label>Timings</label><input id="editTTimings" type="text" placeholder="e.g. 5-8 PM"></div>
+          <div class="form-group-half"><label>GMT Zone</label>
+            <select id="editTGmt">
+              <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST)</option>
+              <option value="GMT+0:00 (GMT)">GMT+0:00</option>
+            </select>
           </div>
         </div>
+      </div>
 
-        <div class="edit-form-btns">
-          <button type="button" class="btn-cancel-inline" onclick="toggleEditMode(false)">Cancel</button>
-          <button type="button" class="btn-save-inline" id="btnSaveInline" onclick="saveProfileInline()">Save All Changes</button>
+      <!-- STUDENT EDIT FORM -->
+      <div id="editStudentContainer" class="hidden">
+        <div class="form-grid-2">
+          <div class="form-group-half"><label>Student Name</label><input id="editSName" type="text" placeholder="Student name"></div>
+          <div class="form-group-half"><label>Parent Name</label><input id="editSParentName" type="text" placeholder="Parent name"></div>
+          <div class="form-group-half"><label>WhatsApp</label>
+            <div style="display:flex;gap:4px;">
+              <input id="editSCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+              <input id="editSMobile" type="tel" style="flex:1;" placeholder="Phone">
+            </div>
+          </div>
+          <div class="form-group-half"><label>Mode</label>
+            <select id="editSMode" onchange="toggleEditModeAddress('editS')">
+              <option value="Online">Online</option>
+              <option value="Home">Home</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+          <div class="form-group-full hidden" id="editSAddressBox"><label>Address</label><textarea id="editSAddress" placeholder="Street, area"></textarea></div>
+          <div class="form-group-full"><label>Location</label><input id="editSLocation" type="text" placeholder="City, Area"></div>
+
+          <div class="form-group-half"><label>Grade</label><input id="editSClass" type="text" placeholder="e.g. Class 10"></div>
+          <div class="form-group-half"><label>Board</label>
+            <select id="editSBoard">
+              <option value="CBSE">CBSE</option>
+              <option value="ICSE">ICSE</option>
+              <option value="State">State Board</option>
+            </select>
+          </div>
+          <div class="form-group-full"><label>Subject</label><input id="editSSubject" type="text" placeholder="e.g. Science, Maths"></div>
+
+          <div class="form-group-half"><label>Preferred Timings</label><input id="editSTimings" type="text" placeholder="e.g. Evening 6-8 PM"></div>
+          <div class="form-group-half"><label>GMT Zone</label>
+            <select id="editSGmt">
+              <option value="GMT+5:30 (IST)">GMT+5:30 (IST)</option>
+              <option value="GMT+0:00 (GMT)">GMT+0:00</option>
+            </select>
+          </div>
         </div>
+      </div>
+
+      <div class="edit-form-btns">
+        <button type="button" class="btn-cancel-inline" onclick="toggleEditMode(false)">Cancel</button>
+        <button type="button" class="btn-save-inline" id="btnSaveInline" onclick="saveRegistrationParityProfile()">Save All Changes</button>
       </div>
     </div>
   </section>
@@ -509,7 +457,7 @@
 
 <!-- THREE BUTTONS PERSISTENT BOTTOM DOCK (Mobile Only) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn dock-btn-outline">
+  <a href="enquiries.html" class="dock-btn">
     <i class="fa-solid fa-clipboard-list" style="color:#0A192F;"></i>
     <span>Enquiries</span>
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
@@ -523,7 +471,7 @@
     </div>
   </a>
 
-  <a href="browse.html" class="dock-btn dock-btn-outline">
+  <a href="browse.html" class="dock-btn">
     <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
     <div class="dock-btn-label-stacked">
       <span>Browse</span>
@@ -550,100 +498,9 @@ let isPanning = false;
 let startMouseX = 0;
 let startMouseY = 0;
 
-function populateEditGradeChecklists() {
-  const box = document.getElementById("editGradesDropdown");
-  if (!box) return;
-  let html = "";
-  for (let i = 1; i <= 12; i++) {
-    html += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editGrades')"> Grade ${i}</label>`;
-  }
-  box.innerHTML = html;
-}
-
-function toggleMultiBox(id) {
-  const box = document.getElementById(id);
-  const isOpen = box.classList.contains("show");
-  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
-  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
-  if (!isOpen) {
-    box.classList.add("show");
-    box.previousElementSibling.classList.add("open");
-  }
-}
-
-window.addEventListener("click", (e) => {
-  if (!e.target.closest(".custom-multiselect")) {
-    document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
-    document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
-  }
-});
-
-function getCheckedValues(containerId) {
-  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
-  return Array.from(checked).map(c => c.value);
-}
-
-function updateEditMultiLabel(prefix) {
-  const trigger = document.getElementById(prefix + "Trigger");
-  const container = document.getElementById(prefix + "Dropdown");
-  if (!trigger || !container) return;
-  
-  if (prefix === "editBoards") {
-    const allCb = document.getElementById("editBoardAllCheckbox");
-    if (allCb && allCb.checked) {
-      trigger.innerHTML = `All Boards Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-      return;
-    }
-  }
-
-  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "on");
-  if (values.length === 0) {
-    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  } else if (values.length <= 2) {
-    trigger.innerHTML = `${values.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  } else {
-    trigger.innerHTML = `${values.length} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  }
-}
-
-function toggleAllEditBoards(masterCheckbox) {
-  const isChecked = masterCheckbox.checked;
-  document.querySelectorAll(".edit-board-checkbox").forEach(cb => cb.checked = isChecked);
-  document.getElementById("editBoardOtherCb").checked = false;
-  document.getElementById("editBoardOtherInput").classList.add("hidden");
-  updateEditMultiLabel('editBoards');
-}
-
-function handleEditBoardChange() {
-  const items = Array.from(document.querySelectorAll(".edit-board-checkbox"));
-  const allCheckbox = document.getElementById("editBoardAllCheckbox");
-  if (allCheckbox) {
-    allCheckbox.checked = items.length > 0 && items.every(cb => cb.checked);
-  }
-  const isOther = document.getElementById("editBoardOtherCb")?.checked;
-  document.getElementById("editBoardOtherInput").classList.toggle("hidden", !isOther);
-  updateEditMultiLabel('editBoards');
-}
-
-function handleEditCategoryChange() {
-  const cat = document.getElementById("editCategory").value;
-  const isAcad = (cat === "Academic");
-  const isNonAcad = (cat === "Non-Academic");
-  const isComp = (cat === "Competitive");
-  const isOthers = (cat === "Others");
-
-  document.getElementById("editAcademicGradesBox").classList.toggle("hidden", !isAcad);
-  document.getElementById("editAcademicSubjectsBox").classList.toggle("hidden", !isAcad);
-  document.getElementById("editAcademicBoardsBox").classList.toggle("hidden", !isAcad);
-
-  document.getElementById("editNonAcademicBox").classList.toggle("hidden", !isNonAcad);
-  document.getElementById("editCompetitiveBox").classList.toggle("hidden", !isComp);
-  document.getElementById("editOtherCategoryBox").classList.toggle("hidden", !isOthers);
-}
-
-function toggleEditAddressBox() {
-  const mode = document.getElementById("editMode").value;
-  document.getElementById("editAddressBox").classList.toggle("hidden", mode === "Online");
+function toggleEditModeAddress(prefix) {
+  const mode = document.getElementById(prefix + "Mode").value;
+  document.getElementById(prefix + "AddressBox").classList.toggle("hidden", mode === "Online");
 }
 
 function loadRawImageForCropper(event) {
@@ -745,105 +602,8 @@ async function confirmCroppedImage() {
   }
 }
 
-function toggleEditMode(editing) {
-  document.getElementById("profileDisplayView").classList.toggle("hidden", editing);
-  document.getElementById("profileEditInlineView").classList.toggle("hidden", !editing);
-  document.getElementById("btnToggleEdit").classList.toggle("hidden", editing);
-
-  if (editing && currentProfile) {
-    const isTeacher = currentRole === 'teacher';
-
-    document.getElementById("editName").value = isTeacher ? (currentProfile.teacher_name || '') : (currentProfile.student_name || '');
-    document.getElementById("editMobile").value = currentProfile.mobile || '';
-    document.getElementById("editSubject").value = currentProfile.subject || '';
-    document.getElementById("editMode").value = currentProfile.tuition_mode || 'Online';
-    toggleEditAddressBox();
-
-    let fullAddr = currentProfile.address || '';
-    let loc = fullAddr;
-    let street = '';
-    if (fullAddr.includes('•')) {
-      const ap = fullAddr.split('•');
-      street = ap[0].trim();
-      loc = ap[1].trim();
-    }
-    document.getElementById("editLocation").value = loc;
-    document.getElementById("editAddress").value = street;
-
-    const rawClass = isTeacher ? (currentProfile.classes || '') : (currentProfile.student_class || '');
-    let cat = "Academic";
-    if (rawClass.includes("Non-Academic")) cat = "Non-Academic";
-    else if (rawClass.includes("Competitive")) cat = "Competitive";
-    else if (rawClass.includes("General") || rawClass.includes("Specialized")) cat = "Others";
-
-    document.getElementById("editCategory").value = cat;
-    handleEditCategoryChange();
-
-    if (cat === "Academic") {
-      document.querySelectorAll("#editGradesDropdown input[type='checkbox']").forEach(cb => {
-        cb.checked = rawClass.includes(cb.value);
-      });
-      updateEditMultiLabel('editGrades');
-
-      const rawBoard = currentProfile.board || '';
-      if (rawBoard.toLowerCase().includes("all")) {
-        document.getElementById("editBoardAllCheckbox").checked = true;
-        toggleAllEditBoards(document.getElementById("editBoardAllCheckbox"));
-      } else {
-        document.querySelectorAll(".edit-board-checkbox").forEach(cb => {
-          cb.checked = rawBoard.includes(cb.value);
-        });
-        updateEditMultiLabel('editBoards');
-      }
-    } else if (cat === "Non-Academic") {
-      document.getElementById("editNonAcadInput").value = currentProfile.subject || '';
-    } else if (cat === "Competitive") {
-      document.getElementById("editCompInput").value = currentProfile.subject || '';
-    } else {
-      document.getElementById("editOtherCategoryInput").value = currentProfile.subject || '';
-    }
-
-    if (isTeacher) {
-      document.getElementById("teacherQualField").classList.remove("hidden");
-      document.getElementById("teacherExpField").classList.remove("hidden");
-      document.getElementById("teacherTimingsField").classList.remove("hidden");
-      document.getElementById("teacherFeeField").classList.remove("hidden");
-
-      let qualStr = currentProfile.qualification || '';
-      let expStr = '';
-      if (qualStr.includes("•")) {
-        const qParts = qualStr.split("•");
-        qualStr = qParts[0].trim();
-        expStr = qParts[1].replace(/[^0-9]/g, '').trim();
-      }
-      document.getElementById("editQual").value = qualStr;
-      document.getElementById("editExp").value = expStr;
-
-      let feeStr = currentProfile.timing_fee_desc || '';
-      let timingsStr = '';
-      if (feeStr.includes("•")) {
-        const fParts = feeStr.split("•");
-        feeStr = fParts[0].trim();
-        timingsStr = fParts[1].trim();
-      }
-
-      const curSelect = document.getElementById("editCurrency");
-      for (let opt of curSelect.options) {
-        if (feeStr.startsWith(opt.value)) {
-          curSelect.value = opt.value;
-          feeStr = feeStr.replace(opt.value, '').trim();
-          break;
-        }
-      }
-      document.getElementById("editFeeAmount").value = feeStr;
-      document.getElementById("editTimings").value = timingsStr;
-    }
-  }
-}
-
 async function uploadAvatarStorage(userId) {
   if (!croppedImageBase64) return currentProfile.avatar_url || "";
-
   const res = await fetch(croppedImageBase64);
   const blob = await res.blob();
   const path = `${userId}-${Date.now()}.jpg`;
@@ -857,83 +617,204 @@ async function uploadAvatarStorage(userId) {
   } catch (err) {
     console.warn("Storage fallback:", err);
   }
-
   return croppedImageBase64;
 }
 
-async function saveProfileInline() {
+function toggleEditMode(editing) {
+  document.getElementById("profileDisplayView").classList.toggle("hidden", editing);
+  document.getElementById("profileEditInlineView").classList.toggle("hidden", !editing);
+  document.getElementById("btnToggleEdit").classList.toggle("hidden", editing);
+
+  if (editing && currentProfile) {
+    const isTeacher = currentRole === 'teacher';
+    document.getElementById("editTeacherContainer").classList.toggle("hidden", !isTeacher);
+    document.getElementById("editStudentContainer").classList.toggle("hidden", isTeacher);
+
+    // Extract address & location
+    let fullAddr = currentProfile.address || '';
+    let loc = fullAddr;
+    let street = '';
+    if (fullAddr.includes('•')) {
+      const ap = fullAddr.split('•');
+      street = ap[0].trim();
+      loc = ap[1].trim();
+    }
+
+    // Extract mobile digits & country code
+    let mob = currentProfile.mobile || '';
+    let code = '+91';
+    let phoneNum = mob;
+    if (mob.startsWith('+')) {
+      const parts = mob.split(' ');
+      if (parts.length > 1) {
+        code = parts[0];
+        phoneNum = parts.slice(1).join(' ');
+      }
+    }
+
+    if (isTeacher) {
+      document.getElementById("editTName").value = currentProfile.teacher_name || '';
+      document.getElementById("editTCode").value = code;
+      document.getElementById("editTMobile").value = phoneNum;
+      document.getElementById("editTMode").value = currentProfile.tuition_mode || 'Online';
+      toggleEditModeAddress('editT');
+      document.getElementById("editTLocation").value = loc;
+      document.getElementById("editTAddress").value = street;
+
+      // Qualifications and Experience
+      let qualStr = currentProfile.qualification || '';
+      let expStr = '';
+      if (qualStr.includes('•')) {
+        const qp = qualStr.split('•');
+        qualStr = qp[0].trim();
+        expStr = qp[1].replace(/[^0-9]/g, '').trim();
+      }
+      document.getElementById("editTQual").value = qualStr;
+      document.getElementById("editTExp").value = expStr;
+
+      // Category, Classes, Board, Subject
+      const rawClass = currentProfile.classes || '';
+      let cat = 'Academic';
+      if (rawClass.includes('Non-Academic')) cat = 'Non-Academic';
+      else if (rawClass.includes('Competitive')) cat = 'Competitive';
+      document.getElementById("editTCategory").value = cat;
+      document.getElementById("editTClasses").value = currentProfile.classes || '';
+      document.getElementById("editTBoard").value = currentProfile.board || 'CBSE';
+      document.getElementById("editTSubject").value = currentProfile.subject || '';
+
+      // Fee, Currency, FeeType, Timings, GMT
+      let timingFee = currentProfile.timing_fee_desc || '';
+      let feePart = '';
+      let timingPart = '';
+      if (timingFee.includes('•')) {
+        const tp = timingFee.split('•');
+        feePart = tp[0].trim();
+        timingPart = tp[1].trim();
+      } else {
+        feePart = timingFee.trim();
+      }
+
+      let cur = 'INR';
+      if (feePart.includes('USD') || feePart.includes('$')) cur = 'USD';
+      document.getElementById("editTCurrency").value = cur;
+
+      let feeType = 'Per class';
+      if (feePart.toLowerCase().includes('month')) feeType = 'Per month';
+      document.getElementById("editTFeeType").value = feeType;
+
+      const feeAmtMatch = feePart.match(/(\d+)/);
+      document.getElementById("editTFeeAmount").value = feeAmtMatch ? feeAmtMatch[1] : (currentProfile.fee || '');
+
+      let timeOnly = timingPart;
+      let gmtVal = 'GMT+5:30 (IST - India)';
+      if (timingPart.includes('(')) {
+        const tMatch = timingPart.match(/^(.*?)\s*\((.*?)\)$/);
+        if (tMatch) {
+          timeOnly = tMatch[1].trim();
+          if (tMatch[2].includes('GMT+0:00')) gmtVal = 'GMT+0:00 (GMT)';
+        }
+      }
+      document.getElementById("editTTimings").value = timeOnly;
+      document.getElementById("editTGmt").value = gmtVal;
+
+    } else {
+      // Student details
+      document.getElementById("editSName").value = currentProfile.student_name || '';
+      document.getElementById("editSParentName").value = currentProfile.parent_name || '';
+      document.getElementById("editSCode").value = code;
+      document.getElementById("editSMobile").value = phoneNum;
+      document.getElementById("editSMode").value = currentProfile.tuition_mode || 'Online';
+      toggleEditModeAddress('editS');
+      document.getElementById("editSLocation").value = loc;
+      document.getElementById("editSAddress").value = street;
+      document.getElementById("editSClass").value = currentProfile.student_class || '';
+      document.getElementById("editSBoard").value = currentProfile.board || 'CBSE';
+      document.getElementById("editSSubject").value = currentProfile.subject || '';
+
+      let sTimingFee = currentProfile.timing_fee_desc || '';
+      let sTimeOnly = sTimingFee;
+      let sGmtVal = 'GMT+5:30 (IST)';
+      if (sTimingFee.includes('(')) {
+        const sMatch = sTimingFee.match(/^(.*?)\s*\((.*?)\)$/);
+        if (sMatch) {
+          sTimeOnly = sMatch[1].trim();
+          if (sMatch[2].includes('0:00')) sGmtVal = 'GMT+0:00 (GMT)';
+        }
+      }
+      document.getElementById("editSTimings").value = sTimeOnly;
+      document.getElementById("editSGmt").value = sGmtVal;
+    }
+  }
+}
+
+async function saveRegistrationParityProfile() {
   const saveBtn = document.getElementById("btnSaveInline");
   saveBtn.disabled = true;
   saveBtn.textContent = "Saving...";
 
   const isTeacher = currentRole === 'teacher';
   const table = isTeacher ? 'teachers' : 'students';
-  const name = document.getElementById("editName").value.trim();
-  const mobile = document.getElementById("editMobile").value.trim();
-  const mode = document.getElementById("editMode").value;
-  const location = document.getElementById("editLocation").value.trim();
-  const street = document.getElementById("editAddress").value.trim();
-  const category = document.getElementById("editCategory").value;
-
-  let classesStr = "";
-  let subjectStr = "";
-  let boardsStr = "";
-
-  if (category === "Academic") {
-    const grades = getCheckedValues("editGradesDropdown");
-    classesStr = grades.join(", ") || "Grades 1-12";
-    subjectStr = document.getElementById("editSubject").value.trim() || "All Subjects";
-
-    const allB = document.getElementById("editBoardAllCheckbox")?.checked;
-    if (allB) {
-      boardsStr = "All Boards";
-      const otherB = document.getElementById("editBoardOtherInput").value.trim();
-      if (otherB) boardsStr += `, ${otherB}`;
-    } else {
-      let bList = Array.from(document.querySelectorAll(".edit-board-checkbox:checked")).map(cb => cb.value);
-      if (document.getElementById("editBoardOtherCb")?.checked) {
-        const otherB = document.getElementById("editBoardOtherInput").value.trim();
-        if (otherB) bList.push(otherB);
-      }
-      boardsStr = bList.join(", ") || "CBSE";
-    }
-  } else if (category === "Non-Academic") {
-    classesStr = "Non-Academic / Skills";
-    subjectStr = document.getElementById("editNonAcadInput").value.trim() || "Creative Skills";
-    boardsStr = "Skill Track";
-  } else if (category === "Competitive") {
-    classesStr = "Competitive & Job Aspirants";
-    subjectStr = document.getElementById("editCompInput").value.trim() || "Competitive Coaching";
-    boardsStr = "Exam Track";
-  } else {
-    classesStr = "Specialized Track";
-    subjectStr = document.getElementById("editOtherCategoryInput").value.trim() || "General";
-    boardsStr = "General";
-  }
 
   try {
-    let payload = {
-      mobile: mobile,
-      subject: subjectStr,
-      board: boardsStr,
-      tuition_mode: mode,
-      address: `${street ? street + ' • ' : ''}${location}`
-    };
+    let payload = {};
 
     if (isTeacher) {
-      const qualVal = document.getElementById("editQual").value.trim();
-      const expVal = document.getElementById("editExp").value.trim();
-      const timingsVal = document.getElementById("editTimings").value.trim();
-      const curVal = document.getElementById("editCurrency").value;
-      const feeAmtVal = document.getElementById("editFeeAmount").value.trim();
+      const name = document.getElementById("editTName").value.trim();
+      const code = document.getElementById("editTCode").value.trim();
+      const mobile = document.getElementById("editTMobile").value.trim();
+      const mode = document.getElementById("editTMode").value;
+      const location = document.getElementById("editTLocation").value.trim();
+      const address = document.getElementById("editTAddress").value.trim();
+      const qual = document.getElementById("editTQual").value.trim();
+      const exp = document.getElementById("editTExp").value.trim();
+      const classes = document.getElementById("editTClasses").value.trim();
+      const board = document.getElementById("editTBoard").value;
+      const subject = document.getElementById("editTSubject").value.trim();
+      const currency = document.getElementById("editTCurrency").value;
+      const feeAmt = document.getElementById("editTFeeAmount").value.trim();
+      const feeType = document.getElementById("editTFeeType").value;
+      const timings = document.getElementById("editTTimings").value.trim();
+      const gmt = document.getElementById("editTGmt").value;
 
-      payload.teacher_name = name;
-      payload.classes = classesStr;
-      payload.qualification = `${qualVal || 'Educator'}${expVal ? ' • ' + expVal + ' Yrs Exp' : ''}`;
-      payload.timing_fee_desc = `${curVal} ${feeAmtVal || 'Negotiable'}${timingsVal ? ' • ' + timingsVal : ''}`;
+      const timingFeeDesc = `${feeAmt ? currency + ' ' + feeAmt + ' (' + feeType + ')' : 'Negotiable'} • ${timings || 'Flexible'} (${gmt})`;
+
+      payload = {
+        teacher_name: name,
+        mobile: `${code} ${mobile}`.trim(),
+        tuition_mode: mode,
+        address: `${address ? address + ' • ' : ''}${location}`,
+        qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
+        classes: classes || 'All Grades',
+        board: board,
+        subject: subject || 'All Subjects',
+        fee: Number(feeAmt) || 0,
+        timing_fee_desc: timingFeeDesc
+      };
     } else {
-      payload.student_name = name;
-      payload.student_class = classesStr;
+      const sName = document.getElementById("editSName").value.trim();
+      const pName = document.getElementById("editSParentName").value.trim();
+      const code = document.getElementById("editSCode").value.trim();
+      const mobile = document.getElementById("editSMobile").value.trim();
+      const mode = document.getElementById("editSMode").value;
+      const location = document.getElementById("editSLocation").value.trim();
+      const address = document.getElementById("editSAddress").value.trim();
+      const sClass = document.getElementById("editSClass").value.trim();
+      const board = document.getElementById("editSBoard").value;
+      const subject = document.getElementById("editSSubject").value.trim();
+      const timings = document.getElementById("editSTimings").value.trim();
+      const gmt = document.getElementById("editSGmt").value;
+
+      payload = {
+        student_name: sName,
+        parent_name: pName,
+        mobile: `${code} ${mobile}`.trim(),
+        tuition_mode: mode,
+        student_class: sClass || 'All Grades',
+        board: board,
+        subject: subject || 'All Subjects',
+        address: `${address ? address + ' • ' : ''}${location}`,
+        timing_fee_desc: `${timings || 'Flexible'} (${gmt})`
+      };
     }
 
     const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
@@ -944,7 +825,7 @@ async function saveProfileInline() {
       localStorage.setItem("apex_profile_cache", JSON.stringify(currentProfile));
       renderProfile();
       toggleEditMode(false);
-      alert("✓ Profile updated successfully!");
+      alert("✓ Profile updated successfully in exact registration schema!");
     }
   } catch (e) {
     alert("Save error: " + e.message);
@@ -1036,7 +917,6 @@ async function loadProfileData(user) {
     dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
   }
 
-  // Live badge for enquiries
   const { data: enqPending } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
   const dBadge = document.getElementById("dockEnquiryBadge");
   if (dBadge && enqPending && enqPending.length > 0) {
@@ -1054,8 +934,6 @@ async function logoutUser() {
 }
 
 window.addEventListener("load", async () => {
-  populateEditGradeChecklists();
-
   const cached = localStorage.getItem("apex_profile_cache");
   const cachedRole = localStorage.getItem("apex_role_cache");
   if (cached && cachedRole) {
@@ -1073,6 +951,5 @@ window.addEventListener("load", async () => {
   }
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
