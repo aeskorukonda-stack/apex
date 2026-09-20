@@ -149,7 +149,6 @@
     }
     .details-table td:last-child { color: #0F172A; font-weight: 600; }
 
-    /* EDIT INLINE FORM - SCHEMA MATCH */
     .edit-inline-form {
       margin-top: 16px; border-top: 1px solid #E2E8F0; padding-top: 20px;
     }
@@ -406,6 +405,7 @@
               <div class="multiselect-trigger" id="editTSubjectsTrigger" onclick="toggleEditMulti('editTSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
               <div class="multiselect-dropdown-box" id="editTSubjectsDropdown"></div>
             </div>
+            <input id="editTSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
           </div>
 
           <div class="form-group-full" id="editTAcademicBoardsGroup">
@@ -496,7 +496,7 @@
         </div>
       </div>
 
-      <!-- STUDENT EDIT CONTAINER -->
+      <!-- STUDENT EDIT CONTAINER: SINGLE GRADE SELECT & SUBJECT DROPDOWN -->
       <div id="editStudentContainer" class="hidden">
         <div class="form-grid-2">
           <div class="form-group-half"><label>Student Name</label><input id="editSName" type="text"></div>
@@ -525,12 +525,23 @@
             </select>
           </div>
 
-          <div class="form-group-full" id="editSAcademicGradesGroup">
-            <label>Grade (1 to 12)</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="editSGradesTrigger" onclick="toggleEditMulti('editSGradesDropdown')">Select Grade(s) <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="editSGradesDropdown"></div>
-            </div>
+          <!-- ACADEMIC: SINGLE GRADE SELECT -->
+          <div class="form-group-half" id="editSAcademicGradeGroup">
+            <label>Class / Grade</label>
+            <select id="editSClass">
+              <option value="Class 1">Grade 1</option>
+              <option value="Class 2">Grade 2</option>
+              <option value="Class 3">Grade 3</option>
+              <option value="Class 4">Grade 4</option>
+              <option value="Class 5">Grade 5</option>
+              <option value="Class 6">Grade 6</option>
+              <option value="Class 7">Grade 7</option>
+              <option value="Class 8">Grade 8</option>
+              <option value="Class 9">Grade 9</option>
+              <option value="Class 10">Grade 10</option>
+              <option value="Class 11">Grade 11</option>
+              <option value="Class 12">Grade 12</option>
+            </select>
           </div>
 
           <div class="form-group-half" id="editSAcademicBoardsGroup">
@@ -540,16 +551,33 @@
               <option value="IB">IB</option><option value="State">State Board</option><option value="Others">Others</option>
             </select>
           </div>
-          <div class="form-group-half hidden" id="editSBoardOtherGroup">
+          <div class="form-group-full hidden" id="editSBoardOtherGroup">
             <label>Specify Board</label>
             <input id="editSBoardOtherInput" type="text" placeholder="Specify board">
           </div>
 
+          <!-- ACADEMIC: SUBJECT WITH OTHERS DROPDOWN -->
           <div class="form-group-full" id="editSAcademicSubjectGroup">
             <label>Subject Requirement</label>
-            <input id="editSSubject" type="text" placeholder="e.g. Science, Maths">
+            <select id="editSSubjectSelect" onchange="handleEditStudentSubjectOther()">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Science (General)">Science (General)</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+              <option value="English">English</option>
+              <option value="Social Science">Social Science</option>
+              <option value="Economics">Economics</option>
+              <option value="Accountancy">Accountancy</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Hindi">Hindi</option>
+              <option value="All Subjects">All Subjects</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSSubjectOtherInput" type="text" class="hidden" placeholder="Specify exact subject" style="margin-top:6px;">
           </div>
 
+          <!-- NON-ACADEMIC -->
           <div class="form-group-full hidden" id="editSNonAcademicGroup">
             <label>Non-Academic Skills</label>
             <select id="editSSkillSelect" onchange="handleEditStudentSkillOther()">
@@ -564,6 +592,7 @@
             <input id="editSSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
           </div>
 
+          <!-- COMPETITIVE -->
           <div class="form-group-full hidden" id="editSCompetitiveGroup">
             <label>Competitive Exams &amp; Jobs</label>
             <select id="editSCompSelect" onchange="handleEditStudentCompOther()">
@@ -600,7 +629,6 @@
   </section>
 </main>
 
-<!-- BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn">
     <i class="fa-solid fa-clipboard-list" style="color:#0A192F;"></i>
@@ -683,24 +711,28 @@ function updateEditMultiLabel(prefix) {
   }
 }
 
-function populateEditGradeChecklists() {
+function populateEditTeacherChecklists() {
   const tGrades = document.getElementById("editTGradesDropdown");
-  const sGrades = document.getElementById("editSGradesDropdown");
   let tHtml = "";
-  let sHtml = "";
   for (let i = 1; i <= 12; i++) {
     tHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editTGrades')"> Grade ${i}</label>`;
-    sHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editSGrades')"> Grade ${i}</label>`;
   }
   if (tGrades) tGrades.innerHTML = tHtml;
-  if (sGrades) sGrades.innerHTML = sHtml;
 
   const tSubs = document.getElementById("editTSubjectsDropdown");
   if (tSubs) {
-    tSubs.innerHTML = ACADEMIC_SUBJECTS_LIST.map(sub => `
+    let subHtml = ACADEMIC_SUBJECTS_LIST.map(sub => `
       <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateEditMultiLabel('editTSubjects')"> ${sub}</label>
     `).join("");
+    subHtml += `<label class="multiselect-item"><input type="checkbox" id="editTSubjectOtherCb" value="Others" onchange="handleEditTeacherSubjectOtherToggle()"> Others</label>`;
+    tSubs.innerHTML = subHtml;
   }
+}
+
+function handleEditTeacherSubjectOtherToggle() {
+  const cb = document.getElementById("editTSubjectOtherCb");
+  document.getElementById("editTSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateEditMultiLabel('editTSubjects');
 }
 
 function handleEditOtherToggle(prefix) {
@@ -739,7 +771,7 @@ function handleEditStudentCategoryChange() {
   const isComp = (cat === "Competitive");
   const isOthers = (cat === "Others");
 
-  document.getElementById("editSAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editSAcademicGradeGroup").classList.toggle("hidden", !isAcad);
   document.getElementById("editSAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
   document.getElementById("editSAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
 
@@ -751,6 +783,10 @@ function handleEditStudentCategoryChange() {
 function handleEditStudentBoardOther() {
   const val = document.getElementById("editSBoard").value;
   document.getElementById("editSBoardOtherGroup").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentSubjectOther() {
+  const val = document.getElementById("editSSubjectSelect").value;
+  document.getElementById("editSSubjectOtherInput").classList.toggle("hidden", val !== "Others");
 }
 function handleEditStudentSkillOther() {
   const val = document.getElementById("editSSkillSelect").value;
@@ -943,9 +979,27 @@ function toggleEditMode(editing) {
         });
         updateEditMultiLabel('editTGrades');
 
+        let hasCustomSub = false;
+        let knownSubs = [];
         document.querySelectorAll("#editTSubjectsDropdown input[type='checkbox']").forEach(cb => {
-          cb.checked = rawSub.includes(cb.value);
+          if (cb.value !== "Others") {
+            const isMatch = rawSub.includes(cb.value);
+            cb.checked = isMatch;
+            if (isMatch) knownSubs.push(cb.value);
+          }
         });
+
+        // Determine if additional custom subjects are present
+        const subTokens = rawSub.split(',').map(s => s.trim());
+        const remainingCustom = subTokens.filter(s => !knownSubs.includes(s));
+        if (remainingCustom.length > 0) {
+          document.getElementById("editTSubjectOtherCb").checked = true;
+          document.getElementById("editTSubjectOtherInput").classList.remove("hidden");
+          document.getElementById("editTSubjectOtherInput").value = remainingCustom.join(", ");
+        } else {
+          document.getElementById("editTSubjectOtherCb").checked = false;
+          document.getElementById("editTSubjectOtherInput").classList.add("hidden");
+        }
         updateEditMultiLabel('editTSubjects');
 
         const rawBoard = currentProfile.board || '';
@@ -1023,7 +1077,7 @@ function toggleEditMode(editing) {
       document.getElementById("editSLocation").value = loc;
       document.getElementById("editSAddress").value = street;
 
-      const rawClass = currentProfile.student_class || '';
+      const rawClass = currentProfile.student_class || 'Class 10';
       const rawSub = currentProfile.subject || '';
       let cat = 'Academic';
       if (rawClass.includes('Non-Academic') || rawSub.includes('Creative')) cat = 'Non-Academic';
@@ -1034,23 +1088,35 @@ function toggleEditMode(editing) {
       handleEditStudentCategoryChange();
 
       if (cat === 'Academic') {
-        document.querySelectorAll("#editSGradesDropdown input[type='checkbox']").forEach(cb => {
-          cb.checked = rawClass.includes(cb.value);
-        });
-        updateEditMultiLabel('editSGrades');
+        const sClassSelect = document.getElementById("editSClass");
+        let classFound = false;
+        for (let opt of sClassSelect.options) {
+          if (opt.value === rawClass) { sClassSelect.value = rawClass; classFound = true; break; }
+        }
+        if (!classFound) sClassSelect.value = "Class 10";
 
         const bSelect = document.getElementById("editSBoard");
         let bVal = currentProfile.board || 'CBSE';
-        let found = false;
+        let boardFound = false;
         for (let opt of bSelect.options) {
-          if (opt.value === bVal) { bSelect.value = bVal; found = true; break; }
+          if (opt.value === bVal) { bSelect.value = bVal; boardFound = true; break; }
         }
-        if (!found) {
+        if (!boardFound) {
           bSelect.value = "Others";
           document.getElementById("editSBoardOtherInput").value = bVal;
         }
         handleEditStudentBoardOther();
-        document.getElementById("editSSubject").value = rawSub;
+
+        const sSubSelect = document.getElementById("editSSubjectSelect");
+        let subFound = false;
+        for (let opt of sSubSelect.options) {
+          if (opt.value === rawSub) { sSubSelect.value = rawSub; subFound = true; break; }
+        }
+        if (!subFound) {
+          sSubSelect.value = "Others";
+          document.getElementById("editSSubjectOtherInput").value = rawSub;
+        }
+        handleEditStudentSubjectOther();
       } else if (cat === 'Non-Academic') {
         const sSelect = document.getElementById("editSSkillSelect");
         let found = false;
@@ -1128,8 +1194,13 @@ async function saveRegistrationParityProfile() {
       if (category === "Academic") {
         const grades = getCheckedValues("editTGradesDropdown");
         classesStr = grades.join(", ") || "Grades 1-12";
-        const subs = getCheckedValues("editTSubjectsDropdown");
-        subjectsStr = subs.join(", ") || "All Subjects";
+        
+        let subList = getCheckedValues("editTSubjectsDropdown").filter(s => s !== "Others");
+        if (document.getElementById("editTSubjectOtherCb")?.checked) {
+          const otherSub = document.getElementById("editTSubjectOtherInput").value.trim();
+          if (otherSub) subList.push(otherSub);
+        }
+        subjectsStr = subList.join(", ") || "All Subjects";
 
         let bList = getCheckedValues("editTBoardsDropdown").filter(b => b !== "Others");
         if (document.getElementById("editTBoardOtherCb")?.checked) {
@@ -1196,14 +1267,19 @@ async function saveRegistrationParityProfile() {
       let boardStr = "";
 
       if (category === "Academic") {
-        const grades = getCheckedValues("editSGradesDropdown");
-        classesStr = grades.join(", ") || "Grade 10";
+        classesStr = document.getElementById("editSClass").value;
+        
         let bVal = document.getElementById("editSBoard").value;
         if (bVal === "Others") {
           bVal = document.getElementById("editSBoardOtherInput").value.trim() || "Other Board";
         }
         boardStr = bVal;
-        subjectStr = document.getElementById("editSSubject").value.trim() || "All Subjects";
+
+        let subVal = document.getElementById("editSSubjectSelect").value;
+        if (subVal === "Others") {
+          subVal = document.getElementById("editSSubjectOtherInput").value.trim() || "Other Subject";
+        }
+        subjectStr = subVal;
       } else if (category === "Non-Academic") {
         let skillVal = document.getElementById("editSSkillSelect").value;
         if (skillVal === "Others") {
@@ -1327,7 +1403,7 @@ async function loadProfileData(user) {
       student_name: currentUser.email ? currentUser.email.split("@")[0] : "Member",
       mobile: "",
       subject: "General",
-      student_class: "General",
+      student_class: "Class 10",
       board: "CBSE",
       tuition_mode: "Online",
       address: ""
@@ -1359,7 +1435,7 @@ async function logoutUser() {
 }
 
 window.addEventListener("load", async () => {
-  populateEditGradeChecklists();
+  populateEditTeacherChecklists();
 
   const cached = localStorage.getItem("apex_profile_cache");
   const cachedRole = localStorage.getItem("apex_role_cache");
