@@ -393,7 +393,7 @@
       box-shadow: 0 12px 30px rgba(10, 25, 47, 0.10);
       border: 1px solid var(--border-subtle);
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       margin-left: auto;
     }
     .auth-card-title {
@@ -594,7 +594,7 @@
       box-shadow: 0 6px 14px rgba(37, 99, 235, 0.2);
     }
 
-    /* FORMS & WIZARDS */
+    /* FORMS & MULTI-SELECT CHECKLIST DROPDOWNS */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
     .form-group-full { grid-column: span 2; }
     .form-group-half { grid-column: span 1; }
@@ -611,10 +611,10 @@
       width: 100%;
       height: 38px;
       min-height: 38px;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border: 1.5px solid var(--border-subtle);
       border-radius: 8px;
-      font-size: 13px;
+      font-size: 12.5px;
       font-family: inherit;
       background: #F8FAFC;
       color: var(--text-main);
@@ -627,6 +627,72 @@
       box-shadow: 0 0 0 3.5px var(--royal-blue-glow);
     }
     textarea { min-height: 54px; height: 54px; padding: 8px 12px; }
+
+    .custom-multiselect {
+      position: relative;
+      width: 100%;
+    }
+    .multiselect-trigger {
+      width: 100%;
+      height: 38px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 12px;
+      background: #F8FAFC;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .multiselect-trigger.open {
+      border-color: var(--royal-blue);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px var(--royal-blue-glow);
+    }
+    .multiselect-dropdown-box {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      max-height: 180px;
+      overflow-y: auto;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15);
+      z-index: 3000;
+      padding: 6px;
+      display: none;
+    }
+    .multiselect-dropdown-box.show { display: block; }
+    .multiselect-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: none;
+      margin: 0;
+      font-weight: 600;
+    }
+    .multiselect-item:hover { background: #EFF6FF; }
+    .multiselect-item input[type="checkbox"] {
+      width: 15px;
+      height: 15px;
+      min-height: 15px;
+      cursor: pointer;
+      accent-color: var(--royal-blue);
+      margin: 0;
+    }
 
     .submit-btn {
       width: 100%;
@@ -744,7 +810,7 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* FLOATING THREE-BUTTON DOCK (MOBILE ONLY - MATCHES SCREENSHOT) */
+    /* FLOATING THREE-BUTTON DOCK (MOBILE ONLY) */
     .mobile-bottom-dock { display: none; }
 
     /* FOOTER */
@@ -857,7 +923,6 @@
 
 <header>
   <div class="header-wrap">
-    <!-- Clean, regular navigation on logo -->
     <a href="index.html" class="brand-group">
       <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
       <div class="brand-text">
@@ -1062,7 +1127,7 @@
         <div id="forgotMsg" class="msg hidden"></div>
       </div>
 
-      <!-- 4. TEACHER WIZARD -->
+      <!-- 4. TEACHER WIZARD (3 STEPS) -->
       <div id="viewRegisterTeacher" class="hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <h3 class="auth-card-title">Apply as Teacher</h3>
@@ -1072,57 +1137,179 @@
         <div class="wizard-steps-header">
           <div class="wizard-step-item active" id="tStepHead1"><span class="step-circle">1</span> Basic</div>
           <div class="step-line"></div>
-          <div class="wizard-step-item" id="tStepHead2"><span class="step-circle">2</span> Teaching</div>
+          <div class="wizard-step-item" id="tStepHead2"><span class="step-circle">2</span> Category</div>
           <div class="step-line"></div>
-          <div class="wizard-step-item" id="tStepHead3"><span class="step-circle">3</span> Availability</div>
+          <div class="wizard-step-item" id="tStepHead3"><span class="step-circle">3</span> Fee &amp; Time</div>
         </div>
 
+        <!-- TEACHER STEP 1: Basic Info & Mode -->
         <div id="tStep1">
           <div class="form-grid-2">
             <div class="form-group-half"><label>Email</label><input id="tEmail" type="email" placeholder="teacher@example.com"></div>
             <div class="form-group-half"><label>Password</label><input id="tPass" type="password" placeholder="Min 6 chars"></div>
             <div class="form-group-half"><label>Name</label><input id="tName" type="text" placeholder="Full name"></div>
-            <div class="form-group-half"><label>WhatsApp</label>
-              <div style="display:flex;gap:4px;"><input id="tCode" type="text" value="+91" style="flex:0.4;text-align:center;"><input id="tMobile" type="tel" style="flex:1;" placeholder="Phone"></div>
+            <div class="form-group-half"><label>WhatsApp Number</label>
+              <div style="display:flex;gap:4px;">
+                <input id="tCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+                <input id="tMobile" type="tel" style="flex:1;" placeholder="Phone">
+              </div>
             </div>
-            <div class="form-group-half"><label>Mode</label>
-              <select id="tMode" onchange="toggleModeAddress('t')"><option value="Online">Online</option><option value="Home">Home</option><option value="Both">Both</option></select>
+            <div class="form-group-half"><label>Tuition Mode</label>
+              <select id="tMode" onchange="toggleTeacherAddress()">
+                <option value="Online">Online</option>
+                <option value="Home">Home</option>
+                <option value="Both">Both</option>
+              </select>
             </div>
-            <div class="form-group-half"><label>Location</label><input id="tLocation" type="text" placeholder="City, State"></div>
-            <div class="form-group-full hidden" id="tAddressBox"><label>Address</label><textarea id="tAddress" placeholder="Street, area"></textarea></div>
+            <div class="form-group-half"><label>Location</label><input id="tLocation" type="text" placeholder="City, Area"></div>
+            <div class="form-group-full hidden" id="tAddressBox"><label>Address (for Home/Both)</label><textarea id="tAddress" placeholder="Street, landmark"></textarea></div>
             <div class="form-group-half"><label>Qualification</label><input id="tQual" type="text" placeholder="e.g. M.Sc., B.Ed."></div>
-            <div class="form-group-half"><label>Experience (Yrs)</label><input id="tExp" type="number" min="0" placeholder="e.g. 5"></div>
-            <div class="wizard-nav-btns"><button class="wizard-btn-next" onclick="navTeacherStep(2)">Next: Teaching →</button></div>
+            <div class="form-group-half"><label>Experience (Years)</label><input id="tExp" type="number" min="0" placeholder="e.g. 5"></div>
+            <div class="wizard-nav-btns"><button class="wizard-btn-next" onclick="navTeacherStep(2)">Next: Category →</button></div>
           </div>
         </div>
 
+        <!-- TEACHER STEP 2: Category, Grades, Subjects, Boards & Specializations -->
         <div id="tStep2" class="hidden">
           <div class="form-grid-2">
             <div class="form-group-full">
-              <label>Category</label>
-              <select id="tCategory"><option value="Academic">Academic</option><option value="Non-Academic">Non-Academic</option><option value="Competitive">Competitive</option></select>
+              <label>Main Category</label>
+              <select id="tCategory" onchange="handleTeacherCategoryChange()">
+                <option value="Academic">Academic (School &amp; College)</option>
+                <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+                <option value="Competitive">Competitive &amp; Jobs</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
-            <div class="form-group-half"><label>Grades</label><input id="tClasses" type="text" placeholder="e.g. Class 9, Class 10"></div>
-            <div class="form-group-half"><label>Board</label><select id="tBoard"><option value="All Boards">All Boards</option><option value="CBSE">CBSE</option><option value="ICSE">ICSE</option><option value="State">State Board</option></select></div>
-            <div class="form-group-full"><label>Subjects</label><input id="tSubject" type="text" placeholder="e.g. Mathematics, Physics"></div>
+
+            <!-- ACADEMIC CHECKLISTS -->
+            <div class="form-group-full" id="tAcademicGradesGroup">
+              <label>Grades (Select 1 to 12)</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tGradesTrigger" onclick="toggleMultiDropdown('tGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tGradesDropdown"></div>
+              </div>
+            </div>
+
+            <div class="form-group-full" id="tAcademicSubjectsGroup">
+              <label>Subjects (Grades 1 to 12)</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tSubjectsTrigger" onclick="toggleMultiDropdown('tSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tSubjectsDropdown"></div>
+              </div>
+            </div>
+
+            <div class="form-group-full" id="tAcademicBoardsGroup">
+              <label>Boards</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tBoardsTrigger" onclick="toggleMultiDropdown('tBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tBoardsDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="CBSE" onchange="updateMultiLabel('tBoards')"> CBSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="ICSE" onchange="updateMultiLabel('tBoards')"> ICSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="IGCSE" onchange="updateMultiLabel('tBoards')"> IGCSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="IB" onchange="updateMultiLabel('tBoards')"> IB</label>
+                  <label class="multiselect-item"><input type="checkbox" value="State" onchange="updateMultiLabel('tBoards')"> State Board</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tBoardOtherCb" value="Others" onchange="handleBoardOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tBoardOtherInput" type="text" class="hidden" placeholder="Specify Board" style="margin-top:6px;">
+            </div>
+
+            <!-- NON-ACADEMIC CHECKLIST -->
+            <div class="form-group-full hidden" id="tNonAcademicGroup">
+              <label>Non-Academic Skills</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tSkillsTrigger" onclick="toggleMultiDropdown('tSkillsDropdown')">Select Skills <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tSkillsDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="Abacus" onchange="updateMultiLabel('tSkills')"> Abacus</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Music Vocal" onchange="updateMultiLabel('tSkills')"> Music Vocal</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Instruments" onchange="updateMultiLabel('tSkills')"> Instruments</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Art &amp; Craft" onchange="updateMultiLabel('tSkills')"> Art &amp; Craft</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Public Speaking" onchange="updateMultiLabel('tSkills')"> Public Speaking</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Creative Writing" onchange="updateMultiLabel('tSkills')"> Creative Writing</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Foreign Languages" onchange="updateMultiLabel('tSkills')"> Foreign Languages</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tSkillOtherCb" value="Others" onchange="handleSkillOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+            </div>
+
+            <!-- COMPETITIVE EXAMS CHECKLIST -->
+            <div class="form-group-full hidden" id="tCompetitiveGroup">
+              <label>Competitive Exams &amp; Jobs</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tCompTrigger" onclick="toggleMultiDropdown('tCompDropdown')">Select Exams <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tCompDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="RRB" onchange="updateMultiLabel('tComp')"> RRB</label>
+                  <label class="multiselect-item"><input type="checkbox" value="SSC" onchange="updateMultiLabel('tComp')"> SSC</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Banking" onchange="updateMultiLabel('tComp')"> Banking</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Civils" onchange="updateMultiLabel('tComp')"> Civils / UPSC</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Dsc TET" onchange="updateMultiLabel('tComp')"> Dsc TET</label>
+                  <label class="multiselect-item"><input type="checkbox" value="NEET/JEE" onchange="updateMultiLabel('tComp')"> NEET/JEE</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tCompOtherCb" value="Others" onchange="handleCompOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="tCategoryOtherGroup">
+              <label>Specify Category</label>
+              <input id="tCategoryOtherInput" type="text" placeholder="Specify specialization">
+            </div>
+
             <div class="wizard-nav-btns">
               <button class="wizard-btn-back" onclick="navTeacherStep(1)">← Back</button>
-              <button class="wizard-btn-next" onclick="navTeacherStep(3)">Next: Availability →</button>
+              <button class="wizard-btn-next" onclick="navTeacherStep(3)">Next: Fee &amp; Time →</button>
             </div>
           </div>
         </div>
 
+        <!-- TEACHER STEP 3: Currencies, Fee, Time & GMT -->
         <div id="tStep3" class="hidden">
           <div class="form-grid-2">
             <div class="form-group-full"><label>Expected Fee</label>
               <div style="display:flex;gap:4px;">
-                <select id="tCurrency" style="flex:0.7;"><option value="INR">INR (₹)</option><option value="USD">USD ($)</option></select>
+                <select id="tCurrency" style="flex:0.8;">
+                  <option value="INR">INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="AED">AED</option>
+                  <option value="SAR">SAR</option>
+                  <option value="CAD">CAD</option>
+                  <option value="AUD">AUD</option>
+                  <option value="SGD">SGD</option>
+                  <option value="QAR">QAR</option>
+                  <option value="KWD">KWD</option>
+                  <option value="OMR">OMR</option>
+                  <option value="JPY">JPY (¥)</option>
+                  <option value="MYR">MYR</option>
+                </select>
                 <input id="tFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
-                <select id="tFeeType" style="flex:0.8;"><option value="Per class">Per class</option><option value="Per month">Per month</option></select>
+                <select id="tFeeType" style="flex:0.8;">
+                  <option value="Per class">Per class</option>
+                  <option value="Per month">Per month</option>
+                </select>
               </div>
             </div>
-            <div class="form-group-half"><label>Timings</label><input id="tTimings" type="text" placeholder="e.g. 5-8 PM"></div>
-            <div class="form-group-half"><label>GMT Zone</label><select id="tGmt"><option value="GMT+5:30 (IST - India)">GMT+5:30 (IST)</option><option value="GMT+0:00 (GMT)">GMT+0:00</option></select></div>
+            <div class="form-group-half"><label>Time Window</label><input id="tTimings" type="text" placeholder="e.g. 5:00 PM – 8:00 PM"></div>
+            <div class="form-group-half"><label>GMT Zone</label>
+              <select id="tGmt">
+                <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST - India)</option>
+                <option value="GMT+0:00 (GMT/UTC - London)">GMT+0:00 (GMT/UTC)</option>
+                <option value="GMT+1:00 (CET - Europe)">GMT+1:00 (CET)</option>
+                <option value="GMT+2:00 (EET - Egypt/SA)">GMT+2:00 (EET)</option>
+                <option value="GMT+3:00 (AST - Saudi/Kuwait)">GMT+3:00 (AST)</option>
+                <option value="GMT+4:00 (GST - UAE/Dubai)">GMT+4:00 (GST)</option>
+                <option value="GMT+8:00 (SGT - Singapore/MY)">GMT+8:00 (SGT)</option>
+                <option value="GMT+9:00 (JST - Japan)">GMT+9:00 (JST)</option>
+                <option value="GMT+10:00 (AEST - Australia)">GMT+10:00 (AEST)</option>
+                <option value="GMT-5:00 (EST - US East)">GMT-5:00 (EST)</option>
+                <option value="GMT-6:00 (CST - US Central)">GMT-6:00 (CST)</option>
+                <option value="GMT-7:00 (MST - US Mountain)">GMT-7:00 (MST)</option>
+                <option value="GMT-8:00 (PST - US Pacific)">GMT-8:00 (PST)</option>
+              </select>
+            </div>
             <div class="terms-consent" id="teacherTermsBox">
               <label class="terms-checkbox">
                 <input type="checkbox" id="teacherTerms">
@@ -1138,7 +1325,7 @@
         <div id="tAppMsg" class="msg hidden"></div>
       </div>
 
-      <!-- 5. STUDENT WIZARD -->
+      <!-- 5. STUDENT WIZARD (3 STEPS) -->
       <div id="viewRegisterStudent" class="hidden">
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <h3 class="auth-card-title">Apply as Student</h3>
@@ -1153,29 +1340,110 @@
           <div class="wizard-step-item" id="sStepHead3"><span class="step-circle">3</span> Schedule</div>
         </div>
 
+        <!-- STUDENT STEP 1: Basic & Contact -->
         <div id="sStep1">
           <div class="form-grid-2">
             <div class="form-group-half"><label>Email</label><input id="sEmail" type="email" placeholder="student@example.com"></div>
             <div class="form-group-half"><label>Password</label><input id="sPass" type="password" placeholder="Min 6 chars"></div>
             <div class="form-group-half"><label>Student Name</label><input id="sName" type="text" placeholder="Student name"></div>
             <div class="form-group-half"><label>Parent Name</label><input id="sParentName" type="text" placeholder="Parent name"></div>
-            <div class="form-group-half"><label>WhatsApp</label>
-              <div style="display:flex;gap:4px;"><input id="sCode" type="text" value="+91" style="flex:0.4;text-align:center;"><input id="sMobile" type="tel" style="flex:1;" placeholder="Phone"></div>
+            <div class="form-group-half"><label>WhatsApp Number</label>
+              <div style="display:flex;gap:4px;">
+                <input id="sCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+                <input id="sMobile" type="tel" style="flex:1;" placeholder="Phone">
+              </div>
             </div>
-            <div class="form-group-half"><label>Mode</label>
-              <select id="sMode" onchange="toggleModeAddress('s')"><option value="Online">Online</option><option value="Home">Home</option><option value="Both">Both</option></select>
+            <div class="form-group-half"><label>Tuition Mode</label>
+              <select id="sMode" onchange="toggleStudentAddress()">
+                <option value="Online">Online</option>
+                <option value="Home">Home</option>
+                <option value="Both">Both</option>
+              </select>
             </div>
-            <div class="form-group-full hidden" id="sAddressBox"><label>Address</label><textarea id="sAddress" placeholder="Street, area"></textarea></div>
+            <div class="form-group-full hidden" id="sAddressBox"><label>Address (for Home/Both)</label><textarea id="sAddress" placeholder="Street, landmark"></textarea></div>
             <div class="form-group-full"><label>Location</label><input id="sLocation" type="text" placeholder="City, Area"></div>
             <div class="wizard-nav-btns"><button class="wizard-btn-next" onclick="navStudentStep(2)">Next: Learning →</button></div>
           </div>
         </div>
 
+        <!-- STUDENT STEP 2: Category & Requirements -->
         <div id="sStep2" class="hidden">
           <div class="form-grid-2">
-            <div class="form-group-half"><label>Grade</label><input id="sClass" type="text" placeholder="e.g. Class 10"></div>
-            <div class="form-group-half"><label>Board</label><select id="sBoard"><option value="CBSE">CBSE</option><option value="ICSE">ICSE</option><option value="State">State Board</option></select></div>
-            <div class="form-group-full"><label>Subject</label><input id="sSubject" type="text" placeholder="e.g. Science, Maths"></div>
+            <div class="form-group-full">
+              <label>Main Category</label>
+              <select id="sCategory" onchange="handleStudentCategoryChange()">
+                <option value="Academic">Academic (School &amp; College)</option>
+                <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+                <option value="Competitive">Competitive &amp; Jobs</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <!-- ACADEMIC: Single/Multiple Grade Check & Board with Other -->
+            <div class="form-group-full" id="sAcademicGradesGroup">
+              <label>Class / Grade (1 to 12)</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="sGradesTrigger" onclick="toggleMultiDropdown('sGradesDropdown')">Select Grade(s) <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="sGradesDropdown"></div>
+              </div>
+            </div>
+
+            <div class="form-group-half" id="sAcademicBoardsGroup">
+              <label>Board</label>
+              <select id="sBoard" onchange="handleStudentBoardOther()">
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IGCSE">IGCSE</option>
+                <option value="IB">IB</option>
+                <option value="State">State Board</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group-half hidden" id="sBoardOtherGroup">
+              <label>Specify Board</label>
+              <input id="sBoardOtherInput" type="text" placeholder="Specify board">
+            </div>
+
+            <div class="form-group-full" id="sAcademicSubjectGroup">
+              <label>Subject Requirement</label>
+              <input id="sSubject" type="text" placeholder="e.g. Mathematics, Science, English">
+            </div>
+
+            <!-- NON-ACADEMIC DROPDOWN LIST -->
+            <div class="form-group-full hidden" id="sNonAcademicGroup">
+              <label>Non-Academic &amp; Creative Skills</label>
+              <select id="sSkillSelect" onchange="handleStudentSkillOther()">
+                <option value="Abacus">Abacus</option>
+                <option value="Music Vocal and Instruments">Music Vocal and Instruments</option>
+                <option value="Art &amp; Craft">Art &amp; Craft</option>
+                <option value="Public Speaking">Public Speaking</option>
+                <option value="Creative Writing">Creative Writing</option>
+                <option value="Foreign Languages">Foreign Languages</option>
+                <option value="Others">Others</option>
+              </select>
+              <input id="sSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+            </div>
+
+            <!-- COMPETITIVE DROPDOWN LIST -->
+            <div class="form-group-full hidden" id="sCompetitiveGroup">
+              <label>Competitive Exams &amp; Jobs</label>
+              <select id="sCompSelect" onchange="handleStudentCompOther()">
+                <option value="RRB">RRB</option>
+                <option value="SSC">SSC</option>
+                <option value="Banking">Banking</option>
+                <option value="Civils">Civils / UPSC</option>
+                <option value="Dsc TET">Dsc TET</option>
+                <option value="NEET/JEE">NEET/JEE</option>
+                <option value="Others">Others</option>
+              </select>
+              <input id="sCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="sCategoryOtherGroup">
+              <label>Specify Category</label>
+              <input id="sCategoryOtherInput" type="text" placeholder="Specify learning requirement">
+            </div>
+
             <div class="wizard-nav-btns">
               <button class="wizard-btn-back" onclick="navStudentStep(1)">← Back</button>
               <button class="wizard-btn-next" onclick="navStudentStep(3)">Next: Schedule →</button>
@@ -1183,10 +1451,21 @@
           </div>
         </div>
 
+        <!-- STUDENT STEP 3: Timings, GMT, Terms & Submission -->
         <div id="sStep3" class="hidden">
           <div class="form-grid-2">
             <div class="form-group-half"><label>Preferred Timings</label><input id="sTimings" type="text" placeholder="e.g. Evening 6-8 PM"></div>
-            <div class="form-group-half"><label>GMT Zone</label><select id="sGmt"><option value="GMT+5:30 (IST)">GMT+5:30 (IST)</option><option value="GMT+0:00 (GMT)">GMT+0:00</option></select></div>
+            <div class="form-group-half"><label>GMT Zone</label>
+              <select id="sGmt">
+                <option value="GMT+5:30 (IST)">GMT+5:30 (IST - India)</option>
+                <option value="GMT+0:00 (GMT)">GMT+0:00 (GMT/UTC)</option>
+                <option value="GMT+4:00 (GST)">GMT+4:00 (GST - UAE)</option>
+                <option value="GMT+3:00 (AST)">GMT+3:00 (AST - Gulf)</option>
+                <option value="GMT+8:00 (SGT)">GMT+8:00 (SGT - Singapore)</option>
+                <option value="GMT-5:00 (EST)">GMT-5:00 (EST - US)</option>
+                <option value="GMT-8:00 (PST)">GMT-8:00 (PST - US)</option>
+              </select>
+            </div>
             <div class="terms-consent" id="studentTermsBox">
               <label class="terms-checkbox">
                 <input type="checkbox" id="studentTerms">
@@ -1205,7 +1484,7 @@
   </div>
 </section>
 
-<!-- THREE BUTTONS PERSISTENT BOTTOM DOCK (Mobile Only) -->
+<!-- THREE BUTTONS PERSISTENT BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn dock-btn-primary">
     <i class="fa-solid fa-clipboard-list"></i>
@@ -1252,7 +1531,7 @@
       <h4>For Students</h4>
       <ul>
         <li><a href="browse.html">Search Verified Tutors</a></li>
-        <li><a href="resources.html">Study Notes & Worksheets</a></li>
+        <li><a href="resources.html">Study Notes &amp; Worksheets</a></li>
         <li><a href="about.html">Direct Tuition Process</a></li>
       </ul>
     </div>
@@ -1267,7 +1546,7 @@
     </div>
 
     <div class="footer-col">
-      <h4>Trust & Society</h4>
+      <h4>Trust &amp; Society</h4>
       <ul>
         <li><a href="about.html">About Apex Society</a></li>
         <li><a href="feedback.html">Community Feedback</a></li>
@@ -1278,7 +1557,6 @@
     </div>
   </div>
 
-  <!-- MULTI-TAP TRIGGER ON FOOTER TEXT: Rapid 5 taps for secret access -->
   <div class="footer-bottom" id="footerCopyNotice" onclick="handleFooterSecretTaps()">
     © 2026 Apex Tuitions. All rights reserved.
     <span style="margin:0 8px;color:#64748B;">•</span>
@@ -1297,6 +1575,13 @@ let currentUser = null;
 let currentRole = null;
 let currentProfile = null;
 
+const ACADEMIC_SUBJECTS_LIST = [
+  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
+  "English", "Social Science", "History", "Geography", "Economics",
+  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
+  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)"
+];
+
 function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
 
 function openAuthForm(view) {
@@ -1311,29 +1596,22 @@ function openAuthForm(view) {
   document.getElementById("authPortalContainer").scrollIntoView({ behavior: 'smooth' });
 }
 
-function openForgotPasswordView() {
-  openAuthForm('forgot');
-}
+function openForgotPasswordView() { openAuthForm('forgot'); }
 
 async function handlePasswordReset() {
   const email = document.getElementById("forgotEmail").value.trim();
   const msgEl = document.getElementById("forgotMsg");
-
   if (!email) {
     msgEl.textContent = "Please enter your registered email address.";
     msgEl.className = "msg error";
     msgEl.classList.remove("hidden");
     return;
   }
-
   msgEl.textContent = "Sending reset link...";
   msgEl.className = "msg success";
   msgEl.classList.remove("hidden");
 
-  const { error } = await db.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin,
-  });
-
+  const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
   if (error) {
     msgEl.textContent = error.message;
     msgEl.className = "msg error";
@@ -1351,11 +1629,7 @@ function showMsg(id, text, isOk) {
   el.classList.remove("hidden");
 }
 
-function toggleModeAddress(prefix) {
-  const mode = document.getElementById(prefix + "Mode").value;
-  document.getElementById(prefix + "AddressBox").classList.toggle("hidden", mode === "Online");
-}
-
+/* WIZARD NAVIGATION */
 function navTeacherStep(step) {
   [1, 2, 3].forEach(i => {
     document.getElementById("tStep" + i).classList.toggle("hidden", i !== step);
@@ -1368,6 +1642,144 @@ function navStudentStep(step) {
     document.getElementById("sStep" + i).classList.toggle("hidden", i !== step);
     document.getElementById("sStepHead" + i).classList.toggle("active", i <= step);
   });
+}
+
+/* MULTISELECT DROPDOWN HELPERS */
+function toggleMultiDropdown(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains("show");
+  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  if (!isOpen) {
+    box.classList.add("show");
+    box.previousElementSibling.classList.add("open");
+  }
+}
+
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".custom-multiselect")) {
+    document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+    document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  }
+});
+
+function getCheckedValues(containerId) {
+  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+  return Array.from(checked).map(c => c.value);
+}
+
+function updateMultiLabel(prefix) {
+  const trigger = document.getElementById(prefix + "Trigger");
+  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "Others");
+  const hasOther = document.querySelector(`#${prefix}Dropdown input[value="Others"]:checked`);
+
+  let count = values.length + (hasOther ? 1 : 0);
+  if (count === 0) {
+    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else if (count <= 2) {
+    const displayArr = [...values];
+    if (hasOther) displayArr.push("Others");
+    trigger.innerHTML = `${displayArr.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else {
+    trigger.innerHTML = `${count} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  }
+}
+
+function populateGradeChecklists() {
+  const tGrades = document.getElementById("tGradesDropdown");
+  const sGrades = document.getElementById("sGradesDropdown");
+  let html = "";
+  for (let i = 1; i <= 12; i++) {
+    html += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateMultiLabel('tGrades')"> Grade ${i}</label>`;
+  }
+  if (tGrades) tGrades.innerHTML = html;
+
+  let sHtml = "";
+  for (let i = 1; i <= 12; i++) {
+    sHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateMultiLabel('sGrades')"> Grade ${i}</label>`;
+  }
+  if (sGrades) sGrades.innerHTML = sHtml;
+}
+
+function populateSubjectChecklists() {
+  const tSubs = document.getElementById("tSubjectsDropdown");
+  if (!tSubs) return;
+  tSubs.innerHTML = ACADEMIC_SUBJECTS_LIST.map(sub => `
+    <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('tSubjects')"> ${sub}</label>
+  `).join("");
+}
+
+/* TEACHER FORM CONTROLS */
+function toggleTeacherAddress() {
+  const mode = document.getElementById("tMode").value;
+  document.getElementById("tAddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleTeacherCategoryChange() {
+  const cat = document.getElementById("tCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("tAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("tAcademicSubjectsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("tAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("tNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleBoardOtherToggle(p) {
+  const cb = document.getElementById(p + "BoardOtherCb");
+  document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Boards");
+}
+function handleSkillOtherToggle(p) {
+  const cb = document.getElementById(p + "SkillOtherCb");
+  document.getElementById(p + "SkillOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Skills");
+}
+function handleCompOtherToggle(p) {
+  const cb = document.getElementById(p + "CompOtherCb");
+  document.getElementById(p + "CompOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Comp");
+}
+
+/* STUDENT FORM CONTROLS */
+function toggleStudentAddress() {
+  const mode = document.getElementById("sMode").value;
+  document.getElementById("sAddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleStudentCategoryChange() {
+  const cat = document.getElementById("sCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("sAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("sAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("sAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("sNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("sCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("sCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleStudentBoardOther() {
+  const val = document.getElementById("sBoard").value;
+  document.getElementById("sBoardOtherGroup").classList.toggle("hidden", val !== "Others");
+}
+function handleStudentSkillOther() {
+  const val = document.getElementById("sSkillSelect").value;
+  document.getElementById("sSkillOtherInput").classList.toggle("hidden", val !== "Others");
+}
+function handleStudentCompOther() {
+  const val = document.getElementById("sCompSelect").value;
+  document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
 function requireLoginTerms() {
@@ -1403,6 +1815,7 @@ async function handleHeroLogin() {
   renderAuthenticatedHome(data.user);
 }
 
+/* TEACHER SUBMISSION */
 async function handleTeacherApplication() {
   const termsBox = document.getElementById("teacherTermsBox");
   const termsCheckbox = document.getElementById("teacherTerms");
@@ -1421,12 +1834,51 @@ async function handleTeacherApplication() {
   const mobile = document.getElementById("tMobile").value.trim();
   const mode = document.getElementById("tMode").value;
   const address = document.getElementById("tAddress").value.trim();
+  const location = document.getElementById("tLocation").value.trim();
   const qual = document.getElementById("tQual").value.trim();
   const exp = document.getElementById("tExp").value.trim();
-  const location = document.getElementById("tLocation").value.trim();
-  const classes = document.getElementById("tClasses").value.trim();
-  const board = document.getElementById("tBoard").value;
-  const subject = document.getElementById("tSubject").value.trim();
+
+  const category = document.getElementById("tCategory").value;
+  let classesStr = "";
+  let subjectsStr = "";
+  let boardsStr = "";
+
+  if (category === "Academic") {
+    const grades = getCheckedValues("tGradesDropdown");
+    classesStr = grades.join(", ") || "Grades 1-12";
+    const subjects = getCheckedValues("tSubjectsDropdown");
+    subjectsStr = subjects.join(", ") || "All Subjects";
+    
+    let bList = getCheckedValues("tBoardsDropdown").filter(b => b !== "Others");
+    if (document.getElementById("tBoardOtherCb")?.checked) {
+      const otherB = document.getElementById("tBoardOtherInput").value.trim();
+      if (otherB) bList.push(otherB);
+    }
+    boardsStr = bList.join(", ") || "CBSE";
+  } else if (category === "Non-Academic") {
+    let sList = getCheckedValues("tSkillsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("tSkillOtherCb")?.checked) {
+      const otherS = document.getElementById("tSkillOtherInput").value.trim();
+      if (otherS) sList.push(otherS);
+    }
+    classesStr = "Non-Academic / Creative Skills";
+    subjectsStr = sList.join(", ") || "Creative Skills";
+    boardsStr = "Skill Track";
+  } else if (category === "Competitive") {
+    let cList = getCheckedValues("tCompDropdown").filter(c => c !== "Others");
+    if (document.getElementById("tCompOtherCb")?.checked) {
+      const otherC = document.getElementById("tCompOtherInput").value.trim();
+      if (otherC) cList.push(otherC);
+    }
+    classesStr = "Competitive Exams & Jobs";
+    subjectsStr = cList.join(", ") || "Competitive Coaching";
+    boardsStr = "Exam Track";
+  } else {
+    const spec = document.getElementById("tCategoryOtherInput").value.trim();
+    classesStr = "Specialized / Other";
+    subjectsStr = spec || "Other Specialization";
+    boardsStr = "Other";
+  }
 
   const currency = document.getElementById("tCurrency").value;
   const feeAmt = document.getElementById("tFeeAmount").value.trim();
@@ -1448,9 +1900,9 @@ async function handleTeacherApplication() {
     tuition_mode: mode,
     address: `${address ? address + ' • ' : ''}${location}`,
     qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
-    classes: classes || 'All Grades',
-    board: board,
-    subject: subject || 'All Subjects',
+    classes: classesStr,
+    board: boardsStr,
+    subject: subjectsStr,
     fee: Number(feeAmt) || 0,
     timing_fee_desc: timingFeeDesc,
     verified: true
@@ -1460,6 +1912,7 @@ async function handleTeacherApplication() {
   renderAuthenticatedHome(data.user);
 }
 
+/* STUDENT SUBMISSION */
 async function handleStudentApplication() {
   const termsBox = document.getElementById("studentTermsBox");
   const termsCheckbox = document.getElementById("studentTerms");
@@ -1480,9 +1933,44 @@ async function handleStudentApplication() {
   const mode = document.getElementById("sMode").value;
   const address = document.getElementById("sAddress").value.trim();
   const location = document.getElementById("sLocation").value.trim();
-  const sClass = document.getElementById("sClass").value.trim();
-  const board = document.getElementById("sBoard").value;
-  const subject = document.getElementById("sSubject").value.trim();
+
+  const category = document.getElementById("sCategory").value;
+  let classesStr = "";
+  let subjectStr = "";
+  let boardStr = "";
+
+  if (category === "Academic") {
+    const grades = getCheckedValues("sGradesDropdown");
+    classesStr = grades.join(", ") || "Grade 10";
+    let bVal = document.getElementById("sBoard").value;
+    if (bVal === "Others") {
+      bVal = document.getElementById("sBoardOtherInput").value.trim() || "Other Board";
+    }
+    boardStr = bVal;
+    subjectStr = document.getElementById("sSubject").value.trim() || "All Subjects";
+  } else if (category === "Non-Academic") {
+    let skillVal = document.getElementById("sSkillSelect").value;
+    if (skillVal === "Others") {
+      skillVal = document.getElementById("sSkillOtherInput").value.trim() || "Other Skill";
+    }
+    classesStr = "Non-Academic / Creative Skills";
+    subjectStr = skillVal;
+    boardStr = "Skill Track";
+  } else if (category === "Competitive") {
+    let compVal = document.getElementById("sCompSelect").value;
+    if (compVal === "Others") {
+      compVal = document.getElementById("sCompOtherInput").value.trim() || "Other Exam";
+    }
+    classesStr = "Competitive Exams & Jobs";
+    subjectStr = compVal;
+    boardStr = "Exam Track";
+  } else {
+    const otherSpec = document.getElementById("sCategoryOtherInput").value.trim();
+    classesStr = "Specialized / Other";
+    subjectStr = otherSpec || "General";
+    boardStr = "Other";
+  }
+
   const timings = document.getElementById("sTimings").value.trim();
   const gmt = document.getElementById("sGmt").value;
 
@@ -1494,11 +1982,12 @@ async function handleStudentApplication() {
     id: data.user.id,
     email: email,
     student_name: sName,
+    parent_name: pName,
     mobile: `${code} ${mobile}`.trim(),
     tuition_mode: mode,
-    student_class: sClass || 'All Grades',
-    board: board,
-    subject: subject || 'All Subjects',
+    student_class: classesStr,
+    board: boardStr,
+    subject: subjectStr,
     address: `${address ? address + ' • ' : ''}${location}`,
     timing_fee_desc: `${timings || 'Flexible'} (${gmt})`,
     verified: true
@@ -1512,7 +2001,6 @@ async function syncUserEnquiryBadge() {
   if (!currentUser) return;
   const { data } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
   const count = (data && data.length) ? data.length : 0;
-  
   const cardBadge = document.getElementById("cardEnquiryBadge");
   const dockBadge = document.getElementById("dockEnquiryBadge");
 
@@ -1585,11 +2073,8 @@ function renderGuestHome() {
   document.getElementById("mNavLogin")?.classList.remove("hidden");
 }
 
-/* =========================================================
-   SECRET ADMIN ACCESS (CTRL + SHIFT + A OR 5 FOOTER TAPS)
-   ========================================================= */
+/* SECRET ADMIN ACCESS */
 const SECRET_ADMIN_PIN = "1985";
-
 function triggerAdminPinPrompt() {
   const entered = prompt("🔐 Enter Admin Access Key:");
   if (entered === SECRET_ADMIN_PIN) {
@@ -1600,7 +2085,6 @@ function triggerAdminPinPrompt() {
   }
 }
 
-// 1. Keyboard Shortcut (Desktop): Ctrl + Shift + A (or Cmd + Shift + A)
 window.addEventListener("keydown", (e) => {
   if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
     e.preventDefault();
@@ -1608,7 +2092,6 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
-// 2. Mobile Footer Secret Trigger (5 quick taps on footer copyright within 2 seconds)
 let footerTapCount = 0;
 let footerTapTimer = null;
 function handleFooterSecretTaps() {
@@ -1618,20 +2101,18 @@ function handleFooterSecretTaps() {
     footerTapCount = 0;
     triggerAdminPinPrompt();
   } else {
-    footerTapTimer = setTimeout(() => {
-      footerTapCount = 0;
-    }, 2000);
+    footerTapTimer = setTimeout(() => { footerTapCount = 0; }, 2000);
   }
 }
 
-// 3. Direct URL Hash Trigger (#admin)
 window.addEventListener("hashchange", () => {
-  if (window.location.hash === "#admin") {
-    triggerAdminPinPrompt();
-  }
+  if (window.location.hash === "#admin") triggerAdminPinPrompt();
 });
 
 window.addEventListener("load", async () => {
+  populateGradeChecklists();
+  populateSubjectChecklists();
+
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     localStorage.setItem("apex_cached_auth", "true");
@@ -1641,14 +2122,10 @@ window.addEventListener("load", async () => {
     renderGuestHome();
 
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get("auth") === "login") {
-      openAuthForm("login");
-    }
+    if (urlParams.get("auth") === "login") openAuthForm("login");
   }
 
-  if (window.location.hash === "#admin") {
-    triggerAdminPinPrompt();
-  }
+  if (window.location.hash === "#admin") triggerAdminPinPrompt();
 
   db.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user) {
