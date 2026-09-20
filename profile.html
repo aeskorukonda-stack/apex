@@ -149,7 +149,7 @@
     }
     .details-table td:last-child { color: #0F172A; font-weight: 600; }
 
-    /* EDIT FORM (REPLICATING REGISTRATION FORM EXACTLY) */
+    /* EDIT INLINE FORM - SCHEMA MATCH */
     .edit-inline-form {
       margin-top: 16px; border-top: 1px solid #E2E8F0; padding-top: 20px;
     }
@@ -169,6 +169,25 @@
       outline: none; border-color: var(--royal-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
     textarea { min-height: 56px; height: 56px; padding: 8px 12px; }
+
+    .custom-multiselect { position: relative; width: 100%; }
+    .multiselect-trigger {
+      width: 100%; height: 40px; padding: 6px 12px; border: 1.5px solid var(--border-subtle);
+      border-radius: 8px; font-size: 12.5px; background: #F8FAFC; color: var(--text-main);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;
+    }
+    .multiselect-trigger.open { border-color: var(--royal-blue); background: #FFFFFF; }
+    .multiselect-dropdown-box {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 180px;
+      overflow-y: auto; background: #FFFFFF; border: 1.5px solid var(--border-subtle);
+      border-radius: 10px; box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15); z-index: 3000; padding: 6px; display: none;
+    }
+    .multiselect-dropdown-box.show { display: block; }
+    .multiselect-item {
+      display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    }
+    .multiselect-item:hover { background: #EFF6FF; }
+    .multiselect-item input[type="checkbox"] { width: 15px; height: 15px; min-height: 15px; cursor: pointer; accent-color: var(--royal-blue); margin: 0; }
 
     .cropper-modal-box {
       background: #F8FAFC; border: 1.5px solid var(--border-subtle); border-radius: 14px;
@@ -198,7 +217,6 @@
     .mobile-bottom-dock { display: none; }
     .hidden { display: none !important; }
 
-    /* MOBILE SPECIFIC CSS */
     @media (max-width: 768px) {
       body.logged-in-mobile { padding-bottom: 96px !important; }
       header { padding: 10px 14px !important; }
@@ -297,7 +315,7 @@
       </button>
     </div>
 
-    <!-- CROPPER CONTAINER -->
+    <!-- CROPPER -->
     <div class="cropper-modal-box hidden" id="cropperContainer">
       <p style="text-align:center;font-size:12px;font-weight:700;color:var(--apex-navy);margin-bottom:8px;">
         Drag Image to Reposition • Use Slider to Zoom
@@ -315,7 +333,7 @@
       </div>
     </div>
 
-    <!-- 1. DISPLAY VIEW TABLE -->
+    <!-- DISPLAY TABLE -->
     <div id="profileDisplayView">
       <table class="details-table">
         <tbody>
@@ -337,111 +355,238 @@
       </button>
     </div>
 
-    <!-- 2. REGISTRATION-REPLICATED EDIT FORM -->
+    <!-- INLINE REGISTRATION REPLICATED EDIT FORM -->
     <div id="profileEditInlineView" class="edit-inline-form hidden">
       <h4 style="font-size:16px;color:var(--apex-navy);margin-bottom:4px;font-weight:800;">Edit Profile Details</h4>
-      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Replicating entire registration schema.</p>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Replicating full registration form schema.</p>
 
-      <!-- TEACHER EDIT FORM -->
+      <!-- TEACHER EDIT CONTAINER -->
       <div id="editTeacherContainer" class="hidden">
         <div class="form-grid-2">
-          <div class="form-group-half"><label>Name</label><input id="editTName" type="text" placeholder="Full name"></div>
-          <div class="form-group-half"><label>WhatsApp</label>
+          <div class="form-group-half"><label>Name</label><input id="editTName" type="text"></div>
+          <div class="form-group-half"><label>WhatsApp Number</label>
             <div style="display:flex;gap:4px;">
               <input id="editTCode" type="text" value="+91" style="flex:0.4;text-align:center;">
-              <input id="editTMobile" type="tel" style="flex:1;" placeholder="Phone">
+              <input id="editTMobile" type="tel" style="flex:1;">
             </div>
           </div>
-          <div class="form-group-half"><label>Mode</label>
+          <div class="form-group-half"><label>Tuition Mode</label>
             <select id="editTMode" onchange="toggleEditModeAddress('editT')">
               <option value="Online">Online</option>
               <option value="Home">Home</option>
               <option value="Both">Both</option>
             </select>
           </div>
-          <div class="form-group-half"><label>Location</label><input id="editTLocation" type="text" placeholder="City, State"></div>
-          <div class="form-group-full hidden" id="editTAddressBox"><label>Address</label><textarea id="editTAddress" placeholder="Street, area"></textarea></div>
-          <div class="form-group-half"><label>Qualification</label><input id="editTQual" type="text" placeholder="e.g. M.Sc., B.Ed."></div>
-          <div class="form-group-half"><label>Experience (Yrs)</label><input id="editTExp" type="number" min="0" placeholder="e.g. 5"></div>
+          <div class="form-group-half"><label>Location</label><input id="editTLocation" type="text"></div>
+          <div class="form-group-full hidden" id="editTAddressBox"><label>Address (for Home/Both)</label><textarea id="editTAddress"></textarea></div>
+          <div class="form-group-half"><label>Qualification</label><input id="editTQual" type="text"></div>
+          <div class="form-group-half"><label>Experience (Years)</label><input id="editTExp" type="number" min="0"></div>
 
           <div class="form-group-full">
-            <label>Category</label>
-            <select id="editTCategory">
-              <option value="Academic">Academic</option>
-              <option value="Non-Academic">Non-Academic</option>
-              <option value="Competitive">Competitive</option>
+            <label>Main Category</label>
+            <select id="editTCategory" onchange="handleEditTeacherCategoryChange()">
+              <option value="Academic">Academic (School &amp; College)</option>
+              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+              <option value="Competitive">Competitive &amp; Jobs</option>
+              <option value="Others">Others</option>
             </select>
           </div>
-          <div class="form-group-half"><label>Grades</label><input id="editTClasses" type="text" placeholder="e.g. Class 9, Class 10"></div>
-          <div class="form-group-half"><label>Board</label>
-            <select id="editTBoard">
-              <option value="All Boards">All Boards</option>
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="State">State Board</option>
-            </select>
+
+          <div class="form-group-full" id="editTAcademicGradesGroup">
+            <label>Grades (1 to 12)</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTGradesTrigger" onclick="toggleEditMulti('editTGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTGradesDropdown"></div>
+            </div>
           </div>
-          <div class="form-group-full"><label>Subjects</label><input id="editTSubject" type="text" placeholder="e.g. Mathematics, Physics"></div>
+
+          <div class="form-group-full" id="editTAcademicSubjectsGroup">
+            <label>Subjects (Grades 1 to 12)</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTSubjectsTrigger" onclick="toggleEditMulti('editTSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTSubjectsDropdown"></div>
+            </div>
+          </div>
+
+          <div class="form-group-full" id="editTAcademicBoardsGroup">
+            <label>Boards</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTBoardsTrigger" onclick="toggleEditMulti('editTBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTBoardsDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="CBSE" onchange="updateEditMultiLabel('editTBoards')"> CBSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="ICSE" onchange="updateEditMultiLabel('editTBoards')"> ICSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="IGCSE" onchange="updateEditMultiLabel('editTBoards')"> IGCSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="IB" onchange="updateEditMultiLabel('editTBoards')"> IB</label>
+                <label class="multiselect-item"><input type="checkbox" value="State" onchange="updateEditMultiLabel('editTBoards')"> State Board</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTBoardOtherCb" value="Others" onchange="handleEditOtherToggle('editTBoardOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTBoardOtherInput" type="text" class="hidden" placeholder="Specify Board" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTNonAcademicGroup">
+            <label>Non-Academic Skills</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTSkillsTrigger" onclick="toggleEditMulti('editTSkillsDropdown')">Select Skills <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTSkillsDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="Abacus" onchange="updateEditMultiLabel('editTSkills')"> Abacus</label>
+                <label class="multiselect-item"><input type="checkbox" value="Music Vocal" onchange="updateEditMultiLabel('editTSkills')"> Music Vocal</label>
+                <label class="multiselect-item"><input type="checkbox" value="Instruments" onchange="updateEditMultiLabel('editTSkills')"> Instruments</label>
+                <label class="multiselect-item"><input type="checkbox" value="Art &amp; Craft" onchange="updateEditMultiLabel('editTSkills')"> Art &amp; Craft</label>
+                <label class="multiselect-item"><input type="checkbox" value="Public Speaking" onchange="updateEditMultiLabel('editTSkills')"> Public Speaking</label>
+                <label class="multiselect-item"><input type="checkbox" value="Creative Writing" onchange="updateEditMultiLabel('editTSkills')"> Creative Writing</label>
+                <label class="multiselect-item"><input type="checkbox" value="Foreign Languages" onchange="updateEditMultiLabel('editTSkills')"> Foreign Languages</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTSkillOtherCb" value="Others" onchange="handleEditOtherToggle('editTSkillOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTCompetitiveGroup">
+            <label>Competitive Exams &amp; Jobs</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTCompTrigger" onclick="toggleEditMulti('editTCompDropdown')">Select Exams <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTCompDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="RRB" onchange="updateEditMultiLabel('editTComp')"> RRB</label>
+                <label class="multiselect-item"><input type="checkbox" value="SSC" onchange="updateEditMultiLabel('editTComp')"> SSC</label>
+                <label class="multiselect-item"><input type="checkbox" value="Banking" onchange="updateEditMultiLabel('editTComp')"> Banking</label>
+                <label class="multiselect-item"><input type="checkbox" value="Civils" onchange="updateEditMultiLabel('editTComp')"> Civils / UPSC</label>
+                <label class="multiselect-item"><input type="checkbox" value="Dsc TET" onchange="updateEditMultiLabel('editTComp')"> Dsc TET</label>
+                <label class="multiselect-item"><input type="checkbox" value="NEET/JEE" onchange="updateEditMultiLabel('editTComp')"> NEET/JEE</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTCompOtherCb" value="Others" onchange="handleEditOtherToggle('editTCompOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTCompOtherInput" type="text" class="hidden" placeholder="Specify Goal" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTCategoryOtherGroup">
+            <label>Specify Category</label>
+            <input id="editTCategoryOtherInput" type="text" placeholder="Specify Specialization">
+          </div>
 
           <div class="form-group-full"><label>Expected Fee</label>
             <div style="display:flex;gap:4px;">
-              <select id="editTCurrency" style="flex:0.7;">
-                <option value="INR">INR (₹)</option>
-                <option value="USD">USD ($)</option>
+              <select id="editTCurrency" style="flex:0.8;">
+                <option value="INR">INR (₹)</option><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option>
+                <option value="AED">AED</option><option value="SAR">SAR</option><option value="CAD">CAD</option><option value="AUD">AUD</option>
+                <option value="SGD">SGD</option><option value="QAR">QAR</option><option value="KWD">KWD</option><option value="OMR">OMR</option>
               </select>
               <input id="editTFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
               <select id="editTFeeType" style="flex:0.8;">
-                <option value="Per class">Per class</option>
-                <option value="Per month">Per month</option>
+                <option value="Per class">Per class</option><option value="Per month">Per month</option>
               </select>
             </div>
           </div>
-          <div class="form-group-half"><label>Timings</label><input id="editTTimings" type="text" placeholder="e.g. 5-8 PM"></div>
+          <div class="form-group-half"><label>Timings</label><input id="editTTimings" type="text"></div>
           <div class="form-group-half"><label>GMT Zone</label>
             <select id="editTGmt">
-              <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST)</option>
-              <option value="GMT+0:00 (GMT)">GMT+0:00</option>
+              <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST - India)</option>
+              <option value="GMT+0:00 (GMT/UTC - London)">GMT+0:00 (GMT/UTC)</option>
+              <option value="GMT+1:00 (CET - Europe)">GMT+1:00 (CET)</option>
+              <option value="GMT+2:00 (EET - Egypt/SA)">GMT+2:00 (EET)</option>
+              <option value="GMT+3:00 (AST - Saudi/Kuwait)">GMT+3:00 (AST)</option>
+              <option value="GMT+4:00 (GST - UAE/Dubai)">GMT+4:00 (GST)</option>
+              <option value="GMT+8:00 (SGT - Singapore/MY)">GMT+8:00 (SGT)</option>
+              <option value="GMT+9:00 (JST - Japan)">GMT+9:00 (JST)</option>
+              <option value="GMT+10:00 (AEST - Australia)">GMT+10:00 (AEST)</option>
+              <option value="GMT-5:00 (EST - US East)">GMT-5:00 (EST)</option>
+              <option value="GMT-8:00 (PST - US Pacific)">GMT-8:00 (PST)</option>
             </select>
           </div>
         </div>
       </div>
 
-      <!-- STUDENT EDIT FORM -->
+      <!-- STUDENT EDIT CONTAINER -->
       <div id="editStudentContainer" class="hidden">
         <div class="form-grid-2">
-          <div class="form-group-half"><label>Student Name</label><input id="editSName" type="text" placeholder="Student name"></div>
-          <div class="form-group-half"><label>Parent Name</label><input id="editSParentName" type="text" placeholder="Parent name"></div>
-          <div class="form-group-half"><label>WhatsApp</label>
+          <div class="form-group-half"><label>Student Name</label><input id="editSName" type="text"></div>
+          <div class="form-group-half"><label>Parent Name</label><input id="editSParentName" type="text"></div>
+          <div class="form-group-half"><label>WhatsApp Number</label>
             <div style="display:flex;gap:4px;">
               <input id="editSCode" type="text" value="+91" style="flex:0.4;text-align:center;">
-              <input id="editSMobile" type="tel" style="flex:1;" placeholder="Phone">
+              <input id="editSMobile" type="tel" style="flex:1;">
             </div>
           </div>
-          <div class="form-group-half"><label>Mode</label>
+          <div class="form-group-half"><label>Tuition Mode</label>
             <select id="editSMode" onchange="toggleEditModeAddress('editS')">
-              <option value="Online">Online</option>
-              <option value="Home">Home</option>
-              <option value="Both">Both</option>
+              <option value="Online">Online</option><option value="Home">Home</option><option value="Both">Both</option>
             </select>
           </div>
-          <div class="form-group-full hidden" id="editSAddressBox"><label>Address</label><textarea id="editSAddress" placeholder="Street, area"></textarea></div>
-          <div class="form-group-full"><label>Location</label><input id="editSLocation" type="text" placeholder="City, Area"></div>
+          <div class="form-group-full hidden" id="editSAddressBox"><label>Address (for Home/Both)</label><textarea id="editSAddress"></textarea></div>
+          <div class="form-group-full"><label>Location</label><input id="editSLocation" type="text"></div>
 
-          <div class="form-group-half"><label>Grade</label><input id="editSClass" type="text" placeholder="e.g. Class 10"></div>
-          <div class="form-group-half"><label>Board</label>
-            <select id="editSBoard">
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="State">State Board</option>
+          <div class="form-group-full">
+            <label>Main Category</label>
+            <select id="editSCategory" onchange="handleEditStudentCategoryChange()">
+              <option value="Academic">Academic (School &amp; College)</option>
+              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+              <option value="Competitive">Competitive &amp; Jobs</option>
+              <option value="Others">Others</option>
             </select>
           </div>
-          <div class="form-group-full"><label>Subject</label><input id="editSSubject" type="text" placeholder="e.g. Science, Maths"></div>
 
-          <div class="form-group-half"><label>Preferred Timings</label><input id="editSTimings" type="text" placeholder="e.g. Evening 6-8 PM"></div>
+          <div class="form-group-full" id="editSAcademicGradesGroup">
+            <label>Grade (1 to 12)</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editSGradesTrigger" onclick="toggleEditMulti('editSGradesDropdown')">Select Grade(s) <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editSGradesDropdown"></div>
+            </div>
+          </div>
+
+          <div class="form-group-half" id="editSAcademicBoardsGroup">
+            <label>Board</label>
+            <select id="editSBoard" onchange="handleEditStudentBoardOther()">
+              <option value="CBSE">CBSE</option><option value="ICSE">ICSE</option><option value="IGCSE">IGCSE</option>
+              <option value="IB">IB</option><option value="State">State Board</option><option value="Others">Others</option>
+            </select>
+          </div>
+          <div class="form-group-half hidden" id="editSBoardOtherGroup">
+            <label>Specify Board</label>
+            <input id="editSBoardOtherInput" type="text" placeholder="Specify board">
+          </div>
+
+          <div class="form-group-full" id="editSAcademicSubjectGroup">
+            <label>Subject Requirement</label>
+            <input id="editSSubject" type="text" placeholder="e.g. Science, Maths">
+          </div>
+
+          <div class="form-group-full hidden" id="editSNonAcademicGroup">
+            <label>Non-Academic Skills</label>
+            <select id="editSSkillSelect" onchange="handleEditStudentSkillOther()">
+              <option value="Abacus">Abacus</option>
+              <option value="Music Vocal and Instruments">Music Vocal and Instruments</option>
+              <option value="Art &amp; Craft">Art &amp; Craft</option>
+              <option value="Public Speaking">Public Speaking</option>
+              <option value="Creative Writing">Creative Writing</option>
+              <option value="Foreign Languages">Foreign Languages</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editSCompetitiveGroup">
+            <label>Competitive Exams &amp; Jobs</label>
+            <select id="editSCompSelect" onchange="handleEditStudentCompOther()">
+              <option value="RRB">RRB</option><option value="SSC">SSC</option><option value="Banking">Banking</option>
+              <option value="Civils">Civils / UPSC</option><option value="Dsc TET">Dsc TET</option><option value="NEET/JEE">NEET/JEE</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSCompOtherInput" type="text" class="hidden" placeholder="Specify Goal" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editSCategoryOtherGroup">
+            <label>Specify Category</label>
+            <input id="editSCategoryOtherInput" type="text" placeholder="Specify requirement">
+          </div>
+
+          <div class="form-group-half"><label>Preferred Timings</label><input id="editSTimings" type="text"></div>
           <div class="form-group-half"><label>GMT Zone</label>
             <select id="editSGmt">
-              <option value="GMT+5:30 (IST)">GMT+5:30 (IST)</option>
-              <option value="GMT+0:00 (GMT)">GMT+0:00</option>
+              <option value="GMT+5:30 (IST)">GMT+5:30 (IST - India)</option>
+              <option value="GMT+0:00 (GMT)">GMT+0:00 (GMT/UTC)</option>
+              <option value="GMT+4:00 (GST)">GMT+4:00 (GST - UAE)</option>
+              <option value="GMT+8:00 (SGT)">GMT+8:00 (SGT - Singapore)</option>
+              <option value="GMT-5:00 (EST)">GMT-5:00 (EST - US)</option>
             </select>
           </div>
         </div>
@@ -455,7 +600,7 @@
   </section>
 </main>
 
-<!-- THREE BUTTONS PERSISTENT BOTTOM DOCK (Mobile Only) -->
+<!-- BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn">
     <i class="fa-solid fa-clipboard-list" style="color:#0A192F;"></i>
@@ -498,9 +643,122 @@ let isPanning = false;
 let startMouseX = 0;
 let startMouseY = 0;
 
+const ACADEMIC_SUBJECTS_LIST = [
+  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
+  "English", "Social Science", "History", "Geography", "Economics",
+  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
+  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)"
+];
+
+function toggleEditMulti(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains("show");
+  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  if (!isOpen) {
+    box.classList.add("show");
+    box.previousElementSibling.classList.add("open");
+  }
+}
+
+function getCheckedValues(containerId) {
+  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+  return Array.from(checked).map(c => c.value);
+}
+
+function updateEditMultiLabel(prefix) {
+  const trigger = document.getElementById(prefix + "Trigger");
+  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "Others");
+  const hasOther = document.querySelector(`#${prefix}Dropdown input[value="Others"]:checked`);
+
+  let count = values.length + (hasOther ? 1 : 0);
+  if (count === 0) {
+    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else if (count <= 2) {
+    const displayArr = [...values];
+    if (hasOther) displayArr.push("Others");
+    trigger.innerHTML = `${displayArr.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else {
+    trigger.innerHTML = `${count} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  }
+}
+
+function populateEditGradeChecklists() {
+  const tGrades = document.getElementById("editTGradesDropdown");
+  const sGrades = document.getElementById("editSGradesDropdown");
+  let tHtml = "";
+  let sHtml = "";
+  for (let i = 1; i <= 12; i++) {
+    tHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editTGrades')"> Grade ${i}</label>`;
+    sHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editSGrades')"> Grade ${i}</label>`;
+  }
+  if (tGrades) tGrades.innerHTML = tHtml;
+  if (sGrades) sGrades.innerHTML = sHtml;
+
+  const tSubs = document.getElementById("editTSubjectsDropdown");
+  if (tSubs) {
+    tSubs.innerHTML = ACADEMIC_SUBJECTS_LIST.map(sub => `
+      <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateEditMultiLabel('editTSubjects')"> ${sub}</label>
+    `).join("");
+  }
+}
+
+function handleEditOtherToggle(prefix) {
+  const cb = document.getElementById(prefix + "Cb");
+  document.getElementById(prefix + "Input").classList.toggle("hidden", !cb.checked);
+  if (prefix.includes("Board")) updateEditMultiLabel("editTBoards");
+  if (prefix.includes("Skill")) updateEditMultiLabel("editTSkills");
+  if (prefix.includes("Comp")) updateEditMultiLabel("editTComp");
+}
+
 function toggleEditModeAddress(prefix) {
   const mode = document.getElementById(prefix + "Mode").value;
   document.getElementById(prefix + "AddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleEditTeacherCategoryChange() {
+  const cat = document.getElementById("editTCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("editTAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editTAcademicSubjectsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editTAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("editTNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("editTCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("editTCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleEditStudentCategoryChange() {
+  const cat = document.getElementById("editSCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("editSAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editSAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editSAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("editSNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("editSCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("editSCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleEditStudentBoardOther() {
+  const val = document.getElementById("editSBoard").value;
+  document.getElementById("editSBoardOtherGroup").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentSkillOther() {
+  const val = document.getElementById("editSSkillSelect").value;
+  document.getElementById("editSSkillOtherInput").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentCompOther() {
+  const val = document.getElementById("editSCompSelect").value;
+  document.getElementById("editSCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
 function loadRawImageForCropper(event) {
@@ -630,7 +888,6 @@ function toggleEditMode(editing) {
     document.getElementById("editTeacherContainer").classList.toggle("hidden", !isTeacher);
     document.getElementById("editStudentContainer").classList.toggle("hidden", isTeacher);
 
-    // Extract address & location
     let fullAddr = currentProfile.address || '';
     let loc = fullAddr;
     let street = '';
@@ -640,7 +897,6 @@ function toggleEditMode(editing) {
       loc = ap[1].trim();
     }
 
-    // Extract mobile digits & country code
     let mob = currentProfile.mobile || '';
     let code = '+91';
     let phoneNum = mob;
@@ -661,7 +917,6 @@ function toggleEditMode(editing) {
       document.getElementById("editTLocation").value = loc;
       document.getElementById("editTAddress").value = street;
 
-      // Qualifications and Experience
       let qualStr = currentProfile.qualification || '';
       let expStr = '';
       if (qualStr.includes('•')) {
@@ -672,17 +927,46 @@ function toggleEditMode(editing) {
       document.getElementById("editTQual").value = qualStr;
       document.getElementById("editTExp").value = expStr;
 
-      // Category, Classes, Board, Subject
       const rawClass = currentProfile.classes || '';
+      const rawSub = currentProfile.subject || '';
       let cat = 'Academic';
-      if (rawClass.includes('Non-Academic')) cat = 'Non-Academic';
+      if (rawClass.includes('Non-Academic') || rawSub.includes('Creative')) cat = 'Non-Academic';
       else if (rawClass.includes('Competitive')) cat = 'Competitive';
-      document.getElementById("editTCategory").value = cat;
-      document.getElementById("editTClasses").value = currentProfile.classes || '';
-      document.getElementById("editTBoard").value = currentProfile.board || 'CBSE';
-      document.getElementById("editTSubject").value = currentProfile.subject || '';
+      else if (rawClass.includes('Specialized') || rawClass.includes('Other')) cat = 'Others';
 
-      // Fee, Currency, FeeType, Timings, GMT
+      document.getElementById("editTCategory").value = cat;
+      handleEditTeacherCategoryChange();
+
+      if (cat === 'Academic') {
+        document.querySelectorAll("#editTGradesDropdown input[type='checkbox']").forEach(cb => {
+          cb.checked = rawClass.includes(cb.value);
+        });
+        updateEditMultiLabel('editTGrades');
+
+        document.querySelectorAll("#editTSubjectsDropdown input[type='checkbox']").forEach(cb => {
+          cb.checked = rawSub.includes(cb.value);
+        });
+        updateEditMultiLabel('editTSubjects');
+
+        const rawBoard = currentProfile.board || '';
+        document.querySelectorAll("#editTBoardsDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawBoard.includes(cb.value);
+        });
+        updateEditMultiLabel('editTBoards');
+      } else if (cat === 'Non-Academic') {
+        document.querySelectorAll("#editTSkillsDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawSub.includes(cb.value);
+        });
+        updateEditMultiLabel('editTSkills');
+      } else if (cat === 'Competitive') {
+        document.querySelectorAll("#editTCompDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawSub.includes(cb.value);
+        });
+        updateEditMultiLabel('editTComp');
+      } else {
+        document.getElementById("editTCategoryOtherInput").value = rawSub;
+      }
+
       let timingFee = currentProfile.timing_fee_desc || '';
       let feePart = '';
       let timingPart = '';
@@ -695,8 +979,14 @@ function toggleEditMode(editing) {
       }
 
       let cur = 'INR';
-      if (feePart.includes('USD') || feePart.includes('$')) cur = 'USD';
-      document.getElementById("editTCurrency").value = cur;
+      const curSelect = document.getElementById("editTCurrency");
+      for (let opt of curSelect.options) {
+        if (feePart.includes(opt.value)) {
+          cur = opt.value;
+          break;
+        }
+      }
+      curSelect.value = cur;
 
       let feeType = 'Per class';
       if (feePart.toLowerCase().includes('month')) feeType = 'Per month';
@@ -711,14 +1001,19 @@ function toggleEditMode(editing) {
         const tMatch = timingPart.match(/^(.*?)\s*\((.*?)\)$/);
         if (tMatch) {
           timeOnly = tMatch[1].trim();
-          if (tMatch[2].includes('GMT+0:00')) gmtVal = 'GMT+0:00 (GMT)';
+          const gmtSelect = document.getElementById("editTGmt");
+          for (let opt of gmtSelect.options) {
+            if (opt.value.includes(tMatch[2])) {
+              gmtVal = opt.value;
+              break;
+            }
+          }
         }
       }
       document.getElementById("editTTimings").value = timeOnly;
       document.getElementById("editTGmt").value = gmtVal;
 
     } else {
-      // Student details
       document.getElementById("editSName").value = currentProfile.student_name || '';
       document.getElementById("editSParentName").value = currentProfile.parent_name || '';
       document.getElementById("editSCode").value = code;
@@ -727,9 +1022,60 @@ function toggleEditMode(editing) {
       toggleEditModeAddress('editS');
       document.getElementById("editSLocation").value = loc;
       document.getElementById("editSAddress").value = street;
-      document.getElementById("editSClass").value = currentProfile.student_class || '';
-      document.getElementById("editSBoard").value = currentProfile.board || 'CBSE';
-      document.getElementById("editSSubject").value = currentProfile.subject || '';
+
+      const rawClass = currentProfile.student_class || '';
+      const rawSub = currentProfile.subject || '';
+      let cat = 'Academic';
+      if (rawClass.includes('Non-Academic') || rawSub.includes('Creative')) cat = 'Non-Academic';
+      else if (rawClass.includes('Competitive')) cat = 'Competitive';
+      else if (rawClass.includes('Specialized') || rawClass.includes('Other')) cat = 'Others';
+
+      document.getElementById("editSCategory").value = cat;
+      handleEditStudentCategoryChange();
+
+      if (cat === 'Academic') {
+        document.querySelectorAll("#editSGradesDropdown input[type='checkbox']").forEach(cb => {
+          cb.checked = rawClass.includes(cb.value);
+        });
+        updateEditMultiLabel('editSGrades');
+
+        const bSelect = document.getElementById("editSBoard");
+        let bVal = currentProfile.board || 'CBSE';
+        let found = false;
+        for (let opt of bSelect.options) {
+          if (opt.value === bVal) { bSelect.value = bVal; found = true; break; }
+        }
+        if (!found) {
+          bSelect.value = "Others";
+          document.getElementById("editSBoardOtherInput").value = bVal;
+        }
+        handleEditStudentBoardOther();
+        document.getElementById("editSSubject").value = rawSub;
+      } else if (cat === 'Non-Academic') {
+        const sSelect = document.getElementById("editSSkillSelect");
+        let found = false;
+        for (let opt of sSelect.options) {
+          if (opt.value === rawSub) { sSelect.value = rawSub; found = true; break; }
+        }
+        if (!found) {
+          sSelect.value = "Others";
+          document.getElementById("editSSkillOtherInput").value = rawSub;
+        }
+        handleEditStudentSkillOther();
+      } else if (cat === 'Competitive') {
+        const cSelect = document.getElementById("editSCompSelect");
+        let found = false;
+        for (let opt of cSelect.options) {
+          if (opt.value === rawSub) { cSelect.value = rawSub; found = true; break; }
+        }
+        if (!found) {
+          cSelect.value = "Others";
+          document.getElementById("editSCompOtherInput").value = rawSub;
+        }
+        handleEditStudentCompOther();
+      } else {
+        document.getElementById("editSCategoryOtherInput").value = rawSub;
+      }
 
       let sTimingFee = currentProfile.timing_fee_desc || '';
       let sTimeOnly = sTimingFee;
@@ -738,7 +1084,13 @@ function toggleEditMode(editing) {
         const sMatch = sTimingFee.match(/^(.*?)\s*\((.*?)\)$/);
         if (sMatch) {
           sTimeOnly = sMatch[1].trim();
-          if (sMatch[2].includes('0:00')) sGmtVal = 'GMT+0:00 (GMT)';
+          const sgSelect = document.getElementById("editSGmt");
+          for (let opt of sgSelect.options) {
+            if (opt.value.includes(sMatch[2])) {
+              sGmtVal = opt.value;
+              break;
+            }
+          }
         }
       }
       document.getElementById("editSTimings").value = sTimeOnly;
@@ -767,9 +1119,48 @@ async function saveRegistrationParityProfile() {
       const address = document.getElementById("editTAddress").value.trim();
       const qual = document.getElementById("editTQual").value.trim();
       const exp = document.getElementById("editTExp").value.trim();
-      const classes = document.getElementById("editTClasses").value.trim();
-      const board = document.getElementById("editTBoard").value;
-      const subject = document.getElementById("editTSubject").value.trim();
+      const category = document.getElementById("editTCategory").value;
+
+      let classesStr = "";
+      let subjectsStr = "";
+      let boardsStr = "";
+
+      if (category === "Academic") {
+        const grades = getCheckedValues("editTGradesDropdown");
+        classesStr = grades.join(", ") || "Grades 1-12";
+        const subs = getCheckedValues("editTSubjectsDropdown");
+        subjectsStr = subs.join(", ") || "All Subjects";
+
+        let bList = getCheckedValues("editTBoardsDropdown").filter(b => b !== "Others");
+        if (document.getElementById("editTBoardOtherCb")?.checked) {
+          const otherB = document.getElementById("editTBoardOtherInput").value.trim();
+          if (otherB) bList.push(otherB);
+        }
+        boardsStr = bList.join(", ") || "CBSE";
+      } else if (category === "Non-Academic") {
+        let sList = getCheckedValues("editTSkillsDropdown").filter(s => s !== "Others");
+        if (document.getElementById("editTSkillOtherCb")?.checked) {
+          const otherS = document.getElementById("editTSkillOtherInput").value.trim();
+          if (otherS) sList.push(otherS);
+        }
+        classesStr = "Non-Academic / Creative Skills";
+        subjectsStr = sList.join(", ") || "Creative Skills";
+        boardsStr = "Skill Track";
+      } else if (category === "Competitive") {
+        let cList = getCheckedValues("editTCompDropdown").filter(c => c !== "Others");
+        if (document.getElementById("editTCompOtherCb")?.checked) {
+          const otherC = document.getElementById("editTCompOtherInput").value.trim();
+          if (otherC) cList.push(otherC);
+        }
+        classesStr = "Competitive Exams & Jobs";
+        subjectsStr = cList.join(", ") || "Competitive Coaching";
+        boardsStr = "Exam Track";
+      } else {
+        classesStr = "Specialized / Other";
+        subjectsStr = document.getElementById("editTCategoryOtherInput").value.trim() || "General Specialization";
+        boardsStr = "Other";
+      }
+
       const currency = document.getElementById("editTCurrency").value;
       const feeAmt = document.getElementById("editTFeeAmount").value.trim();
       const feeType = document.getElementById("editTFeeType").value;
@@ -784,9 +1175,9 @@ async function saveRegistrationParityProfile() {
         tuition_mode: mode,
         address: `${address ? address + ' • ' : ''}${location}`,
         qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
-        classes: classes || 'All Grades',
-        board: board,
-        subject: subject || 'All Subjects',
+        classes: classesStr,
+        board: boardsStr,
+        subject: subjectsStr,
         fee: Number(feeAmt) || 0,
         timing_fee_desc: timingFeeDesc
       };
@@ -798,9 +1189,43 @@ async function saveRegistrationParityProfile() {
       const mode = document.getElementById("editSMode").value;
       const location = document.getElementById("editSLocation").value.trim();
       const address = document.getElementById("editSAddress").value.trim();
-      const sClass = document.getElementById("editSClass").value.trim();
-      const board = document.getElementById("editSBoard").value;
-      const subject = document.getElementById("editSSubject").value.trim();
+      const category = document.getElementById("editSCategory").value;
+
+      let classesStr = "";
+      let subjectStr = "";
+      let boardStr = "";
+
+      if (category === "Academic") {
+        const grades = getCheckedValues("editSGradesDropdown");
+        classesStr = grades.join(", ") || "Grade 10";
+        let bVal = document.getElementById("editSBoard").value;
+        if (bVal === "Others") {
+          bVal = document.getElementById("editSBoardOtherInput").value.trim() || "Other Board";
+        }
+        boardStr = bVal;
+        subjectStr = document.getElementById("editSSubject").value.trim() || "All Subjects";
+      } else if (category === "Non-Academic") {
+        let skillVal = document.getElementById("editSSkillSelect").value;
+        if (skillVal === "Others") {
+          skillVal = document.getElementById("editSSkillOtherInput").value.trim() || "Other Skill";
+        }
+        classesStr = "Non-Academic / Creative Skills";
+        subjectStr = skillVal;
+        boardStr = "Skill Track";
+      } else if (category === "Competitive") {
+        let compVal = document.getElementById("editSCompSelect").value;
+        if (compVal === "Others") {
+          compVal = document.getElementById("editSCompOtherInput").value.trim() || "Other Exam";
+        }
+        classesStr = "Competitive Exams & Jobs";
+        subjectStr = compVal;
+        boardStr = "Exam Track";
+      } else {
+        classesStr = "Specialized / Other";
+        subjectStr = document.getElementById("editSCategoryOtherInput").value.trim() || "General";
+        boardStr = "Other";
+      }
+
       const timings = document.getElementById("editSTimings").value.trim();
       const gmt = document.getElementById("editSGmt").value;
 
@@ -809,9 +1234,9 @@ async function saveRegistrationParityProfile() {
         parent_name: pName,
         mobile: `${code} ${mobile}`.trim(),
         tuition_mode: mode,
-        student_class: sClass || 'All Grades',
-        board: board,
-        subject: subject || 'All Subjects',
+        student_class: classesStr,
+        board: boardStr,
+        subject: subjectStr,
         address: `${address ? address + ' • ' : ''}${location}`,
         timing_fee_desc: `${timings || 'Flexible'} (${gmt})`
       };
@@ -825,7 +1250,7 @@ async function saveRegistrationParityProfile() {
       localStorage.setItem("apex_profile_cache", JSON.stringify(currentProfile));
       renderProfile();
       toggleEditMode(false);
-      alert("✓ Profile updated successfully in exact registration schema!");
+      alert("✓ Profile updated successfully!");
     }
   } catch (e) {
     alert("Save error: " + e.message);
@@ -934,6 +1359,8 @@ async function logoutUser() {
 }
 
 window.addEventListener("load", async () => {
+  populateEditGradeChecklists();
+
   const cached = localStorage.getItem("apex_profile_cache");
   const cachedRole = localStorage.getItem("apex_role_cache");
   if (cached && cachedRole) {
