@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>My Profile | Apex Tuitions</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --apex-navy: #0A192F;
+      --apex-navy-dark: #070F1E;
+      --royal-blue: #2563EB;
+      --royal-blue-hover: #1D4ED8;
+      --apex-gold: #F59E0B;
+      --emerald: #10B981;
+      --bg-slate: #F8FAFC;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-subtle: #CBD5E1;
+      --card-radius: 16px;
+      --btn-radius: 10px;
+      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+    html, body { overflow-x: hidden !important; width: 100%; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 28px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    .header-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .header-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #ffffff;
+      object-fit: cover;
+      border: 2px solid #ffffff;
+    }
+    .brand-text h1 {
+      font-size: 21px;
+      color: #ffffff;
+      font-weight: 800;
+      line-height: 1;
+    }
+    .nav-links-desktop {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: #CBD5E1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .profile-container {
+      max-width: 880px; margin: 32px auto 56px; padding: 0 20px; width: 100%; flex: 1;
+    }
+    .profile-card {
+      background: #ffffff; border-radius: var(--card-radius); border: 1px solid var(--border-subtle);
+      padding: 34px; box-shadow: var(--shadow-card); position: relative; width: 100%;
+    }
+    .profile-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 24px; flex-wrap: wrap; gap: 16px;
+    }
+    .profile-summary-box {
+      display: flex; align-items: center; gap: 24px; flex-wrap: wrap;
+    }
+    
+    .avatar-wrapper { position: relative; display: inline-block; }
+    .profile-avatar-large {
+      width: 120px; height: 120px; border-radius: 16px; object-fit: cover;
+      border: 3.5px solid var(--royal-blue); background: #F1F5F9; display: block;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.15);
+    }
+    .btn-photo-action {
+      position: absolute; bottom: -6px; right: -6px; background: var(--royal-blue);
+      color: #ffffff; border: 2px solid #ffffff; border-radius: 8px; padding: 7px 12px;
+      display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700;
+      cursor: pointer; transition: var(--transition);
+    }
+    .profile-meta h2 {
+      font-size: 22px; font-weight: 800; color: var(--apex-navy); margin-bottom: 6px;
+    }
+    .badge-verified {
+      background: #DCFCE7; color: #166534; padding: 4px 12px; border-radius: 16px;
+      font-size: 12px; font-weight: 800; display: inline-block;
+    }
+    .btn-edit-inline {
+      background: var(--royal-blue); color: #ffffff; border: none; padding: 9px 18px;
+      border-radius: var(--btn-radius); font-size: 13px; font-weight: 700; cursor: pointer;
+    }
+
+    .details-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    .details-table tr { border-bottom: 1px solid #F1F5F9; }
+    .details-table td { padding: 12px 8px; font-size: 13.5px; }
+    .details-table td:first-child { 
+      font-weight: 800; color: #64748B; width: 34%; text-transform: uppercase; font-size: 11.5px;
+    }
+    .details-table td:last-child { color: #0F172A; font-weight: 600; }
+
+    .edit-inline-form {
+      margin-top: 16px; border-top: 1px solid #E2E8F0; padding-top: 20px;
+    }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+    .form-group-full { grid-column: span 2; }
+    .form-group-half { grid-column: span 1; }
+    
+    label {
+      display: block; font-size: 11px; font-weight: 800; color: #475569;
+      text-transform: uppercase; margin: 4px 0; letter-spacing: 0.3px;
+    }
+    input, select, textarea {
+      width: 100%; height: 40px; min-height: 40px; padding: 6px 12px; border: 1.5px solid var(--border-subtle);
+      border-radius: 8px; font-size: 13px; font-family: inherit; background: #F8FAFC; color: var(--text-main); transition: var(--transition);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--royal-blue); background: #ffffff; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+    textarea { min-height: 56px; height: 56px; padding: 8px 12px; }
+
+    .custom-multiselect { position: relative; width: 100%; }
+    .multiselect-trigger {
+      width: 100%; height: 40px; padding: 6px 12px; border: 1.5px solid var(--border-subtle);
+      border-radius: 8px; font-size: 12.5px; background: #F8FAFC; color: var(--text-main);
+      display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none;
+    }
+    .multiselect-trigger.open { border-color: var(--royal-blue); background: #FFFFFF; }
+    .multiselect-dropdown-box {
+      position: absolute; top: calc(100% + 4px); left: 0; right: 0; max-height: 180px;
+      overflow-y: auto; background: #FFFFFF; border: 1.5px solid var(--border-subtle);
+      border-radius: 10px; box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15); z-index: 3000; padding: 6px; display: none;
+    }
+    .multiselect-dropdown-box.show { display: block; }
+    .multiselect-item {
+      display: flex; align-items: center; gap: 8px; padding: 5px 8px; border-radius: 6px; font-size: 12px; cursor: pointer;
+    }
+    .multiselect-item:hover { background: #EFF6FF; }
+    .multiselect-item input[type="checkbox"] { width: 15px; height: 15px; min-height: 15px; cursor: pointer; accent-color: var(--royal-blue); margin: 0; }
+
+    .cropper-modal-box {
+      background: #F8FAFC; border: 1.5px solid var(--border-subtle); border-radius: 14px;
+      padding: 16px; margin-bottom: 20px;
+    }
+    .crop-viewport {
+      width: 220px; height: 220px; margin: 0 auto 12px; position: relative; overflow: hidden;
+      border: 2px dashed var(--royal-blue); border-radius: 12px; background: #000; cursor: grab;
+    }
+    .crop-viewport canvas { position: absolute; top: 0; left: 0; }
+    .zoom-controls-bar {
+      display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;
+    }
+    .btn-apply-crop {
+      background: var(--emerald); color: #ffffff; border: none; padding: 8px 16px; border-radius: 8px;
+      font-weight: 800; font-size: 13px; cursor: pointer;
+    }
+
+    .edit-form-btns { display: flex; gap: 12px; margin-top: 20px; grid-column: span 2; }
+    .btn-save-inline { flex: 1.5; height: 44px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; font-size: 13.5px; }
+    .btn-cancel-inline { flex: 1; height: 44px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-weight: 800; cursor: pointer; font-size: 13.5px; }
+    .btn-logout {
+      width: 100%; background: #FEE2E2; color: #991B1B; border: 1.5px solid #FECACA; padding: 12px;
+      border-radius: var(--btn-radius); font-size: 13.5px; font-weight: 800; cursor: pointer; margin-top: 24px;
+    }
+
+    .mobile-bottom-dock { display: none; }
+    .hidden { display: none !important; }
+
+    @media (max-width: 768px) {
+      body.logged-in-mobile { padding-bottom: 96px !important; }
+      header { padding: 10px 14px !important; }
+      .brand-group { gap: 8px !important; }
+      .header-logo { width: 36px !important; height: 36px !important; }
+      .brand-text h1 { font-size: 16px !important; }
+      .nav-links-desktop { display: none !important; }
+
+      .profile-container { padding: 0 12px !important; margin-top: 16px !important; }
+      .profile-card { padding: 20px 14px !important; }
+      .profile-header { flex-direction: column !important; align-items: center !important; }
+      .profile-summary-box { flex-direction: column !important; align-items: center !important; text-align: center !important; }
+      .btn-edit-inline { width: 100% !important; margin-top: 8px !important; }
+
+      .details-table, .details-table tbody, .details-table tr, .details-table td {
+        display: block !important;
+        width: 100% !important;
+      }
+      .details-table tr { padding: 8px 0 !important; }
+      .details-table td:first-child { font-size: 11px !important; color: var(--text-muted) !important; padding-bottom: 2px !important; }
+      .details-table td:last-child { font-size: 13.5px !important; word-break: break-word !important; }
+
+      .form-grid-2 { display: flex !important; flex-direction: column !important; gap: 10px !important; }
+      .edit-form-btns { display: flex !important; flex-direction: column !important; gap: 8px !important; }
+
+      body.logged-in-mobile .mobile-bottom-dock {
+        display: grid !important;
+        grid-template-columns: 1.15fr 1fr 1fr;
+        gap: 8px;
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        right: 10px;
+        background: #FFFFFF;
+        padding: 8px 10px;
+        border-radius: 16px;
+        border: 1.5px solid #CBD5E1;
+        box-shadow: 0 8px 24px rgba(10, 25, 47, 0.16);
+        z-index: 9999;
+        align-items: center;
+      }
+      .dock-btn {
+        display: flex; align-items: center; justify-content: center; gap: 6px;
+        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
+        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
+        background: #FFFFFF; color: #0A192F; position: relative;
+      }
+      .dock-btn.dock-btn-primary { background: #0A192F; color: #FFFFFF; border-color: #0A192F; }
+      .dock-btn.dock-btn-primary i { color: #FFFFFF; font-size: 13px; }
+      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .dock-badge {
+        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
+        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <a href="index.html" class="brand-group">
+      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <div class="brand-text">
+        <h1>APEX TUITIONS</h1>
+      </div>
+    </a>
+    
+    <nav class="nav-links-desktop">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="browse.html" class="nav-link">Browse</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="profile.html" class="nav-link active">My Profile</a>
+    </nav>
+  </div>
+</header>
+
+<main class="profile-container">
+  <section class="profile-card" id="profileMainCard">
+    <div class="profile-header">
+      <div class="profile-summary-box">
+        <div class="avatar-wrapper">
+          <img id="viewAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-avatar-large" alt="Profile Picture" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png';">
+          <input type="file" id="inlineAvatarInput" accept="image/*" style="display:none;" onchange="loadRawImageForCropper(event)">
+          <button type="button" class="btn-photo-action" title="Change and Crop Profile Picture" onclick="document.getElementById('inlineAvatarInput').click()">
+            <i class="fa-solid fa-camera"></i> Change Photo
+          </button>
+        </div>
+        <div class="profile-meta">
+          <h2 id="viewName">Loading Profile...</h2>
+          <span class="badge-verified" id="viewRoleBadge">Verified Member ✓</span>
+        </div>
+      </div>
+      <button class="btn-edit-inline" id="btnToggleEdit" onclick="toggleEditMode(true)">
+        <i class="fa-solid fa-pen-to-square"></i> Edit Details
+      </button>
+    </div>
+
+    <!-- CROPPER -->
+    <div class="cropper-modal-box hidden" id="cropperContainer">
+      <p style="text-align:center;font-size:12px;font-weight:700;color:var(--apex-navy);margin-bottom:8px;">
+        Drag Image to Reposition • Use Slider to Zoom
+      </p>
+      <div class="crop-viewport" id="cropViewport" onmousedown="startPan(event)" ontouchstart="startPan(event)">
+        <canvas id="cropCanvas" width="240" height="240"></canvas>
+      </div>
+      <div class="zoom-controls-bar">
+        <i class="fa-solid fa-magnifying-glass-minus" style="font-size:13px;color:#64748B;"></i>
+        <input type="range" id="zoomRange" min="1" max="3" step="0.05" value="1" oninput="applyZoom(this.value)">
+        <i class="fa-solid fa-magnifying-glass-plus" style="font-size:13px;color:#64748B;"></i>
+        <button type="button" class="btn-apply-crop" onclick="confirmCroppedImage()">
+          <i class="fa-solid fa-check"></i> Save Photo
+        </button>
+      </div>
+    </div>
+
+    <!-- DISPLAY TABLE -->
+    <div id="profileDisplayView">
+      <table class="details-table">
+        <tbody>
+          <tr><td>WhatsApp Number</td><td id="dtMobile">—</td></tr>
+          <tr><td>Subject / Specialization</td><td id="dtSubject">—</td></tr>
+          <tr><td>Class / Grade</td><td id="dtClass">—</td></tr>
+          <tr><td>Curriculum / Board</td><td id="dtBoard">—</td></tr>
+          <tr><td>Tuition Mode</td><td id="dtMode">—</td></tr>
+          <tr><td>Location / Area</td><td id="dtLocation">—</td></tr>
+          <tr id="rowQual"><td>Highest Qualification</td><td id="dtQual">—</td></tr>
+          <tr id="rowExp"><td>Teaching Experience</td><td id="dtExp">—</td></tr>
+          <tr id="rowTimings"><td>Available Timings</td><td id="dtTimings">—</td></tr>
+          <tr id="rowFee"><td>Fee Terms</td><td id="dtFee">—</td></tr>
+        </tbody>
+      </table>
+
+      <button class="btn-logout" onclick="logoutUser()">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </button>
+    </div>
+
+    <!-- INLINE REGISTRATION REPLICATED EDIT FORM -->
+    <div id="profileEditInlineView" class="edit-inline-form hidden">
+      <h4 style="font-size:16px;color:var(--apex-navy);margin-bottom:4px;font-weight:800;">Edit Profile Details</h4>
+      <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:16px;">Replicating full registration form schema.</p>
+
+      <!-- TEACHER EDIT CONTAINER -->
+      <div id="editTeacherContainer" class="hidden">
+        <div class="form-grid-2">
+          <div class="form-group-half"><label>Name</label><input id="editTName" type="text"></div>
+          <div class="form-group-half"><label>WhatsApp Number</label>
+            <div style="display:flex;gap:4px;">
+              <input id="editTCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+              <input id="editTMobile" type="tel" style="flex:1;">
+            </div>
+          </div>
+          <div class="form-group-half"><label>Tuition Mode</label>
+            <select id="editTMode" onchange="toggleEditModeAddress('editT')">
+              <option value="Online">Online</option>
+              <option value="Home">Home</option>
+              <option value="Both">Both</option>
+            </select>
+          </div>
+          <div class="form-group-half"><label>Location</label><input id="editTLocation" type="text"></div>
+          <div class="form-group-full hidden" id="editTAddressBox"><label>Address (for Home/Both)</label><textarea id="editTAddress"></textarea></div>
+          <div class="form-group-half"><label>Qualification</label><input id="editTQual" type="text"></div>
+          <div class="form-group-half"><label>Experience (Years)</label><input id="editTExp" type="number" min="0"></div>
+
+          <div class="form-group-full">
+            <label>Main Category</label>
+            <select id="editTCategory" onchange="handleEditTeacherCategoryChange()">
+              <option value="Academic">Academic (School &amp; College)</option>
+              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+              <option value="Competitive">Competitive &amp; Jobs</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <div class="form-group-full" id="editTAcademicGradesGroup">
+            <label>Grades (1 to 12)</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTGradesTrigger" onclick="toggleEditMulti('editTGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTGradesDropdown"></div>
+            </div>
+          </div>
+
+          <div class="form-group-full" id="editTAcademicSubjectsGroup">
+            <label>Subjects (Grades 1 to 12)</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTSubjectsTrigger" onclick="toggleEditMulti('editTSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTSubjectsDropdown"></div>
+            </div>
+            <input id="editTSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full" id="editTAcademicBoardsGroup">
+            <label>Boards</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTBoardsTrigger" onclick="toggleEditMulti('editTBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTBoardsDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="CBSE" onchange="updateEditMultiLabel('editTBoards')"> CBSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="ICSE" onchange="updateEditMultiLabel('editTBoards')"> ICSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="IGCSE" onchange="updateEditMultiLabel('editTBoards')"> IGCSE</label>
+                <label class="multiselect-item"><input type="checkbox" value="IB" onchange="updateEditMultiLabel('editTBoards')"> IB</label>
+                <label class="multiselect-item"><input type="checkbox" value="State" onchange="updateEditMultiLabel('editTBoards')"> State Board</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTBoardOtherCb" value="Others" onchange="handleEditOtherToggle('editTBoardOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTBoardOtherInput" type="text" class="hidden" placeholder="Specify Board" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTNonAcademicGroup">
+            <label>Non-Academic Skills</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTSkillsTrigger" onclick="toggleEditMulti('editTSkillsDropdown')">Select Skills <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTSkillsDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="Abacus" onchange="updateEditMultiLabel('editTSkills')"> Abacus</label>
+                <label class="multiselect-item"><input type="checkbox" value="Music Vocal" onchange="updateEditMultiLabel('editTSkills')"> Music Vocal</label>
+                <label class="multiselect-item"><input type="checkbox" value="Instruments" onchange="updateEditMultiLabel('editTSkills')"> Instruments</label>
+                <label class="multiselect-item"><input type="checkbox" value="Art &amp; Craft" onchange="updateEditMultiLabel('editTSkills')"> Art &amp; Craft</label>
+                <label class="multiselect-item"><input type="checkbox" value="Public Speaking" onchange="updateEditMultiLabel('editTSkills')"> Public Speaking</label>
+                <label class="multiselect-item"><input type="checkbox" value="Creative Writing" onchange="updateEditMultiLabel('editTSkills')"> Creative Writing</label>
+                <label class="multiselect-item"><input type="checkbox" value="Foreign Languages" onchange="updateEditMultiLabel('editTSkills')"> Foreign Languages</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTSkillOtherCb" value="Others" onchange="handleEditOtherToggle('editTSkillOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTCompetitiveGroup">
+            <label>Competitive Exams &amp; Jobs</label>
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="editTCompTrigger" onclick="toggleEditMulti('editTCompDropdown')">Select Exams <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="editTCompDropdown">
+                <label class="multiselect-item"><input type="checkbox" value="RRB" onchange="updateEditMultiLabel('editTComp')"> RRB</label>
+                <label class="multiselect-item"><input type="checkbox" value="SSC" onchange="updateEditMultiLabel('editTComp')"> SSC</label>
+                <label class="multiselect-item"><input type="checkbox" value="Banking" onchange="updateEditMultiLabel('editTComp')"> Banking</label>
+                <label class="multiselect-item"><input type="checkbox" value="Civils" onchange="updateEditMultiLabel('editTComp')"> Civils / UPSC</label>
+                <label class="multiselect-item"><input type="checkbox" value="Dsc TET" onchange="updateEditMultiLabel('editTComp')"> Dsc TET</label>
+                <label class="multiselect-item"><input type="checkbox" value="NEET/JEE" onchange="updateEditMultiLabel('editTComp')"> NEET/JEE</label>
+                <label class="multiselect-item"><input type="checkbox" id="editTCompOtherCb" value="Others" onchange="handleEditOtherToggle('editTCompOther')"> Others</label>
+              </div>
+            </div>
+            <input id="editTCompOtherInput" type="text" class="hidden" placeholder="Specify Goal" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editTCategoryOtherGroup">
+            <label>Specify Category</label>
+            <input id="editTCategoryOtherInput" type="text" placeholder="Specify Specialization">
+          </div>
+
+          <div class="form-group-full"><label>Expected Fee</label>
+            <div style="display:flex;gap:4px;">
+              <select id="editTCurrency" style="flex:0.8;">
+                <option value="INR">INR (₹)</option><option value="USD">USD ($)</option><option value="EUR">EUR (€)</option><option value="GBP">GBP (£)</option>
+                <option value="AED">AED</option><option value="SAR">SAR</option><option value="CAD">CAD</option><option value="AUD">AUD</option>
+                <option value="SGD">SGD</option><option value="QAR">QAR</option><option value="KWD">KWD</option><option value="OMR">OMR</option>
+              </select>
+              <input id="editTFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
+              <select id="editTFeeType" style="flex:0.8;">
+                <option value="Per class">Per class</option><option value="Per month">Per month</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-half"><label>Timings</label><input id="editTTimings" type="text"></div>
+          <div class="form-group-half"><label>GMT Zone</label>
+            <select id="editTGmt">
+              <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST - India)</option>
+              <option value="GMT+0:00 (GMT/UTC - London)">GMT+0:00 (GMT/UTC)</option>
+              <option value="GMT+1:00 (CET - Europe)">GMT+1:00 (CET)</option>
+              <option value="GMT+2:00 (EET - Egypt/SA)">GMT+2:00 (EET)</option>
+              <option value="GMT+3:00 (AST - Saudi/Kuwait)">GMT+3:00 (AST)</option>
+              <option value="GMT+4:00 (GST - UAE/Dubai)">GMT+4:00 (GST)</option>
+              <option value="GMT+8:00 (SGT - Singapore/MY)">GMT+8:00 (SGT)</option>
+              <option value="GMT+9:00 (JST - Japan)">GMT+9:00 (JST)</option>
+              <option value="GMT+10:00 (AEST - Australia)">GMT+10:00 (AEST)</option>
+              <option value="GMT-5:00 (EST - US East)">GMT-5:00 (EST)</option>
+              <option value="GMT-8:00 (PST - US Pacific)">GMT-8:00 (PST)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- STUDENT EDIT CONTAINER: SINGLE GRADE SELECT & SUBJECT DROPDOWN -->
+      <div id="editStudentContainer" class="hidden">
+        <div class="form-grid-2">
+          <div class="form-group-half"><label>Student Name</label><input id="editSName" type="text"></div>
+          <div class="form-group-half"><label>Parent Name</label><input id="editSParentName" type="text"></div>
+          <div class="form-group-half"><label>WhatsApp Number</label>
+            <div style="display:flex;gap:4px;">
+              <input id="editSCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+              <input id="editSMobile" type="tel" style="flex:1;">
+            </div>
+          </div>
+          <div class="form-group-half"><label>Tuition Mode</label>
+            <select id="editSMode" onchange="toggleEditModeAddress('editS')">
+              <option value="Online">Online</option><option value="Home">Home</option><option value="Both">Both</option>
+            </select>
+          </div>
+          <div class="form-group-full hidden" id="editSAddressBox"><label>Address (for Home/Both)</label><textarea id="editSAddress"></textarea></div>
+          <div class="form-group-full"><label>Location</label><input id="editSLocation" type="text"></div>
+
+          <div class="form-group-full">
+            <label>Main Category</label>
+            <select id="editSCategory" onchange="handleEditStudentCategoryChange()">
+              <option value="Academic">Academic (School &amp; College)</option>
+              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+              <option value="Competitive">Competitive &amp; Jobs</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+
+          <!-- ACADEMIC: SINGLE GRADE SELECT -->
+          <div class="form-group-half" id="editSAcademicGradeGroup">
+            <label>Class / Grade</label>
+            <select id="editSClass">
+              <option value="Class 1">Grade 1</option>
+              <option value="Class 2">Grade 2</option>
+              <option value="Class 3">Grade 3</option>
+              <option value="Class 4">Grade 4</option>
+              <option value="Class 5">Grade 5</option>
+              <option value="Class 6">Grade 6</option>
+              <option value="Class 7">Grade 7</option>
+              <option value="Class 8">Grade 8</option>
+              <option value="Class 9">Grade 9</option>
+              <option value="Class 10">Grade 10</option>
+              <option value="Class 11">Grade 11</option>
+              <option value="Class 12">Grade 12</option>
+            </select>
+          </div>
+
+          <div class="form-group-half" id="editSAcademicBoardsGroup">
+            <label>Board</label>
+            <select id="editSBoard" onchange="handleEditStudentBoardOther()">
+              <option value="CBSE">CBSE</option><option value="ICSE">ICSE</option><option value="IGCSE">IGCSE</option>
+              <option value="IB">IB</option><option value="State">State Board</option><option value="Others">Others</option>
+            </select>
+          </div>
+          <div class="form-group-full hidden" id="editSBoardOtherGroup">
+            <label>Specify Board</label>
+            <input id="editSBoardOtherInput" type="text" placeholder="Specify board">
+          </div>
+
+          <!-- ACADEMIC: SUBJECT WITH OTHERS DROPDOWN -->
+          <div class="form-group-full" id="editSAcademicSubjectGroup">
+            <label>Subject Requirement</label>
+            <select id="editSSubjectSelect" onchange="handleEditStudentSubjectOther()">
+              <option value="Mathematics">Mathematics</option>
+              <option value="Science (General)">Science (General)</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Biology">Biology</option>
+              <option value="English">English</option>
+              <option value="Social Science">Social Science</option>
+              <option value="Economics">Economics</option>
+              <option value="Accountancy">Accountancy</option>
+              <option value="Computer Science">Computer Science</option>
+              <option value="Hindi">Hindi</option>
+              <option value="All Subjects">All Subjects</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSSubjectOtherInput" type="text" class="hidden" placeholder="Specify exact subject" style="margin-top:6px;">
+          </div>
+
+          <!-- NON-ACADEMIC -->
+          <div class="form-group-full hidden" id="editSNonAcademicGroup">
+            <label>Non-Academic Skills</label>
+            <select id="editSSkillSelect" onchange="handleEditStudentSkillOther()">
+              <option value="Abacus">Abacus</option>
+              <option value="Music Vocal and Instruments">Music Vocal and Instruments</option>
+              <option value="Art &amp; Craft">Art &amp; Craft</option>
+              <option value="Public Speaking">Public Speaking</option>
+              <option value="Creative Writing">Creative Writing</option>
+              <option value="Foreign Languages">Foreign Languages</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+          </div>
+
+          <!-- COMPETITIVE -->
+          <div class="form-group-full hidden" id="editSCompetitiveGroup">
+            <label>Competitive Exams &amp; Jobs</label>
+            <select id="editSCompSelect" onchange="handleEditStudentCompOther()">
+              <option value="RRB">RRB</option><option value="SSC">SSC</option><option value="Banking">Banking</option>
+              <option value="Civils">Civils / UPSC</option><option value="Dsc TET">Dsc TET</option><option value="NEET/JEE">NEET/JEE</option>
+              <option value="Others">Others</option>
+            </select>
+            <input id="editSCompOtherInput" type="text" class="hidden" placeholder="Specify Goal" style="margin-top:6px;">
+          </div>
+
+          <div class="form-group-full hidden" id="editSCategoryOtherGroup">
+            <label>Specify Category</label>
+            <input id="editSCategoryOtherInput" type="text" placeholder="Specify requirement">
+          </div>
+
+          <div class="form-group-half"><label>Preferred Timings</label><input id="editSTimings" type="text"></div>
+          <div class="form-group-half"><label>GMT Zone</label>
+            <select id="editSGmt">
+              <option value="GMT+5:30 (IST)">GMT+5:30 (IST - India)</option>
+              <option value="GMT+0:00 (GMT)">GMT+0:00 (GMT/UTC)</option>
+              <option value="GMT+4:00 (GST)">GMT+4:00 (GST - UAE)</option>
+              <option value="GMT+8:00 (SGT)">GMT+8:00 (SGT - Singapore)</option>
+              <option value="GMT-5:00 (EST)">GMT-5:00 (EST - US)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="edit-form-btns">
+        <button type="button" class="btn-cancel-inline" onclick="toggleEditMode(false)">Cancel</button>
+        <button type="button" class="btn-save-inline" id="btnSaveInline" onclick="saveRegistrationParityProfile()">Save All Changes</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<nav class="mobile-bottom-dock" id="mobileBottomDock">
+  <a href="enquiries.html" class="dock-btn">
+    <i class="fa-solid fa-clipboard-list" style="color:#0A192F;"></i>
+    <span>Enquiries</span>
+    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+  </a>
+
+  <a href="profile.html" class="dock-btn dock-btn-primary">
+    <i class="fa-solid fa-user"></i>
+    <div class="dock-btn-label-stacked">
+      <span>View My</span>
+      <span>Profile</span>
+    </div>
+  </a>
+
+  <a href="browse.html" class="dock-btn">
+    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+    <div class="dock-btn-label-stacked">
+      <span>Browse</span>
+      <span id="dockBrowseLabel">Teachers</span>
+    </div>
+  </a>
+</nav>
+
+<script>
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentRole = null;
+let currentProfile = null;
+let croppedImageBase64 = null;
+
+let rawImageObj = null;
+let zoomLevel = 1;
+let panX = 0;
+let panY = 0;
+let isPanning = false;
+let startMouseX = 0;
+let startMouseY = 0;
+
+const ACADEMIC_SUBJECTS_LIST = [
+  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
+  "English", "Social Science", "History", "Geography", "Economics",
+  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
+  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)"
+];
+
+function toggleEditMulti(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains("show");
+  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  if (!isOpen) {
+    box.classList.add("show");
+    box.previousElementSibling.classList.add("open");
+  }
+}
+
+function getCheckedValues(containerId) {
+  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+  return Array.from(checked).map(c => c.value);
+}
+
+function updateEditMultiLabel(prefix) {
+  const trigger = document.getElementById(prefix + "Trigger");
+  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "Others");
+  const hasOther = document.querySelector(`#${prefix}Dropdown input[value="Others"]:checked`);
+
+  let count = values.length + (hasOther ? 1 : 0);
+  if (count === 0) {
+    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else if (count <= 2) {
+    const displayArr = [...values];
+    if (hasOther) displayArr.push("Others");
+    trigger.innerHTML = `${displayArr.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else {
+    trigger.innerHTML = `${count} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  }
+}
+
+function populateEditTeacherChecklists() {
+  const tGrades = document.getElementById("editTGradesDropdown");
+  let tHtml = "";
+  for (let i = 1; i <= 12; i++) {
+    tHtml += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateEditMultiLabel('editTGrades')"> Grade ${i}</label>`;
+  }
+  if (tGrades) tGrades.innerHTML = tHtml;
+
+  const tSubs = document.getElementById("editTSubjectsDropdown");
+  if (tSubs) {
+    let subHtml = ACADEMIC_SUBJECTS_LIST.map(sub => `
+      <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateEditMultiLabel('editTSubjects')"> ${sub}</label>
+    `).join("");
+    subHtml += `<label class="multiselect-item"><input type="checkbox" id="editTSubjectOtherCb" value="Others" onchange="handleEditTeacherSubjectOtherToggle()"> Others</label>`;
+    tSubs.innerHTML = subHtml;
+  }
+}
+
+function handleEditTeacherSubjectOtherToggle() {
+  const cb = document.getElementById("editTSubjectOtherCb");
+  document.getElementById("editTSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateEditMultiLabel('editTSubjects');
+}
+
+function handleEditOtherToggle(prefix) {
+  const cb = document.getElementById(prefix + "Cb");
+  document.getElementById(prefix + "Input").classList.toggle("hidden", !cb.checked);
+  if (prefix.includes("Board")) updateEditMultiLabel("editTBoards");
+  if (prefix.includes("Skill")) updateEditMultiLabel("editTSkills");
+  if (prefix.includes("Comp")) updateEditMultiLabel("editTComp");
+}
+
+function toggleEditModeAddress(prefix) {
+  const mode = document.getElementById(prefix + "Mode").value;
+  document.getElementById(prefix + "AddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleEditTeacherCategoryChange() {
+  const cat = document.getElementById("editTCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("editTAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editTAcademicSubjectsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editTAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("editTNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("editTCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("editTCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleEditStudentCategoryChange() {
+  const cat = document.getElementById("editSCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("editSAcademicGradeGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editSAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("editSAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("editSNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("editSCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("editSCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleEditStudentBoardOther() {
+  const val = document.getElementById("editSBoard").value;
+  document.getElementById("editSBoardOtherGroup").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentSubjectOther() {
+  const val = document.getElementById("editSSubjectSelect").value;
+  document.getElementById("editSSubjectOtherInput").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentSkillOther() {
+  const val = document.getElementById("editSSkillSelect").value;
+  document.getElementById("editSSkillOtherInput").classList.toggle("hidden", val !== "Others");
+}
+function handleEditStudentCompOther() {
+  const val = document.getElementById("editSCompSelect").value;
+  document.getElementById("editSCompOtherInput").classList.toggle("hidden", val !== "Others");
+}
+
+function loadRawImageForCropper(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    rawImageObj = new Image();
+    rawImageObj.onload = function() {
+      document.getElementById("cropperContainer").classList.remove("hidden");
+      zoomLevel = 1;
+      document.getElementById("zoomRange").value = "1";
+      panX = 0; panY = 0;
+      drawCropCanvas();
+    };
+    rawImageObj.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function drawCropCanvas() {
+  const canvas = document.getElementById("cropCanvas");
+  if (!canvas || !rawImageObj) return;
+  const ctx = canvas.getContext("2d");
+  const cw = canvas.width;
+  const ch = canvas.height;
+
+  ctx.clearRect(0, 0, cw, ch);
+  const aspect = rawImageObj.width / rawImageObj.height;
+  let drawW, drawH;
+
+  if (aspect >= 1) {
+    drawH = ch * zoomLevel;
+    drawW = drawH * aspect;
+  } else {
+    drawW = cw * zoomLevel;
+    drawH = drawW / aspect;
+  }
+
+  const minX = Math.min(0, cw - drawW);
+  const minY = Math.min(0, ch - drawH);
+  panX = Math.min(0, Math.max(minX, panX));
+  panY = Math.min(0, Math.max(minY, panY));
+
+  ctx.drawImage(rawImageObj, panX, panY, drawW, drawH);
+}
+
+function applyZoom(val) {
+  zoomLevel = parseFloat(val);
+  drawCropCanvas();
+}
+
+function startPan(e) {
+  isPanning = true;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  startMouseX = clientX - panX;
+  startMouseY = clientY - panY;
+
+  window.addEventListener("mousemove", onPan);
+  window.addEventListener("touchmove", onPan);
+  window.addEventListener("mouseup", endPan);
+  window.addEventListener("touchend", endPan);
+}
+
+function onPan(e) {
+  if (!isPanning) return;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  panX = clientX - startMouseX;
+  panY = clientY - startMouseY;
+  drawCropCanvas();
+}
+
+function endPan() {
+  isPanning = false;
+  window.removeEventListener("mousemove", onPan);
+  window.removeEventListener("touchmove", onPan);
+  window.removeEventListener("mouseup", endPan);
+  window.removeEventListener("touchend", endPan);
+}
+
+async function confirmCroppedImage() {
+  const canvas = document.getElementById("cropCanvas");
+  croppedImageBase64 = canvas.toDataURL("image/jpeg", 0.9);
+  document.getElementById("viewAvatar").src = croppedImageBase64;
+  document.getElementById("cropperContainer").classList.add("hidden");
+
+  try {
+    const avatarUrl = await uploadAvatarStorage(currentUser.id);
+    const table = (currentRole === 'teacher') ? 'teachers' : 'students';
+    await db.from(table).update({ avatar_url: avatarUrl }).eq("id", currentUser.id);
+    currentProfile.avatar_url = avatarUrl;
+    localStorage.setItem("apex_profile_cache", JSON.stringify(currentProfile));
+    alert("✓ Profile photo updated successfully!");
+  } catch (err) {
+    console.warn("Photo save:", err);
+  }
+}
+
+async function uploadAvatarStorage(userId) {
+  if (!croppedImageBase64) return currentProfile.avatar_url || "";
+  const res = await fetch(croppedImageBase64);
+  const blob = await res.blob();
+  const path = `${userId}-${Date.now()}.jpg`;
+
+  try {
+    const { error: upErr } = await db.storage.from('avatars').upload(path, blob, { upsert: true, contentType: 'image/jpeg' });
+    if (!upErr) {
+      const { data } = db.storage.from('avatars').getPublicUrl(path);
+      return data.publicUrl;
+    }
+  } catch (err) {
+    console.warn("Storage fallback:", err);
+  }
+  return croppedImageBase64;
+}
+
+function toggleEditMode(editing) {
+  document.getElementById("profileDisplayView").classList.toggle("hidden", editing);
+  document.getElementById("profileEditInlineView").classList.toggle("hidden", !editing);
+  document.getElementById("btnToggleEdit").classList.toggle("hidden", editing);
+
+  if (editing && currentProfile) {
+    const isTeacher = currentRole === 'teacher';
+    document.getElementById("editTeacherContainer").classList.toggle("hidden", !isTeacher);
+    document.getElementById("editStudentContainer").classList.toggle("hidden", isTeacher);
+
+    let fullAddr = currentProfile.address || '';
+    let loc = fullAddr;
+    let street = '';
+    if (fullAddr.includes('•')) {
+      const ap = fullAddr.split('•');
+      street = ap[0].trim();
+      loc = ap[1].trim();
+    }
+
+    let mob = currentProfile.mobile || '';
+    let code = '+91';
+    let phoneNum = mob;
+    if (mob.startsWith('+')) {
+      const parts = mob.split(' ');
+      if (parts.length > 1) {
+        code = parts[0];
+        phoneNum = parts.slice(1).join(' ');
+      }
+    }
+
+    if (isTeacher) {
+      document.getElementById("editTName").value = currentProfile.teacher_name || '';
+      document.getElementById("editTCode").value = code;
+      document.getElementById("editTMobile").value = phoneNum;
+      document.getElementById("editTMode").value = currentProfile.tuition_mode || 'Online';
+      toggleEditModeAddress('editT');
+      document.getElementById("editTLocation").value = loc;
+      document.getElementById("editTAddress").value = street;
+
+      let qualStr = currentProfile.qualification || '';
+      let expStr = '';
+      if (qualStr.includes('•')) {
+        const qp = qualStr.split('•');
+        qualStr = qp[0].trim();
+        expStr = qp[1].replace(/[^0-9]/g, '').trim();
+      }
+      document.getElementById("editTQual").value = qualStr;
+      document.getElementById("editTExp").value = expStr;
+
+      const rawClass = currentProfile.classes || '';
+      const rawSub = currentProfile.subject || '';
+      let cat = 'Academic';
+      if (rawClass.includes('Non-Academic') || rawSub.includes('Creative')) cat = 'Non-Academic';
+      else if (rawClass.includes('Competitive')) cat = 'Competitive';
+      else if (rawClass.includes('Specialized') || rawClass.includes('Other')) cat = 'Others';
+
+      document.getElementById("editTCategory").value = cat;
+      handleEditTeacherCategoryChange();
+
+      if (cat === 'Academic') {
+        document.querySelectorAll("#editTGradesDropdown input[type='checkbox']").forEach(cb => {
+          cb.checked = rawClass.includes(cb.value);
+        });
+        updateEditMultiLabel('editTGrades');
+
+        let hasCustomSub = false;
+        let knownSubs = [];
+        document.querySelectorAll("#editTSubjectsDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") {
+            const isMatch = rawSub.includes(cb.value);
+            cb.checked = isMatch;
+            if (isMatch) knownSubs.push(cb.value);
+          }
+        });
+
+        // Determine if additional custom subjects are present
+        const subTokens = rawSub.split(',').map(s => s.trim());
+        const remainingCustom = subTokens.filter(s => !knownSubs.includes(s));
+        if (remainingCustom.length > 0) {
+          document.getElementById("editTSubjectOtherCb").checked = true;
+          document.getElementById("editTSubjectOtherInput").classList.remove("hidden");
+          document.getElementById("editTSubjectOtherInput").value = remainingCustom.join(", ");
+        } else {
+          document.getElementById("editTSubjectOtherCb").checked = false;
+          document.getElementById("editTSubjectOtherInput").classList.add("hidden");
+        }
+        updateEditMultiLabel('editTSubjects');
+
+        const rawBoard = currentProfile.board || '';
+        document.querySelectorAll("#editTBoardsDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawBoard.includes(cb.value);
+        });
+        updateEditMultiLabel('editTBoards');
+      } else if (cat === 'Non-Academic') {
+        document.querySelectorAll("#editTSkillsDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawSub.includes(cb.value);
+        });
+        updateEditMultiLabel('editTSkills');
+      } else if (cat === 'Competitive') {
+        document.querySelectorAll("#editTCompDropdown input[type='checkbox']").forEach(cb => {
+          if (cb.value !== "Others") cb.checked = rawSub.includes(cb.value);
+        });
+        updateEditMultiLabel('editTComp');
+      } else {
+        document.getElementById("editTCategoryOtherInput").value = rawSub;
+      }
+
+      let timingFee = currentProfile.timing_fee_desc || '';
+      let feePart = '';
+      let timingPart = '';
+      if (timingFee.includes('•')) {
+        const tp = timingFee.split('•');
+        feePart = tp[0].trim();
+        timingPart = tp[1].trim();
+      } else {
+        feePart = timingFee.trim();
+      }
+
+      let cur = 'INR';
+      const curSelect = document.getElementById("editTCurrency");
+      for (let opt of curSelect.options) {
+        if (feePart.includes(opt.value)) {
+          cur = opt.value;
+          break;
+        }
+      }
+      curSelect.value = cur;
+
+      let feeType = 'Per class';
+      if (feePart.toLowerCase().includes('month')) feeType = 'Per month';
+      document.getElementById("editTFeeType").value = feeType;
+
+      const feeAmtMatch = feePart.match(/(\d+)/);
+      document.getElementById("editTFeeAmount").value = feeAmtMatch ? feeAmtMatch[1] : (currentProfile.fee || '');
+
+      let timeOnly = timingPart;
+      let gmtVal = 'GMT+5:30 (IST - India)';
+      if (timingPart.includes('(')) {
+        const tMatch = timingPart.match(/^(.*?)\s*\((.*?)\)$/);
+        if (tMatch) {
+          timeOnly = tMatch[1].trim();
+          const gmtSelect = document.getElementById("editTGmt");
+          for (let opt of gmtSelect.options) {
+            if (opt.value.includes(tMatch[2])) {
+              gmtVal = opt.value;
+              break;
+            }
+          }
+        }
+      }
+      document.getElementById("editTTimings").value = timeOnly;
+      document.getElementById("editTGmt").value = gmtVal;
+
+    } else {
+      document.getElementById("editSName").value = currentProfile.student_name || '';
+      document.getElementById("editSParentName").value = currentProfile.parent_name || '';
+      document.getElementById("editSCode").value = code;
+      document.getElementById("editSMobile").value = phoneNum;
+      document.getElementById("editSMode").value = currentProfile.tuition_mode || 'Online';
+      toggleEditModeAddress('editS');
+      document.getElementById("editSLocation").value = loc;
+      document.getElementById("editSAddress").value = street;
+
+      const rawClass = currentProfile.student_class || 'Class 10';
+      const rawSub = currentProfile.subject || '';
+      let cat = 'Academic';
+      if (rawClass.includes('Non-Academic') || rawSub.includes('Creative')) cat = 'Non-Academic';
+      else if (rawClass.includes('Competitive')) cat = 'Competitive';
+      else if (rawClass.includes('Specialized') || rawClass.includes('Other')) cat = 'Others';
+
+      document.getElementById("editSCategory").value = cat;
+      handleEditStudentCategoryChange();
+
+      if (cat === 'Academic') {
+        const sClassSelect = document.getElementById("editSClass");
+        let classFound = false;
+        for (let opt of sClassSelect.options) {
+          if (opt.value === rawClass) { sClassSelect.value = rawClass; classFound = true; break; }
+        }
+        if (!classFound) sClassSelect.value = "Class 10";
+
+        const bSelect = document.getElementById("editSBoard");
+        let bVal = currentProfile.board || 'CBSE';
+        let boardFound = false;
+        for (let opt of bSelect.options) {
+          if (opt.value === bVal) { bSelect.value = bVal; boardFound = true; break; }
+        }
+        if (!boardFound) {
+          bSelect.value = "Others";
+          document.getElementById("editSBoardOtherInput").value = bVal;
+        }
+        handleEditStudentBoardOther();
+
+        const sSubSelect = document.getElementById("editSSubjectSelect");
+        let subFound = false;
+        for (let opt of sSubSelect.options) {
+          if (opt.value === rawSub) { sSubSelect.value = rawSub; subFound = true; break; }
+        }
+        if (!subFound) {
+          sSubSelect.value = "Others";
+          document.getElementById("editSSubjectOtherInput").value = rawSub;
+        }
+        handleEditStudentSubjectOther();
+      } else if (cat === 'Non-Academic') {
+        const sSelect = document.getElementById("editSSkillSelect");
+        let found = false;
+        for (let opt of sSelect.options) {
+          if (opt.value === rawSub) { sSelect.value = rawSub; found = true; break; }
+        }
+        if (!found) {
+          sSelect.value = "Others";
+          document.getElementById("editSSkillOtherInput").value = rawSub;
+        }
+        handleEditStudentSkillOther();
+      } else if (cat === 'Competitive') {
+        const cSelect = document.getElementById("editSCompSelect");
+        let found = false;
+        for (let opt of cSelect.options) {
+          if (opt.value === rawSub) { cSelect.value = rawSub; found = true; break; }
+        }
+        if (!found) {
+          cSelect.value = "Others";
+          document.getElementById("editSCompOtherInput").value = rawSub;
+        }
+        handleEditStudentCompOther();
+      } else {
+        document.getElementById("editSCategoryOtherInput").value = rawSub;
+      }
+
+      let sTimingFee = currentProfile.timing_fee_desc || '';
+      let sTimeOnly = sTimingFee;
+      let sGmtVal = 'GMT+5:30 (IST)';
+      if (sTimingFee.includes('(')) {
+        const sMatch = sTimingFee.match(/^(.*?)\s*\((.*?)\)$/);
+        if (sMatch) {
+          sTimeOnly = sMatch[1].trim();
+          const sgSelect = document.getElementById("editSGmt");
+          for (let opt of sgSelect.options) {
+            if (opt.value.includes(sMatch[2])) {
+              sGmtVal = opt.value;
+              break;
+            }
+          }
+        }
+      }
+      document.getElementById("editSTimings").value = sTimeOnly;
+      document.getElementById("editSGmt").value = sGmtVal;
+    }
+  }
+}
+
+async function saveRegistrationParityProfile() {
+  const saveBtn = document.getElementById("btnSaveInline");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
+
+  const isTeacher = currentRole === 'teacher';
+  const table = isTeacher ? 'teachers' : 'students';
+
+  try {
+    let payload = {};
+
+    if (isTeacher) {
+      const name = document.getElementById("editTName").value.trim();
+      const code = document.getElementById("editTCode").value.trim();
+      const mobile = document.getElementById("editTMobile").value.trim();
+      const mode = document.getElementById("editTMode").value;
+      const location = document.getElementById("editTLocation").value.trim();
+      const address = document.getElementById("editTAddress").value.trim();
+      const qual = document.getElementById("editTQual").value.trim();
+      const exp = document.getElementById("editTExp").value.trim();
+      const category = document.getElementById("editTCategory").value;
+
+      let classesStr = "";
+      let subjectsStr = "";
+      let boardsStr = "";
+
+      if (category === "Academic") {
+        const grades = getCheckedValues("editTGradesDropdown");
+        classesStr = grades.join(", ") || "Grades 1-12";
+        
+        let subList = getCheckedValues("editTSubjectsDropdown").filter(s => s !== "Others");
+        if (document.getElementById("editTSubjectOtherCb")?.checked) {
+          const otherSub = document.getElementById("editTSubjectOtherInput").value.trim();
+          if (otherSub) subList.push(otherSub);
+        }
+        subjectsStr = subList.join(", ") || "All Subjects";
+
+        let bList = getCheckedValues("editTBoardsDropdown").filter(b => b !== "Others");
+        if (document.getElementById("editTBoardOtherCb")?.checked) {
+          const otherB = document.getElementById("editTBoardOtherInput").value.trim();
+          if (otherB) bList.push(otherB);
+        }
+        boardsStr = bList.join(", ") || "CBSE";
+      } else if (category === "Non-Academic") {
+        let sList = getCheckedValues("editTSkillsDropdown").filter(s => s !== "Others");
+        if (document.getElementById("editTSkillOtherCb")?.checked) {
+          const otherS = document.getElementById("editTSkillOtherInput").value.trim();
+          if (otherS) sList.push(otherS);
+        }
+        classesStr = "Non-Academic / Creative Skills";
+        subjectsStr = sList.join(", ") || "Creative Skills";
+        boardsStr = "Skill Track";
+      } else if (category === "Competitive") {
+        let cList = getCheckedValues("editTCompDropdown").filter(c => c !== "Others");
+        if (document.getElementById("editTCompOtherCb")?.checked) {
+          const otherC = document.getElementById("editTCompOtherInput").value.trim();
+          if (otherC) cList.push(otherC);
+        }
+        classesStr = "Competitive Exams & Jobs";
+        subjectsStr = cList.join(", ") || "Competitive Coaching";
+        boardsStr = "Exam Track";
+      } else {
+        classesStr = "Specialized / Other";
+        subjectsStr = document.getElementById("editTCategoryOtherInput").value.trim() || "General Specialization";
+        boardsStr = "Other";
+      }
+
+      const currency = document.getElementById("editTCurrency").value;
+      const feeAmt = document.getElementById("editTFeeAmount").value.trim();
+      const feeType = document.getElementById("editTFeeType").value;
+      const timings = document.getElementById("editTTimings").value.trim();
+      const gmt = document.getElementById("editTGmt").value;
+
+      const timingFeeDesc = `${feeAmt ? currency + ' ' + feeAmt + ' (' + feeType + ')' : 'Negotiable'} • ${timings || 'Flexible'} (${gmt})`;
+
+      payload = {
+        teacher_name: name,
+        mobile: `${code} ${mobile}`.trim(),
+        tuition_mode: mode,
+        address: `${address ? address + ' • ' : ''}${location}`,
+        qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
+        classes: classesStr,
+        board: boardsStr,
+        subject: subjectsStr,
+        fee: Number(feeAmt) || 0,
+        timing_fee_desc: timingFeeDesc
+      };
+    } else {
+      const sName = document.getElementById("editSName").value.trim();
+      const pName = document.getElementById("editSParentName").value.trim();
+      const code = document.getElementById("editSCode").value.trim();
+      const mobile = document.getElementById("editSMobile").value.trim();
+      const mode = document.getElementById("editSMode").value;
+      const location = document.getElementById("editSLocation").value.trim();
+      const address = document.getElementById("editSAddress").value.trim();
+      const category = document.getElementById("editSCategory").value;
+
+      let classesStr = "";
+      let subjectStr = "";
+      let boardStr = "";
+
+      if (category === "Academic") {
+        classesStr = document.getElementById("editSClass").value;
+        
+        let bVal = document.getElementById("editSBoard").value;
+        if (bVal === "Others") {
+          bVal = document.getElementById("editSBoardOtherInput").value.trim() || "Other Board";
+        }
+        boardStr = bVal;
+
+        let subVal = document.getElementById("editSSubjectSelect").value;
+        if (subVal === "Others") {
+          subVal = document.getElementById("editSSubjectOtherInput").value.trim() || "Other Subject";
+        }
+        subjectStr = subVal;
+      } else if (category === "Non-Academic") {
+        let skillVal = document.getElementById("editSSkillSelect").value;
+        if (skillVal === "Others") {
+          skillVal = document.getElementById("editSSkillOtherInput").value.trim() || "Other Skill";
+        }
+        classesStr = "Non-Academic / Creative Skills";
+        subjectStr = skillVal;
+        boardStr = "Skill Track";
+      } else if (category === "Competitive") {
+        let compVal = document.getElementById("editSCompSelect").value;
+        if (compVal === "Others") {
+          compVal = document.getElementById("editSCompOtherInput").value.trim() || "Other Exam";
+        }
+        classesStr = "Competitive Exams & Jobs";
+        subjectStr = compVal;
+        boardStr = "Exam Track";
+      } else {
+        classesStr = "Specialized / Other";
+        subjectStr = document.getElementById("editSCategoryOtherInput").value.trim() || "General";
+        boardStr = "Other";
+      }
+
+      const timings = document.getElementById("editSTimings").value.trim();
+      const gmt = document.getElementById("editSGmt").value;
+
+      payload = {
+        student_name: sName,
+        parent_name: pName,
+        mobile: `${code} ${mobile}`.trim(),
+        tuition_mode: mode,
+        student_class: classesStr,
+        board: boardStr,
+        subject: subjectStr,
+        address: `${address ? address + ' • ' : ''}${location}`,
+        timing_fee_desc: `${timings || 'Flexible'} (${gmt})`
+      };
+    }
+
+    const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
+    if (error) {
+      alert("Error updating profile: " + error.message);
+    } else {
+      currentProfile = { ...currentProfile, ...payload };
+      localStorage.setItem("apex_profile_cache", JSON.stringify(currentProfile));
+      renderProfile();
+      toggleEditMode(false);
+      alert("✓ Profile updated successfully!");
+    }
+  } catch (e) {
+    alert("Save error: " + e.message);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Save All Changes";
+  }
+}
+
+function renderProfile() {
+  const isTeacher = currentRole === 'teacher';
+  const name = isTeacher ? (currentProfile.teacher_name || "Educator") : (currentProfile.student_name || "Student");
+  const fallbackAvatar = isTeacher 
+    ? 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' 
+    : 'https://cdn-icons-png.flaticon.com/512/3135/3135768.png';
+
+  document.getElementById("viewAvatar").src = currentProfile.avatar_url || fallbackAvatar;
+  document.getElementById("viewName").textContent = name;
+  document.getElementById("viewRoleBadge").textContent = isTeacher ? "Verified Educator 👨‍🏫" : "Student / Parent 🎓";
+  document.getElementById("dtMobile").textContent = currentProfile.mobile || "Not specified";
+  document.getElementById("dtSubject").textContent = currentProfile.subject || "All Subjects";
+
+  let rawCls = isTeacher ? (currentProfile.classes || "All") : (currentProfile.student_class || "All");
+  document.getElementById("dtClass").textContent = rawCls;
+  document.getElementById("dtBoard").textContent = currentProfile.board || "All Boards";
+  document.getElementById("dtMode").textContent = currentProfile.tuition_mode || "Online";
+  document.getElementById("dtLocation").textContent = currentProfile.address || "Online";
+
+  if (isTeacher) {
+    document.getElementById("rowQual").classList.remove("hidden");
+    document.getElementById("rowExp").classList.remove("hidden");
+    document.getElementById("rowTimings").classList.remove("hidden");
+    document.getElementById("rowFee").classList.remove("hidden");
+
+    let qualStr = currentProfile.qualification || "Educator";
+    let expStr = "Not specified";
+    if (qualStr && qualStr.includes("•")) {
+      const qParts = qualStr.split("•");
+      qualStr = qParts[0].trim();
+      expStr = qParts[1].trim();
+    }
+
+    let feeText = currentProfile.timing_fee_desc || "Negotiable";
+    let timingsText = "Flexible";
+    if (currentProfile.timing_fee_desc && currentProfile.timing_fee_desc.includes("•")) {
+      const fParts = currentProfile.timing_fee_desc.split("•");
+      feeText = fParts[0].trim();
+      timingsText = fParts[1].trim();
+    }
+
+    document.getElementById("dtQual").textContent = qualStr;
+    document.getElementById("dtExp").textContent = expStr;
+    document.getElementById("dtTimings").textContent = timingsText;
+    document.getElementById("dtFee").textContent = feeText;
+  } else {
+    document.getElementById("rowQual").classList.add("hidden");
+    document.getElementById("rowExp").classList.add("hidden");
+    document.getElementById("rowTimings").classList.add("hidden");
+    document.getElementById("rowFee").classList.add("hidden");
+  }
+}
+
+async function loadProfileData(user) {
+  currentUser = user;
+
+  const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
+  if (t) {
+    currentRole = "teacher";
+    currentProfile = t;
+  } else {
+    const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
+    currentRole = "student";
+    currentProfile = s || {
+      student_name: currentUser.email ? currentUser.email.split("@")[0] : "Member",
+      mobile: "",
+      subject: "General",
+      student_class: "Class 10",
+      board: "CBSE",
+      tuition_mode: "Online",
+      address: ""
+    };
+  }
+
+  localStorage.setItem("apex_profile_cache", JSON.stringify(currentProfile));
+  localStorage.setItem("apex_role_cache", currentRole);
+
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (dockBrowseLabel) {
+    dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
+  }
+
+  const { data: enqPending } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
+  const dBadge = document.getElementById("dockEnquiryBadge");
+  if (dBadge && enqPending && enqPending.length > 0) {
+    dBadge.textContent = enqPending.length;
+    dBadge.classList.remove("hidden");
+  }
+
+  renderProfile();
+}
+
+async function logoutUser() {
+  localStorage.clear();
+  await db.auth.signOut();
+  window.location.replace("index.html");
+}
+
+window.addEventListener("load", async () => {
+  populateEditTeacherChecklists();
+
+  const cached = localStorage.getItem("apex_profile_cache");
+  const cachedRole = localStorage.getItem("apex_role_cache");
+  if (cached && cachedRole) {
+    currentProfile = JSON.parse(cached);
+    currentRole = cachedRole;
+    renderProfile();
+  }
+
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    document.body.classList.add("logged-in-mobile");
+    await loadProfileData(session.user);
+  } else if (!cached) {
+    window.location.replace("index.html?auth=login");
+  }
+});
+</script>
+  <script src="mobile-layout-fix.js"></script>
+</body>
+</html>

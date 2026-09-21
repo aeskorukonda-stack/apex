@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Apex | Apex Tuitions</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --apex-navy: #0A192F;
+      --apex-navy-surface: #112240;
+      --apex-navy-dark: #070F1E;
+      --royal-blue: #2563EB;
+      --royal-blue-hover: #1D4ED8;
+      --apex-gold: #F59E0B;
+      --emerald: #10B981;
+      --emerald-light: #ECFDF5;
+      --bg-slate: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-subtle: #E2E8F0;
+      --card-radius: 18px;
+      --btn-radius: 10px;
+      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(10, 25, 47, 0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 28px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+    .header-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .header-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background: #ffffff;
+      object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .brand-text h1 {
+      font-size: 21px;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1;
+    }
+
+    .nav-links-desktop {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: #CBD5E1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .dropdown-parent { 
+      position: relative; 
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #ffffff !important;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
+      min-width: 190px;
+      padding: 8px;
+      display: none;
+      z-index: 2000;
+    }
+    .dropdown-parent:hover .dropdown-menu { display: block; }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      color: #1E293B !important;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none !important;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    .dropdown-item:hover {
+      background: #EFF6FF;
+      color: var(--royal-blue) !important;
+      transform: translateX(3px);
+    }
+    .dropdown-item i {
+      font-size: 14px;
+      width: 16px;
+      text-align: center;
+    }
+
+    .btn-header-cta {
+      background: linear-gradient(135deg, var(--apex-gold) 0%, var(--apex-gold-hover) 100%);
+      color: var(--apex-navy) !important;
+      font-weight: 800 !important;
+      padding: 8px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13.5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: var(--apex-navy);
+      padding: 20px 24px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      flex-direction: column;
+      gap: 10px;
+      z-index: 999;
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* ABOUT CONTENT */
+    .about-container {
+      max-width: 1060px;
+      margin: 48px auto 68px;
+      padding: 0 24px;
+    }
+    .hero-banner {
+      background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.06), transparent 50%), #ffffff;
+      border-radius: var(--card-radius);
+      padding: 48px 36px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .hero-banner h2 {
+      font-size: 34px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.6px;
+    }
+    .hero-banner p {
+      font-size: 15.5px;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.7;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 36px;
+    }
+    .pillar-card {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      padding: 32px 26px;
+      border: 1.5px solid var(--border-subtle);
+      box-shadow: 0 4px 18px rgba(10, 25, 47, 0.04);
+      transition: var(--transition);
+      position: relative;
+    }
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-card);
+      border-color: var(--royal-blue);
+    }
+    .pillar-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #EFF6FF;
+      color: var(--royal-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+    .pillar-card h3 {
+      font-size: 18px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .pillar-card p {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.65;
+    }
+
+    .info-box {
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      padding: 36px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+    }
+    .info-box h3 {
+      font-size: 21px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .info-box ul {
+      padding-left: 24px;
+      color: #334155;
+      font-size: 14.5px;
+    }
+    .info-box li {
+      margin-bottom: 14px;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.65;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--apex-navy-dark);
+      color: #CBD5E1;
+      padding: 56px 24px 28px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      margin-top: 50px;
+    }
+    .footer-grid {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 36px;
+      margin-bottom: 36px;
+      text-align: left;
+    }
+    .footer-col h4 {
+      color: var(--apex-gold);
+      font-size: 13.5px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
+    .footer-col ul li a {
+      color: #94A3B8;
+      text-decoration: none;
+      font-size: 13px;
+      transition: var(--transition);
+    }
+    .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 22px;
+      text-align: center;
+      font-size: 12px;
+      color: #64748B;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 960px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+    }
+    @media (max-width: 600px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-banner h2 { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <a href="index.html" class="brand-group">
+      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <div class="brand-text">
+        <h1>APEX TUITIONS</h1>
+      </div>
+    </a>
+    
+    <nav class="nav-links-desktop">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="browse.html" class="nav-link">Browse</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      
+      <div class="dropdown-parent">
+        <a href="javascript:void(0)" class="nav-link active">
+          More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+        </a>
+        <div class="dropdown-menu">
+          <a href="about.html" class="dropdown-item">
+            <i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex
+          </a>
+          <a href="feedback.html" class="dropdown-item">
+            <i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback
+          </a>
+          <a href="donate.html" class="dropdown-item">
+            <i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate
+          </a>
+        </div>
+      </div>
+
+      <a href="index.html" class="btn-header-cta" id="navBtnLogin">Sign In</a>
+    </nav>
+
+    <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="index.html">🏠 Home</a>
+    <a href="browse.html">🔍 Browse</a>
+    <a href="resources.html">📚 Resources</a>
+    <a href="about.html">ℹ️ About Apex</a>
+    <a href="feedback.html">💬 Feedback</a>
+    <a href="donate.html">💛 Donate</a>
+    <a href="index.html" id="mNavLogin">🔐 Sign In</a>
+  </div>
+</header>
+
+<main class="about-container">
+  <div class="hero-banner">
+    <h2>Connect Students and Teachers Directly</h2>
+    <p>
+  Apex Tuitions is a platform designed to help students, parents and teachers
+  connect directly for tuition. Students can discover teachers according to
+  their subjects, classes, boards, teaching mode and learning requirements.
+  Teachers can create their profiles and connect with students looking for tuition.
+</p>
+<h2>Online and Home Tuition</h2>
+<p>
+  Find teachers for online tuition or home tuition based on your learning needs.
+  Apex Tuitions supports direct teacher-student communication so that tuition
+  arrangements can be discussed directly between the parties.
+</p>
+<h2>School Subjects, Skills and Competitive Exams</h2>
+<p>
+  Explore teachers for school and college subjects, CBSE, ICSE, State Boards,
+  competitive examinations, languages, music, art, public speaking, creative
+  skills and other learning requirements.
+</p>
+  </div>
+
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <div class="pillar-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h3>Zero Middlemen & Commissions</h3>
+      <p>Commercial aggregators cut 30% to 50% from teachers and burden parents. Apex connects families directly on WhatsApp with zero cuts.</p>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-icon"><i class="fa-solid fa-certificate"></i></div>
+      <h3>Verified Mentors</h3>
+      <p>Every educator profile is checked across school credentials, degree qualifications, and subject specializations.</p>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-icon"><i class="fa-solid fa-globe"></i></div>
+      <h3>Inclusive & Flexible</h3>
+      <p>Connecting across school curriculums (CBSE, ICSE, State Boards), competitive milestones, and creative arts across global time zones.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--royal-blue);"></i> Core Charter & Principles</h3>
+    <ul>
+      <li><b>Direct Autonomy</b>: Educators set their own fair hourly/monthly terms and retain 100% of their compensation directly from families.</li>
+      <li><b>Zero-Commission Access</b>: Free direct connections for students and parents, eliminating agency commission fees.</li>
+      <li><b>Mutual Confirmation</b>: Both educators and students mutually confirm schedules in their portal to maintain genuine community accountability.</li>
+    </ul>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4 style="color:#ffffff;">APEX TUITIONS</h4>
+      <p style="font-size:12.5px;color:#CBD5E1;line-height:1.6;margin-bottom:10px;">
+        A non-profit educational network connecting verified educators directly with students worldwide.
+      </p>
+      <p style="font-size:11.5px;color:#94A3B8;">
+        +91 9533450665 • aeskorukonda@gmail.com
+      </p>
+    </div>
+    <div class="footer-col">
+      <h4>For Students</h4>
+      <ul>
+        <li><a href="browse.html">Search Tutors</a></li>
+        <li><a href="resources.html">Study Resources</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Teachers</h4>
+      <ul>
+        <li><a href="profile.html">Teacher Profile</a></li>
+        <li><a href="about.html">Zero Commission Policy</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Society & Trust</h4>
+      <ul>
+        <li><a href="about.html">About Apex</a></li>
+        <li><a href="feedback.html">Testimonials</a></li>
+        <li><a href="donate.html">Donate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Apex Tuitions. All rights reserved.
+  </div>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+function toggleMobileNav() {
+  document.getElementById("mobileDrawer").classList.toggle("open");
+}
+
+window.addEventListener("load", async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    document.getElementById("navBtnLogin")?.classList.add("hidden");
+    document.getElementById("mNavLogin")?.classList.add("hidden");
+  }
+});
+</script>
+<script src="mobile-layout-fix.js"></script>
+</body>
+</html>
