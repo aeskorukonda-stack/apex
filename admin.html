@@ -14,7 +14,7 @@
     background: #f1f5f9;
     color: #0f172a;
     line-height: 1.5;
-    padding: 14px 10px;
+    padding: 14px 10px 40px;
     min-height: 100vh;
   }
 
@@ -82,6 +82,9 @@
     max-width: 1360px;
     margin: 0 auto;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
   .admin-card {
     background: #ffffff;
@@ -150,6 +153,7 @@
   .m-green { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
   .m-amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
   .m-gold { background: #fffdf0; border: 1.5px solid #fcd34d; color: #b45309; }
+  .m-purple { background: #faf5ff; border: 1.5px solid #e9d5ff; color: #7e22ce; }
   .m-box b { font-size: 22px; display: block; }
   .m-box span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
 
@@ -306,9 +310,10 @@
 </div>
 
 <div class="admin-wrap hidden" id="adminMainWrap">
+  <!-- SECTION 1: ENQUIRIES TRACKER -->
   <div class="admin-card">
     <div class="top-bar">
-      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries & Star Audit Tracker</h1>
+      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries &amp; Star Audit Tracker</h1>
       <div class="btn-group">
         <button class="btn-action btn-export" onclick="exportDataToCSV()"><i class="fa-solid fa-file-excel"></i> Export to Sheets</button>
         <button class="btn-action btn-pin" onclick="openPinModal()"><i class="fa-solid fa-key"></i> Change PIN</button>
@@ -362,6 +367,38 @@
       </table>
     </div>
   </div>
+
+  <!-- SECTION 2: HELP & SUPPORT INQUIRIES TRACKER -->
+  <div class="admin-card">
+    <div class="top-bar">
+      <h1><i class="fa-solid fa-headset" style="color:#2563eb;"></i> Help &amp; Support Inquiries (<span id="supportCount">0</span>)</h1>
+      <div class="btn-group">
+        <button class="btn-action" onclick="loadSupportMessages()"><i class="fa-solid fa-rotate"></i> Refresh Support</button>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User / Contact</th>
+            <th>Category</th>
+            <th>Message Details</th>
+            <th style="text-align:center;">Status</th>
+            <th style="text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="supportTableBody">
+          <tr>
+            <td colspan="6" style="padding:20px;text-align:center;color:#64748b;">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading support messages...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -384,6 +421,7 @@ function verifyGatePin() {
     document.getElementById("adminGate").classList.add("hidden");
     document.getElementById("adminMainWrap").classList.remove("hidden");
     fetchLiveEnquiries();
+    loadSupportMessages();
   } else {
     document.getElementById("gateError").classList.remove("hidden");
     document.getElementById("pinInput").value = "";
@@ -478,6 +516,9 @@ function escapeHtml(str) {
   return String(str || "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" })[m]);
 }
 
+/* =========================================================
+   1. ENQUIRIES & STAR AUDIT
+   ========================================================= */
 async function fetchLiveEnquiries() {
   const tbody = document.getElementById("trackerTableBody");
   tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
@@ -489,7 +530,7 @@ async function fetchLiveEnquiries() {
   ]);
 
   if (enqRes.error) {
-    tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#ef4444;">Error: ${enqRes.error.message}</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#ef4444;">Error: ${escapeHtml(enqRes.error.message)}</td></tr>`;
     return;
   }
 
@@ -588,12 +629,12 @@ async function fetchLiveEnquiries() {
         <td>
           <span class="role-pill ${item.initiatorRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.initiatorRole}</span><br>
           <b>${escapeHtml(item.sender_name || 'Initiator')}</b><br>
-          <small style="color:#64748b;">${item.sender_mobile || 'No Phone'}</small>
+          <small style="color:#64748b;">${escapeHtml(item.sender_mobile || 'No Phone')}</small>
         </td>
         <td>
           <span class="role-pill ${item.recipientRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.recipientRole}</span><br>
           <b>${escapeHtml(item.recipient_name || 'Recipient')}</b><br>
-          <small style="color:#64748b;">${item.recipient_mobile || 'No Phone'}</small>
+          <small style="color:#64748b;">${escapeHtml(item.recipient_mobile || 'No Phone')}</small>
         </td>
         <td><b>${escapeHtml(item.subject || 'Tuition')}</b></td>
         <td><span class="badge ${badgeClass}">${item.displayStatus}</span></td>
@@ -643,11 +684,102 @@ async function overrideStatus(id, newStatus) {
   }
 }
 
+/* =========================================================
+   2. HELP & SUPPORT MESSAGES
+   ========================================================= */
+async function loadSupportMessages() {
+  const tbody = document.getElementById("supportTableBody");
+  const countEl = document.getElementById("supportCount");
+  if (!tbody) return;
+
+  tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading support messages...</td></tr>`;
+
+  const { data: messages, error } = await db
+    .from("support_messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">Error loading support messages: ${escapeHtml(error.message)}</td></tr>`;
+    return;
+  }
+
+  if (!messages || messages.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:24px;text-align:center;color:#64748b;">No support tickets received yet.</td></tr>`;
+    if (countEl) countEl.textContent = "0";
+    return;
+  }
+
+  if (countEl) countEl.textContent = messages.length;
+
+  tbody.innerHTML = messages.map(msg => {
+    const formattedDate = msg.created_at ? new Date(msg.created_at).toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }) : "-";
+
+    const isResolved = (msg.status || '').toLowerCase() === "resolved";
+    const statusBg = isResolved ? "#dcfce7" : "#fef3c7";
+    const statusColor = isResolved ? "#166534" : "#92400e";
+    const borderCol = isResolved ? "#86efac" : "#fde68a";
+
+    return `
+      <tr>
+        <td style="color:#64748b;font-size:12px;white-space:nowrap;">${formattedDate}</td>
+        <td>
+          <b>${escapeHtml(msg.name || 'Anonymous')}</b><br>
+          <a href="mailto:${encodeURIComponent(msg.email)}" style="color:#2563eb;text-decoration:none;font-size:12px;font-weight:600;">
+            ${escapeHtml(msg.email)}
+          </a>
+        </td>
+        <td>
+          <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:800;border:1px solid #bfdbfe;">
+            ${escapeHtml(msg.subject || 'General')}
+          </span>
+        </td>
+        <td style="max-width:320px;line-height:1.4;word-break:break-word;color:#334155;">
+          ${escapeHtml(msg.message)}
+        </td>
+        <td style="text-align:center;white-space:nowrap;">
+          <span class="badge" style="background:${statusBg};color:${statusColor};border:1px solid ${borderCol};">
+            ${escapeHtml(msg.status || 'Unread')}
+          </span>
+        </td>
+        <td style="text-align:center;white-space:nowrap;">
+          <button onclick="toggleSupportStatus('${msg.id}', '${msg.status || 'Unread'}')" 
+                  style="padding:4px 10px;border-radius:6px;border:1px solid #cbd5e1;background:#ffffff;font-size:11.5px;font-weight:700;cursor:pointer;color:#0f172a;transition:0.2s;">
+            ${isResolved ? 'Mark Unread' : '✓ Mark Resolved'}
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function toggleSupportStatus(id, currentStatus) {
+  const nextStatus = (currentStatus === "Resolved") ? "Unread" : "Resolved";
+
+  const { error } = await db
+    .from("support_messages")
+    .update({ status: nextStatus })
+    .eq("id", id);
+
+  if (!error) {
+    loadSupportMessages();
+  } else {
+    alert("Unable to update status: " + error.message);
+  }
+}
+
 window.addEventListener("DOMContentLoaded", () => {
   if (sessionStorage.getItem("apex_admin_auth") === "true") {
     document.getElementById("adminGate").classList.add("hidden");
     document.getElementById("adminMainWrap").classList.remove("hidden");
     fetchLiveEnquiries();
+    loadSupportMessages();
   }
 });
 </script>
