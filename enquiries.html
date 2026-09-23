@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tuition Enquiries | Apex Tuitions</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root {
+      --apex-navy: #0A192F;
+      --apex-navy-surface: #112240;
+      --apex-navy-dark: #070F1E;
+      --royal-blue: #2563EB;
+      --royal-blue-hover: #1D4ED8;
+      --apex-gold: #F59E0B;
+      --emerald: #10B981;
+      --emerald-dark: #059669;
+      --emerald-light: #ECFDF5;
+      --bg-slate: #F8FAFC;
+      --card-bg: #FFFFFF;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --border-subtle: #E2E8F0;
+      --card-radius: 18px;
+      --btn-radius: 10px;
+      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--bg-slate);
+      color: var(--text-main);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      padding-top: 74px;
+    }
+
+    /* HEADER */
+    header {
+      background: rgba(10, 25, 47, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 28px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 10000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      width: 100%;
+    }
+    .header-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .header-logo {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 2px solid #ffffff;
+      background: #ffffff;
+      object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+    .brand-text h1 {
+      font-size: 21px;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1;
+    }
+
+    .header-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-links-desktop {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-link {
+      color: #CBD5E1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 13.5px;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .nav-link:hover, .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .dropdown-parent { 
+      position: relative; 
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #ffffff !important;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
+      min-width: 190px;
+      padding: 8px;
+      display: none;
+      z-index: 2000;
+    }
+    .dropdown-parent:hover .dropdown-menu { display: block; }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      color: #1E293B !important;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none !important;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    .dropdown-item:hover {
+      background: #EFF6FF;
+      color: var(--royal-blue) !important;
+      transform: translateX(3px);
+    }
+
+    .header-auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    #headerAuthGroup.hidden,
+    body.logged-in-mobile #headerAuthGroup {
+      display: none !important;
+    }
+    .btn-header-auth {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff !important;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* HAMBURGER BUTTON */
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: var(--apex-navy);
+      padding: 20px 24px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    main {
+      flex: 1;
+      padding: 36px 20px 80px;
+      max-width: 680px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .enquiries-card {
+      background: #FFFFFF;
+      border-radius: var(--card-radius);
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-card);
+      padding: 32px 28px;
+    }
+    .enquiries-header h2 {
+      font-size: 22px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .enquiries-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .refresh-btn {
+      background: none;
+      border: none;
+      color: var(--royal-blue);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 20px;
+    }
+
+    .enquiry-item-box {
+      border: 1.5px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 18px 16px;
+      background: #F8FAFC;
+      margin-bottom: 14px;
+    }
+    .enquiry-meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .status-badge {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 6px;
+      text-transform: uppercase;
+    }
+    .status-badge.completed { background: #E2E8F0; color: #475569; }
+    .status-badge.confirmed { background: #DCFCE7; color: #166534; }
+    .status-badge.pending { background: #FEF3C7; color: #B45309; }
+    .status-badge.rejected { background: #FEE2E2; color: #991B1B; }
+
+    .enquiry-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      margin-bottom: 4px;
+    }
+    .enquiry-sub {
+      font-size: 12.5px;
+      color: var(--royal-blue);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .enquiry-phone {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+
+    .btn-chat-wa {
+      background: #10B981;
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ========================================================
+       STANDARDIZED GRAND 3-TILE BOTTOM DOCK (PASTEL BUBBLES)
+       ======================================================== */
+    .mobile-bottom-dock {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    @media (max-width: 768px) {
+      body.logged-in-mobile { 
+        padding-bottom: 96px !important; 
+      }
+
+      body.logged-in-mobile .mobile-bottom-dock {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 9px;
+        position: fixed;
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 8px;
+        border-radius: 18px;
+        border: 1.5px solid #CBD5E1;
+        box-shadow: 0 12px 32px rgba(10, 25, 47, 0.16);
+        z-index: 99999;
+        align-items: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+
+      .mobile-bottom-dock .dock-btn {
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
+        color: var(--apex-navy);
+        padding: 8px 4px 6px;
+        border-radius: 14px;
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      .mobile-bottom-dock .dock-btn .tile-icon-bubble {
+        width: 36px;
+        height: 36px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        transition: var(--transition);
+      }
+      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { 
+        background: #ECFDF5; 
+        color: #10B981; 
+      }
+      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { 
+        background: #FEF3C7; 
+        color: #D97706; 
+      }
+      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { 
+        background: #EFF6FF; 
+        color: #2563EB; 
+      }
+
+      .mobile-bottom-dock .dock-btn:hover,
+      .mobile-bottom-dock .dock-btn.active {
+        background: #FFFFFF;
+        transform: translateY(-2px);
+        border-color: var(--royal-blue);
+        box-shadow: 0 6px 14px rgba(37, 99, 235, 0.15);
+      }
+
+      .mobile-bottom-dock .dock-badge {
+        position: absolute;
+        top: -4px;
+        right: -3px;
+        background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+        color: #FFFFFF;
+        font-size: 9.5px;
+        font-weight: 800;
+        border-radius: 12px;
+        padding: 1px 6px;
+        box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+        border: 1.5px solid #FFFFFF;
+      }
+    }
+
+    @media (max-width: 960px) {
+      header { padding: 10px 14px; }
+      body { padding-top: 68px; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .header-auth-buttons { display: flex; gap: 6px; }
+      .btn-header-auth { padding: 6px 12px; font-size: 12px; }
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-wrap">
+    <a href="index.html" class="brand-group">
+      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <div class="brand-text">
+        <h1>APEX TUITIONS</h1>
+      </div>
+    </a>
+    
+    <div class="header-right-actions">
+      <nav class="nav-links-desktop">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="resources.html" class="nav-link">Resources</a>
+        
+        <div class="dropdown-parent">
+          <a href="javascript:void(0)" class="nav-link">
+            More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
+            <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
+            <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-auth-buttons" id="headerAuthGroup">
+        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+      </div>
+
+      <!-- HAMBURGER BUTTON -->
+      <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE SLIDE-OUT DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="index.html">🏠 Home</a>
+    <a href="browse.html">🔍 Browse</a>
+    <a href="resources.html">📚 Resources</a>
+    <a href="about.html">ℹ️ About Apex</a>
+    <a href="feedback.html">💬 Feedback</a>
+    <a href="donate.html">💛 Donate</a>
+  </div>
+</header>
+
+<main>
+  <div class="enquiries-card">
+    <div class="enquiries-header">
+      <h2>Tuition Enquiries & Confirmation</h2>
+      <p>Showing active Pending, Confirmed, and Ended tuitions.</p>
+      <button class="refresh-btn" onclick="loadEnquiries()">
+        <i class="fa-solid fa-rotate"></i> Refresh
+      </button>
+    </div>
+
+    <div id="enquiriesList">
+      <!-- Dynamic Enquiries -->
+    </div>
+  </div>
+</main>
+
+<!-- STANDARDIZED GRAND 3-TILE BOTTOM DOCK -->
+<nav class="mobile-bottom-dock" id="mobileBottomDock">
+  <a href="enquiries.html" class="dock-btn tile-enquiries active">
+    <div class="tile-icon-bubble">
+      <i class="fa-solid fa-comments"></i>
+    </div>
+    <span>💬 Enquiries</span>
+    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+  </a>
+
+  <a href="profile.html" class="dock-btn tile-profile">
+    <div class="tile-icon-bubble">
+      <i class="fa-solid fa-id-badge"></i>
+    </div>
+    <span>👤 Profile</span>
+  </a>
+
+  <a href="browse.html" class="dock-btn tile-browse">
+    <div class="tile-icon-bubble">
+      <i class="fa-solid fa-compass"></i>
+    </div>
+    <span id="dockBrowseLabel">🔍 Browse</span>
+  </a>
+</nav>
+
+<script>
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+
+function toggleMobileNav() {
+  document.getElementById("mobileDrawer").classList.toggle("open");
+}
+
+async function loadEnquiries() {
+  if (!currentUser) return;
+  const listEl = document.getElementById("enquiriesList");
+  listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>Loading records...</p>";
+
+  const { data } = await db.from("enquiries")
+    .select("*")
+    .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
+    .order("created_at", { ascending: false });
+
+  if (!data || data.length === 0) {
+    listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>No enquiries found.</p>";
+    return;
+  }
+
+  listEl.innerHTML = data.map(item => {
+    const isIncoming = (item.recipient_id === currentUser.id);
+    const contactName = isIncoming ? item.sender_name : item.recipient_name;
+    const contactMobile = isIncoming ? item.sender_mobile : item.recipient_mobile;
+    const status = (item.status || 'Pending').toLowerCase();
+    const cleanMob = String(contactMobile || '').replace(/\D/g, '');
+    const waUrl = `https://wa.me/${cleanMob.length === 10 ? '91' + cleanMob : cleanMob}`;
+
+    return `
+      <div class="enquiry-item-box">
+        <div class="enquiry-meta-top">
+          <span class="status-badge ${status}">${item.status || 'Pending'}</span>
+          <span style="font-size:11.5px;color:var(--text-muted);">${isIncoming ? 'Incoming Request' : 'Sent by You'}</span>
+        </div>
+        <div class="enquiry-name">${contactName || 'Member'}</div>
+        <div class="enquiry-sub">Subject: ${item.subject || 'Tuition'}</div>
+        <div class="enquiry-phone">WhatsApp: ${contactMobile || 'Not provided'}</div>
+        <a href="${waUrl}" target="_blank" class="btn-chat-wa">
+          <i class="fa-brands fa-whatsapp"></i> Chat
+        </a>
+      </div>
+    `;
+  }).join("");
+}
+
+if (localStorage.getItem("apex_cached_auth") === "true") {
+  document.body.classList.add("logged-in-mobile");
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    currentUser = session.user;
+    localStorage.setItem("apex_cached_auth", "true");
+    document.body.classList.add("logged-in-mobile");
+
+    const { data: teacher } = await db.from("teachers").select("id").eq("id", currentUser.id).maybeSingle();
+    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+    if (dockBrowseLabel) {
+      dockBrowseLabel.textContent = teacher ? "🔍 Students" : "🔍 Teachers";
+    }
+
+    const { data: enq } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
+    if (enq && enq.length > 0) {
+      const badge = document.getElementById("dockEnquiryBadge");
+      badge.textContent = enq.length;
+      badge.classList.remove("hidden");
+    }
+
+    await loadEnquiries();
+  } else {
+    window.location.href = "index.html?auth=signin";
+  }
+});
+</script>
+<script src="mobile-layout-fix.js"></script>
+</body>
+</html>
