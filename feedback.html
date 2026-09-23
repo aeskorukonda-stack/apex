@@ -336,9 +336,14 @@
       justify-content: center;
       gap: 10px;
     }
-    .submit-btn:hover {
+    .submit-btn:hover:not(:disabled) {
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(10, 25, 47, 0.25);
+    }
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none !important;
     }
 
     /* VERTICAL TESTIMONIAL SCROLLER */
@@ -550,20 +555,20 @@
         <h2>Submit Feedback</h2>
         <p class="subtitle">Share your verified thoughts to be featured on our scrolling feed & profile boards.</p>
 
-        <label>Your Full Name</label>
+        <label for="fbName">Your Full Name</label>
         <input id="fbName" type="text" placeholder="e.g. Ramesh Kumar">
 
-        <label>Role</label>
+        <label for="fbRole">Role</label>
         <select id="fbRole">
           <option value="Parent">Parent</option>
           <option value="Student">Student</option>
           <option value="Teacher">Teacher / Educator</option>
         </select>
 
-        <label>Feedback / Testimonial</label>
+        <label for="fbMessage">Feedback / Testimonial</label>
         <textarea id="fbMessage" placeholder="How has Apex Tuitions supported your learning or teaching goals?"></textarea>
 
-        <button class="submit-btn" onclick="submitFeedback()">
+        <button class="submit-btn" id="fbSubmitBtn" onclick="submitFeedback()">
           <i class="fa-solid fa-paper-plane"></i> Publish Review
         </button>
         <div id="fbMsg" class="msg hidden"></div>
@@ -574,13 +579,13 @@
         <h2>Raise a Request / Query</h2>
         <p class="subtitle">Encountering an issue? Submit your message directly to our support desk.</p>
 
-        <label>Your Name</label>
+        <label for="helpName">Your Name</label>
         <input id="helpName" type="text" placeholder="e.g. Ramesh Kumar">
 
-        <label>Your Email / Contact</label>
+        <label for="helpContact">Your Email / Contact</label>
         <input id="helpContact" type="text" placeholder="name@example.com or phone">
 
-        <label>Category</label>
+        <label for="helpCategory">Category</label>
         <select id="helpCategory">
           <option value="General Query">General Question</option>
           <option value="Teacher Search Issue">Finding a Tutor Issue</option>
@@ -589,10 +594,10 @@
           <option value="Urgent Help">Urgent Assistance</option>
         </select>
 
-        <label>Your Query / Message</label>
+        <label for="helpDetails">Your Query / Message</label>
         <textarea id="helpDetails" placeholder="Provide full details of your issue so we can help quickly..."></textarea>
 
-        <button class="submit-btn" onclick="submitHelpQuery()">
+        <button class="submit-btn" id="helpSubmitBtn" onclick="submitHelpQuery()">
           <i class="fa-solid fa-paper-plane"></i> Send to Support
         </button>
         <div id="helpMsg" class="msg hidden"></div>
@@ -607,7 +612,7 @@
       </div>
       <div class="ticker-window">
         <div class="ticker-track" id="tickerTrack">
-          <!-- Feed items dynamically populated here -->
+          <!-- Fallback or initial static reviews -->
           <div class="ticker-card">
             <p>"Apex Tuitions made it easy to connect with experienced teachers without middleman brokerage."</p>
             <div class="ticker-meta">
@@ -706,24 +711,31 @@ function switchTab(mode) {
 // Populate Scrolling Testimonial Feed
 async function loadTestimonials() {
   const track = document.getElementById("tickerTrack");
-  const { data, error } = await db
-    .from("testimonials")
-    .select("name, role, message")
-    .eq("approved", true)
-    .order("id", { ascending: false })
-    .limit(10);
+  try {
+    const { data, error } = await db
+      .from("testimonials")
+      .select("name, role, message")
+      .eq("approved", true)
+      .order("id", { ascending: false })
+      .limit(10);
 
-  if (data && data.length > 0) {
-    const combined = [...data, ...data];
-    track.innerHTML = combined.map(item => `
-      <div class="ticker-card">
-        <p>"${escapeHtml(item.message)}"</p>
-        <div class="ticker-meta">
-          <span>${escapeHtml(item.name)}</span>
-          <span class="ticker-role-tag">${escapeHtml(item.role || 'Member')}</span>
+    if (!error && data && data.length > 0) {
+      // Duplicate enough times so scrolling has no blank gap
+      const multiplier = data.length < 4 ? 4 : 2;
+      const combined = Array(multiplier).fill(data).flat();
+      
+      track.innerHTML = combined.map(item => `
+        <div class="ticker-card">
+          <p>"${escapeHtml(item.message)}"</p>
+          <div class="ticker-meta">
+            <span>${escapeHtml(item.name)}</span>
+            <span class="ticker-role-tag">${escapeHtml(item.role || 'Member')}</span>
+          </div>
         </div>
-      </div>
-    `).join("");
+      `).join("");
+    }
+  } catch (err) {
+    console.error("Could not fetch testimonials:", err);
   }
 }
 
@@ -734,10 +746,15 @@ function escapeHtml(str) {
 
 // 1. Submit Feedback / Testimonials
 async function submitFeedback() {
-  const name = document.getElementById("fbName").value.trim();
-  const role = document.getElementById("fbRole").value;
-  const message = document.getElementById("fbMessage").value.trim();
+  const nameInput = document.getElementById("fbName");
+  const roleInput = document.getElementById("fbRole");
+  const msgInput = document.getElementById("fbMessage");
+  const submitBtn = document.getElementById("fbSubmitBtn");
   const msgEl = document.getElementById("fbMsg");
+
+  const name = nameInput.value.trim();
+  const role = roleInput.value;
+  const message = msgInput.value.trim();
 
   if (!name || !message) {
     msgEl.textContent = "Please provide both your name and feedback.";
@@ -746,33 +763,50 @@ async function submitFeedback() {
     return;
   }
 
-  const { error } = await db.from("testimonials").insert([{
-    user_id: currentUser ? currentUser.id : null,
-    name: name,
-    role: role,
-    message: message,
-    approved: true
-  }]);
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
-  if (error) {
-    msgEl.textContent = error.message;
+  try {
+    // Keep approved as false for moderation safety; change to true if instant publishing is intended
+    const { error } = await db.from("testimonials").insert([{
+      user_id: currentUser ? currentUser.id : null,
+      name: name,
+      role: role,
+      message: message,
+      approved: false
+    }]);
+
+    if (error) {
+      msgEl.textContent = error.message;
+      msgEl.className = "msg error";
+    } else {
+      msgEl.textContent = "Thank you! Your testimonial has been submitted for review.";
+      msgEl.className = "msg success";
+      msgInput.value = "";
+    }
+  } catch (err) {
+    msgEl.textContent = "A network error occurred. Please try again.";
     msgEl.className = "msg error";
-  } else {
-    msgEl.textContent = "Thank you! Your testimonial has been published.";
-    msgEl.className = "msg success";
-    document.getElementById("fbMessage").value = "";
-    loadTestimonials();
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Publish Review';
+    msgEl.classList.remove("hidden");
   }
-  msgEl.classList.remove("hidden");
 }
 
-// 2. Submit Help / Query Request (Sent directly to Supabase support_messages)
+// 2. Submit Help / Query Request
 async function submitHelpQuery() {
-  const name = document.getElementById("helpName").value.trim();
-  const contact = document.getElementById("helpContact").value.trim();
-  const category = document.getElementById("helpCategory").value;
-  const details = document.getElementById("helpDetails").value.trim();
+  const nameInput = document.getElementById("helpName");
+  const contactInput = document.getElementById("helpContact");
+  const categoryInput = document.getElementById("helpCategory");
+  const detailsInput = document.getElementById("helpDetails");
+  const submitBtn = document.getElementById("helpSubmitBtn");
   const msgEl = document.getElementById("helpMsg");
+
+  const name = nameInput.value.trim();
+  const contact = contactInput.value.trim();
+  const category = categoryInput.value;
+  const details = detailsInput.value.trim();
 
   if (!name || !contact || !details) {
     msgEl.textContent = "Please complete all fields (name, contact, and query).";
@@ -781,40 +815,56 @@ async function submitHelpQuery() {
     return;
   }
 
-  msgEl.textContent = "Sending your message...";
-  msgEl.className = "msg success";
-  msgEl.classList.remove("hidden");
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
-  // Save directly to the support_messages table created in Supabase
-  const { error } = await db.from("support_messages").insert([{
-    name: name,
-    email: contact,
-    subject: category,
-    message: details,
-    status: "Unread"
-  }]);
+  try {
+    const { error } = await db.from("support_messages").insert([{
+      name: name,
+      email: contact,
+      subject: category,
+      message: details,
+      status: "Unread"
+    }]);
 
-  if (error) {
-    msgEl.textContent = "Error sending message: " + error.message;
+    if (error) {
+      msgEl.textContent = "Error sending message: " + error.message;
+      msgEl.className = "msg error";
+    } else {
+      msgEl.textContent = "Thank you! Your message has been sent to our support desk.";
+      msgEl.className = "msg success";
+      detailsInput.value = "";
+    }
+  } catch (err) {
+    msgEl.textContent = "A network error occurred. Please try again.";
     msgEl.className = "msg error";
-  } else {
-    msgEl.textContent = "Thank you! Your message has been sent to our support desk.";
-    msgEl.className = "msg success";
-    document.getElementById("helpDetails").value = "";
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send to Support';
+    msgEl.classList.remove("hidden");
   }
-  msgEl.classList.remove("hidden");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
   loadTestimonials();
 
-  const { data: { session } } = await db.auth.getSession();
-  if (session && session.user) {
-    currentUser = session.user;
-    if (currentUser.email) {
-      const emailField = document.getElementById("helpContact");
-      if (emailField) emailField.value = currentUser.email;
+  try {
+    const { data: { session } } = await db.auth.getSession();
+    if (session && session.user) {
+      currentUser = session.user;
+      if (currentUser.email) {
+        const emailField = document.getElementById("helpContact");
+        if (emailField) emailField.value = currentUser.email;
+      }
+      if (currentUser.user_metadata?.full_name) {
+        const nameFieldFb = document.getElementById("fbName");
+        const nameFieldHelp = document.getElementById("helpName");
+        if (nameFieldFb) nameFieldFb.value = currentUser.user_metadata.full_name;
+        if (nameFieldHelp) nameFieldHelp.value = currentUser.user_metadata.full_name;
+      }
     }
+  } catch (e) {
+    console.warn("Session check error:", e);
   }
 });
 </script>
