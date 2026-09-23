@@ -1655,17 +1655,7 @@
           </div>
         </div>
       </div>
-<!-- Testimonials Section -->
-<section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
-  <h2 style="font-size: 22px; font-weight: 800; color: #0A192F; margin-bottom: 16px; text-align: center;">
-    What Our Community Says
-  </h2>
-  <div class="ticker-window" style="height: 260px; overflow: hidden; position: relative; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 16px;">
-    <div class="ticker-track" id="homeTickerTrack">
-      <!-- Loaded dynamically via Supabase -->
-    </div>
-  </div>
-</section>
+
       <!-- DEDICATED SIGN IN VIEW -->
       <div id="viewSignIn" class="hidden">
         <h3 class="auth-card-title">Sign In to Apex Tuitions</h3>
@@ -2105,24 +2095,14 @@
               <input id="sBoardOtherInput" type="text" placeholder="Specify board">
             </div>
 
+            <!-- Student Subject Multi-Select Checklist -->
             <div class="form-group-full" id="sAcademicSubjectGroup">
               <label>Subject Requirement</label>
-              <select id="sSubjectSelect" onchange="handleStudentSubjectOther()">
-                <option value="Mathematics">Mathematics</option>
-                <option value="Science (General)">Science (General)</option>
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Biology">Biology</option>
-                <option value="English">English</option>
-                <option value="Social Science">Social Science</option>
-                <option value="Economics">Economics</option>
-                <option value="Accountancy">Accountancy</option>
-                <option value="Computer Science">Computer Science</option>
-                <option value="Hindi">Hindi</option>
-                <option value="All Subjects">All Subjects</option>
-                <option value="Others">Others</option>
-              </select>
-              <input id="sSubjectOtherInput" type="text" class="hidden" placeholder="Specify exact subject" style="margin-top:6px;">
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="sSubjectsTrigger" onclick="toggleMultiDropdown('sSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="sSubjectsDropdown"></div>
+              </div>
+              <input id="sSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
             </div>
 
             <div class="form-group-full hidden" id="sNonAcademicGroup">
@@ -2704,6 +2684,18 @@
   </div>
 </section>
 
+<!-- Testimonials Section -->
+<section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
+  <h2 style="font-size: 22px; font-weight: 800; color: #0A192F; margin-bottom: 16px; text-align: center;">
+    What Our Community Says
+  </h2>
+  <div class="ticker-window" style="height: 260px; overflow: hidden; position: relative; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 16px;">
+    <div class="ticker-track" id="homeTickerTrack">
+      <!-- Loaded dynamically via Supabase -->
+    </div>
+  </div>
+</section>
+
 <!-- GRAND BOTTOM DOCK (Hidden until authenticated) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn tile-enquiries">
@@ -3030,10 +3022,26 @@ function populateTeacherSubjectChecklist() {
   tSubs.innerHTML = html;
 }
 
+function populateStudentSubjectChecklist() {
+  const sSubs = document.getElementById("sSubjectsDropdown");
+  if (!sSubs) return;
+  let html = ACADEMIC_SUBJECTS_LIST.map(sub => `
+    <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('sSubjects')"> ${sub}</label>
+  `).join("");
+  html += `<label class="multiselect-item"><input type="checkbox" id="sSubjectOtherCb" value="Others" onchange="handleStudentSubjectOtherToggle()"> Others</label>`;
+  sSubs.innerHTML = html;
+}
+
 function handleTeacherSubjectOtherToggle() {
   const cb = document.getElementById("tSubjectOtherCb");
   document.getElementById("tSubjectOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel('tSubjects');
+}
+
+function handleStudentSubjectOtherToggle() {
+  const cb = document.getElementById("sSubjectOtherCb");
+  document.getElementById("sSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel('sSubjects');
 }
 
 function toggleTeacherAddress() {
@@ -3097,10 +3105,6 @@ function handleStudentCategoryChange() {
 function handleStudentBoardOther() {
   const val = document.getElementById("sBoard").value;
   document.getElementById("sBoardOtherGroup").classList.toggle("hidden", val !== "Others");
-}
-function handleStudentSubjectOther() {
-  const val = document.getElementById("sSubjectSelect").value;
-  document.getElementById("sSubjectOtherInput").classList.toggle("hidden", val !== "Others");
 }
 function handleStudentSkillOther() {
   const val = document.getElementById("sSkillSelect").value;
@@ -3279,11 +3283,12 @@ async function handleStudentApplication() {
     }
     boardStr = bVal;
 
-    let subVal = document.getElementById("sSubjectSelect").value;
-    if (subVal === "Others") {
-      subVal = document.getElementById("sSubjectOtherInput").value.trim() || "Other Subject";
+    let subList = getCheckedValues("sSubjectsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("sSubjectOtherCb")?.checked) {
+      const otherSub = document.getElementById("sSubjectOtherInput").value.trim();
+      if (otherSub) subList.push(otherSub);
     }
-    subjectStr = subVal;
+    subjectStr = subList.join(", ") || "All Subjects";
   } else if (category === "Non-Academic") {
     let skillVal = document.getElementById("sSkillSelect").value;
     if (skillVal === "Others") {
@@ -3451,9 +3456,54 @@ function renderGuestHome() {
   document.getElementById("heroGridContainer").classList.add("portal-hidden");
 }
 
+/* ========================================================
+   ADMIN ACCESS: Alt + Shift + D AND FOOTER MULTI-TAP
+   ======================================================== */
+window.addEventListener("keydown", (e) => {
+  const tag = (document.activeElement?.tagName || "").toLowerCase();
+  if (tag === "input" || tag === "textarea") return;
+
+  if (e.altKey && e.shiftKey && (e.key === "d" || e.key === "D" || e.code === "KeyD")) {
+    e.preventDefault();
+    window.location.href = "admin.html";
+  }
+});
+
+(function initFooterAdminTouch() {
+  const notice = document.getElementById("footerCopyNotice");
+  if (!notice) return;
+
+  let count = 0;
+  let timer = null;
+
+  function tapHandler(e) {
+    if (e.target && e.target.tagName && e.target.tagName.toLowerCase() === "a") return;
+
+    count++;
+    clearTimeout(timer);
+
+    timer = setTimeout(() => {
+      count = 0;
+    }, 3000);
+
+    if (count >= 5) {
+      if (e.cancelable) e.preventDefault();
+      count = 0;
+      window.location.href = "admin.html";
+    }
+  }
+
+  notice.addEventListener("touchstart", tapHandler, { passive: false });
+  notice.addEventListener("click", (e) => {
+    if (e.pointerType === "touch") return;
+    tapHandler(e);
+  });
+})();
+
 window.addEventListener("load", async () => {
   populateTeacherGradeChecklist();
   populateTeacherSubjectChecklist();
+  populateStudentSubjectChecklist();
 
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
