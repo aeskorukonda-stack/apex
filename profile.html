@@ -167,10 +167,6 @@
       color: var(--royal-blue) !important;
       transform: translateX(3px);
     }
-    .dropdown-item.text-danger:hover {
-      background: #FEE2E2;
-      color: var(--danger) !important;
-    }
 
     .header-auth-buttons {
       display: flex;
@@ -233,10 +229,6 @@
       border-top: none;
       text-align: left;
       cursor: pointer;
-    }
-    .mobile-drawer button.btn-drawer-logout {
-      color: #FCA5A5;
-      font-weight: 700;
     }
 
     main {
@@ -312,14 +304,8 @@
       margin-bottom: 22px;
     }
 
-    /* ACTION BUTTONS ROW */
-    .profile-action-row {
-      display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
     .btn-edit-details {
-      flex: 1;
+      width: 100%;
       height: 44px;
       background: var(--royal-blue);
       color: #FFFFFF;
@@ -333,29 +319,10 @@
       justify-content: center;
       gap: 8px;
       transition: var(--transition);
+      margin-bottom: 24px;
     }
     .btn-edit-details:hover {
       background: var(--royal-blue-hover);
-    }
-    .btn-profile-logout {
-      height: 44px;
-      padding: 0 20px;
-      background: #FEE2E2;
-      color: var(--danger);
-      border: 1.5px solid #FECACA;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: var(--transition);
-    }
-    .btn-profile-logout:hover {
-      background: var(--danger);
-      color: #FFFFFF;
     }
 
     /* PROFILE DETAILS GRID */
@@ -364,6 +331,7 @@
       grid-template-columns: 1fr 1fr;
       gap: 14px;
       text-align: left;
+      margin-bottom: 30px;
     }
     @media (max-width: 600px) {
       .profile-details-grid { grid-template-columns: 1fr; }
@@ -393,6 +361,33 @@
       word-break: break-word;
     }
 
+    /* BOTTOM LOGOUT BUTTON */
+    .bottom-logout-wrap {
+      border-top: 1.5px dashed var(--border-subtle);
+      padding-top: 24px;
+    }
+    .btn-logout-bottom {
+      width: 100%;
+      height: 44px;
+      background: #FFF1F2;
+      color: #E11D48;
+      border: 1.5px solid #FECDD3;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-logout-bottom:hover {
+      background: #E11D48;
+      color: #FFFFFF;
+      border-color: #E11D48;
+    }
+
     /* MODAL BASE */
     .modal-overlay {
       position: fixed;
@@ -415,7 +410,7 @@
       max-width: 640px;
       border-radius: var(--card-radius);
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      max-height: 92vh;
+      max-height: 94vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -448,6 +443,54 @@
       color: var(--text-muted);
       cursor: pointer;
     }
+
+    /* 3-STEP PROGRESS BAR */
+    .step-progress-bar {
+      display: flex;
+      background: #F1F5F9;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .step-tab {
+      flex: 1;
+      padding: 10px 4px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: default;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-bottom: 3px solid transparent;
+      transition: var(--transition);
+    }
+    .step-tab.active {
+      color: var(--royal-blue);
+      border-bottom-color: var(--royal-blue);
+      background: #FFFFFF;
+    }
+    .step-tab.completed {
+      color: var(--emerald);
+    }
+    .step-tab-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #CBD5E1;
+      color: #FFFFFF;
+      font-size: 10.5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step-tab.active .step-tab-num {
+      background: var(--royal-blue);
+    }
+    .step-tab.completed .step-tab-num {
+      background: var(--emerald);
+    }
+
     .modal-body {
       padding: 20px;
       overflow-y: auto;
@@ -457,12 +500,14 @@
       padding: 14px 20px;
       border-top: 1px solid var(--border-subtle);
       display: flex;
-      justify-content: flex-end;
+      justify-content: space-between;
       gap: 10px;
       background: #F8FAFC;
     }
 
     /* FORM STYLES */
+    .form-step { display: none; }
+    .form-step.active { display: block; }
     .form-grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -678,8 +723,6 @@
             <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
             <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
             <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
-            <hr style="border:none; border-top:1px solid #F1F5F9; margin:4px 0;">
-            <button type="button" class="dropdown-item text-danger" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
           </div>
         </div>
       </nav>
@@ -702,7 +745,7 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
     <a href="donate.html">💛 Donate</a>
-    <button type="button" class="btn-drawer-logout" onclick="handleLogout()">🚪 Sign Out</button>
+    <button type="button" style="color:#EF4444;" onclick="handleLogout()">🚪 Log Out</button>
   </div>
 </header>
 
@@ -720,39 +763,59 @@
       <h2 class="profile-name" id="profileName">Loading Profile...</h2>
       <div class="profile-role-pill" id="profileRoleBadge">Verified Member ✓</div>
 
-      <div class="profile-action-row">
-        <button class="btn-edit-details" onclick="openEditModal()">
-          <i class="fa-solid fa-pen-to-square"></i> Edit Registration Details
-        </button>
-        <button class="btn-profile-logout" onclick="handleLogout()" title="Log out of account">
-          <i class="fa-solid fa-power-off"></i> Log Out
-        </button>
-      </div>
+      <button class="btn-edit-details" onclick="openStepEditModal()">
+        <i class="fa-solid fa-pen-to-square"></i> Edit Registration Details
+      </button>
 
       <!-- DYNAMIC PROFILE FIELD SUMMARY -->
-      <div class="profile-details-grid" id="profileFieldsSummary">
-        <!-- Rendered via JS -->
+      <div class="profile-details-grid" id="profileFieldsSummary"></div>
+
+      <!-- LOGOUT BUTTON AT THE VERY BOTTOM -->
+      <div class="bottom-logout-wrap">
+        <button class="btn-logout-bottom" onclick="handleLogout()">
+          <i class="fa-solid fa-right-from-bracket"></i> Log Out
+        </button>
       </div>
     </div>
   </div>
 </main>
 
-<!-- EDIT REGISTRATION DETAILS MODAL -->
+<!-- EXACT 3-STEP REPLICA REGISTRATION EDIT MODAL -->
 <div class="modal-overlay" id="editDetailsModal">
   <div class="modal-box">
     <div class="modal-header">
-      <h3 class="modal-title" id="editModalHeaderTitle"><i class="fa-solid fa-user-pen"></i> Edit Registration Details</h3>
+      <h3 class="modal-title" id="editModalHeaderTitle"><i class="fa-solid fa-sliders"></i> Edit Registration Details</h3>
       <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
     </div>
+
+    <!-- 3 STEP INDICATOR TABS -->
+    <div class="step-progress-bar">
+      <div class="step-tab active" id="stepTab1">
+        <span class="step-tab-num">1</span> Basic Info
+      </div>
+      <div class="step-tab" id="stepTab2">
+        <span class="step-tab-num">2</span> Academic
+      </div>
+      <div class="step-tab" id="stepTab3">
+        <span class="step-tab-num">3</span> Location
+      </div>
+    </div>
+
     <div class="modal-body">
-      <form id="editProfileForm" onsubmit="handleProfileUpdate(event)">
-        <!-- DYNAMIC FIELDS INSERTED HERE REPLICATING REGISTRATION -->
-        <div id="dynamicFormFieldsContainer"></div>
+      <form id="stepEditForm" onsubmit="event.preventDefault();">
+        <div id="dynamicStepsContainer"></div>
       </form>
     </div>
+
     <div class="modal-footer">
-      <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
-      <button type="submit" form="editProfileForm" class="btn-primary" id="btnSaveDetails">Save Changes</button>
+      <div>
+        <button type="button" class="btn-secondary hidden" id="btnPrevStep" onclick="prevStep()"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+        <button type="button" class="btn-primary" id="btnNextStep" onclick="nextStep()">Next <i class="fa-solid fa-arrow-right"></i></button>
+        <button type="button" class="btn-primary hidden" id="btnSaveAllSteps" onclick="saveAllSteps()">Save Changes</button>
+      </div>
     </div>
   </div>
 </div>
@@ -775,7 +838,7 @@
         <button type="button" class="btn-secondary" onclick="rotateCropper(90)" title="Rotate"><i class="fa-solid fa-rotate-right"></i></button>
       </div>
     </div>
-    <div class="modal-footer">
+    <div class="modal-footer" style="justify-content: flex-end;">
       <button type="button" class="btn-secondary" onclick="closeCropModal()">Cancel</button>
       <button type="button" class="btn-primary" id="btnSaveCrop" onclick="applyAndUploadCrop()">Save Avatar</button>
     </div>
@@ -816,18 +879,17 @@ let currentUser = null;
 let currentRole = null;
 let profileRecord = null;
 let cropperInstance = null;
+let currentStepIndex = 1;
 
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
 /* ========================================================
-   LOGOUT HANDLER
+   LOGOUT HANDLER (BOTTOM ANCHORED)
    ======================================================== */
 async function handleLogout() {
-  const confirmed = confirm("Are you sure you want to sign out?");
-  if (!confirmed) return;
-
+  if (!confirm("Are you sure you want to log out?")) return;
   try {
     await db.auth.signOut();
   } catch (err) {
@@ -839,7 +901,7 @@ async function handleLogout() {
 }
 
 /* ========================================================
-   RENDER PROFILE SUMMARY ON SCREEN
+   PROFILE SUMMARY RENDERING
    ======================================================== */
 function renderProfileView(data, role) {
   profileRecord = data;
@@ -858,289 +920,337 @@ function renderProfileView(data, role) {
 
   if (role === 'teacher') {
     container.innerHTML = `
-      <div class="profile-detail-field">
-        <div class="detail-label">WhatsApp Contact</div>
-        <div class="detail-val">${data.mobile || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Alternate Contact</div>
-        <div class="detail-val">${data.alternate_mobile || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Email Address</div>
-        <div class="detail-val">${data.email || currentUser.email || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Gender</div>
-        <div class="detail-val">${data.gender || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Highest Qualification</div>
-        <div class="detail-val">${data.qualification || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Teaching Experience</div>
-        <div class="detail-val">${data.experience ? data.experience + " Years" : "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Primary Subject</div>
-        <div class="detail-val">${data.subject || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Other Handled Subjects</div>
-        <div class="detail-val">${data.other_subjects || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Target Classes / Grades</div>
-        <div class="detail-val">${data.classes || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Tuition Mode</div>
-        <div class="detail-val">${data.tuition_mode || "Online"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Expected Fee / Charges</div>
-        <div class="detail-val">${data.fee_details || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">City / Area</div>
-        <div class="detail-val">${data.city || data.area || data.address || "—"}</div>
-      </div>
-      <div class="profile-detail-field span-2">
-        <div class="detail-label">Full Address / Location</div>
-        <div class="detail-val">${data.address || "—"}</div>
-      </div>
-      <div class="profile-detail-field span-2">
-        <div class="detail-label">Professional Bio / About</div>
-        <div class="detail-val">${data.bio || "—"}</div>
-      </div>
+      <div class="profile-detail-field"><div class="detail-label">Full Name</div><div class="detail-val">${data.teacher_name || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">WhatsApp Contact</div><div class="detail-val">${data.mobile || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Alternate Contact</div><div class="detail-val">${data.alternate_mobile || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Email</div><div class="detail-val">${data.email || currentUser.email || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Gender</div><div class="detail-val">${data.gender || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Date of Birth</div><div class="detail-val">${data.dob || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Qualification</div><div class="detail-val">${data.qualification || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Experience (Years)</div><div class="detail-val">${data.experience ? data.experience + " Years" : "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Primary Subject</div><div class="detail-val">${data.subject || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Secondary Subjects</div><div class="detail-val">${data.other_subjects || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Target Classes</div><div class="detail-val">${data.classes || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Tuition Mode</div><div class="detail-val">${data.tuition_mode || "Online"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Fee Expectations</div><div class="detail-val">${data.fee_details || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Locality / Landmark</div><div class="detail-val">${data.area || data.locality || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">City & District</div><div class="detail-val">${(data.city || "") + (data.district ? ", " + data.district : "") || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Pincode & State</div><div class="detail-val">${(data.pincode || "") + (data.state ? ", " + data.state : "") || "—"}</div></div>
+      <div class="profile-detail-field span-2"><div class="detail-label">Complete Street Address</div><div class="detail-val">${data.address || "—"}</div></div>
+      <div class="profile-detail-field span-2"><div class="detail-label">Bio / Profile Description</div><div class="detail-val">${data.bio || "—"}</div></div>
     `;
   } else {
     container.innerHTML = `
-      <div class="profile-detail-field">
-        <div class="detail-label">WhatsApp Contact</div>
-        <div class="detail-val">${data.mobile || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Alternate Contact</div>
-        <div class="detail-val">${data.alternate_mobile || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Parent / Guardian Name</div>
-        <div class="detail-val">${data.parent_name || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Email Address</div>
-        <div class="detail-val">${data.email || currentUser.email || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Student Class / Grade</div>
-        <div class="detail-val">${data.class_grade || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Syllabus / Board</div>
-        <div class="detail-val">${data.board || "CBSE / State"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Subjects Needed</div>
-        <div class="detail-val">${data.subject || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Preferred Mode</div>
-        <div class="detail-val">${data.tuition_mode || "Online"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">City / Locality</div>
-        <div class="detail-val">${data.city || data.area || data.address || "—"}</div>
-      </div>
-      <div class="profile-detail-field">
-        <div class="detail-label">Pincode</div>
-        <div class="detail-val">${data.pincode || "—"}</div>
-      </div>
-      <div class="profile-detail-field span-2">
-        <div class="detail-label">Full Address / Landmark</div>
-        <div class="detail-val">${data.address || "—"}</div>
-      </div>
-      <div class="profile-detail-field span-2">
-        <div class="detail-label">Learning Goals / Requirements</div>
-        <div class="detail-val">${data.bio || data.requirements || "—"}</div>
-      </div>
+      <div class="profile-detail-field"><div class="detail-label">Student Name</div><div class="detail-val">${data.student_name || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Parent / Guardian Name</div><div class="detail-val">${data.parent_name || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">WhatsApp Contact</div><div class="detail-val">${data.mobile || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Alternate Contact</div><div class="detail-val">${data.alternate_mobile || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Email</div><div class="detail-val">${data.email || currentUser.email || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Gender</div><div class="detail-val">${data.gender || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Current Grade / Class</div><div class="detail-val">${data.class_grade || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">School / Board</div><div class="detail-val">${data.board || "CBSE / State"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Subjects Needed</div><div class="detail-val">${data.subject || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Preferred Mode</div><div class="detail-val">${data.tuition_mode || "Online"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Preferred Timing / Batch</div><div class="detail-val">${data.preferred_timing || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Locality / Landmark</div><div class="detail-val">${data.area || data.locality || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">City & District</div><div class="detail-val">${(data.city || "") + (data.district ? ", " + data.district : "") || "—"}</div></div>
+      <div class="profile-detail-field"><div class="detail-label">Pincode & State</div><div class="detail-val">${(data.pincode || "") + (data.state ? ", " + data.state : "") || "—"}</div></div>
+      <div class="profile-detail-field span-2"><div class="detail-label">Complete Residential Address</div><div class="detail-val">${data.address || "—"}</div></div>
+      <div class="profile-detail-field span-2"><div class="detail-label">Requirements / Weak Topics</div><div class="detail-val">${data.bio || data.requirements || "—"}</div></div>
     `;
   }
 }
 
 /* ========================================================
-   MODAL REGISTRATION EDIT FORM GENERATOR
+   3-STEP REGISTRATION REPLICA BUILDER
    ======================================================== */
-function openEditModal() {
+function openStepEditModal() {
   if (!profileRecord) return;
   const isTeacher = currentRole === 'teacher';
-  const c = document.getElementById("dynamicFormFieldsContainer");
+  const c = document.getElementById("dynamicStepsContainer");
 
   document.getElementById("editModalHeaderTitle").innerHTML = isTeacher 
-    ? `<i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration Details`
-    : `<i class="fa-solid fa-graduation-cap"></i> Edit Student Registration Details`;
+    ? `<i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration (3 Steps)`
+    : `<i class="fa-solid fa-graduation-cap"></i> Edit Student Registration (3 Steps)`;
 
   if (isTeacher) {
     c.innerHTML = `
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="inp_teacher_name" class="form-control" required value="${profileRecord.teacher_name || ''}">
+      <!-- STEP 1: BASIC DETAILS -->
+      <div class="form-step active" id="formStep1">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" id="step_teacher_name" class="form-control" required value="${profileRecord.teacher_name || ''}">
+          </div>
+          <div class="form-group">
+            <label>Gender *</label>
+            <select id="step_gender" class="form-control">
+              <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
+              <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
+              <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
         </div>
-        <div class="form-group">
-          <label>WhatsApp Number *</label>
-          <input type="tel" id="inp_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>WhatsApp Number *</label>
+            <input type="tel" id="step_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+          </div>
+          <div class="form-group">
+            <label>Alternate Mobile</label>
+            <input type="tel" id="step_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="step_email" class="form-control" value="${profileRecord.email || currentUser.email || ''}">
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" id="step_dob" class="form-control" value="${profileRecord.dob || ''}">
+          </div>
         </div>
       </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Alternate Mobile</label>
-          <input type="tel" id="inp_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+      <!-- STEP 2: ACADEMIC DETAILS -->
+      <div class="form-step" id="formStep2">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Highest Qualification *</label>
+            <input type="text" id="step_qualification" class="form-control" placeholder="e.g. M.Sc / B.Ed" required value="${profileRecord.qualification || ''}">
+          </div>
+          <div class="form-group">
+            <label>Teaching Experience (Years) *</label>
+            <input type="number" step="0.5" id="step_experience" class="form-control" placeholder="e.g. 4.5" required value="${profileRecord.experience || ''}">
+          </div>
         </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Primary Specialization Subject *</label>
+            <input type="text" id="step_subject" class="form-control" placeholder="e.g. Mathematics" required value="${profileRecord.subject || ''}">
+          </div>
+          <div class="form-group">
+            <label>Other Handled Subjects</label>
+            <input type="text" id="step_other_subjects" class="form-control" placeholder="e.g. Physics, Chemistry" value="${profileRecord.other_subjects || ''}">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Target Classes / Standards *</label>
+            <input type="text" id="step_classes" class="form-control" placeholder="e.g. Grade 8 - 12" required value="${profileRecord.classes || ''}">
+          </div>
+          <div class="form-group">
+            <label>Tuition Mode *</label>
+            <select id="step_tuition_mode" class="form-control">
+              <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
+              <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
+              <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-group">
-          <label>Gender</label>
-          <select id="inp_gender" class="form-control">
-            <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
-            <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
-            <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
-          </select>
+          <label>Expected Fee / Hourly / Monthly Charges</label>
+          <input type="text" id="step_fee_details" class="form-control" placeholder="e.g. ₹500/hour or ₹5,000/month" value="${profileRecord.fee_details || ''}">
         </div>
       </div>
 
-      <div class="form-grid-2">
+      <!-- STEP 3: LOCATION & BIO -->
+      <div class="form-step" id="formStep3">
         <div class="form-group">
-          <label>Highest Qualification *</label>
-          <input type="text" id="inp_qualification" class="form-control" placeholder="e.g. M.Sc, B.Ed, B.Tech" required value="${profileRecord.qualification || ''}">
+          <label>Door No / House / Apartment / Street *</label>
+          <input type="text" id="step_address" class="form-control" required placeholder="Flat 402, Sunshine Apts, Main Road" value="${profileRecord.address || ''}">
         </div>
-        <div class="form-group">
-          <label>Teaching Experience (Years)</label>
-          <input type="number" step="0.5" id="inp_experience" class="form-control" placeholder="e.g. 5" value="${profileRecord.experience || ''}">
-        </div>
-      </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Primary Specialization / Subject *</label>
-          <input type="text" id="inp_subject" class="form-control" placeholder="e.g. Mathematics" required value="${profileRecord.subject || ''}">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Locality / Landmark *</label>
+            <input type="text" id="step_area" class="form-control" placeholder="Near Apollo Pharmacy" required value="${profileRecord.area || profileRecord.locality || ''}">
+          </div>
+          <div class="form-group">
+            <label>City / Town *</label>
+            <input type="text" id="step_city" class="form-control" required value="${profileRecord.city || ''}">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Other Handled Subjects</label>
-          <input type="text" id="inp_other_subjects" class="form-control" placeholder="e.g. Physics, Chemistry" value="${profileRecord.other_subjects || ''}">
-        </div>
-      </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Target Classes / Grades *</label>
-          <input type="text" id="inp_classes" class="form-control" placeholder="e.g. Class 8 to 12" required value="${profileRecord.classes || ''}">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>District</label>
+            <input type="text" id="step_district" class="form-control" value="${profileRecord.district || ''}">
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="step_state" class="form-control" value="${profileRecord.state || 'Andhra Pradesh'}">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Tuition Mode *</label>
-          <select id="inp_tuition_mode" class="form-control">
-            <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
-            <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
-            <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="form-grid-2">
         <div class="form-group">
-          <label>Expected Fee / Charges</label>
-          <input type="text" id="inp_fee_details" class="form-control" placeholder="e.g. ₹500/hr or ₹4000/month" value="${profileRecord.fee_details || ''}">
+          <label>Pincode *</label>
+          <input type="text" id="step_pincode" class="form-control" required value="${profileRecord.pincode || ''}">
         </div>
+
         <div class="form-group">
-          <label>City / Town *</label>
-          <input type="text" id="inp_city" class="form-control" required value="${profileRecord.city || ''}">
+          <label>Detailed Bio / Teaching Methodology</label>
+          <textarea id="step_bio" class="form-control" rows="3" placeholder="Outline your experience, certifications, and teaching strategy...">${profileRecord.bio || ''}</textarea>
         </div>
-      </div>
-
-      <div class="form-group">
-        <label>Full Street Address / Landmark *</label>
-        <input type="text" id="inp_address" class="form-control" required value="${profileRecord.address || ''}">
-      </div>
-
-      <div class="form-group">
-        <label>Professional Bio / Profile Summary</label>
-        <textarea id="inp_bio" class="form-control" rows="3" placeholder="Tell students about your teaching methodology and achievements...">${profileRecord.bio || ''}</textarea>
       </div>
     `;
   } else {
     c.innerHTML = `
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Student Full Name *</label>
-          <input type="text" id="inp_student_name" class="form-control" required value="${profileRecord.student_name || ''}">
+      <!-- STEP 1: BASIC DETAILS -->
+      <div class="form-step active" id="formStep1">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Student Full Name *</label>
+            <input type="text" id="step_student_name" class="form-control" required value="${profileRecord.student_name || ''}">
+          </div>
+          <div class="form-group">
+            <label>Parent / Guardian Name *</label>
+            <input type="text" id="step_parent_name" class="form-control" required value="${profileRecord.parent_name || ''}">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Parent / Guardian Name</label>
-          <input type="text" id="inp_parent_name" class="form-control" value="${profileRecord.parent_name || ''}">
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>WhatsApp Contact Number *</label>
+            <input type="tel" id="step_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+          </div>
+          <div class="form-group">
+            <label>Alternate Contact Number</label>
+            <input type="tel" id="step_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="step_email" class="form-control" value="${profileRecord.email || currentUser.email || ''}">
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="step_gender" class="form-control">
+              <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
+              <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
+              <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
         </div>
       </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>WhatsApp Contact Number *</label>
-          <input type="tel" id="inp_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+      <!-- STEP 2: ACADEMIC DETAILS -->
+      <div class="form-step" id="formStep2">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Student Class / Standard *</label>
+            <input type="text" id="step_class_grade" class="form-control" placeholder="e.g. Class 10" required value="${profileRecord.class_grade || ''}">
+          </div>
+          <div class="form-group">
+            <label>School Board / Syllabus *</label>
+            <input type="text" id="step_board" class="form-control" placeholder="CBSE / ICSE / State" required value="${profileRecord.board || ''}">
+          </div>
         </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Subjects Needed for Tuition *</label>
+            <input type="text" id="step_subject" class="form-control" placeholder="e.g. Mathematics, Physics" required value="${profileRecord.subject || ''}">
+          </div>
+          <div class="form-group">
+            <label>Preferred Tuition Mode *</label>
+            <select id="step_tuition_mode" class="form-control">
+              <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
+              <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
+              <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-group">
-          <label>Alternate Contact</label>
-          <input type="tel" id="inp_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+          <label>Preferred Timings / Batch Preference</label>
+          <input type="text" id="step_preferred_timing" class="form-control" placeholder="e.g. Evenings after 5:00 PM" value="${profileRecord.preferred_timing || ''}">
         </div>
       </div>
 
-      <div class="form-grid-2">
+      <!-- STEP 3: LOCATION & REQUIREMENTS -->
+      <div class="form-step" id="formStep3">
         <div class="form-group">
-          <label>Class / Grade *</label>
-          <input type="text" id="inp_class_grade" class="form-control" placeholder="e.g. Grade 10" required value="${profileRecord.class_grade || ''}">
+          <label>Door / House / Street Address *</label>
+          <input type="text" id="step_address" class="form-control" required placeholder="House No, Street name" value="${profileRecord.address || ''}">
         </div>
-        <div class="form-group">
-          <label>Board / Syllabus</label>
-          <input type="text" id="inp_board" class="form-control" placeholder="e.g. CBSE / ICSE / State" value="${profileRecord.board || ''}">
-        </div>
-      </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>Subjects Needed *</label>
-          <input type="text" id="inp_subject" class="form-control" placeholder="e.g. Maths, Science" required value="${profileRecord.subject || ''}">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>Locality / Landmark *</label>
+            <input type="text" id="step_area" class="form-control" placeholder="e.g. Gachibowli, Near Stadium" required value="${profileRecord.area || profileRecord.locality || ''}">
+          </div>
+          <div class="form-group">
+            <label>City / Town *</label>
+            <input type="text" id="step_city" class="form-control" required value="${profileRecord.city || ''}">
+          </div>
         </div>
-        <div class="form-group">
-          <label>Preferred Mode</label>
-          <select id="inp_tuition_mode" class="form-control">
-            <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
-            <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
-            <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
-          </select>
-        </div>
-      </div>
 
-      <div class="form-grid-2">
-        <div class="form-group">
-          <label>City / Town *</label>
-          <input type="text" id="inp_city" class="form-control" required value="${profileRecord.city || ''}">
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label>District</label>
+            <input type="text" id="step_district" class="form-control" value="${profileRecord.district || ''}">
+          </div>
+          <div class="form-group">
+            <label>State</label>
+            <input type="text" id="step_state" class="form-control" value="${profileRecord.state || 'Andhra Pradesh'}">
+          </div>
         </div>
+
         <div class="form-group">
-          <label>Pincode</label>
-          <input type="text" id="inp_pincode" class="form-control" value="${profileRecord.pincode || ''}">
+          <label>Pincode *</label>
+          <input type="text" id="step_pincode" class="form-control" required value="${profileRecord.pincode || ''}">
         </div>
-      </div>
 
-      <div class="form-group">
-        <label>Full Residential Address / Landmark *</label>
-        <input type="text" id="inp_address" class="form-control" required value="${profileRecord.address || ''}">
-      </div>
-
-      <div class="form-group">
-        <label>Specific Learning Needs / Timings</label>
-        <textarea id="inp_bio" class="form-control" rows="3" placeholder="Provide any details on schedule preference, weak areas, etc.">${profileRecord.bio || profileRecord.requirements || ''}</textarea>
+        <div class="form-group">
+          <label>Specific Learning Needs / Goals</label>
+          <textarea id="step_bio" class="form-control" rows="3" placeholder="Provide details of topics where student needs focus...">${profileRecord.bio || profileRecord.requirements || ''}</textarea>
+        </div>
       </div>
     `;
   }
 
+  currentStepIndex = 1;
+  updateStepVisibility();
   document.getElementById("editDetailsModal").classList.add("active");
+}
+
+function updateStepVisibility() {
+  for (let i = 1; i <= 3; i++) {
+    const stepEl = document.getElementById("formStep" + i);
+    const tabEl = document.getElementById("stepTab" + i);
+    if (stepEl) stepEl.classList.toggle("active", i === currentStepIndex);
+    if (tabEl) {
+      tabEl.classList.toggle("active", i === currentStepIndex);
+      tabEl.classList.toggle("completed", i < currentStepIndex);
+    }
+  }
+
+  document.getElementById("btnPrevStep").classList.toggle("hidden", currentStepIndex === 1);
+  document.getElementById("btnNextStep").classList.toggle("hidden", currentStepIndex === 3);
+  document.getElementById("btnSaveAllSteps").classList.toggle("hidden", currentStepIndex !== 3);
+}
+
+function nextStep() {
+  if (currentStepIndex < 3) {
+    currentStepIndex++;
+    updateStepVisibility();
+  }
+}
+
+function prevStep() {
+  if (currentStepIndex > 1) {
+    currentStepIndex--;
+    updateStepVisibility();
+  }
 }
 
 function closeEditModal() {
@@ -1148,13 +1258,12 @@ function closeEditModal() {
 }
 
 /* ========================================================
-   SAVE REPLICA REGISTRATION DETAILS
+   SAVE 3-STEP REPLICA REGISTRATION DATA
    ======================================================== */
-async function handleProfileUpdate(e) {
-  e.preventDefault();
-  const btn = document.getElementById("btnSaveDetails");
-  btn.disabled = true;
-  btn.textContent = "Saving...";
+async function saveAllSteps() {
+  const saveBtn = document.getElementById("btnSaveAllSteps");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saving...";
 
   const isTeacher = currentRole === 'teacher';
   const table = isTeacher ? "teachers" : "students";
@@ -1162,52 +1271,64 @@ async function handleProfileUpdate(e) {
 
   if (isTeacher) {
     payload = {
-      teacher_name: document.getElementById("inp_teacher_name").value.trim(),
-      mobile: document.getElementById("inp_mobile").value.trim(),
-      alternate_mobile: document.getElementById("inp_alternate_mobile").value.trim(),
-      gender: document.getElementById("inp_gender").value,
-      qualification: document.getElementById("inp_qualification").value.trim(),
-      experience: document.getElementById("inp_experience").value.trim(),
-      subject: document.getElementById("inp_subject").value.trim(),
-      other_subjects: document.getElementById("inp_other_subjects").value.trim(),
-      classes: document.getElementById("inp_classes").value.trim(),
-      tuition_mode: document.getElementById("inp_tuition_mode").value,
-      fee_details: document.getElementById("inp_fee_details").value.trim(),
-      city: document.getElementById("inp_city").value.trim(),
-      address: document.getElementById("inp_address").value.trim(),
-      bio: document.getElementById("inp_bio").value.trim(),
+      teacher_name: document.getElementById("step_teacher_name").value.trim(),
+      gender: document.getElementById("step_gender").value,
+      mobile: document.getElementById("step_mobile").value.trim(),
+      alternate_mobile: document.getElementById("step_alternate_mobile").value.trim(),
+      email: document.getElementById("step_email").value.trim(),
+      dob: document.getElementById("step_dob").value,
+      qualification: document.getElementById("step_qualification").value.trim(),
+      experience: document.getElementById("step_experience").value.trim(),
+      subject: document.getElementById("step_subject").value.trim(),
+      other_subjects: document.getElementById("step_other_subjects").value.trim(),
+      classes: document.getElementById("step_classes").value.trim(),
+      tuition_mode: document.getElementById("step_tuition_mode").value,
+      fee_details: document.getElementById("step_fee_details").value.trim(),
+      address: document.getElementById("step_address").value.trim(),
+      area: document.getElementById("step_area").value.trim(),
+      city: document.getElementById("step_city").value.trim(),
+      district: document.getElementById("step_district").value.trim(),
+      state: document.getElementById("step_state").value.trim(),
+      pincode: document.getElementById("step_pincode").value.trim(),
+      bio: document.getElementById("step_bio").value.trim(),
       updated_at: new Date().toISOString()
     };
   } else {
     payload = {
-      student_name: document.getElementById("inp_student_name").value.trim(),
-      parent_name: document.getElementById("inp_parent_name").value.trim(),
-      mobile: document.getElementById("inp_mobile").value.trim(),
-      alternate_mobile: document.getElementById("inp_alternate_mobile").value.trim(),
-      class_grade: document.getElementById("inp_class_grade").value.trim(),
-      board: document.getElementById("inp_board").value.trim(),
-      subject: document.getElementById("inp_subject").value.trim(),
-      tuition_mode: document.getElementById("inp_tuition_mode").value,
-      city: document.getElementById("inp_city").value.trim(),
-      pincode: document.getElementById("inp_pincode").value.trim(),
-      address: document.getElementById("inp_address").value.trim(),
-      bio: document.getElementById("inp_bio").value.trim(),
+      student_name: document.getElementById("step_student_name").value.trim(),
+      parent_name: document.getElementById("step_parent_name").value.trim(),
+      gender: document.getElementById("step_gender").value,
+      mobile: document.getElementById("step_mobile").value.trim(),
+      alternate_mobile: document.getElementById("step_alternate_mobile").value.trim(),
+      email: document.getElementById("step_email").value.trim(),
+      class_grade: document.getElementById("step_class_grade").value.trim(),
+      board: document.getElementById("step_board").value.trim(),
+      subject: document.getElementById("step_subject").value.trim(),
+      tuition_mode: document.getElementById("step_tuition_mode").value,
+      preferred_timing: document.getElementById("step_preferred_timing").value.trim(),
+      address: document.getElementById("step_address").value.trim(),
+      area: document.getElementById("step_area").value.trim(),
+      city: document.getElementById("step_city").value.trim(),
+      district: document.getElementById("step_district").value.trim(),
+      state: document.getElementById("step_state").value.trim(),
+      pincode: document.getElementById("step_pincode").value.trim(),
+      bio: document.getElementById("step_bio").value.trim(),
       updated_at: new Date().toISOString()
     };
   }
 
   const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
 
-  btn.disabled = false;
-  btn.textContent = "Save Changes";
+  saveBtn.disabled = false;
+  saveBtn.textContent = "Save Changes";
 
   if (error) {
-    alert("Error updating profile details: " + error.message);
+    alert("Error updating details: " + error.message);
   } else {
     Object.assign(profileRecord, payload);
     renderProfileView(profileRecord, currentRole);
     closeEditModal();
-    alert("Profile registration details updated successfully!");
+    alert("All 3-step registration details updated successfully!");
   }
 }
 
@@ -1277,7 +1398,7 @@ async function applyAndUploadCrop() {
   if (!cropperInstance || !currentUser) return;
   const saveBtn = document.getElementById("btnSaveCrop");
   saveBtn.disabled = true;
-  saveBtn.textContent = "Processing...";
+  saveBtn.textContent = "Saving...";
 
   const canvas = cropperInstance.getCroppedCanvas({
     width: 360,
@@ -1294,12 +1415,12 @@ async function applyAndUploadCrop() {
   saveBtn.textContent = "Save Avatar";
 
   if (error) {
-    alert("Failed to save avatar: " + error.message);
+    alert("Failed to upload avatar: " + error.message);
   } else {
     document.getElementById("profileAvatarImg").src = base64Data;
     if (profileRecord) profileRecord.avatar_url = base64Data;
     closeCropModal();
-    alert("Profile photo updated successfully!");
+    alert("Avatar updated successfully!");
   }
 }
 
