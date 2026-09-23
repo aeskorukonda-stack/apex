@@ -572,7 +572,7 @@
       <!-- Help / Support Request Form -->
       <div class="card hidden" id="helpPanel">
         <h2>Raise a Request / Query</h2>
-        <p class="subtitle">Encountering an issue? Submit your message directly to support (aeskorukonda@gmail.com).</p>
+        <p class="subtitle">Encountering an issue? Submit your message directly to our support desk.</p>
 
         <label>Your Name</label>
         <input id="helpName" type="text" placeholder="e.g. Ramesh Kumar">
@@ -593,7 +593,7 @@
         <textarea id="helpDetails" placeholder="Provide full details of your issue so we can help quickly..."></textarea>
 
         <button class="submit-btn" onclick="submitHelpQuery()">
-          <i class="fa-solid fa-envelope"></i> Send to Support
+          <i class="fa-solid fa-paper-plane"></i> Send to Support
         </button>
         <div id="helpMsg" class="msg hidden"></div>
       </div>
@@ -714,7 +714,6 @@ async function loadTestimonials() {
     .limit(10);
 
   if (data && data.length > 0) {
-    // Duplicate entries to enable seamless continuous vertical scrolling loop
     const combined = [...data, ...data];
     track.innerHTML = combined.map(item => `
       <div class="ticker-card">
@@ -762,12 +761,12 @@ async function submitFeedback() {
     msgEl.textContent = "Thank you! Your testimonial has been published.";
     msgEl.className = "msg success";
     document.getElementById("fbMessage").value = "";
-    loadTestimonials(); // Refresh live ticker
+    loadTestimonials();
   }
   msgEl.classList.remove("hidden");
 }
 
-// 2. Submit Help / Query Request (Sent to aeskorukonda@gmail.com)
+// 2. Submit Help / Query Request (Sent directly to Supabase support_messages)
 async function submitHelpQuery() {
   const name = document.getElementById("helpName").value.trim();
   const contact = document.getElementById("helpContact").value.trim();
@@ -782,33 +781,28 @@ async function submitHelpQuery() {
     return;
   }
 
-  // Attempt database log if support_tickets table exists
-  try {
-    await db.from("support_tickets").insert([{
-      user_id: currentUser ? currentUser.id : null,
-      name: name,
-      contact: contact,
-      category: category,
-      message: details,
-      recipient: "aeskorukonda@gmail.com"
-    }]);
-  } catch (err) {
-    console.warn("DB Ticket logged fallback:", err);
-  }
-
-  // Construct direct mailto trigger ensuring delivery straight to aeskorukonda@gmail.com
-  const subject = encodeURIComponent(`[Apex Help Query] ${category} - ${name}`);
-  const body = encodeURIComponent(
-    `Hello Apex Support Team,\n\nA new support request has been raised:\n\nName: ${name}\nContact: ${contact}\nCategory: ${category}\n\nQuery Details:\n${details}\n\n-- Sent via Apex Tuitions Help Portal`
-  );
-  
-  // Open user mail client to guarantee sender deliverability
-  window.open(`mailto:aeskorukonda@gmail.com?subject=${subject}&body=${body}`, '_blank');
-
-  msgEl.textContent = "Your request has been prepared! If your mail client did not open automatically, message us directly at aeskorukonda@gmail.com.";
+  msgEl.textContent = "Sending your message...";
   msgEl.className = "msg success";
   msgEl.classList.remove("hidden");
-  document.getElementById("helpDetails").value = "";
+
+  // Save directly to the support_messages table created in Supabase
+  const { error } = await db.from("support_messages").insert([{
+    name: name,
+    email: contact,
+    subject: category,
+    message: details,
+    status: "Unread"
+  }]);
+
+  if (error) {
+    msgEl.textContent = "Error sending message: " + error.message;
+    msgEl.className = "msg error";
+  } else {
+    msgEl.textContent = "Thank you! Your message has been sent to our support desk.";
+    msgEl.className = "msg success";
+    document.getElementById("helpDetails").value = "";
+  }
+  msgEl.classList.remove("hidden");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
