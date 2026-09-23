@@ -27,6 +27,8 @@
       --apex-gold-hover: #D97706;
       --emerald: #10B981;
       --emerald-light: #ECFDF5;
+      --danger: #EF4444;
+      --danger-hover: #DC2626;
       --bg-slate: #F8FAFC;
       --card-bg: #FFFFFF;
       --text-main: #0F172A;
@@ -153,12 +155,21 @@
       font-weight: 700;
       text-decoration: none !important;
       border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      width: 100%;
+      text-align: left;
       transition: var(--transition);
     }
     .dropdown-item:hover {
       background: #EFF6FF;
       color: var(--royal-blue) !important;
       transform: translateX(3px);
+    }
+    .dropdown-item.text-danger:hover {
+      background: #FEE2E2;
+      color: var(--danger) !important;
     }
 
     .header-auth-buttons {
@@ -209,13 +220,23 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
     .mobile-drawer.open { display: flex; }
-    .mobile-drawer a {
+    .mobile-drawer a, .mobile-drawer button {
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
       font-size: 15px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: none;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      text-align: left;
+      cursor: pointer;
+    }
+    .mobile-drawer button.btn-drawer-logout {
+      color: #FCA5A5;
+      font-weight: 700;
     }
 
     main {
@@ -223,7 +244,7 @@
       padding: 36px 20px 80px;
     }
     .profile-container {
-      max-width: 580px;
+      max-width: 680px;
       margin: 0 auto;
     }
     .profile-card {
@@ -237,14 +258,14 @@
 
     .avatar-upload-wrap {
       position: relative;
-      width: 120px;
-      height: 120px;
+      width: 124px;
+      height: 124px;
       margin: 0 auto 16px;
     }
     .profile-avatar-img {
       width: 100%;
       height: 100%;
-      border-radius: 24px;
+      border-radius: 28px;
       object-fit: cover;
       border: 3.5px solid var(--royal-blue);
       box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
@@ -258,7 +279,7 @@
       color: #FFFFFF;
       font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 20px;
       cursor: pointer;
       display: inline-flex;
@@ -291,8 +312,14 @@
       margin-bottom: 22px;
     }
 
+    /* ACTION BUTTONS ROW */
+    .profile-action-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 28px;
+    }
     .btn-edit-details {
-      width: 100%;
+      flex: 1;
       height: 44px;
       background: var(--royal-blue);
       color: #FFFFFF;
@@ -306,17 +333,50 @@
       justify-content: center;
       gap: 8px;
       transition: var(--transition);
-      margin-bottom: 28px;
     }
     .btn-edit-details:hover {
       background: var(--royal-blue-hover);
     }
+    .btn-profile-logout {
+      height: 44px;
+      padding: 0 20px;
+      background: #FEE2E2;
+      color: var(--danger);
+      border: 1.5px solid #FECACA;
+      border-radius: 10px;
+      font-size: 13.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .btn-profile-logout:hover {
+      background: var(--danger);
+      color: #FFFFFF;
+    }
 
-    .profile-detail-field {
+    /* PROFILE DETAILS GRID */
+    .profile-details-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
       text-align: left;
-      margin-bottom: 16px;
+    }
+    @media (max-width: 600px) {
+      .profile-details-grid { grid-template-columns: 1fr; }
+    }
+    .profile-detail-field {
       border-bottom: 1px solid #F1F5F9;
-      padding-bottom: 12px;
+      padding-bottom: 8px;
+    }
+    .profile-detail-field.span-2 {
+      grid-column: span 2;
+    }
+    @media (max-width: 600px) {
+      .profile-detail-field.span-2 { grid-column: span 1; }
     }
     .detail-label {
       font-size: 10.5px;
@@ -324,7 +384,7 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .detail-val {
       font-size: 14px;
@@ -352,10 +412,10 @@
     .modal-box {
       background: #FFFFFF;
       width: 100%;
-      max-width: 520px;
+      max-width: 640px;
       border-radius: var(--card-radius);
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      max-height: 90vh;
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -384,7 +444,7 @@
     .modal-close-btn {
       background: none;
       border: none;
-      font-size: 18px;
+      font-size: 20px;
       color: var(--text-muted);
       cursor: pointer;
     }
@@ -403,21 +463,29 @@
     }
 
     /* FORM STYLES */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media (max-width: 540px) {
+      .form-grid-2 { grid-template-columns: 1fr; }
+    }
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-align: left;
     }
     .form-group label {
       display: block;
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 700;
       color: var(--apex-navy);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .form-control {
       width: 100%;
-      padding: 10px 14px;
-      font-size: 14px;
+      padding: 9px 12px;
+      font-size: 13.5px;
       border-radius: 8px;
       border: 1.5px solid var(--border-subtle);
       font-family: inherit;
@@ -453,7 +521,7 @@
     /* CROPPER WRAPPER */
     .crop-container {
       width: 100%;
-      height: 300px;
+      height: 320px;
       background-color: #000;
       overflow: hidden;
       border-radius: 10px;
@@ -471,7 +539,7 @@
       max-width: 200px;
     }
 
-    /* BOTTOM DOCK */
+    /* STANDARDIZED GRAND 3-TILE BOTTOM DOCK */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -610,6 +678,8 @@
             <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
             <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
             <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
+            <hr style="border:none; border-top:1px solid #F1F5F9; margin:4px 0;">
+            <button type="button" class="dropdown-item text-danger" onclick="handleLogout()"><i class="fa-solid fa-right-from-bracket"></i> Sign Out</button>
           </div>
         </div>
       </nav>
@@ -632,6 +702,7 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
     <a href="donate.html">💛 Donate</a>
+    <button type="button" class="btn-drawer-logout" onclick="handleLogout()">🚪 Sign Out</button>
   </div>
 </header>
 
@@ -649,33 +720,18 @@
       <h2 class="profile-name" id="profileName">Loading Profile...</h2>
       <div class="profile-role-pill" id="profileRoleBadge">Verified Member ✓</div>
 
-      <button class="btn-edit-details" onclick="openEditModal()">
-        <i class="fa-solid fa-pen-to-square"></i> Edit Details
-      </button>
-
-      <div class="profile-detail-field">
-        <div class="detail-label">WhatsApp Number</div>
-        <div class="detail-val" id="profileMobile">—</div>
+      <div class="profile-action-row">
+        <button class="btn-edit-details" onclick="openEditModal()">
+          <i class="fa-solid fa-pen-to-square"></i> Edit Registration Details
+        </button>
+        <button class="btn-profile-logout" onclick="handleLogout()" title="Log out of account">
+          <i class="fa-solid fa-power-off"></i> Log Out
+        </button>
       </div>
 
-      <div class="profile-detail-field">
-        <div class="detail-label">Subject / Specialization</div>
-        <div class="detail-val" id="profileSubject">—</div>
-      </div>
-
-      <div class="profile-detail-field">
-        <div class="detail-label">Location / Address</div>
-        <div class="detail-val" id="profileLocation">—</div>
-      </div>
-
-      <div class="profile-detail-field">
-        <div class="detail-label">Tuition Mode</div>
-        <div class="detail-val" id="profileMode">—</div>
-      </div>
-
-      <div class="profile-detail-field" id="profileBioGroup">
-        <div class="detail-label">Bio / Qualifications</div>
-        <div class="detail-val" id="profileBio">—</div>
+      <!-- DYNAMIC PROFILE FIELD SUMMARY -->
+      <div class="profile-details-grid" id="profileFieldsSummary">
+        <!-- Rendered via JS -->
       </div>
     </div>
   </div>
@@ -685,44 +741,13 @@
 <div class="modal-overlay" id="editDetailsModal">
   <div class="modal-box">
     <div class="modal-header">
-      <h3 class="modal-title"><i class="fa-solid fa-user-pen"></i> Edit Registration Details</h3>
+      <h3 class="modal-title" id="editModalHeaderTitle"><i class="fa-solid fa-user-pen"></i> Edit Registration Details</h3>
       <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
     </div>
     <div class="modal-body">
       <form id="editProfileForm" onsubmit="handleProfileUpdate(event)">
-        <div class="form-group">
-          <label id="lblFullName">Full Name *</label>
-          <input type="text" id="editName" class="form-control" required placeholder="Enter full name">
-        </div>
-
-        <div class="form-group">
-          <label>WhatsApp Contact Number *</label>
-          <input type="tel" id="editMobile" class="form-control" required placeholder="e.g. 9876543210">
-        </div>
-
-        <div class="form-group">
-          <label>Subject / Class Specialization *</label>
-          <input type="text" id="editSubject" class="form-control" required placeholder="e.g. Mathematics, Class 10 CBSE">
-        </div>
-
-        <div class="form-group">
-          <label>Location / Area / City *</label>
-          <input type="text" id="editAddress" class="form-control" required placeholder="e.g. Madhapur, Hyderabad">
-        </div>
-
-        <div class="form-group">
-          <label>Preferred Tuition Mode</label>
-          <select id="editMode" class="form-control">
-            <option value="Online">Online</option>
-            <option value="Offline / Home">Offline / Home</option>
-            <option value="Both">Both</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label>Bio / Experience / Qualifications</label>
-          <textarea id="editBio" class="form-control" rows="3" placeholder="Describe background or requirements..."></textarea>
-        </div>
+        <!-- DYNAMIC FIELDS INSERTED HERE REPLICATING REGISTRATION -->
+        <div id="dynamicFormFieldsContainer"></div>
       </form>
     </div>
     <div class="modal-footer">
@@ -797,38 +822,324 @@ function toggleMobileNav() {
 }
 
 /* ========================================================
-   PROFILE DETAILS POPULATE & MODAL EDITING
+   LOGOUT HANDLER
    ======================================================== */
-function renderProfileData(data, role) {
+async function handleLogout() {
+  const confirmed = confirm("Are you sure you want to sign out?");
+  if (!confirmed) return;
+
+  try {
+    await db.auth.signOut();
+  } catch (err) {
+    console.error("Signout error:", err);
+  } finally {
+    localStorage.removeItem("apex_cached_auth");
+    window.location.href = "index.html?auth=signin";
+  }
+}
+
+/* ========================================================
+   RENDER PROFILE SUMMARY ON SCREEN
+   ======================================================== */
+function renderProfileView(data, role) {
   profileRecord = data;
   currentRole = role;
 
   const name = (role === 'teacher') ? (data.teacher_name || "Educator") : (data.student_name || "Student");
   document.getElementById("profileName").textContent = name;
   document.getElementById("profileRoleBadge").textContent = (role === 'teacher') ? "Verified Educator 👨‍🏫" : "Student / Parent 🎓";
-  document.getElementById("profileMobile").textContent = data.mobile || "—";
-  document.getElementById("profileSubject").textContent = data.subject || "—";
-  document.getElementById("profileLocation").textContent = data.address || "—";
-  document.getElementById("profileMode").textContent = data.tuition_mode || "Online";
-  document.getElementById("profileBio").textContent = data.bio || data.qualification || "—";
 
   if (data.avatar_url) {
     document.getElementById("profileAvatarImg").src = data.avatar_url;
   }
+
+  const container = document.getElementById("profileFieldsSummary");
+  container.innerHTML = "";
+
+  if (role === 'teacher') {
+    container.innerHTML = `
+      <div class="profile-detail-field">
+        <div class="detail-label">WhatsApp Contact</div>
+        <div class="detail-val">${data.mobile || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Alternate Contact</div>
+        <div class="detail-val">${data.alternate_mobile || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Email Address</div>
+        <div class="detail-val">${data.email || currentUser.email || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Gender</div>
+        <div class="detail-val">${data.gender || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Highest Qualification</div>
+        <div class="detail-val">${data.qualification || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Teaching Experience</div>
+        <div class="detail-val">${data.experience ? data.experience + " Years" : "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Primary Subject</div>
+        <div class="detail-val">${data.subject || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Other Handled Subjects</div>
+        <div class="detail-val">${data.other_subjects || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Target Classes / Grades</div>
+        <div class="detail-val">${data.classes || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Tuition Mode</div>
+        <div class="detail-val">${data.tuition_mode || "Online"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Expected Fee / Charges</div>
+        <div class="detail-val">${data.fee_details || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">City / Area</div>
+        <div class="detail-val">${data.city || data.area || data.address || "—"}</div>
+      </div>
+      <div class="profile-detail-field span-2">
+        <div class="detail-label">Full Address / Location</div>
+        <div class="detail-val">${data.address || "—"}</div>
+      </div>
+      <div class="profile-detail-field span-2">
+        <div class="detail-label">Professional Bio / About</div>
+        <div class="detail-val">${data.bio || "—"}</div>
+      </div>
+    `;
+  } else {
+    container.innerHTML = `
+      <div class="profile-detail-field">
+        <div class="detail-label">WhatsApp Contact</div>
+        <div class="detail-val">${data.mobile || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Alternate Contact</div>
+        <div class="detail-val">${data.alternate_mobile || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Parent / Guardian Name</div>
+        <div class="detail-val">${data.parent_name || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Email Address</div>
+        <div class="detail-val">${data.email || currentUser.email || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Student Class / Grade</div>
+        <div class="detail-val">${data.class_grade || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Syllabus / Board</div>
+        <div class="detail-val">${data.board || "CBSE / State"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Subjects Needed</div>
+        <div class="detail-val">${data.subject || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Preferred Mode</div>
+        <div class="detail-val">${data.tuition_mode || "Online"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">City / Locality</div>
+        <div class="detail-val">${data.city || data.area || data.address || "—"}</div>
+      </div>
+      <div class="profile-detail-field">
+        <div class="detail-label">Pincode</div>
+        <div class="detail-val">${data.pincode || "—"}</div>
+      </div>
+      <div class="profile-detail-field span-2">
+        <div class="detail-label">Full Address / Landmark</div>
+        <div class="detail-val">${data.address || "—"}</div>
+      </div>
+      <div class="profile-detail-field span-2">
+        <div class="detail-label">Learning Goals / Requirements</div>
+        <div class="detail-val">${data.bio || data.requirements || "—"}</div>
+      </div>
+    `;
+  }
 }
 
+/* ========================================================
+   MODAL REGISTRATION EDIT FORM GENERATOR
+   ======================================================== */
 function openEditModal() {
   if (!profileRecord) return;
   const isTeacher = currentRole === 'teacher';
-  
-  document.getElementById("lblFullName").textContent = isTeacher ? "Teacher Name *" : "Student / Parent Name *";
-  document.getElementById("editName").value = isTeacher ? (profileRecord.teacher_name || "") : (profileRecord.student_name || "");
-  document.getElementById("editMobile").value = profileRecord.mobile || "";
-  document.getElementById("editSubject").value = profileRecord.subject || "";
-  document.getElementById("editAddress").value = profileRecord.address || "";
-  document.getElementById("editMode").value = profileRecord.tuition_mode || "Online";
-  document.getElementById("editBio").value = profileRecord.bio || profileRecord.qualification || "";
-  
+  const c = document.getElementById("dynamicFormFieldsContainer");
+
+  document.getElementById("editModalHeaderTitle").innerHTML = isTeacher 
+    ? `<i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration Details`
+    : `<i class="fa-solid fa-graduation-cap"></i> Edit Student Registration Details`;
+
+  if (isTeacher) {
+    c.innerHTML = `
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="inp_teacher_name" class="form-control" required value="${profileRecord.teacher_name || ''}">
+        </div>
+        <div class="form-group">
+          <label>WhatsApp Number *</label>
+          <input type="tel" id="inp_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Alternate Mobile</label>
+          <input type="tel" id="inp_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+        </div>
+        <div class="form-group">
+          <label>Gender</label>
+          <select id="inp_gender" class="form-control">
+            <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
+            <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
+            <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Highest Qualification *</label>
+          <input type="text" id="inp_qualification" class="form-control" placeholder="e.g. M.Sc, B.Ed, B.Tech" required value="${profileRecord.qualification || ''}">
+        </div>
+        <div class="form-group">
+          <label>Teaching Experience (Years)</label>
+          <input type="number" step="0.5" id="inp_experience" class="form-control" placeholder="e.g. 5" value="${profileRecord.experience || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Primary Specialization / Subject *</label>
+          <input type="text" id="inp_subject" class="form-control" placeholder="e.g. Mathematics" required value="${profileRecord.subject || ''}">
+        </div>
+        <div class="form-group">
+          <label>Other Handled Subjects</label>
+          <input type="text" id="inp_other_subjects" class="form-control" placeholder="e.g. Physics, Chemistry" value="${profileRecord.other_subjects || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Target Classes / Grades *</label>
+          <input type="text" id="inp_classes" class="form-control" placeholder="e.g. Class 8 to 12" required value="${profileRecord.classes || ''}">
+        </div>
+        <div class="form-group">
+          <label>Tuition Mode *</label>
+          <select id="inp_tuition_mode" class="form-control">
+            <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
+            <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
+            <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Expected Fee / Charges</label>
+          <input type="text" id="inp_fee_details" class="form-control" placeholder="e.g. ₹500/hr or ₹4000/month" value="${profileRecord.fee_details || ''}">
+        </div>
+        <div class="form-group">
+          <label>City / Town *</label>
+          <input type="text" id="inp_city" class="form-control" required value="${profileRecord.city || ''}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Full Street Address / Landmark *</label>
+        <input type="text" id="inp_address" class="form-control" required value="${profileRecord.address || ''}">
+      </div>
+
+      <div class="form-group">
+        <label>Professional Bio / Profile Summary</label>
+        <textarea id="inp_bio" class="form-control" rows="3" placeholder="Tell students about your teaching methodology and achievements...">${profileRecord.bio || ''}</textarea>
+      </div>
+    `;
+  } else {
+    c.innerHTML = `
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Student Full Name *</label>
+          <input type="text" id="inp_student_name" class="form-control" required value="${profileRecord.student_name || ''}">
+        </div>
+        <div class="form-group">
+          <label>Parent / Guardian Name</label>
+          <input type="text" id="inp_parent_name" class="form-control" value="${profileRecord.parent_name || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>WhatsApp Contact Number *</label>
+          <input type="tel" id="inp_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
+        </div>
+        <div class="form-group">
+          <label>Alternate Contact</label>
+          <input type="tel" id="inp_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Class / Grade *</label>
+          <input type="text" id="inp_class_grade" class="form-control" placeholder="e.g. Grade 10" required value="${profileRecord.class_grade || ''}">
+        </div>
+        <div class="form-group">
+          <label>Board / Syllabus</label>
+          <input type="text" id="inp_board" class="form-control" placeholder="e.g. CBSE / ICSE / State" value="${profileRecord.board || ''}">
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>Subjects Needed *</label>
+          <input type="text" id="inp_subject" class="form-control" placeholder="e.g. Maths, Science" required value="${profileRecord.subject || ''}">
+        </div>
+        <div class="form-group">
+          <label>Preferred Mode</label>
+          <select id="inp_tuition_mode" class="form-control">
+            <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
+            <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
+            <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-grid-2">
+        <div class="form-group">
+          <label>City / Town *</label>
+          <input type="text" id="inp_city" class="form-control" required value="${profileRecord.city || ''}">
+        </div>
+        <div class="form-group">
+          <label>Pincode</label>
+          <input type="text" id="inp_pincode" class="form-control" value="${profileRecord.pincode || ''}">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Full Residential Address / Landmark *</label>
+        <input type="text" id="inp_address" class="form-control" required value="${profileRecord.address || ''}">
+      </div>
+
+      <div class="form-group">
+        <label>Specific Learning Needs / Timings</label>
+        <textarea id="inp_bio" class="form-control" rows="3" placeholder="Provide any details on schedule preference, weak areas, etc.">${profileRecord.bio || profileRecord.requirements || ''}</textarea>
+      </div>
+    `;
+  }
+
   document.getElementById("editDetailsModal").classList.add("active");
 }
 
@@ -836,35 +1147,53 @@ function closeEditModal() {
   document.getElementById("editDetailsModal").classList.remove("active");
 }
 
+/* ========================================================
+   SAVE REPLICA REGISTRATION DETAILS
+   ======================================================== */
 async function handleProfileUpdate(e) {
   e.preventDefault();
   const btn = document.getElementById("btnSaveDetails");
   btn.disabled = true;
   btn.textContent = "Saving...";
 
-  const nameVal = document.getElementById("editName").value.trim();
-  const mobileVal = document.getElementById("editMobile").value.trim();
-  const subjectVal = document.getElementById("editSubject").value.trim();
-  const addressVal = document.getElementById("editAddress").value.trim();
-  const modeVal = document.getElementById("editMode").value;
-  const bioVal = document.getElementById("editBio").value.trim();
-
   const isTeacher = currentRole === 'teacher';
   const table = isTeacher ? "teachers" : "students";
-
-  const payload = {
-    mobile: mobileVal,
-    subject: subjectVal,
-    address: addressVal,
-    tuition_mode: modeVal,
-    bio: bioVal,
-    updated_at: new Date().toISOString()
-  };
+  let payload = {};
 
   if (isTeacher) {
-    payload.teacher_name = nameVal;
+    payload = {
+      teacher_name: document.getElementById("inp_teacher_name").value.trim(),
+      mobile: document.getElementById("inp_mobile").value.trim(),
+      alternate_mobile: document.getElementById("inp_alternate_mobile").value.trim(),
+      gender: document.getElementById("inp_gender").value,
+      qualification: document.getElementById("inp_qualification").value.trim(),
+      experience: document.getElementById("inp_experience").value.trim(),
+      subject: document.getElementById("inp_subject").value.trim(),
+      other_subjects: document.getElementById("inp_other_subjects").value.trim(),
+      classes: document.getElementById("inp_classes").value.trim(),
+      tuition_mode: document.getElementById("inp_tuition_mode").value,
+      fee_details: document.getElementById("inp_fee_details").value.trim(),
+      city: document.getElementById("inp_city").value.trim(),
+      address: document.getElementById("inp_address").value.trim(),
+      bio: document.getElementById("inp_bio").value.trim(),
+      updated_at: new Date().toISOString()
+    };
   } else {
-    payload.student_name = nameVal;
+    payload = {
+      student_name: document.getElementById("inp_student_name").value.trim(),
+      parent_name: document.getElementById("inp_parent_name").value.trim(),
+      mobile: document.getElementById("inp_mobile").value.trim(),
+      alternate_mobile: document.getElementById("inp_alternate_mobile").value.trim(),
+      class_grade: document.getElementById("inp_class_grade").value.trim(),
+      board: document.getElementById("inp_board").value.trim(),
+      subject: document.getElementById("inp_subject").value.trim(),
+      tuition_mode: document.getElementById("inp_tuition_mode").value,
+      city: document.getElementById("inp_city").value.trim(),
+      pincode: document.getElementById("inp_pincode").value.trim(),
+      address: document.getElementById("inp_address").value.trim(),
+      bio: document.getElementById("inp_bio").value.trim(),
+      updated_at: new Date().toISOString()
+    };
   }
 
   const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
@@ -873,18 +1202,17 @@ async function handleProfileUpdate(e) {
   btn.textContent = "Save Changes";
 
   if (error) {
-    alert("Error updating profile: " + error.message);
+    alert("Error updating profile details: " + error.message);
   } else {
-    // Sync local profile without page refresh
     Object.assign(profileRecord, payload);
-    renderProfileData(profileRecord, currentRole);
+    renderProfileView(profileRecord, currentRole);
     closeEditModal();
-    alert("Profile details updated successfully!");
+    alert("Profile registration details updated successfully!");
   }
 }
 
 /* ========================================================
-   IMAGE CROP & ZOOM LOGIC (CROPPER.JS)
+   CROP & ZOOM LOGIC (CROPPER.JS)
    ======================================================== */
 function initiateImageCrop(event) {
   const file = event.target.files && event.target.files[0];
@@ -919,7 +1247,7 @@ function initiateImageCrop(event) {
     });
   };
   reader.readAsDataURL(file);
-  event.target.value = ""; // Reset input so same file can be re-selected if cancelled
+  event.target.value = "";
 }
 
 function handleZoomSlider(val) {
@@ -959,7 +1287,6 @@ async function applyAndUploadCrop() {
   });
 
   const base64Data = canvas.toDataURL("image/jpeg", 0.85);
-
   const table = (currentRole === 'teacher') ? 'teachers' : 'students';
   const { error } = await db.from(table).update({ avatar_url: base64Data }).eq('id', currentUser.id);
 
@@ -977,7 +1304,7 @@ async function applyAndUploadCrop() {
 }
 
 /* ========================================================
-   INITIAL LOAD & AUTH
+   AUTHENTICATION & INITIALIZATION
    ======================================================== */
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
@@ -992,14 +1319,14 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
     if (t) {
-      renderProfileData(t, 'teacher');
+      renderProfileView(t, 'teacher');
       document.getElementById("dockBrowseLabel").textContent = "🔍 Students";
     } else {
       const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
       if (s) {
-        renderProfileData(s, 'student');
+        renderProfileView(s, 'student');
       } else {
-        renderProfileData({ student_name: currentUser.email.split("@")[0] }, 'student');
+        renderProfileView({ student_name: currentUser.email.split("@")[0] }, 'student');
       }
       document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
     }
