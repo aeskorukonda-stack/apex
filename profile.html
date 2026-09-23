@@ -4,11 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Profile | Apex Tuitions</title>
-  
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Cropper.js for Crop & Zoom -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -180,7 +185,6 @@
       justify-content: center;
     }
 
-    /* HAMBURGER MENU BUTTON (Restored for Mobile) */
     .mobile-menu-toggle {
       display: none;
       background: none;
@@ -262,6 +266,10 @@
       gap: 5px;
       white-space: nowrap;
       box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: var(--transition);
+    }
+    .change-photo-badge:hover {
+      background: var(--royal-blue-hover);
     }
 
     .profile-name {
@@ -322,11 +330,148 @@
       font-size: 14px;
       font-weight: 700;
       color: var(--apex-navy);
+      word-break: break-word;
     }
 
-    /* ========================================================
-       STANDARDIZED GRAND 3-TILE BOTTOM DOCK (PASTEL BUBBLES)
-       ======================================================== */
+    /* MODAL BASE */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 25, 47, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 100000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 520px;
+      border-radius: var(--card-radius);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      animation: modalSlideUp 0.25s ease-out;
+    }
+    @keyframes modalSlideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #F8FAFC;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      font-size: 18px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: #F8FAFC;
+    }
+
+    /* FORM STYLES */
+    .form-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--apex-navy);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border-subtle);
+      font-family: inherit;
+      color: var(--text-main);
+      outline: none;
+      transition: var(--transition);
+    }
+    .form-control:focus {
+      border-color: var(--royal-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .btn-secondary {
+      background: #E2E8F0;
+      color: var(--apex-navy);
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-primary {
+      background: var(--royal-blue);
+      color: #FFFFFF;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* CROPPER WRAPPER */
+    .crop-container {
+      width: 100%;
+      height: 300px;
+      background-color: #000;
+      overflow: hidden;
+      border-radius: 10px;
+      position: relative;
+    }
+    .crop-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      justify-content: center;
+    }
+    .crop-controls input[type="range"] {
+      flex: 1;
+      max-width: 200px;
+    }
+
+    /* BOTTOM DOCK */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -450,13 +595,13 @@
         <h1>APEX TUITIONS</h1>
       </div>
     </a>
-    
+
     <div class="header-right-actions">
       <nav class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
         <a href="browse.html" class="nav-link">Browse</a>
         <a href="resources.html" class="nav-link">Resources</a>
-        
+
         <div class="dropdown-parent">
           <a href="javascript:void(0)" class="nav-link">
             More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
@@ -474,14 +619,12 @@
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
       </div>
 
-      <!-- HAMBURGER BUTTON -->
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
   </div>
 
-  <!-- MOBILE SLIDE-OUT DRAWER -->
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
     <a href="browse.html">🔍 Browse</a>
@@ -500,13 +643,13 @@
         <label for="avatarFileInput" class="change-photo-badge">
           <i class="fa-solid fa-camera"></i> Change Photo
         </label>
-        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="initiateImageCrop(event)">
       </div>
 
       <h2 class="profile-name" id="profileName">Loading Profile...</h2>
       <div class="profile-role-pill" id="profileRoleBadge">Verified Member ✓</div>
 
-      <button class="btn-edit-details" onclick="triggerProfileEdit()">
+      <button class="btn-edit-details" onclick="openEditModal()">
         <i class="fa-solid fa-pen-to-square"></i> Edit Details
       </button>
 
@@ -529,9 +672,90 @@
         <div class="detail-label">Tuition Mode</div>
         <div class="detail-val" id="profileMode">—</div>
       </div>
+
+      <div class="profile-detail-field" id="profileBioGroup">
+        <div class="detail-label">Bio / Qualifications</div>
+        <div class="detail-val" id="profileBio">—</div>
+      </div>
     </div>
   </div>
 </main>
+
+<!-- EDIT REGISTRATION DETAILS MODAL -->
+<div class="modal-overlay" id="editDetailsModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-user-pen"></i> Edit Registration Details</h3>
+      <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <form id="editProfileForm" onsubmit="handleProfileUpdate(event)">
+        <div class="form-group">
+          <label id="lblFullName">Full Name *</label>
+          <input type="text" id="editName" class="form-control" required placeholder="Enter full name">
+        </div>
+
+        <div class="form-group">
+          <label>WhatsApp Contact Number *</label>
+          <input type="tel" id="editMobile" class="form-control" required placeholder="e.g. 9876543210">
+        </div>
+
+        <div class="form-group">
+          <label>Subject / Class Specialization *</label>
+          <input type="text" id="editSubject" class="form-control" required placeholder="e.g. Mathematics, Class 10 CBSE">
+        </div>
+
+        <div class="form-group">
+          <label>Location / Area / City *</label>
+          <input type="text" id="editAddress" class="form-control" required placeholder="e.g. Madhapur, Hyderabad">
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Tuition Mode</label>
+          <select id="editMode" class="form-control">
+            <option value="Online">Online</option>
+            <option value="Offline / Home">Offline / Home</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Bio / Experience / Qualifications</label>
+          <textarea id="editBio" class="form-control" rows="3" placeholder="Describe background or requirements..."></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
+      <button type="submit" form="editProfileForm" class="btn-primary" id="btnSaveDetails">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- PHOTO CROP & ZOOM MODAL -->
+<div class="modal-overlay" id="cropPhotoModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 class="modal-title"><i class="fa-solid fa-crop-simple"></i> Crop & Zoom Avatar</h3>
+      <button class="modal-close-btn" onclick="closeCropModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="crop-container">
+        <img id="imageToCrop" src="" alt="Source preview" style="max-width: 100%;">
+      </div>
+      <div class="crop-controls">
+        <button type="button" class="btn-secondary" onclick="zoomCropper(-0.1)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+        <input type="range" id="zoomRange" min="0.1" max="3" step="0.05" value="1" oninput="handleZoomSlider(this.value)">
+        <button type="button" class="btn-secondary" onclick="zoomCropper(0.1)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+        <button type="button" class="btn-secondary" onclick="rotateCropper(90)" title="Rotate"><i class="fa-solid fa-rotate-right"></i></button>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" onclick="closeCropModal()">Cancel</button>
+      <button type="button" class="btn-primary" id="btnSaveCrop" onclick="applyAndUploadCrop()">Save Avatar</button>
+    </div>
+  </div>
+</div>
 
 <!-- STANDARDIZED GRAND 3-TILE BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
@@ -565,30 +789,196 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
 let currentRole = null;
+let profileRecord = null;
+let cropperInstance = null;
 
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
-function triggerProfileEdit() {
-  alert("Profile update mode enabled. You can adjust details directly with your Apex coordinator.");
+/* ========================================================
+   PROFILE DETAILS POPULATE & MODAL EDITING
+   ======================================================== */
+function renderProfileData(data, role) {
+  profileRecord = data;
+  currentRole = role;
+
+  const name = (role === 'teacher') ? (data.teacher_name || "Educator") : (data.student_name || "Student");
+  document.getElementById("profileName").textContent = name;
+  document.getElementById("profileRoleBadge").textContent = (role === 'teacher') ? "Verified Educator 👨‍🏫" : "Student / Parent 🎓";
+  document.getElementById("profileMobile").textContent = data.mobile || "—";
+  document.getElementById("profileSubject").textContent = data.subject || "—";
+  document.getElementById("profileLocation").textContent = data.address || "—";
+  document.getElementById("profileMode").textContent = data.tuition_mode || "Online";
+  document.getElementById("profileBio").textContent = data.bio || data.qualification || "—";
+
+  if (data.avatar_url) {
+    document.getElementById("profileAvatarImg").src = data.avatar_url;
+  }
 }
 
-async function handleAvatarUpload(e) {
-  const file = e.target.files[0];
-  if (!file || !currentUser) return;
-  alert("Uploading photo...");
+function openEditModal() {
+  if (!profileRecord) return;
+  const isTeacher = currentRole === 'teacher';
+  
+  document.getElementById("lblFullName").textContent = isTeacher ? "Teacher Name *" : "Student / Parent Name *";
+  document.getElementById("editName").value = isTeacher ? (profileRecord.teacher_name || "") : (profileRecord.student_name || "");
+  document.getElementById("editMobile").value = profileRecord.mobile || "";
+  document.getElementById("editSubject").value = profileRecord.subject || "";
+  document.getElementById("editAddress").value = profileRecord.address || "";
+  document.getElementById("editMode").value = profileRecord.tuition_mode || "Online";
+  document.getElementById("editBio").value = profileRecord.bio || profileRecord.qualification || "";
+  
+  document.getElementById("editDetailsModal").classList.add("active");
+}
+
+function closeEditModal() {
+  document.getElementById("editDetailsModal").classList.remove("active");
+}
+
+async function handleProfileUpdate(e) {
+  e.preventDefault();
+  const btn = document.getElementById("btnSaveDetails");
+  btn.disabled = true;
+  btn.textContent = "Saving...";
+
+  const nameVal = document.getElementById("editName").value.trim();
+  const mobileVal = document.getElementById("editMobile").value.trim();
+  const subjectVal = document.getElementById("editSubject").value.trim();
+  const addressVal = document.getElementById("editAddress").value.trim();
+  const modeVal = document.getElementById("editMode").value;
+  const bioVal = document.getElementById("editBio").value.trim();
+
+  const isTeacher = currentRole === 'teacher';
+  const table = isTeacher ? "teachers" : "students";
+
+  const payload = {
+    mobile: mobileVal,
+    subject: subjectVal,
+    address: addressVal,
+    tuition_mode: modeVal,
+    bio: bioVal,
+    updated_at: new Date().toISOString()
+  };
+
+  if (isTeacher) {
+    payload.teacher_name = nameVal;
+  } else {
+    payload.student_name = nameVal;
+  }
+
+  const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
+
+  btn.disabled = false;
+  btn.textContent = "Save Changes";
+
+  if (error) {
+    alert("Error updating profile: " + error.message);
+  } else {
+    // Sync local profile without page refresh
+    Object.assign(profileRecord, payload);
+    renderProfileData(profileRecord, currentRole);
+    closeEditModal();
+    alert("Profile details updated successfully!");
+  }
+}
+
+/* ========================================================
+   IMAGE CROP & ZOOM LOGIC (CROPPER.JS)
+   ======================================================== */
+function initiateImageCrop(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
   const reader = new FileReader();
-  reader.onload = async (event) => {
-    const url = event.target.result;
-    document.getElementById("profileAvatarImg").src = url;
-    const table = (currentRole === 'teacher') ? 'teachers' : 'students';
-    await db.from(table).update({ avatar_url: url }).eq('id', currentUser.id);
-    alert("Profile photo updated successfully!");
+  reader.onload = function(e) {
+    const cropImg = document.getElementById("imageToCrop");
+    cropImg.src = e.target.result;
+
+    document.getElementById("cropPhotoModal").classList.add("active");
+
+    if (cropperInstance) {
+      cropperInstance.destroy();
+    }
+
+    cropperInstance = new Cropper(cropImg, {
+      aspectRatio: 1,
+      viewMode: 1,
+      dragMode: 'move',
+      autoCropArea: 1,
+      restore: false,
+      guides: true,
+      center: true,
+      highlight: false,
+      cropBoxMovable: true,
+      cropBoxResizable: true,
+      toggleDragModeOnDblclick: false,
+      ready() {
+        document.getElementById("zoomRange").value = 1;
+      }
+    });
   };
   reader.readAsDataURL(file);
+  event.target.value = ""; // Reset input so same file can be re-selected if cancelled
 }
 
+function handleZoomSlider(val) {
+  if (!cropperInstance) return;
+  cropperInstance.zoomTo(parseFloat(val));
+}
+
+function zoomCropper(delta) {
+  if (!cropperInstance) return;
+  cropperInstance.zoom(delta);
+}
+
+function rotateCropper(deg) {
+  if (!cropperInstance) return;
+  cropperInstance.rotate(deg);
+}
+
+function closeCropModal() {
+  document.getElementById("cropPhotoModal").classList.remove("active");
+  if (cropperInstance) {
+    cropperInstance.destroy();
+    cropperInstance = null;
+  }
+}
+
+async function applyAndUploadCrop() {
+  if (!cropperInstance || !currentUser) return;
+  const saveBtn = document.getElementById("btnSaveCrop");
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Processing...";
+
+  const canvas = cropperInstance.getCroppedCanvas({
+    width: 360,
+    height: 360,
+    imageSmoothingEnabled: true,
+    imageSmoothingQuality: 'high'
+  });
+
+  const base64Data = canvas.toDataURL("image/jpeg", 0.85);
+
+  const table = (currentRole === 'teacher') ? 'teachers' : 'students';
+  const { error } = await db.from(table).update({ avatar_url: base64Data }).eq('id', currentUser.id);
+
+  saveBtn.disabled = false;
+  saveBtn.textContent = "Save Avatar";
+
+  if (error) {
+    alert("Failed to save avatar: " + error.message);
+  } else {
+    document.getElementById("profileAvatarImg").src = base64Data;
+    if (profileRecord) profileRecord.avatar_url = base64Data;
+    closeCropModal();
+    alert("Profile photo updated successfully!");
+  }
+}
+
+/* ========================================================
+   INITIAL LOAD & AUTH
+   ======================================================== */
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
@@ -602,25 +992,15 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
     if (t) {
-      currentRole = 'teacher';
-      document.getElementById("profileName").textContent = t.teacher_name || currentUser.email.split("@")[0];
-      document.getElementById("profileRoleBadge").textContent = "Verified Educator 👨‍🏫";
-      document.getElementById("profileMobile").textContent = t.mobile || "—";
-      document.getElementById("profileSubject").textContent = t.subject || "—";
-      document.getElementById("profileLocation").textContent = t.address || "—";
-      document.getElementById("profileMode").textContent = t.tuition_mode || "Online";
-      if (t.avatar_url) document.getElementById("profileAvatarImg").src = t.avatar_url;
+      renderProfileData(t, 'teacher');
       document.getElementById("dockBrowseLabel").textContent = "🔍 Students";
     } else {
       const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
-      currentRole = 'student';
-      document.getElementById("profileName").textContent = s ? s.student_name : currentUser.email.split("@")[0];
-      document.getElementById("profileRoleBadge").textContent = "Student / Parent 🎓";
-      document.getElementById("profileMobile").textContent = s ? s.mobile : "—";
-      document.getElementById("profileSubject").textContent = s ? s.subject : "—";
-      document.getElementById("profileLocation").textContent = s ? s.address : "—";
-      document.getElementById("profileMode").textContent = s ? s.tuition_mode : "Online";
-      if (s && s.avatar_url) document.getElementById("profileAvatarImg").src = s.avatar_url;
+      if (s) {
+        renderProfileData(s, 'student');
+      } else {
+        renderProfileData({ student_name: currentUser.email.split("@")[0] }, 'student');
+      }
       document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
     }
 
