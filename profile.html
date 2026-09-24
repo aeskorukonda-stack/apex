@@ -4,16 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>My Profile | Apex Tuitions</title>
-
+  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Cropper.js for Crop & Zoom -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -23,20 +18,19 @@
       --apex-navy-dark: #070F1E;
       --royal-blue: #2563EB;
       --royal-blue-hover: #1D4ED8;
+      --royal-blue-glow: rgba(37, 99, 235, 0.18);
       --apex-gold: #F59E0B;
       --apex-gold-hover: #D97706;
       --emerald: #10B981;
+      --emerald-dark: #059669;
       --emerald-light: #ECFDF5;
-      --danger: #EF4444;
-      --danger-hover: #DC2626;
       --bg-slate: #F8FAFC;
       --card-bg: #FFFFFF;
       --text-main: #0F172A;
       --text-muted: #64748B;
-      --border-subtle: #E2E8F0;
+      --border-subtle: #CBD5E1;
       --card-radius: 18px;
       --btn-radius: 10px;
-      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -45,7 +39,7 @@
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-slate);
       color: var(--text-main);
-      line-height: 1.6;
+      line-height: 1.5;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -66,7 +60,6 @@
       right: 0;
       z-index: 10000;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      width: 100%;
     }
     .header-wrap {
       max-width: 1280px;
@@ -74,7 +67,6 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 100%;
     }
     .brand-group {
       display: flex;
@@ -83,27 +75,21 @@
       text-decoration: none;
     }
     .header-logo {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      border: 2px solid #ffffff;
-      background: #ffffff;
+      border: 2px solid rgba(255, 255, 255, 0.9);
+      background: #FFFFFF;
       object-fit: cover;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
     .brand-text h1 {
       font-size: 21px;
-      color: #ffffff;
+      color: #FFFFFF;
       font-weight: 800;
       letter-spacing: -0.3px;
       line-height: 1;
     }
 
-    .header-right-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
     .nav-links-desktop {
       display: flex;
       align-items: center;
@@ -122,20 +108,16 @@
       gap: 7px;
     }
     .nav-link:hover, .nav-link.active {
-      color: #ffffff;
+      color: #FFFFFF;
       background: rgba(255, 255, 255, 0.12);
     }
 
-    .dropdown-parent { 
-      position: relative; 
-      padding-bottom: 8px;
-      margin-bottom: -8px;
-    }
+    .dropdown-parent { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
     .dropdown-menu {
       position: absolute;
       top: 100%;
       right: 0;
-      background: #ffffff !important;
+      background: #FFFFFF;
       border-radius: 12px;
       border: 1px solid var(--border-subtle);
       box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
@@ -150,53 +132,20 @@
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
-      color: #1E293B !important;
-      font-size: 13.5px;
+      color: #334155;
+      font-size: 13px;
       font-weight: 700;
-      text-decoration: none !important;
+      text-decoration: none;
       border-radius: 8px;
-      cursor: pointer;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
       transition: var(--transition);
     }
-    .dropdown-item:hover {
-      background: #EFF6FF;
-      color: var(--royal-blue) !important;
-      transform: translateX(3px);
-    }
-
-    .header-auth-buttons {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    #headerAuthGroup.hidden,
-    body.logged-in-mobile #headerAuthGroup {
-      display: none !important;
-    }
-    .btn-header-auth {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff !important;
-      font-weight: 700;
-      padding: 7px 16px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 13px;
-      border: 1.5px solid rgba(255, 255, 255, 0.28);
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
+    .dropdown-item:hover { background: #EFF6FF; color: var(--royal-blue); }
 
     .mobile-menu-toggle {
       display: none;
       background: none;
       border: none;
-      color: #ffffff;
+      color: #FFFFFF;
       font-size: 22px;
       cursor: pointer;
       padding: 6px;
@@ -213,95 +162,129 @@
       flex-direction: column;
       gap: 10px;
       z-index: 9999;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
     .mobile-drawer.open { display: flex; }
-    .mobile-drawer a, .mobile-drawer button {
-      color: #ffffff;
+    .mobile-drawer a {
+      color: #FFFFFF;
       text-decoration: none;
       font-weight: 600;
       font-size: 15px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      background: none;
-      border-left: none;
-      border-right: none;
-      border-top: none;
-      text-align: left;
-      cursor: pointer;
     }
 
+    /* MAIN TWO-COLUMN DASHBOARD */
     main {
       flex: 1;
-      padding: 36px 20px 80px;
+      padding: 34px 20px 80px;
     }
-    .profile-container {
-      max-width: 680px;
+    .dashboard-layout {
+      max-width: 1280px;
       margin: 0 auto;
-    }
-    .profile-card {
-      background: #FFFFFF;
-      border-radius: var(--card-radius);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-card);
-      padding: 36px 28px;
-      text-align: center;
+      display: grid;
+      grid-template-columns: 410px 1fr;
+      gap: 28px;
+      align-items: start;
     }
 
-    .avatar-upload-wrap {
-      position: relative;
-      width: 124px;
-      height: 124px;
-      margin: 0 auto 16px;
+    /* LEFT COLUMN: PROFILE CARD */
+    .profile-sidebar-card {
+      background: #FFFFFF;
+      border-radius: var(--card-radius);
+      border: 1px solid #E2E8F0;
+      box-shadow: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .profile-avatar-img {
+
+    .profile-hero-banner {
+      background: linear-gradient(180deg, #112B5A 0%, #19386D 100%);
+      padding: 26px 20px 32px;
+      text-align: center;
+      position: relative;
+    }
+    .avatar-wrapper {
+      position: relative;
+      width: 104px;
+      height: 104px;
+      margin: 0 auto;
+    }
+    .avatar-frame {
       width: 100%;
       height: 100%;
-      border-radius: 28px;
-      object-fit: cover;
-      border: 3.5px solid var(--royal-blue);
-      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.2);
+      border-radius: 20px;
+      border: 3.5px solid #FFFFFF;
+      background: #0A192F;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
-    .change-photo-badge {
+    .avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .avatar-update-pill {
       position: absolute;
-      bottom: -8px;
+      bottom: -11px;
       left: 50%;
       transform: translateX(-50%);
-      background: var(--royal-blue);
+      background: #000000;
       color: #FFFFFF;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
-      padding: 4px 12px;
-      border-radius: 20px;
-      cursor: pointer;
+      padding: 3px 10px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.4);
       display: inline-flex;
       align-items: center;
       gap: 5px;
+      cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-      transition: var(--transition);
-    }
-    .change-photo-badge:hover {
-      background: var(--royal-blue-hover);
+      letter-spacing: 0.5px;
     }
 
-    .profile-name {
-      font-size: 24px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-bottom: 6px;
+    .profile-sidebar-body {
+      padding: 22px 22px 26px;
     }
-    .profile-role-pill {
+    .profile-user-name {
+      text-align: center;
+      font-size: 21px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 10px;
+    }
+    .profile-badges-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .pill-role-badge {
+      background: #D1FAE5;
+      color: #065F46;
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 6px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 12px;
+      gap: 5px;
+    }
+    .pill-stars {
+      background: #FEF3C7;
+      color: #92400E;
+      font-size: 11.5px;
       font-weight: 800;
-      color: #065F46;
-      background: #D1FAE5;
-      padding: 4px 14px;
-      border-radius: 20px;
-      margin-bottom: 22px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .btn-edit-details {
@@ -314,181 +297,294 @@
       font-size: 13.5px;
       font-weight: 800;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       transition: var(--transition);
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 14px var(--royal-blue-glow);
     }
     .btn-edit-details:hover {
       background: var(--royal-blue-hover);
+      transform: translateY(-1px);
     }
 
-    /* PROFILE DETAILS GRID */
-    .profile-details-grid {
+    .profile-info-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .profile-row-split {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 10px;
+    }
+    .info-tile {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 9px;
+      padding: 9px 12px;
       text-align: left;
-      margin-bottom: 30px;
     }
-    @media (max-width: 600px) {
-      .profile-details-grid { grid-template-columns: 1fr; }
-    }
-    .profile-detail-field {
-      border-bottom: 1px solid #F1F5F9;
-      padding-bottom: 8px;
-    }
-    .profile-detail-field.span-2 {
-      grid-column: span 2;
-    }
-    @media (max-width: 600px) {
-      .profile-detail-field.span-2 { grid-column: span 1; }
-    }
-    .detail-label {
-      font-size: 10.5px;
+    .info-tile-label {
+      font-size: 10px;
       font-weight: 800;
-      color: var(--text-muted);
+      color: #94A3B8;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
-    .detail-val {
-      font-size: 14px;
+    .info-tile-val {
+      font-size: 13px;
       font-weight: 700;
-      color: var(--apex-navy);
+      color: #0F172A;
       word-break: break-word;
     }
 
-    /* BOTTOM LOGOUT BUTTON */
-    .bottom-logout-wrap {
-      border-top: 1.5px dashed var(--border-subtle);
-      padding-top: 24px;
-    }
-    .btn-logout-bottom {
+    .btn-logout {
       width: 100%;
-      height: 44px;
+      height: 40px;
+      margin-top: 20px;
+      border: 1px solid #FECACA;
       background: #FFF1F2;
       color: #E11D48;
-      border: 1.5px solid #FECDD3;
       border-radius: 10px;
-      font-size: 13.5px;
+      font-size: 12.5px;
       font-weight: 800;
       cursor: pointer;
-      display: inline-flex;
+      display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       transition: var(--transition);
     }
-    .btn-logout-bottom:hover {
-      background: #E11D48;
-      color: #FFFFFF;
-      border-color: #E11D48;
+    .btn-logout:hover { background: #FFE4E6; }
+
+    /* RIGHT COLUMN: RATING & VIDEOS */
+    .dashboard-content-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
-    /* MODAL BASE */
+    .rating-program-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--card-radius);
+      padding: 24px;
+      position: relative;
+      box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04);
+    }
+    .rating-program-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 5px;
+      background: #F59E0B;
+      border-top-left-radius: var(--card-radius);
+      border-bottom-left-radius: var(--card-radius);
+    }
+
+    .rating-card-title {
+      font-size: 17.5px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .rating-card-title i { color: #F59E0B; }
+    .rating-card-desc {
+      font-size: 12px;
+      color: #64748B;
+      line-height: 1.5;
+      margin-bottom: 16px;
+    }
+
+    .rating-stats-banner {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 8px;
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #92400E;
+    }
+    .rating-stats-banner b { color: #78350F; font-weight: 800; }
+
+    .milestone-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .milestone-box {
+      border: 1px solid #E2E8F0;
+      border-radius: 10px;
+      padding: 14px;
+      background: #FFFFFF;
+    }
+    .badge-milestone-pill {
+      font-size: 10.5px;
+      font-weight: 800;
+      color: #B45309;
+      background: #FEF3C7;
+      border-radius: 4px;
+      padding: 2px 7px;
+      display: inline-block;
+      margin-bottom: 6px;
+    }
+    .milestone-box h4 {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 4px;
+    }
+    .milestone-box p {
+      font-size: 11.5px;
+      color: #64748B;
+      line-height: 1.45;
+    }
+
+    .eligibility-note-box {
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 11.5px;
+      color: #1E40AF;
+      line-height: 1.5;
+    }
+    .eligibility-note-box i {
+      font-size: 14px;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .youtube-media-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--card-radius);
+      padding: 24px;
+      box-shadow: 0 4px 20px rgba(10, 25, 47, 0.04);
+    }
+    .youtube-header-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .youtube-header-title i { color: #EF4444; }
+
+    .video-placeholder-container {
+      border: 1.5px dashed #CBD5E1;
+      border-radius: 12px;
+      background: #F8FAFC;
+      padding: 42px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .video-play-disc {
+      width: 58px;
+      height: 58px;
+      background: #FEE2E2;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #DC2626;
+      font-size: 22px;
+      margin-bottom: 14px;
+    }
+    .video-placeholder-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #0F172A;
+      margin-bottom: 6px;
+    }
+    .video-placeholder-sub {
+      font-size: 12px;
+      color: #64748B;
+      max-width: 440px;
+      line-height: 1.5;
+    }
+
+    /* MODAL */
     .modal-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 25, 47, 0.7);
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 25, 47, 0.75);
       backdrop-filter: blur(4px);
-      z-index: 100000;
-      display: none;
+      z-index: 10000;
+      display: flex;
       align-items: center;
       justify-content: center;
       padding: 16px;
     }
-    .modal-overlay.active { display: flex; }
-    .modal-box {
+    .modal-container {
       background: #FFFFFF;
+      border-radius: 20px;
       width: 100%;
-      max-width: 640px;
-      border-radius: var(--card-radius);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-      max-height: 94vh;
+      max-width: 520px;
+      max-height: 92vh;
       display: flex;
       flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
       overflow: hidden;
-      animation: modalSlideUp 0.25s ease-out;
+      animation: modalFadeIn 0.2s ease-out;
     }
-    @keyframes modalSlideUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: translateY(12px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
     .modal-header {
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--border-subtle);
+      padding: 16px 22px;
+      background: var(--apex-navy);
+      color: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: #F8FAFC;
+      border-bottom: 3.5px solid var(--apex-gold);
     }
-    .modal-title {
+    .modal-header h3 {
       font-size: 16px;
       font-weight: 800;
-      color: var(--apex-navy);
       display: flex;
       align-items: center;
       gap: 8px;
     }
     .modal-close-btn {
-      background: none;
+      background: rgba(255, 255, 255, 0.15);
       border: none;
-      font-size: 20px;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    /* 3-STEP PROGRESS BAR */
-    .step-progress-bar {
-      display: flex;
-      background: #F1F5F9;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-    .step-tab {
-      flex: 1;
-      padding: 10px 4px;
-      text-align: center;
-      font-size: 11.5px;
-      font-weight: 800;
-      color: var(--text-muted);
-      cursor: default;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      border-bottom: 3px solid transparent;
-      transition: var(--transition);
-    }
-    .step-tab.active {
-      color: var(--royal-blue);
-      border-bottom-color: var(--royal-blue);
-      background: #FFFFFF;
-    }
-    .step-tab.completed {
-      color: var(--emerald);
-    }
-    .step-tab-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: #CBD5E1;
       color: #FFFFFF;
-      font-size: 10.5px;
-      display: inline-flex;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
       align-items: center;
       justify-content: center;
-    }
-    .step-tab.active .step-tab-num {
-      background: var(--royal-blue);
-    }
-    .step-tab.completed .step-tab-num {
-      background: var(--emerald);
     }
 
     .modal-body {
@@ -496,95 +592,147 @@
       overflow-y: auto;
       flex: 1;
     }
-    .modal-footer {
-      padding: 14px 20px;
-      border-top: 1px solid var(--border-subtle);
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      background: #F8FAFC;
-    }
 
-    /* FORM STYLES */
-    .form-step { display: none; }
-    .form-step.active { display: block; }
-    .form-grid-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    @media (max-width: 540px) {
-      .form-grid-2 { grid-template-columns: 1fr; }
-    }
-    .form-group {
-      margin-bottom: 12px;
-      text-align: left;
-    }
-    .form-group label {
-      display: block;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--apex-navy);
-      margin-bottom: 4px;
-    }
-    .form-control {
-      width: 100%;
-      padding: 9px 12px;
-      font-size: 13.5px;
-      border-radius: 8px;
-      border: 1.5px solid var(--border-subtle);
-      font-family: inherit;
-      color: var(--text-main);
-      outline: none;
-      transition: var(--transition);
-    }
-    .form-control:focus {
-      border-color: var(--royal-blue);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-    }
-    .btn-secondary {
-      background: #E2E8F0;
-      color: var(--apex-navy);
-      border: none;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .btn-primary {
-      background: var(--royal-blue);
-      color: #FFFFFF;
-      border: none;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-      font-size: 13px;
-    }
-
-    /* CROPPER WRAPPER */
-    .crop-container {
-      width: 100%;
-      height: 320px;
-      background-color: #000;
-      overflow: hidden;
-      border-radius: 10px;
-      position: relative;
-    }
-    .crop-controls {
+    .wizard-steps-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-top: 14px;
-      justify-content: center;
+      justify-content: space-between;
+      margin: 0 0 16px;
+      background: #F8FAFC;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid #E2E8F0;
     }
-    .crop-controls input[type="range"] {
-      flex: 1;
-      max-width: 200px;
+    .wizard-step-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #94A3B8; }
+    .wizard-step-item.active { color: var(--royal-blue); font-weight: 800; }
+    .step-circle { width: 20px; height: 20px; border-radius: 50%; background: #E2E8F0; color: #64748B; display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; }
+    .wizard-step-item.active .step-circle { background: var(--royal-blue); color: #FFFFFF; }
+    .step-line { flex: 1; height: 2px; background: #E2E8F0; margin: 0 6px; }
+
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+    .form-group-full { grid-column: span 2; }
+    .form-group-half { grid-column: span 1; }
+
+    label {
+      display: block;
+      font-size: 10.5px;
+      font-weight: 800;
+      margin: 0 0 4px 0;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    input, select, textarea {
+      width: 100%;
+      height: 38px;
+      min-height: 38px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-family: inherit;
+      background: #F8FAFC;
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--royal-blue);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3.5px var(--royal-blue-glow);
+    }
+    textarea { min-height: 54px; height: 54px; padding: 8px 12px; }
+
+    .custom-multiselect { position: relative; width: 100%; }
+    .multiselect-trigger {
+      width: 100%;
+      height: 38px;
+      padding: 6px 10px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 8px;
+      font-size: 12px;
+      background: #F8FAFC;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .multiselect-trigger.open {
+      border-color: var(--royal-blue);
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px var(--royal-blue-glow);
+    }
+    .multiselect-dropdown-box {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      max-height: 180px;
+      overflow-y: auto;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15);
+      z-index: 3000;
+      padding: 6px;
+      display: none;
+    }
+    .multiselect-dropdown-box.show { display: block; }
+    .multiselect-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-transform: none;
+      margin: 0;
+      font-weight: 600;
+    }
+    .multiselect-item:hover { background: #EFF6FF; }
+    .multiselect-item input[type="checkbox"] {
+      width: 15px; height: 15px; min-height: 15px; cursor: pointer; accent-color: var(--royal-blue); margin: 0;
     }
 
-    /* STANDARDIZED GRAND 3-TILE BOTTOM DOCK */
+    .wizard-nav-btns { display: flex; gap: 10px; margin-top: 14px; grid-column: span 2; }
+    .wizard-btn-next { flex: 1; height: 40px; background: var(--royal-blue); color: #FFFFFF; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
+    .wizard-btn-next:hover { background: var(--royal-blue-hover); }
+    .wizard-btn-back { flex: 1; height: 40px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
+    .wizard-btn-back:hover { background: #CBD5E1; }
+    .wizard-btn-submit { flex: 1.5; height: 40px; background: var(--emerald); color: #FFFFFF; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
+    .wizard-btn-submit:hover { background: var(--emerald-dark); }
+
+    .msg { padding: 8px 12px; margin-top: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; text-align: center; }
+    .msg.success { background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; }
+    .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
+
+    .toast-msg {
+      position: fixed;
+      top: 86px;
+      right: 20px;
+      background: #0A192F;
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: 8px;
+      border-left: 4px solid var(--emerald);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 11000;
+      animation: modalFadeIn 0.25s ease-out;
+    }
+
+    /* BOTTOM DOCK */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -592,11 +740,15 @@
       pointer-events: none !important;
     }
 
-    @media (max-width: 768px) {
-      body.logged-in-mobile { 
-        padding-bottom: 96px !important; 
-      }
+    @media (max-width: 900px) {
+      .dashboard-layout { grid-template-columns: 1fr; }
+      .milestone-grid { grid-template-columns: 1fr; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+    }
 
+    @media (max-width: 768px) {
+      body.logged-in-mobile { padding-bottom: 96px !important; }
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr;
@@ -612,13 +764,12 @@
         border-radius: 18px;
         border: 1.5px solid #CBD5E1;
         box-shadow: 0 12px 32px rgba(10, 25, 47, 0.16);
-        z-index: 99999;
+        z-index: 9999;
         align-items: center;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
-
       .mobile-bottom-dock .dock-btn {
         background: #FFFFFF;
         border: 1.5px solid #CBD5E1;
@@ -639,7 +790,6 @@
         position: relative;
         transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       }
-
       .mobile-bottom-dock .dock-btn .tile-icon-bubble {
         width: 36px;
         height: 36px;
@@ -648,21 +798,10 @@
         align-items: center;
         justify-content: center;
         font-size: 17px;
-        transition: var(--transition);
       }
-      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { 
-        background: #ECFDF5; 
-        color: #10B981; 
-      }
-      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { 
-        background: #FEF3C7; 
-        color: #D97706; 
-      }
-      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { 
-        background: #EFF6FF; 
-        color: #2563EB; 
-      }
-
+      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #10B981; }
+      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
+      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
       .mobile-bottom-dock .dock-btn:hover,
       .mobile-bottom-dock .dock-btn.active {
         background: #FFFFFF;
@@ -670,7 +809,6 @@
         border-color: var(--royal-blue);
         box-shadow: 0 6px 14px rgba(37, 99, 235, 0.15);
       }
-
       .mobile-bottom-dock .dock-badge {
         position: absolute;
         top: -4px;
@@ -684,22 +822,16 @@
         box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
         border: 1.5px solid #FFFFFF;
       }
-    }
-
-    @media (max-width: 960px) {
-      header { padding: 10px 14px; }
-      body { padding-top: 68px; }
-      .nav-links-desktop { display: none; }
-      .mobile-menu-toggle { display: block; }
-      .header-auth-buttons { display: flex; gap: 6px; }
-      .btn-header-auth { padding: 6px 12px; font-size: 12px; }
+      .form-grid-2 { grid-template-columns: 1fr; }
+      .form-group-half { grid-column: span 2; }
     }
 
     .hidden { display: none !important; }
   </style>
 </head>
-<body>
+<body class="logged-in-mobile">
 
+<!-- HEADER -->
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
@@ -708,13 +840,13 @@
         <h1>APEX TUITIONS</h1>
       </div>
     </a>
-
-    <div class="header-right-actions">
+    
+    <div style="display:flex; align-items:center; gap:8px;">
       <nav class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
         <a href="browse.html" class="nav-link">Browse</a>
         <a href="resources.html" class="nav-link">Resources</a>
-
+        
         <div class="dropdown-parent">
           <a href="javascript:void(0)" class="nav-link">
             More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
@@ -726,11 +858,6 @@
           </div>
         </div>
       </nav>
-
-      <div class="header-auth-buttons" id="headerAuthGroup">
-        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
-        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
-      </div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
@@ -745,107 +872,568 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
     <a href="donate.html">💛 Donate</a>
-    <button type="button" style="color:#EF4444;" onclick="handleLogout()">🚪 Log Out</button>
   </div>
 </header>
 
 <main>
-  <div class="profile-container">
-    <div class="profile-card">
-      <div class="avatar-upload-wrap">
-        <img id="profileAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="profile-avatar-img" alt="Avatar">
-        <label for="avatarFileInput" class="change-photo-badge">
-          <i class="fa-solid fa-camera"></i> Change Photo
-        </label>
-        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="initiateImageCrop(event)">
+  <div class="dashboard-layout">
+    
+    <!-- LEFT COLUMN: PROFILE CARD -->
+    <div class="profile-sidebar-card">
+      <div class="profile-hero-banner">
+        <div class="avatar-wrapper">
+          <div class="avatar-frame">
+            <img id="profileAvatarImg" src="apex-circle-logo.png" alt="Profile Avatar" onerror="this.onerror=null; this.src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png';">
+          </div>
+          <label for="avatarFileInput" class="avatar-update-pill" title="Upload new avatar">
+            <i class="fa-solid fa-camera"></i> UPDATE
+          </label>
+          <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="handleAvatarUpload(event)">
+        </div>
       </div>
 
-      <h2 class="profile-name" id="profileName">Loading Profile...</h2>
-      <div class="profile-role-pill" id="profileRoleBadge">Verified Member ✓</div>
+      <div class="profile-sidebar-body">
+        <h2 class="profile-user-name" id="profileName">Loading Profile...</h2>
+        
+        <div class="profile-badges-row">
+          <span class="pill-role-badge" id="profileRoleBadge">
+            <i class="fa-solid fa-shield-check"></i> Verified Member
+          </span>
+          <!-- Star Pill: Only rendered for teachers -->
+          <span class="pill-stars" id="profileStarBadge">
+            <i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0 / 5 Stars
+          </span>
+        </div>
 
-      <button class="btn-edit-details" onclick="openStepEditModal()">
-        <i class="fa-solid fa-pen-to-square"></i> Edit Registration Details
-      </button>
+        <button class="btn-edit-details" onclick="openRegistrationEditModal()">
+          <i class="fa-regular fa-pen-to-square"></i> Edit Details
+        </button>
 
-      <!-- DYNAMIC PROFILE FIELD SUMMARY -->
-      <div class="profile-details-grid" id="profileFieldsSummary"></div>
+        <div class="profile-info-grid">
+          <!-- Row 1: Email & WhatsApp -->
+          <div class="profile-row-split">
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-regular fa-envelope"></i> Email Address</div>
+              <div class="info-tile-val" id="profileEmail">—</div>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-brands fa-whatsapp" style="color:#10B981;"></i> WhatsApp Number</div>
+              <div class="info-tile-val" id="profileMobile">—</div>
+            </div>
+          </div>
 
-      <!-- LOGOUT BUTTON AT THE VERY BOTTOM -->
-      <div class="bottom-logout-wrap">
-        <button class="btn-logout-bottom" onclick="handleLogout()">
-          <i class="fa-solid fa-right-from-bracket"></i> Log Out
+          <!-- Row 2: Tuition Mode & Grades -->
+          <div class="profile-row-split">
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-solid fa-network-wired"></i> Tuition Mode</div>
+              <div class="info-tile-val" id="profileMode">—</div>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-solid fa-graduation-cap"></i> Grades / Classes</div>
+              <div class="info-tile-val" id="profileGrades">—</div>
+            </div>
+          </div>
+
+          <!-- Curriculum / Board -->
+          <div class="info-tile">
+            <div class="info-tile-label"><i class="fa-solid fa-landmark"></i> Curriculum / Board</div>
+            <div class="info-tile-val" id="profileBoard">—</div>
+          </div>
+
+          <!-- Subject(s) / Specialization -->
+          <div class="info-tile">
+            <div class="info-tile-label"><i class="fa-solid fa-book-bookmark"></i> Subject(s) / Specialization</div>
+            <div class="info-tile-val" id="profileSubject">—</div>
+          </div>
+
+          <!-- Row 3: Teacher specific tiles -->
+          <div class="profile-row-split" id="tileTeacherRow">
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-solid fa-certificate"></i> Qualification &amp; Exp</div>
+              <div class="info-tile-val" id="profileQualExp">—</div>
+            </div>
+            <div class="info-tile">
+              <div class="info-tile-label"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Details</div>
+              <div class="info-tile-val" id="profileFee">—</div>
+            </div>
+          </div>
+
+          <!-- Student Parent Name Tile (shown only for students) -->
+          <div class="info-tile hidden" id="tileParentBox">
+            <div class="info-tile-label"><i class="fa-solid fa-user-group"></i> Parent Name</div>
+            <div class="info-tile-val" id="profileParentName">—</div>
+          </div>
+
+          <!-- Location / Address -->
+          <div class="info-tile">
+            <div class="info-tile-label"><i class="fa-solid fa-location-dot"></i> Location / Address</div>
+            <div class="info-tile-val" id="profileLocation">—</div>
+          </div>
+
+          <!-- Timings & GMT Zone -->
+          <div class="info-tile">
+            <div class="info-tile-label"><i class="fa-regular fa-clock"></i> Timings &amp; GMT Zone</div>
+            <div class="info-tile-val" id="profileTimingGmt">—</div>
+          </div>
+        </div>
+
+        <button class="btn-logout" onclick="handleLogout()">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
         </button>
       </div>
+    </div>
+
+    <!-- RIGHT COLUMN: STAR PROGRAM (FOR TEACHERS ONLY) & YOUTUBE VIDEOS -->
+    <div class="dashboard-content-col">
+      
+      <!-- Teacher Star Rating Program Card: Strictly Hidden for Students -->
+      <div class="rating-program-card" id="teacherStarProgramCard">
+        <h3 class="rating-card-title">
+          <i class="fa-solid fa-star"></i> Teacher Star Rating Program
+        </h3>
+        <p class="rating-card-desc">
+          Star badges are earned transparently based on verified teaching engagements completed through Apex.
+        </p>
+
+        <div class="rating-stats-banner">
+          <div>Verified 30+ Day Tuitions: <b id="statTuitionsCount">0 / 10</b></div>
+          <div id="statStarsCount">0 / 5 Stars</div>
+        </div>
+
+        <div class="milestone-grid">
+          <div class="milestone-box">
+            <span class="badge-milestone-pill">★ 1 Star Milestone</span>
+            <h4>2 Confirmed Tuitions</h4>
+            <p>A teacher earns a star for two confirmed tuitions if ended after completing 30 days.</p>
+          </div>
+          <div class="milestone-box">
+            <span class="badge-milestone-pill">★★★★★ Elite 5 Stars</span>
+            <h4>10 Confirmed Tuitions</h4>
+            <p>Similarly, 5 stars are earned for 10 confirmed tuitions completed past the 30-day requirement.</p>
+          </div>
+        </div>
+
+        <div class="eligibility-note-box">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <b>Note on Eligibility:</b> Only confirmed assignments successfully sustained for 30+ days and verified by students count toward your Star rank.
+          </div>
+        </div>
+      </div>
+
+      <!-- Apex YouTube Videos Showcase Card -->
+      <div class="youtube-media-card">
+        <h3 class="youtube-header-title">
+          <i class="fa-brands fa-youtube"></i> Apex YouTube Videos
+        </h3>
+        <div class="video-placeholder-container">
+          <div class="video-play-disc">
+            <i class="fa-solid fa-play"></i>
+          </div>
+          <h4 class="video-placeholder-title">Curated Video Library Coming Soon</h4>
+          <p class="video-placeholder-sub">
+            Featured student masterclasses, parent guidance notes, educator spotlight sessions, and platform tutorials will appear here.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 </main>
 
-<!-- EXACT 3-STEP REPLICA REGISTRATION EDIT MODAL -->
-<div class="modal-overlay" id="editDetailsModal">
-  <div class="modal-box">
+<!-- ========================================================
+     EDIT DETAILS MODAL (REGISTRATION FORM EXACT REPLICA)
+     ======================================================== -->
+<div class="modal-overlay hidden" id="registrationEditModal">
+  <div class="modal-container">
     <div class="modal-header">
-      <h3 class="modal-title" id="editModalHeaderTitle"><i class="fa-solid fa-sliders"></i> Edit Registration Details</h3>
-      <button class="modal-close-btn" onclick="closeEditModal()">&times;</button>
-    </div>
-
-    <!-- 3 STEP INDICATOR TABS -->
-    <div class="step-progress-bar">
-      <div class="step-tab active" id="stepTab1">
-        <span class="step-tab-num">1</span> Basic Info
-      </div>
-      <div class="step-tab" id="stepTab2">
-        <span class="step-tab-num">2</span> Academic
-      </div>
-      <div class="step-tab" id="stepTab3">
-        <span class="step-tab-num">3</span> Location
-      </div>
+      <h3 id="modalTitleText"><i class="fa-regular fa-pen-to-square"></i> Edit Details</h3>
+      <button class="modal-close-btn" onclick="closeRegistrationEditModal()">✕</button>
     </div>
 
     <div class="modal-body">
-      <form id="stepEditForm" onsubmit="event.preventDefault();">
-        <div id="dynamicStepsContainer"></div>
-      </form>
-    </div>
+      
+      <!-- TEACHER APPLICATION FORM REPLICA FOR EDITING -->
+      <div id="teacherEditForm" class="hidden">
+        <div class="wizard-steps-header">
+          <div class="wizard-step-item active" id="tStepHead1"><span class="step-circle">1</span> Basic</div>
+          <div class="step-line"></div>
+          <div class="wizard-step-item" id="tStepHead2"><span class="step-circle">2</span> Category</div>
+          <div class="step-line"></div>
+          <div class="wizard-step-item" id="tStepHead3"><span class="step-circle">3</span> Fee &amp; Time</div>
+        </div>
 
-    <div class="modal-footer">
-      <div>
-        <button type="button" class="btn-secondary hidden" id="btnPrevStep" onclick="prevStep()"><i class="fa-solid fa-arrow-left"></i> Previous</button>
+        <div id="tStep1">
+          <div class="form-grid-2">
+            <div class="form-group-half">
+              <label>Name</label>
+              <input id="tName" type="text" placeholder="Full name">
+            </div>
+            <div class="form-group-half">
+              <label>WhatsApp Number</label>
+              <div style="display:flex;gap:4px;">
+                <input id="tCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+                <input id="tMobile" type="tel" style="flex:1;" placeholder="Phone">
+              </div>
+            </div>
+            <div class="form-group-half">
+              <label>Tuition Mode</label>
+              <select id="tMode" onchange="toggleTeacherAddress()">
+                <option value="Online">Online</option>
+                <option value="Home">Home</option>
+                <option value="Both">Both</option>
+              </select>
+            </div>
+            <div class="form-group-half">
+              <label>Location</label>
+              <input id="tLocation" type="text" placeholder="City, Area">
+            </div>
+            <div class="form-group-full hidden" id="tAddressBox">
+              <label>Address (for Home/Both)</label>
+              <textarea id="tAddress" placeholder="Street, landmark"></textarea>
+            </div>
+            <div class="form-group-half">
+              <label>Qualification</label>
+              <input id="tQual" type="text" placeholder="e.g. M.Sc., B.Ed.">
+            </div>
+            <div class="form-group-half">
+              <label>Experience (Years)</label>
+              <input id="tExp" type="number" min="0" placeholder="e.g. 5">
+            </div>
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-next" onclick="navTeacherStep(2)">Next: Category →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tStep2" class="hidden">
+          <div class="form-grid-2">
+            <div class="form-group-full">
+              <label>Main Category</label>
+              <select id="tCategory" onchange="handleTeacherCategoryChange()">
+                <option value="Academic">Academic (School &amp; College)</option>
+                <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+                <option value="Competitive">Competitive &amp; Jobs</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group-full" id="tAcademicGradesGroup">
+              <label>Grades (Select 1 to 12)</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tGradesTrigger" onclick="toggleMultiDropdown('tGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tGradesDropdown"></div>
+              </div>
+            </div>
+
+            <div class="form-group-full" id="tAcademicSubjectsGroup">
+              <label>Subjects (Grades 1 to 12)</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tSubjectsTrigger" onclick="toggleMultiDropdown('tSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tSubjectsDropdown"></div>
+              </div>
+              <input id="tSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full" id="tAcademicBoardsGroup">
+              <label>Boards</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tBoardsTrigger" onclick="toggleMultiDropdown('tBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tBoardsDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="CBSE" onchange="updateMultiLabel('tBoards')"> CBSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="ICSE" onchange="updateMultiLabel('tBoards')"> ICSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="IGCSE" onchange="updateMultiLabel('tBoards')"> IGCSE</label>
+                  <label class="multiselect-item"><input type="checkbox" value="IB" onchange="updateMultiLabel('tBoards')"> IB</label>
+                  <label class="multiselect-item"><input type="checkbox" value="State" onchange="updateMultiLabel('tBoards')"> State Board</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tBoardOtherCb" value="Others" onchange="handleBoardOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tBoardOtherInput" type="text" class="hidden" placeholder="Specify Board" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="tNonAcademicGroup">
+              <label>Non-Academic Skills</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tSkillsTrigger" onclick="toggleMultiDropdown('tSkillsDropdown')">Select Skills <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tSkillsDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="Abacus" onchange="updateMultiLabel('tSkills')"> Abacus</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Music Vocal" onchange="updateMultiLabel('tSkills')"> Music Vocal</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Instruments" onchange="updateMultiLabel('tSkills')"> Instruments</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Art &amp; Craft" onchange="updateMultiLabel('tSkills')"> Art &amp; Craft</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Public Speaking" onchange="updateMultiLabel('tSkills')"> Public Speaking</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Creative Writing" onchange="updateMultiLabel('tSkills')"> Creative Writing</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Foreign Languages" onchange="updateMultiLabel('tSkills')"> Foreign Languages</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tSkillOtherCb" value="Others" onchange="handleSkillOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="tCompetitiveGroup">
+              <label>Competitive Exams &amp; Jobs</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="tCompTrigger" onclick="toggleMultiDropdown('tCompDropdown')">Select Exams <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="tCompDropdown">
+                  <label class="multiselect-item"><input type="checkbox" value="RRB" onchange="updateMultiLabel('tComp')"> RRB</label>
+                  <label class="multiselect-item"><input type="checkbox" value="SSC" onchange="updateMultiLabel('tComp')"> SSC</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Banking" onchange="updateMultiLabel('tComp')"> Banking</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Civils" onchange="updateMultiLabel('tComp')"> Civils / UPSC</label>
+                  <label class="multiselect-item"><input type="checkbox" value="Dsc TET" onchange="updateMultiLabel('tComp')"> Dsc TET</label>
+                  <label class="multiselect-item"><input type="checkbox" value="NEET/JEE" onchange="updateMultiLabel('tComp')"> NEET/JEE</label>
+                  <label class="multiselect-item"><input type="checkbox" id="tCompOtherCb" value="Others" onchange="handleCompOtherToggle('t')"> Others</label>
+                </div>
+              </div>
+              <input id="tCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="tCategoryOtherGroup">
+              <label>Specify Category</label>
+              <input id="tCategoryOtherInput" type="text" placeholder="Specify specialization">
+            </div>
+
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-back" onclick="navTeacherStep(1)">← Back</button>
+              <button class="wizard-btn-next" onclick="navTeacherStep(3)">Next: Fee &amp; Time →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tStep3" class="hidden">
+          <div class="form-grid-2">
+            <div class="form-group-full">
+              <label>Expected Fee</label>
+              <div style="display:flex;gap:4px;">
+                <select id="tCurrency" style="flex:0.8;">
+                  <option value="INR">INR (₹)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="AED">AED</option>
+                  <option value="SAR">SAR</option>
+                  <option value="CAD">CAD</option>
+                  <option value="AUD">AUD</option>
+                  <option value="SGD">SGD</option>
+                  <option value="QAR">QAR</option>
+                  <option value="KWD">KWD</option>
+                  <option value="OMR">OMR</option>
+                  <option value="JPY">JPY (¥)</option>
+                  <option value="MYR">MYR</option>
+                </select>
+                <input id="tFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
+                <select id="tFeeType" style="flex:0.8;">
+                  <option value="Per class">Per class</option>
+                  <option value="Per month">Per month</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group-half">
+              <label>Time Window</label>
+              <input id="tTimings" type="text" placeholder="e.g. 5:00 PM – 8:00 PM">
+            </div>
+            <div class="form-group-half">
+              <label>GMT Zone</label>
+              <select id="tGmt">
+                <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST - India)</option>
+                <option value="GMT+0:00 (GMT/UTC - London)">GMT+0:00 (GMT/UTC)</option>
+                <option value="GMT+1:00 (CET - Europe)">GMT+1:00 (CET)</option>
+                <option value="GMT+2:00 (EET - Egypt/SA)">GMT+2:00 (EET)</option>
+                <option value="GMT+3:00 (AST - Saudi/Kuwait)">GMT+3:00 (AST)</option>
+                <option value="GMT+4:00 (GST - UAE/Dubai)">GMT+4:00 (GST)</option>
+                <option value="GMT+8:00 (SGT - Singapore/MY)">GMT+8:00 (SGT)</option>
+                <option value="GMT+9:00 (JST - Japan)">GMT+9:00 (JST)</option>
+                <option value="GMT+10:00 (AEST - Australia)">GMT+10:00 (AEST)</option>
+                <option value="GMT-5:00 (EST - US East)">GMT-5:00 (EST)</option>
+                <option value="GMT-6:00 (CST - US Central)">GMT-6:00 (CST)</option>
+                <option value="GMT-7:00 (MST - US Mountain)">GMT-7:00 (MST)</option>
+                <option value="GMT-8:00 (PST - US Pacific)">GMT-8:00 (PST)</option>
+              </select>
+            </div>
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-back" onclick="navTeacherStep(2)">← Back</button>
+              <button class="wizard-btn-submit" onclick="saveEditedTeacherDetails()">UPDATE TEACHER PROFILE</button>
+            </div>
+          </div>
+        </div>
+        <div id="tAppMsg" class="msg hidden"></div>
       </div>
-      <div style="display:flex; gap:10px;">
-        <button type="button" class="btn-secondary" onclick="closeEditModal()">Cancel</button>
-        <button type="button" class="btn-primary" id="btnNextStep" onclick="nextStep()">Next <i class="fa-solid fa-arrow-right"></i></button>
-        <button type="button" class="btn-primary hidden" id="btnSaveAllSteps" onclick="saveAllSteps()">Save Changes</button>
+
+      <!-- STUDENT APPLICATION FORM REPLICA FOR EDITING -->
+      <div id="studentEditForm" class="hidden">
+        <div class="wizard-steps-header">
+          <div class="wizard-step-item active" id="sStepHead1"><span class="step-circle">1</span> Basic</div>
+          <div class="step-line"></div>
+          <div class="wizard-step-item" id="sStepHead2"><span class="step-circle">2</span> Learning</div>
+          <div class="step-line"></div>
+          <div class="wizard-step-item" id="sStepHead3"><span class="step-circle">3</span> Schedule</div>
+        </div>
+
+        <div id="sStep1">
+          <div class="form-grid-2">
+            <div class="form-group-half">
+              <label>Student Name</label>
+              <input id="sName" type="text" placeholder="Student name">
+            </div>
+            <div class="form-group-half">
+              <label>Parent Name</label>
+              <input id="sParentName" type="text" placeholder="Parent name">
+            </div>
+            <div class="form-group-half">
+              <label>WhatsApp Number</label>
+              <div style="display:flex;gap:4px;">
+                <input id="sCode" type="text" value="+91" style="flex:0.4;text-align:center;">
+                <input id="sMobile" type="tel" style="flex:1;" placeholder="Phone">
+              </div>
+            </div>
+            <div class="form-group-half">
+              <label>Tuition Mode</label>
+              <select id="sMode" onchange="toggleStudentAddress()">
+                <option value="Online">Online</option>
+                <option value="Home">Home</option>
+                <option value="Both">Both</option>
+              </select>
+            </div>
+            <div class="form-group-full hidden" id="sAddressBox">
+              <label>Address (for Home/Both)</label>
+              <textarea id="sAddress" placeholder="Street, landmark"></textarea>
+            </div>
+            <div class="form-group-full">
+              <label>Location</label>
+              <input id="sLocation" type="text" placeholder="City, Area">
+            </div>
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-next" onclick="navStudentStep(2)">Next: Learning →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="sStep2" class="hidden">
+          <div class="form-grid-2">
+            <div class="form-group-full">
+              <label>Main Category</label>
+              <select id="sCategory" onchange="handleStudentCategoryChange()">
+                <option value="Academic">Academic (School &amp; College)</option>
+                <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+                <option value="Competitive">Competitive &amp; Jobs</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+
+            <div class="form-group-half" id="sAcademicGradeGroup">
+              <label>Class / Grade (1 to 12)</label>
+              <select id="sClass">
+                <option value="Class 1">Grade 1</option>
+                <option value="Class 2">Grade 2</option>
+                <option value="Class 3">Grade 3</option>
+                <option value="Class 4">Grade 4</option>
+                <option value="Class 5">Grade 5</option>
+                <option value="Class 6">Grade 6</option>
+                <option value="Class 7">Grade 7</option>
+                <option value="Class 8">Grade 8</option>
+                <option value="Class 9">Grade 9</option>
+                <option value="Class 10">Grade 10</option>
+                <option value="Class 11">Grade 11</option>
+                <option value="Class 12">Grade 12</option>
+              </select>
+            </div>
+
+            <div class="form-group-half" id="sAcademicBoardsGroup">
+              <label>Board</label>
+              <select id="sBoard" onchange="handleStudentBoardOther()">
+                <option value="CBSE">CBSE</option>
+                <option value="ICSE">ICSE</option>
+                <option value="IGCSE">IGCSE</option>
+                <option value="IB">IB</option>
+                <option value="State">State Board</option>
+                <option value="Others">Others</option>
+              </select>
+            </div>
+            <div class="form-group-full hidden" id="sBoardOtherGroup">
+              <label>Specify Board</label>
+              <input id="sBoardOtherInput" type="text" placeholder="Specify board">
+            </div>
+
+            <!-- Subject Requirement: Dropdown Checklist for Multiple Subjects -->
+            <div class="form-group-full" id="sAcademicSubjectGroup">
+              <label>Subject Requirement</label>
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="sSubjectsTrigger" onclick="toggleMultiDropdown('sSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+                <div class="multiselect-dropdown-box" id="sSubjectsDropdown"></div>
+              </div>
+              <input id="sSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="sNonAcademicGroup">
+              <label>Non-Academic &amp; Creative Skills</label>
+              <select id="sSkillSelect" onchange="handleStudentSkillOther()">
+                <option value="Abacus">Abacus</option>
+                <option value="Music Vocal and Instruments">Music Vocal and Instruments</option>
+                <option value="Art &amp; Craft">Art &amp; Craft</option>
+                <option value="Public Speaking">Public Speaking</option>
+                <option value="Creative Writing">Creative Writing</option>
+                <option value="Foreign Languages">Foreign Languages</option>
+                <option value="Others">Others</option>
+              </select>
+              <input id="sSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="sCompetitiveGroup">
+              <label>Competitive Exams &amp; Jobs</label>
+              <select id="sCompSelect" onchange="handleStudentCompOther()">
+                <option value="RRB">RRB</option>
+                <option value="SSC">SSC</option>
+                <option value="Banking">Banking</option>
+                <option value="Civils">Civils / UPSC</option>
+                <option value="Dsc TET">Dsc TET</option>
+                <option value="NEET/JEE">NEET/JEE</option>
+                <option value="Others">Others</option>
+              </select>
+              <input id="sCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
+            </div>
+
+            <div class="form-group-full hidden" id="sCategoryOtherGroup">
+              <label>Specify Category</label>
+              <input id="sCategoryOtherInput" type="text" placeholder="Specify learning requirement">
+            </div>
+
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-back" onclick="navStudentStep(1)">← Back</button>
+              <button class="wizard-btn-next" onclick="navStudentStep(3)">Next: Schedule →</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="sStep3" class="hidden">
+          <div class="form-grid-2">
+            <div class="form-group-half">
+              <label>Preferred Timings</label>
+              <input id="sTimings" type="text" placeholder="e.g. Evening 6-8 PM">
+            </div>
+            <div class="form-group-half">
+              <label>GMT Zone</label>
+              <select id="sGmt">
+                <option value="GMT+5:30 (IST)">GMT+5:30 (IST - India)</option>
+                <option value="GMT+0:00 (GMT)">GMT+0:00 (GMT/UTC)</option>
+                <option value="GMT+4:00 (GST)">GMT+4:00 (GST - UAE)</option>
+                <option value="GMT+3:00 (AST)">GMT+3:00 (AST - Gulf)</option>
+                <option value="GMT+8:00 (SGT)">GMT+8:00 (SGT - Singapore)</option>
+                <option value="GMT-5:00 (EST)">GMT-5:00 (EST - US)</option>
+                <option value="GMT-8:00 (PST)">GMT-8:00 (PST - US)</option>
+              </select>
+            </div>
+            <div class="wizard-nav-btns">
+              <button class="wizard-btn-back" onclick="navStudentStep(2)">← Back</button>
+              <button class="wizard-btn-submit" onclick="saveEditedStudentDetails()">UPDATE STUDENT PROFILE</button>
+            </div>
+          </div>
+        </div>
+        <div id="sAppMsg" class="msg hidden"></div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- PHOTO CROP & ZOOM MODAL -->
-<div class="modal-overlay" id="cropPhotoModal">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h3 class="modal-title"><i class="fa-solid fa-crop-simple"></i> Crop & Zoom Avatar</h3>
-      <button class="modal-close-btn" onclick="closeCropModal()">&times;</button>
-    </div>
-    <div class="modal-body">
-      <div class="crop-container">
-        <img id="imageToCrop" src="" alt="Source preview" style="max-width: 100%;">
-      </div>
-      <div class="crop-controls">
-        <button type="button" class="btn-secondary" onclick="zoomCropper(-0.1)" title="Zoom Out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
-        <input type="range" id="zoomRange" min="0.1" max="3" step="0.05" value="1" oninput="handleZoomSlider(this.value)">
-        <button type="button" class="btn-secondary" onclick="zoomCropper(0.1)" title="Zoom In"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
-        <button type="button" class="btn-secondary" onclick="rotateCropper(90)" title="Rotate"><i class="fa-solid fa-rotate-right"></i></button>
-      </div>
-    </div>
-    <div class="modal-footer" style="justify-content: flex-end;">
-      <button type="button" class="btn-secondary" onclick="closeCropModal()">Cancel</button>
-      <button type="button" class="btn-primary" id="btnSaveCrop" onclick="applyAndUploadCrop()">Save Avatar</button>
-    </div>
-  </div>
-</div>
-
-<!-- STANDARDIZED GRAND 3-TILE BOTTOM DOCK -->
+<!-- STANDARDIZED MOBILE BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn tile-enquiries">
     <div class="tile-icon-bubble">
@@ -870,587 +1458,680 @@
   </a>
 </nav>
 
+<div id="toastNotification" class="toast-msg hidden">
+  <i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i>
+  <span id="toastText">Profile updated successfully!</span>
+</div>
+
 <script>
 const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+const ACADEMIC_SUBJECTS_LIST = [
+  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
+  "English", "Social Science", "History", "Geography", "Economics",
+  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
+  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)"
+];
+
 let currentUser = null;
-let currentRole = null;
-let profileRecord = null;
-let cropperInstance = null;
-let currentStepIndex = 1;
+let currentRole = 'teacher';
+let userRecord = {};
 
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
-/* ========================================================
-   LOGOUT HANDLER (BOTTOM ANCHORED)
-   ======================================================== */
-async function handleLogout() {
-  if (!confirm("Are you sure you want to log out?")) return;
-  try {
-    await db.auth.signOut();
-  } catch (err) {
-    console.error("Signout error:", err);
-  } finally {
-    localStorage.removeItem("apex_cached_auth");
-    window.location.href = "index.html?auth=signin";
+function showToast(msg) {
+  const t = document.getElementById("toastNotification");
+  document.getElementById("toastText").textContent = msg;
+  t.classList.remove("hidden");
+  setTimeout(() => t.classList.add("hidden"), 3000);
+}
+
+function showMsg(id, text, isOk) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = "msg " + (isOk ? "success" : "error");
+  el.classList.remove("hidden");
+}
+
+/* WIZARD STEP NAVIGATION */
+function navTeacherStep(step) {
+  [1, 2, 3].forEach(i => {
+    document.getElementById("tStep" + i).classList.toggle("hidden", i !== step);
+    document.getElementById("tStepHead" + i).classList.toggle("active", i <= step);
+  });
+}
+
+function navStudentStep(step) {
+  [1, 2, 3].forEach(i => {
+    document.getElementById("sStep" + i).classList.toggle("hidden", i !== step);
+    document.getElementById("sStepHead" + i).classList.toggle("active", i <= step);
+  });
+}
+
+/* MULTISELECT HANDLERS */
+function toggleMultiDropdown(id) {
+  const box = document.getElementById(id);
+  const isOpen = box.classList.contains("show");
+  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  if (!isOpen) {
+    box.classList.add("show");
+    box.previousElementSibling.classList.add("open");
   }
 }
 
-/* ========================================================
-   PROFILE SUMMARY RENDERING
-   ======================================================== */
-function renderProfileView(data, role) {
-  profileRecord = data;
-  currentRole = role;
+window.addEventListener("click", (e) => {
+  if (!e.target.closest(".custom-multiselect")) {
+    document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
+    document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
+  }
+});
 
-  const name = (role === 'teacher') ? (data.teacher_name || "Educator") : (data.student_name || "Student");
+function getCheckedValues(containerId) {
+  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
+  return Array.from(checked).map(c => c.value);
+}
+
+function updateMultiLabel(prefix) {
+  const trigger = document.getElementById(prefix + "Trigger");
+  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "Others");
+  const hasOther = document.querySelector(`#${prefix}Dropdown input[value="Others"]:checked`);
+
+  let count = values.length + (hasOther ? 1 : 0);
+  if (count === 0) {
+    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else if (count <= 2) {
+    const displayArr = [...values];
+    if (hasOther) displayArr.push("Others");
+    trigger.innerHTML = `${displayArr.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  } else {
+    trigger.innerHTML = `${count} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  }
+}
+
+function populateGradeChecklist() {
+  const container = document.getElementById("tGradesDropdown");
+  let html = "";
+  for (let i = 1; i <= 12; i++) {
+    html += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateMultiLabel('tGrades')"> Grade ${i}</label>`;
+  }
+  if (container) container.innerHTML = html;
+}
+
+function populateSubjectChecklist() {
+  const tContainer = document.getElementById("tSubjectsDropdown");
+  if (tContainer) {
+    let html = ACADEMIC_SUBJECTS_LIST.map(sub => `
+      <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('tSubjects')"> ${sub}</label>
+    `).join("");
+    html += `<label class="multiselect-item"><input type="checkbox" id="tSubjectOtherCb" value="Others" onchange="handleTeacherSubjectOtherToggle()"> Others</label>`;
+    tContainer.innerHTML = html;
+  }
+
+  const sContainer = document.getElementById("sSubjectsDropdown");
+  if (sContainer) {
+    let sHtml = ACADEMIC_SUBJECTS_LIST.map(sub => `
+      <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('sSubjects')"> ${sub}</label>
+    `).join("");
+    sHtml += `<label class="multiselect-item"><input type="checkbox" id="sSubjectOtherCb" value="Others" onchange="handleStudentSubjectOtherToggle()"> Others</label>`;
+    sContainer.innerHTML = sHtml;
+  }
+}
+
+function handleTeacherSubjectOtherToggle() {
+  const cb = document.getElementById("tSubjectOtherCb");
+  document.getElementById("tSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel('tSubjects');
+}
+
+function handleStudentSubjectOtherToggle() {
+  const cb = document.getElementById("sSubjectOtherCb");
+  document.getElementById("sSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel('sSubjects');
+}
+
+function handleBoardOtherToggle(p) {
+  const cb = document.getElementById(p + "BoardOtherCb");
+  document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Boards");
+}
+function handleSkillOtherToggle(p) {
+  const cb = document.getElementById(p + "SkillOtherCb");
+  document.getElementById(p + "SkillOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Skills");
+}
+function handleCompOtherToggle(p) {
+  const cb = document.getElementById(p + "CompOtherCb");
+  document.getElementById(p + "CompOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel(p + "Comp");
+}
+
+function toggleTeacherAddress() {
+  const mode = document.getElementById("tMode").value;
+  document.getElementById("tAddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleTeacherCategoryChange() {
+  const cat = document.getElementById("tCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("tAcademicGradesGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("tAcademicSubjectsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("tAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("tNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function toggleStudentAddress() {
+  const mode = document.getElementById("sMode").value;
+  document.getElementById("sAddressBox").classList.toggle("hidden", mode === "Online");
+}
+
+function handleStudentCategoryChange() {
+  const cat = document.getElementById("sCategory").value;
+  const isAcad = (cat === "Academic");
+  const isNonAcad = (cat === "Non-Academic");
+  const isComp = (cat === "Competitive");
+  const isOthers = (cat === "Others");
+
+  document.getElementById("sAcademicGradeGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("sAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
+  document.getElementById("sAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
+
+  document.getElementById("sNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
+  document.getElementById("sCompetitiveGroup").classList.toggle("hidden", !isComp);
+  document.getElementById("sCategoryOtherGroup").classList.toggle("hidden", !isOthers);
+}
+
+function handleStudentBoardOther() {
+  const val = document.getElementById("sBoard").value;
+  document.getElementById("sBoardOtherGroup").classList.toggle("hidden", val !== "Others");
+}
+
+function handleStudentSkillOther() {
+  const val = document.getElementById("sSkillSelect").value;
+  document.getElementById("sSkillOtherInput").classList.toggle("hidden", val !== "Others");
+}
+function handleStudentCompOther() {
+  const val = document.getElementById("sCompSelect").value;
+  document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
+}
+
+/* OPEN REGISTRATION EDIT MODAL */
+function openRegistrationEditModal() {
+  const isTeacher = (currentRole === 'teacher');
+  document.getElementById("teacherEditForm").classList.toggle("hidden", !isTeacher);
+  document.getElementById("studentEditForm").classList.toggle("hidden", isTeacher);
+  document.getElementById("modalTitleText").innerHTML = isTeacher 
+    ? `<i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration Details` 
+    : `<i class="fa-solid fa-graduation-cap"></i> Edit Student Registration Details`;
+
+  if (isTeacher) {
+    navTeacherStep(1);
+    document.getElementById("tName").value = userRecord.teacher_name || "";
+    
+    const fullMobile = userRecord.mobile || "";
+    if (fullMobile.startsWith("+")) {
+      const parts = fullMobile.split(" ");
+      document.getElementById("tCode").value = parts[0] || "+91";
+      document.getElementById("tMobile").value = parts.slice(1).join(" ") || "";
+    } else {
+      document.getElementById("tCode").value = "+91";
+      document.getElementById("tMobile").value = fullMobile;
+    }
+
+    document.getElementById("tMode").value = userRecord.tuition_mode || "Online";
+    toggleTeacherAddress();
+
+    const addrParts = (userRecord.address || "").split(" • ");
+    if (addrParts.length > 1) {
+      document.getElementById("tAddress").value = addrParts[0] || "";
+      document.getElementById("tLocation").value = addrParts.slice(1).join(" • ") || "";
+    } else {
+      document.getElementById("tAddress").value = "";
+      document.getElementById("tLocation").value = userRecord.address || "";
+    }
+
+    const qualExpParts = (userRecord.qualification || "").split(" • ");
+    document.getElementById("tQual").value = qualExpParts[0] || "";
+    if (qualExpParts[1] && qualExpParts[1].includes("Yrs")) {
+      document.getElementById("tExp").value = parseInt(qualExpParts[1]) || "";
+    } else {
+      document.getElementById("tExp").value = "";
+    }
+
+    const gradeList = (userRecord.classes || "").split(", ").map(s => s.trim());
+    document.querySelectorAll("#tGradesDropdown input[type='checkbox']").forEach(cb => {
+      cb.checked = gradeList.includes(cb.value);
+    });
+    updateMultiLabel('tGrades');
+
+    const subjectList = (userRecord.subject || "").split(", ").map(s => s.trim());
+    let otherSubs = [];
+    document.querySelectorAll("#tSubjectsDropdown input[type='checkbox']").forEach(cb => {
+      if (cb.value !== "Others") {
+        cb.checked = subjectList.includes(cb.value);
+      }
+    });
+    subjectList.forEach(s => {
+      if (!ACADEMIC_SUBJECTS_LIST.includes(s) && s !== "All Subjects") otherSubs.push(s);
+    });
+    if (otherSubs.length > 0) {
+      const otherCb = document.getElementById("tSubjectOtherCb");
+      if (otherCb) {
+        otherCb.checked = true;
+        const oInp = document.getElementById("tSubjectOtherInput");
+        oInp.value = otherSubs.join(", ");
+        oInp.classList.remove("hidden");
+      }
+    }
+    updateMultiLabel('tSubjects');
+
+    const boardList = (userRecord.board || "").split(", ").map(s => s.trim());
+    const stdBoards = ["CBSE", "ICSE", "IGCSE", "IB", "State"];
+    let customBoards = [];
+    document.querySelectorAll("#tBoardsDropdown input[type='checkbox']").forEach(cb => {
+      if (cb.value !== "Others") {
+        cb.checked = boardList.includes(cb.value);
+      }
+    });
+    boardList.forEach(b => {
+      if (!stdBoards.includes(b)) customBoards.push(b);
+    });
+    if (customBoards.length > 0) {
+      const bOtherCb = document.getElementById("tBoardOtherCb");
+      if (bOtherCb) {
+        bOtherCb.checked = true;
+        const bInp = document.getElementById("tBoardOtherInput");
+        bInp.value = customBoards.join(", ");
+        bInp.classList.remove("hidden");
+      }
+    }
+    updateMultiLabel('tBoards');
+
+    document.getElementById("tFeeAmount").value = userRecord.fee || "";
+
+    const tDesc = userRecord.timing_fee_desc || "";
+    if (tDesc.includes("•")) {
+      const parts = tDesc.split("•");
+      const sched = parts[1].trim();
+      const gmtStart = sched.indexOf("(");
+      const gmtEnd = sched.indexOf(")");
+      if (gmtStart !== -1 && gmtEnd !== -1) {
+        document.getElementById("tTimings").value = sched.substring(0, gmtStart).trim();
+        const gVal = sched.substring(gmtStart + 1, gmtEnd).trim();
+        const gmtSelect = document.getElementById("tGmt");
+        for (let i = 0; i < gmtSelect.options.length; i++) {
+          if (gmtSelect.options[i].value.includes(gVal)) {
+            gmtSelect.selectedIndex = i;
+            break;
+          }
+        }
+      } else {
+        document.getElementById("tTimings").value = sched;
+      }
+    }
+  } else {
+    // Populate Student Form
+    navStudentStep(1);
+    document.getElementById("sName").value = userRecord.student_name || "";
+    document.getElementById("sParentName").value = userRecord.parent_name || "";
+
+    const fullMobile = userRecord.mobile || "";
+    if (fullMobile.startsWith("+")) {
+      const parts = fullMobile.split(" ");
+      document.getElementById("sCode").value = parts[0] || "+91";
+      document.getElementById("sMobile").value = parts.slice(1).join(" ") || "";
+    } else {
+      document.getElementById("sCode").value = "+91";
+      document.getElementById("sMobile").value = fullMobile;
+    }
+
+    document.getElementById("sMode").value = userRecord.tuition_mode || "Online";
+    toggleStudentAddress();
+
+    const addrParts = (userRecord.address || "").split(" • ");
+    if (addrParts.length > 1) {
+      document.getElementById("sAddress").value = addrParts[0] || "";
+      document.getElementById("sLocation").value = addrParts.slice(1).join(" • ") || "";
+    } else {
+      document.getElementById("sAddress").value = "";
+      document.getElementById("sLocation").value = userRecord.address || "";
+    }
+
+    if (userRecord.student_class) {
+      document.getElementById("sClass").value = userRecord.student_class;
+    }
+    if (userRecord.board) {
+      const bSel = document.getElementById("sBoard");
+      if (Array.from(bSel.options).some(o => o.value === userRecord.board)) {
+        bSel.value = userRecord.board;
+      } else {
+        bSel.value = "Others";
+        document.getElementById("sBoardOtherGroup").classList.remove("hidden");
+        document.getElementById("sBoardOtherInput").value = userRecord.board;
+      }
+    }
+
+    // Populate multiple subjects dropdown checklist for student
+    const studentSubList = (userRecord.subject || "").split(", ").map(s => s.trim());
+    let sOtherSubs = [];
+    document.querySelectorAll("#sSubjectsDropdown input[type='checkbox']").forEach(cb => {
+      if (cb.value !== "Others") {
+        cb.checked = studentSubList.includes(cb.value);
+      }
+    });
+    studentSubList.forEach(s => {
+      if (!ACADEMIC_SUBJECTS_LIST.includes(s) && s !== "All Subjects" && s !== "") {
+        sOtherSubs.push(s);
+      }
+    });
+    if (sOtherSubs.length > 0) {
+      const sOtherCb = document.getElementById("sSubjectOtherCb");
+      if (sOtherCb) {
+        sOtherCb.checked = true;
+        const sOInp = document.getElementById("sSubjectOtherInput");
+        sOInp.value = sOtherSubs.join(", ");
+        sOInp.classList.remove("hidden");
+      }
+    }
+    updateMultiLabel('sSubjects');
+
+    const tDesc = userRecord.timing_fee_desc || "";
+    const gmtStart = tDesc.indexOf("(");
+    const gmtEnd = tDesc.indexOf(")");
+    if (gmtStart !== -1 && gmtEnd !== -1) {
+      document.getElementById("sTimings").value = tDesc.substring(0, gmtStart).trim();
+    } else {
+      document.getElementById("sTimings").value = tDesc;
+    }
+  }
+
+  document.getElementById("registrationEditModal").classList.remove("hidden");
+}
+
+function closeRegistrationEditModal() {
+  document.getElementById("registrationEditModal").classList.add("hidden");
+}
+
+/* SAVE TEACHER REGISTRATION FORM EDITS */
+async function saveEditedTeacherDetails() {
+  const name = document.getElementById("tName").value.trim();
+  const code = document.getElementById("tCode").value.trim();
+  const mobile = document.getElementById("tMobile").value.trim();
+  const mode = document.getElementById("tMode").value;
+  const address = document.getElementById("tAddress").value.trim();
+  const location = document.getElementById("tLocation").value.trim();
+  const qual = document.getElementById("tQual").value.trim();
+  const exp = document.getElementById("tExp").value.trim();
+
+  const category = document.getElementById("tCategory").value;
+  let classesStr = "";
+  let subjectsStr = "";
+  let boardsStr = "";
+
+  if (category === "Academic") {
+    const grades = getCheckedValues("tGradesDropdown");
+    classesStr = grades.join(", ") || "Grades 1-12";
+    
+    let subList = getCheckedValues("tSubjectsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("tSubjectOtherCb")?.checked) {
+      const otherSub = document.getElementById("tSubjectOtherInput").value.trim();
+      if (otherSub) subList.push(otherSub);
+    }
+    subjectsStr = subList.join(", ") || "All Subjects";
+    
+    let bList = getCheckedValues("tBoardsDropdown").filter(b => b !== "Others");
+    if (document.getElementById("tBoardOtherCb")?.checked) {
+      const otherB = document.getElementById("tBoardOtherInput").value.trim();
+      if (otherB) bList.push(otherB);
+    }
+    boardsStr = bList.join(", ") || "CBSE";
+  } else if (category === "Non-Academic") {
+    let sList = getCheckedValues("tSkillsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("tSkillOtherCb")?.checked) {
+      const otherS = document.getElementById("tSkillOtherInput").value.trim();
+      if (otherS) sList.push(otherS);
+    }
+    classesStr = "Non-Academic / Creative Skills";
+    subjectsStr = sList.join(", ") || "Creative Skills";
+    boardsStr = "Skill Track";
+  } else if (category === "Competitive") {
+    let cList = getCheckedValues("tCompDropdown").filter(c => c !== "Others");
+    if (document.getElementById("tCompOtherCb")?.checked) {
+      const otherC = document.getElementById("tCompOtherInput").value.trim();
+      if (otherC) cList.push(otherC);
+    }
+    classesStr = "Competitive Exams & Jobs";
+    subjectsStr = cList.join(", ") || "Competitive Coaching";
+    boardsStr = "Exam Track";
+  } else {
+    const spec = document.getElementById("tCategoryOtherInput").value.trim();
+    classesStr = "Specialized / Other";
+    subjectsStr = spec || "Other Specialization";
+    boardsStr = "Other";
+  }
+
+  const currency = document.getElementById("tCurrency").value;
+  const feeAmt = document.getElementById("tFeeAmount").value.trim();
+  const feeType = document.getElementById("tFeeType").value;
+  const timings = document.getElementById("tTimings").value.trim();
+  const gmt = document.getElementById("tGmt").value;
+
+  const timingFeeDesc = `${feeAmt ? currency + ' ' + feeAmt + ' (' + feeType + ')' : 'Negotiable'} • ${timings || 'Flexible'} (${gmt})`;
+
+  showMsg("tAppMsg", "Saving profile updates...", true);
+
+  const payload = {
+    teacher_name: name,
+    mobile: `${code} ${mobile}`.trim(),
+    tuition_mode: mode,
+    address: `${address ? address + ' • ' : ''}${location}`,
+    qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
+    classes: classesStr,
+    board: boardsStr,
+    subject: subjectsStr,
+    fee: Number(feeAmt) || 0,
+    timing_fee_desc: timingFeeDesc
+  };
+
+  const { error } = await db.from("teachers").update(payload).eq("id", currentUser.id);
+  if (error) return showMsg("tAppMsg", error.message, false);
+
+  Object.assign(userRecord, payload);
+  populateProfileUI(userRecord);
+  closeRegistrationEditModal();
+  showToast("Teacher profile details updated successfully!");
+}
+
+/* SAVE STUDENT REGISTRATION FORM EDITS */
+async function saveEditedStudentDetails() {
+  const sName = document.getElementById("sName").value.trim();
+  const pName = document.getElementById("sParentName").value.trim();
+  const code = document.getElementById("sCode").value.trim();
+  const mobile = document.getElementById("sMobile").value.trim();
+  const mode = document.getElementById("sMode").value;
+  const address = document.getElementById("sAddress").value.trim();
+  const location = document.getElementById("sLocation").value.trim();
+
+  const category = document.getElementById("sCategory").value;
+  let classesStr = "";
+  let subjectStr = "";
+  let boardStr = "";
+
+  if (category === "Academic") {
+    classesStr = document.getElementById("sClass").value;
+    let bVal = document.getElementById("sBoard").value;
+    if (bVal === "Others") {
+      bVal = document.getElementById("sBoardOtherInput").value.trim() || "Other Board";
+    }
+    boardStr = bVal;
+
+    // Collect multiple selected subjects from student multiselect
+    let subList = getCheckedValues("sSubjectsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("sSubjectOtherCb")?.checked) {
+      const otherSub = document.getElementById("sSubjectOtherInput").value.trim();
+      if (otherSub) subList.push(otherSub);
+    }
+    subjectStr = subList.join(", ") || "All Subjects";
+  } else if (category === "Non-Academic") {
+    let skillVal = document.getElementById("sSkillSelect").value;
+    if (skillVal === "Others") {
+      skillVal = document.getElementById("sSkillOtherInput").value.trim() || "Other Skill";
+    }
+    classesStr = "Non-Academic / Creative Skills";
+    subjectStr = skillVal;
+    boardStr = "Skill Track";
+  } else if (category === "Competitive") {
+    let compVal = document.getElementById("sCompSelect").value;
+    if (compVal === "Others") {
+      compVal = document.getElementById("sCompOtherInput").value.trim() || "Other Exam";
+    }
+    classesStr = "Competitive Exams & Jobs";
+    subjectStr = compVal;
+    boardStr = "Exam Track";
+  } else {
+    const otherSpec = document.getElementById("sCategoryOtherInput").value.trim();
+    classesStr = "Specialized / Other";
+    subjectStr = otherSpec || "General";
+    boardStr = "Other";
+  }
+
+  const timings = document.getElementById("sTimings").value.trim();
+  const gmt = document.getElementById("sGmt").value;
+
+  showMsg("sAppMsg", "Saving profile updates...", true);
+
+  const payload = {
+    student_name: sName,
+    parent_name: pName,
+    mobile: `${code} ${mobile}`.trim(),
+    tuition_mode: mode,
+    student_class: classesStr,
+    board: boardStr,
+    subject: subjectStr,
+    address: `${address ? address + ' • ' : ''}${location}`,
+    timing_fee_desc: `${timings || 'Flexible'} (${gmt})`
+  };
+
+  const { error } = await db.from("students").update(payload).eq("id", currentUser.id);
+  if (error) return showMsg("sAppMsg", error.message, false);
+
+  Object.assign(userRecord, payload);
+  populateProfileUI(userRecord);
+  closeRegistrationEditModal();
+  showToast("Student profile details updated successfully!");
+}
+
+async function handleAvatarUpload(e) {
+  const file = e.target.files[0];
+  if (!file || !currentUser) return;
+
+  const reader = new FileReader();
+  reader.onload = async (event) => {
+    const url = event.target.result;
+    document.getElementById("profileAvatarImg").src = url;
+    const table = (currentRole === 'teacher') ? 'teachers' : 'students';
+    await db.from(table).update({ avatar_url: url }).eq('id', currentUser.id);
+    showToast("Profile photo updated!");
+  };
+  reader.readAsDataURL(file);
+}
+
+async function handleLogout() {
+  localStorage.removeItem("apex_cached_auth");
+  await db.auth.signOut();
+  window.location.href = "index.html";
+}
+
+function populateProfileUI(data) {
+  const isTeacher = (currentRole === 'teacher');
+  const name = isTeacher ? (data.teacher_name || "Educator") : (data.student_name || "Learner");
+  
   document.getElementById("profileName").textContent = name;
-  document.getElementById("profileRoleBadge").textContent = (role === 'teacher') ? "Verified Educator 👨‍🏫" : "Student / Parent 🎓";
+  document.getElementById("profileEmail").textContent = currentUser.email || "—";
+  document.getElementById("profileMobile").textContent = data.mobile || "—";
+  document.getElementById("profileMode").textContent = data.tuition_mode || "Online";
+  
+  const classes = isTeacher ? (data.classes || "All Classes") : (data.student_class || "—");
+  document.getElementById("profileGrades").textContent = classes;
+  
+  document.getElementById("profileBoard").textContent = data.board || "CBSE, ICSE, State";
+  document.getElementById("profileSubject").textContent = data.subject || "All Subjects";
+  document.getElementById("profileLocation").textContent = data.address || "—";
+  document.getElementById("profileTimingGmt").textContent = data.timing_fee_desc || "Flexible (GMT+5:30 (IST - India))";
 
   if (data.avatar_url) {
     document.getElementById("profileAvatarImg").src = data.avatar_url;
   }
 
-  const container = document.getElementById("profileFieldsSummary");
-  container.innerHTML = "";
-
-  if (role === 'teacher') {
-    container.innerHTML = `
-      <div class="profile-detail-field"><div class="detail-label">Full Name</div><div class="detail-val">${data.teacher_name || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">WhatsApp Contact</div><div class="detail-val">${data.mobile || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Alternate Contact</div><div class="detail-val">${data.alternate_mobile || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Email</div><div class="detail-val">${data.email || currentUser.email || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Gender</div><div class="detail-val">${data.gender || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Date of Birth</div><div class="detail-val">${data.dob || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Qualification</div><div class="detail-val">${data.qualification || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Experience (Years)</div><div class="detail-val">${data.experience ? data.experience + " Years" : "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Primary Subject</div><div class="detail-val">${data.subject || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Secondary Subjects</div><div class="detail-val">${data.other_subjects || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Target Classes</div><div class="detail-val">${data.classes || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Tuition Mode</div><div class="detail-val">${data.tuition_mode || "Online"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Fee Expectations</div><div class="detail-val">${data.fee_details || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Locality / Landmark</div><div class="detail-val">${data.area || data.locality || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">City & District</div><div class="detail-val">${(data.city || "") + (data.district ? ", " + data.district : "") || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Pincode & State</div><div class="detail-val">${(data.pincode || "") + (data.state ? ", " + data.state : "") || "—"}</div></div>
-      <div class="profile-detail-field span-2"><div class="detail-label">Complete Street Address</div><div class="detail-val">${data.address || "—"}</div></div>
-      <div class="profile-detail-field span-2"><div class="detail-label">Bio / Profile Description</div><div class="detail-val">${data.bio || "—"}</div></div>
-    `;
-  } else {
-    container.innerHTML = `
-      <div class="profile-detail-field"><div class="detail-label">Student Name</div><div class="detail-val">${data.student_name || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Parent / Guardian Name</div><div class="detail-val">${data.parent_name || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">WhatsApp Contact</div><div class="detail-val">${data.mobile || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Alternate Contact</div><div class="detail-val">${data.alternate_mobile || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Email</div><div class="detail-val">${data.email || currentUser.email || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Gender</div><div class="detail-val">${data.gender || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Current Grade / Class</div><div class="detail-val">${data.class_grade || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">School / Board</div><div class="detail-val">${data.board || "CBSE / State"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Subjects Needed</div><div class="detail-val">${data.subject || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Preferred Mode</div><div class="detail-val">${data.tuition_mode || "Online"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Preferred Timing / Batch</div><div class="detail-val">${data.preferred_timing || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Locality / Landmark</div><div class="detail-val">${data.area || data.locality || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">City & District</div><div class="detail-val">${(data.city || "") + (data.district ? ", " + data.district : "") || "—"}</div></div>
-      <div class="profile-detail-field"><div class="detail-label">Pincode & State</div><div class="detail-val">${(data.pincode || "") + (data.state ? ", " + data.state : "") || "—"}</div></div>
-      <div class="profile-detail-field span-2"><div class="detail-label">Complete Residential Address</div><div class="detail-val">${data.address || "—"}</div></div>
-      <div class="profile-detail-field span-2"><div class="detail-label">Requirements / Weak Topics</div><div class="detail-val">${data.bio || data.requirements || "—"}</div></div>
-    `;
-  }
-}
-
-/* ========================================================
-   3-STEP REGISTRATION REPLICA BUILDER
-   ======================================================== */
-function openStepEditModal() {
-  if (!profileRecord) return;
-  const isTeacher = currentRole === 'teacher';
-  const c = document.getElementById("dynamicStepsContainer");
-
-  document.getElementById("editModalHeaderTitle").innerHTML = isTeacher 
-    ? `<i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration (3 Steps)`
-    : `<i class="fa-solid fa-graduation-cap"></i> Edit Student Registration (3 Steps)`;
-
   if (isTeacher) {
-    c.innerHTML = `
-      <!-- STEP 1: BASIC DETAILS -->
-      <div class="form-step active" id="formStep1">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Full Name *</label>
-            <input type="text" id="step_teacher_name" class="form-control" required value="${profileRecord.teacher_name || ''}">
-          </div>
-          <div class="form-group">
-            <label>Gender *</label>
-            <select id="step_gender" class="form-control">
-              <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
-              <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
-              <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>WhatsApp Number *</label>
-            <input type="tel" id="step_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
-          </div>
-          <div class="form-group">
-            <label>Alternate Mobile</label>
-            <input type="tel" id="step_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="step_email" class="form-control" value="${profileRecord.email || currentUser.email || ''}">
-          </div>
-          <div class="form-group">
-            <label>Date of Birth</label>
-            <input type="date" id="step_dob" class="form-control" value="${profileRecord.dob || ''}">
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2: ACADEMIC DETAILS -->
-      <div class="form-step" id="formStep2">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Highest Qualification *</label>
-            <input type="text" id="step_qualification" class="form-control" placeholder="e.g. M.Sc / B.Ed" required value="${profileRecord.qualification || ''}">
-          </div>
-          <div class="form-group">
-            <label>Teaching Experience (Years) *</label>
-            <input type="number" step="0.5" id="step_experience" class="form-control" placeholder="e.g. 4.5" required value="${profileRecord.experience || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Primary Specialization Subject *</label>
-            <input type="text" id="step_subject" class="form-control" placeholder="e.g. Mathematics" required value="${profileRecord.subject || ''}">
-          </div>
-          <div class="form-group">
-            <label>Other Handled Subjects</label>
-            <input type="text" id="step_other_subjects" class="form-control" placeholder="e.g. Physics, Chemistry" value="${profileRecord.other_subjects || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Target Classes / Standards *</label>
-            <input type="text" id="step_classes" class="form-control" placeholder="e.g. Grade 8 - 12" required value="${profileRecord.classes || ''}">
-          </div>
-          <div class="form-group">
-            <label>Tuition Mode *</label>
-            <select id="step_tuition_mode" class="form-control">
-              <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
-              <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
-              <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Expected Fee / Hourly / Monthly Charges</label>
-          <input type="text" id="step_fee_details" class="form-control" placeholder="e.g. ₹500/hour or ₹5,000/month" value="${profileRecord.fee_details || ''}">
-        </div>
-      </div>
-
-      <!-- STEP 3: LOCATION & BIO -->
-      <div class="form-step" id="formStep3">
-        <div class="form-group">
-          <label>Door No / House / Apartment / Street *</label>
-          <input type="text" id="step_address" class="form-control" required placeholder="Flat 402, Sunshine Apts, Main Road" value="${profileRecord.address || ''}">
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Locality / Landmark *</label>
-            <input type="text" id="step_area" class="form-control" placeholder="Near Apollo Pharmacy" required value="${profileRecord.area || profileRecord.locality || ''}">
-          </div>
-          <div class="form-group">
-            <label>City / Town *</label>
-            <input type="text" id="step_city" class="form-control" required value="${profileRecord.city || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>District</label>
-            <input type="text" id="step_district" class="form-control" value="${profileRecord.district || ''}">
-          </div>
-          <div class="form-group">
-            <label>State</label>
-            <input type="text" id="step_state" class="form-control" value="${profileRecord.state || 'Andhra Pradesh'}">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Pincode *</label>
-          <input type="text" id="step_pincode" class="form-control" required value="${profileRecord.pincode || ''}">
-        </div>
-
-        <div class="form-group">
-          <label>Detailed Bio / Teaching Methodology</label>
-          <textarea id="step_bio" class="form-control" rows="3" placeholder="Outline your experience, certifications, and teaching strategy...">${profileRecord.bio || ''}</textarea>
-        </div>
-      </div>
-    `;
+    document.getElementById("profileRoleBadge").innerHTML = `<i class="fa-solid fa-shield-check"></i> Verified Educator 👨‍🏫`;
+    document.getElementById("profileStarBadge").classList.remove("hidden");
+    document.getElementById("tileTeacherRow").classList.remove("hidden");
+    document.getElementById("tileParentBox").classList.add("hidden");
+    document.getElementById("teacherStarProgramCard").classList.remove("hidden");
+    
+    document.getElementById("profileQualExp").textContent = data.qualification || "Educator";
+    document.getElementById("profileFee").textContent = data.fee ? `₹${data.fee}` : "₹5000";
+    document.getElementById("dockBrowseLabel").textContent = "🔍 Students";
   } else {
-    c.innerHTML = `
-      <!-- STEP 1: BASIC DETAILS -->
-      <div class="form-step active" id="formStep1">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Student Full Name *</label>
-            <input type="text" id="step_student_name" class="form-control" required value="${profileRecord.student_name || ''}">
-          </div>
-          <div class="form-group">
-            <label>Parent / Guardian Name *</label>
-            <input type="text" id="step_parent_name" class="form-control" required value="${profileRecord.parent_name || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>WhatsApp Contact Number *</label>
-            <input type="tel" id="step_mobile" class="form-control" required value="${profileRecord.mobile || ''}">
-          </div>
-          <div class="form-group">
-            <label>Alternate Contact Number</label>
-            <input type="tel" id="step_alternate_mobile" class="form-control" value="${profileRecord.alternate_mobile || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Email Address</label>
-            <input type="email" id="step_email" class="form-control" value="${profileRecord.email || currentUser.email || ''}">
-          </div>
-          <div class="form-group">
-            <label>Gender</label>
-            <select id="step_gender" class="form-control">
-              <option value="Male" ${profileRecord.gender === 'Male' ? 'selected' : ''}>Male</option>
-              <option value="Female" ${profileRecord.gender === 'Female' ? 'selected' : ''}>Female</option>
-              <option value="Other" ${profileRecord.gender === 'Other' ? 'selected' : ''}>Other</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2: ACADEMIC DETAILS -->
-      <div class="form-step" id="formStep2">
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Student Class / Standard *</label>
-            <input type="text" id="step_class_grade" class="form-control" placeholder="e.g. Class 10" required value="${profileRecord.class_grade || ''}">
-          </div>
-          <div class="form-group">
-            <label>School Board / Syllabus *</label>
-            <input type="text" id="step_board" class="form-control" placeholder="CBSE / ICSE / State" required value="${profileRecord.board || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Subjects Needed for Tuition *</label>
-            <input type="text" id="step_subject" class="form-control" placeholder="e.g. Mathematics, Physics" required value="${profileRecord.subject || ''}">
-          </div>
-          <div class="form-group">
-            <label>Preferred Tuition Mode *</label>
-            <select id="step_tuition_mode" class="form-control">
-              <option value="Online" ${profileRecord.tuition_mode === 'Online' ? 'selected' : ''}>Online</option>
-              <option value="Offline / Home" ${profileRecord.tuition_mode === 'Offline / Home' ? 'selected' : ''}>Offline / Home</option>
-              <option value="Both" ${profileRecord.tuition_mode === 'Both' ? 'selected' : ''}>Both</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Preferred Timings / Batch Preference</label>
-          <input type="text" id="step_preferred_timing" class="form-control" placeholder="e.g. Evenings after 5:00 PM" value="${profileRecord.preferred_timing || ''}">
-        </div>
-      </div>
-
-      <!-- STEP 3: LOCATION & REQUIREMENTS -->
-      <div class="form-step" id="formStep3">
-        <div class="form-group">
-          <label>Door / House / Street Address *</label>
-          <input type="text" id="step_address" class="form-control" required placeholder="House No, Street name" value="${profileRecord.address || ''}">
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>Locality / Landmark *</label>
-            <input type="text" id="step_area" class="form-control" placeholder="e.g. Gachibowli, Near Stadium" required value="${profileRecord.area || profileRecord.locality || ''}">
-          </div>
-          <div class="form-group">
-            <label>City / Town *</label>
-            <input type="text" id="step_city" class="form-control" required value="${profileRecord.city || ''}">
-          </div>
-        </div>
-
-        <div class="form-grid-2">
-          <div class="form-group">
-            <label>District</label>
-            <input type="text" id="step_district" class="form-control" value="${profileRecord.district || ''}">
-          </div>
-          <div class="form-group">
-            <label>State</label>
-            <input type="text" id="step_state" class="form-control" value="${profileRecord.state || 'Andhra Pradesh'}">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Pincode *</label>
-          <input type="text" id="step_pincode" class="form-control" required value="${profileRecord.pincode || ''}">
-        </div>
-
-        <div class="form-group">
-          <label>Specific Learning Needs / Goals</label>
-          <textarea id="step_bio" class="form-control" rows="3" placeholder="Provide details of topics where student needs focus...">${profileRecord.bio || profileRecord.requirements || ''}</textarea>
-        </div>
-      </div>
-    `;
+    document.getElementById("profileRoleBadge").innerHTML = `<i class="fa-solid fa-graduation-cap"></i> Student / Parent 🎓`;
+    document.getElementById("profileStarBadge").classList.add("hidden");
+    document.getElementById("teacherStarProgramCard").classList.add("hidden");
+    
+    document.getElementById("tileTeacherRow").classList.add("hidden");
+    document.getElementById("tileParentBox").classList.remove("hidden");
+    document.getElementById("profileParentName").textContent = data.parent_name || "—";
+    document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
   }
-
-  currentStepIndex = 1;
-  updateStepVisibility();
-  document.getElementById("editDetailsModal").classList.add("active");
-}
-
-function updateStepVisibility() {
-  for (let i = 1; i <= 3; i++) {
-    const stepEl = document.getElementById("formStep" + i);
-    const tabEl = document.getElementById("stepTab" + i);
-    if (stepEl) stepEl.classList.toggle("active", i === currentStepIndex);
-    if (tabEl) {
-      tabEl.classList.toggle("active", i === currentStepIndex);
-      tabEl.classList.toggle("completed", i < currentStepIndex);
-    }
-  }
-
-  document.getElementById("btnPrevStep").classList.toggle("hidden", currentStepIndex === 1);
-  document.getElementById("btnNextStep").classList.toggle("hidden", currentStepIndex === 3);
-  document.getElementById("btnSaveAllSteps").classList.toggle("hidden", currentStepIndex !== 3);
-}
-
-function nextStep() {
-  if (currentStepIndex < 3) {
-    currentStepIndex++;
-    updateStepVisibility();
-  }
-}
-
-function prevStep() {
-  if (currentStepIndex > 1) {
-    currentStepIndex--;
-    updateStepVisibility();
-  }
-}
-
-function closeEditModal() {
-  document.getElementById("editDetailsModal").classList.remove("active");
-}
-
-/* ========================================================
-   SAVE 3-STEP REPLICA REGISTRATION DATA
-   ======================================================== */
-async function saveAllSteps() {
-  const saveBtn = document.getElementById("btnSaveAllSteps");
-  saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
-
-  const isTeacher = currentRole === 'teacher';
-  const table = isTeacher ? "teachers" : "students";
-  let payload = {};
-
-  if (isTeacher) {
-    payload = {
-      teacher_name: document.getElementById("step_teacher_name").value.trim(),
-      gender: document.getElementById("step_gender").value,
-      mobile: document.getElementById("step_mobile").value.trim(),
-      alternate_mobile: document.getElementById("step_alternate_mobile").value.trim(),
-      email: document.getElementById("step_email").value.trim(),
-      dob: document.getElementById("step_dob").value,
-      qualification: document.getElementById("step_qualification").value.trim(),
-      experience: document.getElementById("step_experience").value.trim(),
-      subject: document.getElementById("step_subject").value.trim(),
-      other_subjects: document.getElementById("step_other_subjects").value.trim(),
-      classes: document.getElementById("step_classes").value.trim(),
-      tuition_mode: document.getElementById("step_tuition_mode").value,
-      fee_details: document.getElementById("step_fee_details").value.trim(),
-      address: document.getElementById("step_address").value.trim(),
-      area: document.getElementById("step_area").value.trim(),
-      city: document.getElementById("step_city").value.trim(),
-      district: document.getElementById("step_district").value.trim(),
-      state: document.getElementById("step_state").value.trim(),
-      pincode: document.getElementById("step_pincode").value.trim(),
-      bio: document.getElementById("step_bio").value.trim(),
-      updated_at: new Date().toISOString()
-    };
-  } else {
-    payload = {
-      student_name: document.getElementById("step_student_name").value.trim(),
-      parent_name: document.getElementById("step_parent_name").value.trim(),
-      gender: document.getElementById("step_gender").value,
-      mobile: document.getElementById("step_mobile").value.trim(),
-      alternate_mobile: document.getElementById("step_alternate_mobile").value.trim(),
-      email: document.getElementById("step_email").value.trim(),
-      class_grade: document.getElementById("step_class_grade").value.trim(),
-      board: document.getElementById("step_board").value.trim(),
-      subject: document.getElementById("step_subject").value.trim(),
-      tuition_mode: document.getElementById("step_tuition_mode").value,
-      preferred_timing: document.getElementById("step_preferred_timing").value.trim(),
-      address: document.getElementById("step_address").value.trim(),
-      area: document.getElementById("step_area").value.trim(),
-      city: document.getElementById("step_city").value.trim(),
-      district: document.getElementById("step_district").value.trim(),
-      state: document.getElementById("step_state").value.trim(),
-      pincode: document.getElementById("step_pincode").value.trim(),
-      bio: document.getElementById("step_bio").value.trim(),
-      updated_at: new Date().toISOString()
-    };
-  }
-
-  const { error } = await db.from(table).update(payload).eq("id", currentUser.id);
-
-  saveBtn.disabled = false;
-  saveBtn.textContent = "Save Changes";
-
-  if (error) {
-    alert("Error updating details: " + error.message);
-  } else {
-    Object.assign(profileRecord, payload);
-    renderProfileView(profileRecord, currentRole);
-    closeEditModal();
-    alert("All 3-step registration details updated successfully!");
-  }
-}
-
-/* ========================================================
-   CROP & ZOOM LOGIC (CROPPER.JS)
-   ======================================================== */
-function initiateImageCrop(event) {
-  const file = event.target.files && event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const cropImg = document.getElementById("imageToCrop");
-    cropImg.src = e.target.result;
-
-    document.getElementById("cropPhotoModal").classList.add("active");
-
-    if (cropperInstance) {
-      cropperInstance.destroy();
-    }
-
-    cropperInstance = new Cropper(cropImg, {
-      aspectRatio: 1,
-      viewMode: 1,
-      dragMode: 'move',
-      autoCropArea: 1,
-      restore: false,
-      guides: true,
-      center: true,
-      highlight: false,
-      cropBoxMovable: true,
-      cropBoxResizable: true,
-      toggleDragModeOnDblclick: false,
-      ready() {
-        document.getElementById("zoomRange").value = 1;
-      }
-    });
-  };
-  reader.readAsDataURL(file);
-  event.target.value = "";
-}
-
-function handleZoomSlider(val) {
-  if (!cropperInstance) return;
-  cropperInstance.zoomTo(parseFloat(val));
-}
-
-function zoomCropper(delta) {
-  if (!cropperInstance) return;
-  cropperInstance.zoom(delta);
-}
-
-function rotateCropper(deg) {
-  if (!cropperInstance) return;
-  cropperInstance.rotate(deg);
-}
-
-function closeCropModal() {
-  document.getElementById("cropPhotoModal").classList.remove("active");
-  if (cropperInstance) {
-    cropperInstance.destroy();
-    cropperInstance = null;
-  }
-}
-
-async function applyAndUploadCrop() {
-  if (!cropperInstance || !currentUser) return;
-  const saveBtn = document.getElementById("btnSaveCrop");
-  saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
-
-  const canvas = cropperInstance.getCroppedCanvas({
-    width: 360,
-    height: 360,
-    imageSmoothingEnabled: true,
-    imageSmoothingQuality: 'high'
-  });
-
-  const base64Data = canvas.toDataURL("image/jpeg", 0.85);
-  const table = (currentRole === 'teacher') ? 'teachers' : 'students';
-  const { error } = await db.from(table).update({ avatar_url: base64Data }).eq('id', currentUser.id);
-
-  saveBtn.disabled = false;
-  saveBtn.textContent = "Save Avatar";
-
-  if (error) {
-    alert("Failed to upload avatar: " + error.message);
-  } else {
-    document.getElementById("profileAvatarImg").src = base64Data;
-    if (profileRecord) profileRecord.avatar_url = base64Data;
-    closeCropModal();
-    alert("Avatar updated successfully!");
-  }
-}
-
-/* ========================================================
-   AUTHENTICATION & INITIALIZATION
-   ======================================================== */
-if (localStorage.getItem("apex_cached_auth") === "true") {
-  document.body.classList.add("logged-in-mobile");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+  populateGradeChecklist();
+  populateSubjectChecklist();
+
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     currentUser = session.user;
     localStorage.setItem("apex_cached_auth", "true");
-    document.body.classList.add("logged-in-mobile");
 
     const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
     if (t) {
-      renderProfileView(t, 'teacher');
-      document.getElementById("dockBrowseLabel").textContent = "🔍 Students";
+      currentRole = 'teacher';
+      userRecord = t;
     } else {
       const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
       if (s) {
-        renderProfileView(s, 'student');
+        currentRole = 'student';
+        userRecord = s;
       } else {
-        renderProfileView({ student_name: currentUser.email.split("@")[0] }, 'student');
+        userRecord = {
+          teacher_name: "Vusala Lokesh",
+          mobile: "+91 9533450665",
+          tuition_mode: "Online",
+          classes: "Class 8, Class 9, Class 10",
+          board: "CBSE, ICSE, IGCSE, IB, State",
+          subject: "Mathematics, Science (General), English",
+          qualification: "B.Tech • 13 Yrs Exp",
+          fee: 5000,
+          address: "Vizag",
+          timing_fee_desc: "INR 5000 (Per month) • Flexible (GMT+5:30 (IST - India))"
+        };
       }
-      document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
     }
+
+    populateProfileUI(userRecord);
 
     const { data: enq } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
     if (enq && enq.length > 0) {
