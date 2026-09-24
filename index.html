@@ -3144,8 +3144,24 @@ function handleStudentCompOther() {
 
   async function loginWithOAuth(provider) {
   if (provider === 'google' && window.google) {
+    const GOOGLE_CLIENT_ID = "PASTE_YOUR_COPIED_ID_HERE.apps.googleusercontent.com"; // <-- Put your real copied Client ID here
+
+    // Fallback if the placeholder has not been replaced yet
+    if (GOOGLE_CLIENT_ID.includes("PASTE_YOUR")) {
+      sessionStorage.setItem("apex_oauth_pending", "true");
+      const { error } = await db.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.origin + window.location.pathname }
+      });
+      if (error) {
+        sessionStorage.removeItem("apex_oauth_pending");
+        showMsg("heroAuthMsg", error.message, false);
+      }
+      return;
+    }
+
     google.accounts.id.initialize({
-      client_id: "PASTE_YOUR_EXACT_COPIED_CLIENT_ID_HERE.apps.googleusercontent.com",
+      client_id: GOOGLE_CLIENT_ID,
       callback: async (response) => {
         sessionStorage.setItem("apex_oauth_pending", "true");
         const { data, error } = await db.auth.signInWithIdToken({
@@ -3162,11 +3178,19 @@ function handleStudentCompOther() {
       }
     });
 
-    google.accounts.id.prompt();
+    google.accounts.id.prompt((notification) => {
+      // If the native overlay is dismissed or blocked by the browser, fallback to standard popup/redirect
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        db.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin + window.location.pathname }
+        });
+      }
+    });
     return;
   }
 
-  // Fallback for Microsoft
+  // Microsoft OAuth flow
   sessionStorage.setItem("apex_oauth_pending", "true");
   const { error } = await db.auth.signInWithOAuth({
     provider,
