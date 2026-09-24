@@ -3153,32 +3153,33 @@ function handleStudentCompOther() {
   document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
-  async function loginWithOAuth(provider) {
+ async function loginWithOAuth(provider) {
   if (provider === 'google' && window.google) {
-    const GOOGLE_CLIENT_ID = "PASTE_YOUR_COPIED_ID_HERE.apps.googleusercontent.com"; // <-- Put your real copied Client ID here
+    // 1. Put your real Google Client ID here
+    const GOOGLE_CLIENT_ID = "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com";
 
-    // Fallback if the placeholder has not been replaced yet
-    if (GOOGLE_CLIENT_ID.includes("PASTE_YOUR")) {
-      sessionStorage.setItem("apex_oauth_pending", "true");
-      const { error } = await db.auth.signInWithOAuth({
-        provider: 'google',
-        options: { redirectTo: window.location.origin + window.location.pathname }
-      });
-      if (error) {
-        sessionStorage.removeItem("apex_oauth_pending");
-        showMsg("heroAuthMsg", error.message, false);
-      }
+    if (GOOGLE_CLIENT_ID.includes("112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com")) {
+      alert("112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com");
       return;
     }
 
-    google.accounts.id.initialize({
+    // 2. Launch Google's direct branded popup on apextuitions.com
+    const client = google.accounts.oauth2.initCodeClient({
       client_id: GOOGLE_CLIENT_ID,
+      scope: 'openid email profile',
+      ux_mode: 'popup',
       callback: async (response) => {
+        if (response.error) {
+          showMsg("heroAuthMsg", response.error, false);
+          return;
+        }
+
+        showMsg("heroAuthMsg", "Signing in with Google...", true);
         sessionStorage.setItem("apex_oauth_pending", "true");
-        const { data, error } = await db.auth.signInWithIdToken({
-          provider: 'google',
-          token: response.credential
-        });
+
+        // Exchange the code with your Supabase auth instance
+        const { data, error } = await db.auth.exchangeCodeForSession(response.code);
+
         if (error) {
           sessionStorage.removeItem("apex_oauth_pending");
           showMsg("heroAuthMsg", error.message, false);
@@ -3189,19 +3190,11 @@ function handleStudentCompOther() {
       }
     });
 
-    google.accounts.id.prompt((notification) => {
-      // If the native overlay is dismissed or blocked by the browser, fallback to standard popup/redirect
-      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-        db.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin + window.location.pathname }
-        });
-      }
-    });
+    client.requestCode();
     return;
   }
 
-  // Microsoft OAuth flow
+  // Microsoft OAuth flow (Free tier requires standard redirect)
   sessionStorage.setItem("apex_oauth_pending", "true");
   const { error } = await db.auth.signInWithOAuth({
     provider,
