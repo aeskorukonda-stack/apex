@@ -48,7 +48,7 @@
     }
 
     body.has-bottom-nav {
-      padding-bottom: 90px; /* Space for the floating bottom pill bar */
+      padding-bottom: 82px; /* Space for the flush bottom nav */
     }
 
     /* HEADER */
@@ -242,22 +242,26 @@
       gap: 8px;
     }
 
-    /* BOTTOM FLOATING ACTION BAR: Displayed ONLY when authenticated */
+    /* INTACT BOTTOM DOCK (Flush with bottom, full-width container) */
     .mobile-bottom-bar {
       display: none;
       position: fixed;
-      bottom: 12px;
-      left: 50%;
-      transform: translateX(-50%);
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
       background: #FFFFFF;
-      border: 1.5px solid #CBD5E1;
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+      border-top: 1.5px solid #E2E8F0;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
       z-index: 9998;
-      padding: 8px 12px;
-      gap: 10px;
-      align-items: center;
-      max-width: 95vw;
+      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+      gap: 8px;
+      justify-content: center;
+      align-items: stretch;
     }
     body.is-logged-in .mobile-bottom-bar {
       display: flex;
@@ -265,22 +269,19 @@
 
     .bottom-bar-item {
       display: flex;
+      flex: 1;
+      max-width: 130px;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 4px;
       text-decoration: none;
-      padding: 10px 18px;
+      padding: 6px 4px;
       border-radius: 14px;
       border: 1px solid #E2E8F0;
       background: #FFFFFF;
-      min-width: 96px;
       transition: var(--transition);
       cursor: pointer;
-    }
-    .bottom-bar-item:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
     }
     .bottom-bar-item.active {
       border: 1.5px solid #3B82F6;
@@ -288,13 +289,13 @@
     }
 
     .bottom-bar-icon-box {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
+      font-size: 16px;
     }
     .bottom-bar-icon-box.green {
       background-color: #E8FBF0;
@@ -310,12 +311,12 @@
     }
 
     .bottom-bar-label {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 800;
       color: #0F172A;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
     }
 
     /* MAIN CONTENT */
@@ -567,19 +568,6 @@
         font-size: 12.5px;
       }
       .footer-grid { grid-template-columns: 1fr; }
-      
-      .bottom-bar-item {
-        padding: 6px 12px;
-        min-width: 80px;
-      }
-      .bottom-bar-icon-box {
-        width: 38px;
-        height: 38px;
-        font-size: 17px;
-      }
-      .bottom-bar-label {
-        font-size: 11.5px;
-      }
     }
   </style>
 </head>
@@ -618,14 +606,14 @@
         </div>
       </nav>
 
-      <!-- Desktop Auth Elements: Guest (Sign In/Up) vs Logged In (Profile/Sign Out) -->
+      <!-- Desktop Auth Header Buttons -->
       <div class="header-auth-buttons" id="headerAuthGroup">
-        <!-- Guest State -->
+        <!-- Guest View -->
         <div id="authGuest" style="display: flex; gap: 8px;">
           <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
           <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
         </div>
-        <!-- Logged-in State (hidden by default) -->
+        <!-- Signed-in View -->
         <div id="authUser" style="display: none; align-items: center; gap: 8px;">
           <a href="profile.html" class="btn-header-auth">
             <i class="fa-solid fa-circle-user"></i> Profile
@@ -651,11 +639,11 @@
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
     
-    <!-- Mobile Guest links -->
+    <!-- Mobile Guest View -->
     <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
     <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
 
-    <!-- Mobile Authenticated links -->
+    <!-- Mobile Signed-in View -->
     <a href="profile.html" id="mDrawerProfile" style="display: none;">👤 My Profile</a>
     <a href="javascript:void(0)" id="mDrawerSignOut" onclick="handleSignOut()" style="display: none; color: #FCA5A5;">🚪 Sign Out</a>
   </div>
@@ -762,25 +750,25 @@
   </div>
 </main>
 
-<!-- BOTTOM FLOATING BAR: Shows Enquiries, Profile, and Students -->
+<!-- INTACT BOTTOM DOCK (Enquiries, Profile, Students) -->
 <nav class="mobile-bottom-bar" id="mobileBottomBar">
-  <a href="enquiries.html" class="bottom-bar-item active">
+  <a href="enquiries.html" class="bottom-bar-item">
     <div class="bottom-bar-icon-box green">
       <i class="fa-solid fa-comments"></i>
     </div>
-    <span class="bottom-bar-label">💬 Enquiries</span>
+    <span class="bottom-bar-label"><i class="fa-solid fa-comment-dots" style="color:#C084FC; font-size:11px;"></i> Enquiries</span>
   </a>
   <a href="profile.html" class="bottom-bar-item">
     <div class="bottom-bar-icon-box yellow">
       <i class="fa-solid fa-id-badge"></i>
     </div>
-    <span class="bottom-bar-label">👤 Profile</span>
+    <span class="bottom-bar-label"><i class="fa-solid fa-user" style="color:#4338CA; font-size:11px;"></i> Profile</span>
   </a>
   <a href="browse.html" class="bottom-bar-item">
     <div class="bottom-bar-icon-box blue">
       <i class="fa-solid fa-compass"></i>
     </div>
-    <span class="bottom-bar-label">🔍 Students</span>
+    <span class="bottom-bar-label"><i class="fa-solid fa-magnifying-glass" style="color:#0284C7; font-size:11px;"></i> Students</span>
   </a>
 </nav>
 
@@ -848,7 +836,6 @@
   }
 
   // --- AUTOMATIC AUTH DETECTION & UI SYNC ---
-  // Replace with your project details if desired, though fallback works with existing localStorage sessions!
   const SUPABASE_URL = 'YOUR_SUPABASE_URL';
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
   let client = null;
@@ -900,11 +887,11 @@
     }
   }
 
-  // 1. Immediate local session check to avoid flicker
+  // Check storage directly on page load
   const hasLocalSession = checkStoredSession();
   setAuthenticatedUI(hasLocalSession);
 
-  // 2. Supabase SDK Client Sync
+  // Client-side Supabase watcher
   if (typeof supabase !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('YOUR_SUPABASE_URL')) {
     client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -921,7 +908,6 @@
     if (client) {
       await client.auth.signOut();
     }
-    // Clear tokens in storage
     for (let i = localStorage.length - 1; i >= 0; i--) {
       const key = localStorage.key(i);
       if (key && (key.startsWith('sb-') || key.includes('supabase.auth.token'))) {
