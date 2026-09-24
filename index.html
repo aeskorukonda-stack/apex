@@ -2850,14 +2850,26 @@ function handleEducatorButtonClick() {
   }
 }
 
-function openAuthView(type) {
-  if (currentUser) return;
+async function openAuthView(type) {
+  // If currentUser is set, verify with the actual server session first
+  if (currentUser) {
+    const { data: { session } } = await db.auth.getSession();
+    if (session && session.user) {
+      // User is genuinely logged in; redirect to their profile instead of getting stuck
+      window.location.href = "profile.html";
+      return;
+    } else {
+      // Stale or dead state: clear it and proceed to open the login form
+      renderGuestHome();
+    }
+  }
 
   const portal = document.getElementById("authPortalContainer");
   const heroGrid = document.getElementById("heroGridContainer");
   const btnIn = document.getElementById("navBtnSignIn");
   const btnUp = document.getElementById("navBtnSignUp");
 
+  // Force reveal the portal container
   portal.classList.remove("hidden");
   heroGrid.classList.remove("portal-hidden");
 
@@ -2873,7 +2885,6 @@ function openAuthView(type) {
 
   setTimeout(scrollToAuthPortal, 60);
 }
-
 function closeAuthPortal() {
   if (currentUser) return;
   document.getElementById("authPortalContainer").classList.add("hidden");
