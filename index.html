@@ -38,7 +38,7 @@
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
+<style>
     :root {
       --apex-navy: #0A192F;
       --apex-navy-surface: #112240;
@@ -192,7 +192,7 @@
       transform: translateX(3px);
     }
 
-    /* Header Auth Buttons (Hidden for Logged in Users) */
+    /* Header Auth Buttons */
     .header-auth-buttons {
       display: flex;
       align-items: center;
@@ -233,6 +233,7 @@
       border-color: #ffffff !important;
       box-shadow: none !important;
     }
+
     .mobile-menu-toggle {
       display: none;
       background: none;
@@ -759,7 +760,7 @@
       backdrop-filter: blur(4px);
     }
 
-    /* Welcome Card Desktop Action Grid (Kept on desktop) */
+    /* Welcome Card Desktop Action Grid */
     .welcome-action-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -828,7 +829,7 @@
       50% { transform: scale(1.1); }
     }
 
-    /* Lively Interactive Highlight Box for Mobile (Replaces action buttons on mobile) */
+    /* Lively Interactive Highlight Box for Mobile */
     .welcome-lively-mobile-box {
       display: none;
       position: relative;
@@ -1398,26 +1399,21 @@
     @media (max-width: 768px) {
       body.logged-in-mobile { padding-bottom: 74px !important; }
       
-      /* Directly hide promotional hero banner text/buttons after login */
       body.logged-in-mobile .grand-hero-textual {
         display: none !important;
       }
       
-      /* Keep the welcome card centered cleanly */
       body.logged-in-mobile .auth-portal-card {
         margin: 0 auto !important;
       }
 
-      /* In mobile view, hide redundant buttons inside the welcome card */
       #heroLoggedInView .welcome-action-grid {
         display: none !important;
       }
-      /* Show lively animated showcase instead */
       #heroLoggedInView .welcome-lively-mobile-box {
         display: block !important;
       }
 
-      /* Dock buttons: Fixed and intact with screen bottom */
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr;
