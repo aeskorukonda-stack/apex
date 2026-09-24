@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Tuition Enquiries | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -161,8 +161,7 @@
       align-items: center;
       gap: 8px;
     }
-    #headerAuthGroup.hidden,
-    body.logged-in-mobile #headerAuthGroup {
+    body.is-logged-in #headerAuthGroup {
       display: none !important;
     }
     .btn-header-auth {
@@ -272,10 +271,8 @@
       border-radius: 6px;
       text-transform: uppercase;
     }
-    .status-badge.completed { background: #E2E8F0; color: #475569; }
     .status-badge.confirmed { background: #DCFCE7; color: #166534; }
     .status-badge.pending { background: #FEF3C7; color: #B45309; }
-    .status-badge.rejected { background: #FEE2E2; color: #991B1B; }
 
     .enquiry-name {
       font-size: 16px;
@@ -309,7 +306,7 @@
     }
 
     /* ========================================================
-       STANDARDIZED GRAND 3-TILE BOTTOM DOCK (PASTEL BUBBLES)
+       MOBILE BOTTOM DOCK (FLUSH & SAFE ANCHORED)
        ======================================================== */
     .mobile-bottom-dock {
       display: none !important;
@@ -320,24 +317,25 @@
 
     @media (max-width: 768px) {
       body.logged-in-mobile { 
-        padding-bottom: 96px !important; 
+        padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 9px;
-        position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
-        background: rgba(255, 255, 255, 0.96);
+        gap: 8px;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        background: rgba(255, 255, 255, 0.98);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
-        padding: 8px;
-        border-radius: 18px;
-        border: 1.5px solid #CBD5E1;
-        box-shadow: 0 12px 32px rgba(10, 25, 47, 0.16);
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+        border-top: 1.5px solid #CBD5E1;
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08);
         z-index: 99999;
         align-items: center;
         visibility: visible !important;
@@ -347,10 +345,10 @@
 
       .mobile-bottom-dock .dock-btn {
         background: #FFFFFF;
-        border: 1.5px solid #CBD5E1;
+        border: 1px solid #E2E8F0;
         color: var(--apex-navy);
-        padding: 8px 4px 6px;
-        border-radius: 14px;
+        padding: 6px 4px 4px;
+        border-radius: 12px;
         font-size: 11px;
         font-weight: 800;
         line-height: 1.2;
@@ -360,20 +358,20 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 5px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+        gap: 4px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
         position: relative;
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: var(--transition);
       }
 
       .mobile-bottom-dock .dock-btn .tile-icon-bubble {
-        width: 36px;
-        height: 36px;
-        border-radius: 11px;
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 17px;
+        font-size: 15px;
         transition: var(--transition);
       }
       .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { 
@@ -392,15 +390,14 @@
       .mobile-bottom-dock .dock-btn:hover,
       .mobile-bottom-dock .dock-btn.active {
         background: #FFFFFF;
-        transform: translateY(-2px);
         border-color: var(--royal-blue);
-        box-shadow: 0 6px 14px rgba(37, 99, 235, 0.15);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.12);
       }
 
       .mobile-bottom-dock .dock-badge {
         position: absolute;
         top: -4px;
-        right: -3px;
+        right: 4px;
         background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
         color: #FFFFFF;
         font-size: 9.5px;
@@ -480,7 +477,7 @@
   <div class="enquiries-card">
     <div class="enquiries-header">
       <h2>Tuition Enquiries & Confirmation</h2>
-      <p>Showing active Pending, Confirmed, and Ended tuitions.</p>
+      <p>Showing active Pending and Confirmed tuitions.</p>
       <button class="refresh-btn" onclick="loadEnquiries()">
         <i class="fa-solid fa-rotate"></i> Refresh
       </button>
@@ -524,6 +521,23 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
 
+function escapeHtml(str) {
+  if (str === null || str === undefined) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function sanitizeWhatsAppUrl(mobile) {
+  let clean = String(mobile || '').replace(/\D/g, '');
+  if (clean.startsWith('0')) clean = clean.substring(1);
+  if (clean.length === 10) clean = '91' + clean;
+  return `https://wa.me/${encodeURIComponent(clean)}`;
+}
+
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
@@ -533,34 +547,46 @@ async function loadEnquiries() {
   const listEl = document.getElementById("enquiriesList");
   listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>Loading records...</p>";
 
-  const { data } = await db.from("enquiries")
+  // Filtered strictly to Pending and Confirmed records
+  const { data, error } = await db.from("enquiries")
     .select("*")
     .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
+    .in("status", ["Pending", "Confirmed"])
     .order("created_at", { ascending: false });
 
+  if (error) {
+    listEl.innerHTML = "<p style='font-size:13px;color:#EF4444;'>Failed to load enquiries. Please refresh.</p>";
+    return;
+  }
+
   if (!data || data.length === 0) {
-    listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>No enquiries found.</p>";
+    listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>No active pending or confirmed enquiries found.</p>";
     return;
   }
 
   listEl.innerHTML = data.map(item => {
     const isIncoming = (item.recipient_id === currentUser.id);
-    const contactName = isIncoming ? item.sender_name : item.recipient_name;
-    const contactMobile = isIncoming ? item.sender_mobile : item.recipient_mobile;
-    const status = (item.status || 'Pending').toLowerCase();
-    const cleanMob = String(contactMobile || '').replace(/\D/g, '');
-    const waUrl = `https://wa.me/${cleanMob.length === 10 ? '91' + cleanMob : cleanMob}`;
+    const rawContactName = isIncoming ? item.sender_name : item.recipient_name;
+    const rawContactMobile = isIncoming ? item.sender_mobile : item.recipient_mobile;
+    const rawStatus = item.status || 'Pending';
+
+    const safeContactName = escapeHtml(rawContactName || 'Member');
+    const safeSubject = escapeHtml(item.subject || 'Tuition');
+    const safeMobile = escapeHtml(rawContactMobile || 'Not provided');
+    const safeStatus = escapeHtml(rawStatus);
+    const statusClass = escapeHtml(rawStatus.toLowerCase());
+    const waUrl = sanitizeWhatsAppUrl(rawContactMobile);
 
     return `
       <div class="enquiry-item-box">
         <div class="enquiry-meta-top">
-          <span class="status-badge ${status}">${item.status || 'Pending'}</span>
+          <span class="status-badge ${statusClass}">${safeStatus}</span>
           <span style="font-size:11.5px;color:var(--text-muted);">${isIncoming ? 'Incoming Request' : 'Sent by You'}</span>
         </div>
-        <div class="enquiry-name">${contactName || 'Member'}</div>
-        <div class="enquiry-sub">Subject: ${item.subject || 'Tuition'}</div>
-        <div class="enquiry-phone">WhatsApp: ${contactMobile || 'Not provided'}</div>
-        <a href="${waUrl}" target="_blank" class="btn-chat-wa">
+        <div class="enquiry-name">${safeContactName}</div>
+        <div class="enquiry-sub">Subject: ${safeSubject}</div>
+        <div class="enquiry-phone">WhatsApp: ${safeMobile}</div>
+        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-chat-wa">
           <i class="fa-brands fa-whatsapp"></i> Chat
         </a>
       </div>
@@ -569,7 +595,7 @@ async function loadEnquiries() {
 }
 
 if (localStorage.getItem("apex_cached_auth") === "true") {
-  document.body.classList.add("logged-in-mobile");
+  document.body.classList.add("logged-in-mobile", "is-logged-in");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -577,7 +603,7 @@ window.addEventListener("DOMContentLoaded", async () => {
   if (session && session.user) {
     currentUser = session.user;
     localStorage.setItem("apex_cached_auth", "true");
-    document.body.classList.add("logged-in-mobile");
+    document.body.classList.add("logged-in-mobile", "is-logged-in");
 
     const { data: teacher } = await db.from("teachers").select("id").eq("id", currentUser.id).maybeSingle();
     const dockBrowseLabel = document.getElementById("dockBrowseLabel");
@@ -585,7 +611,11 @@ window.addEventListener("DOMContentLoaded", async () => {
       dockBrowseLabel.textContent = teacher ? "🔍 Students" : "🔍 Teachers";
     }
 
-    const { data: enq } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
+    const { data: enq } = await db.from("enquiries")
+      .select("id")
+      .eq("recipient_id", currentUser.id)
+      .eq("status", "Pending");
+
     if (enq && enq.length > 0) {
       const badge = document.getElementById("dockEnquiryBadge");
       badge.textContent = enq.length;
@@ -594,6 +624,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
     await loadEnquiries();
   } else {
+    localStorage.removeItem("apex_cached_auth");
     window.location.href = "index.html?auth=signin";
   }
 });
