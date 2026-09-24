@@ -48,10 +48,10 @@
     }
     body.modal-open { overflow: hidden; }
 
-    /* HEADER */
+    /* HEADER & RESPONSIVE FIX */
     header {
       background: var(--apex-navy);
-      padding: 12px 28px;
+      padding: 12px 24px;
       border-bottom: 3.5px solid var(--apex-gold);
       position: fixed;
       top: 0;
@@ -59,6 +59,7 @@
       right: 0;
       z-index: 10000;
       box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+      width: 100%;
     }
     .header-wrap {
       max-width: 1300px;
@@ -66,12 +67,14 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      width: 100%;
     }
     .brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
+      flex-shrink: 0;
     }
     .header-logo {
       width: 44px;
@@ -85,6 +88,13 @@
       color: #FFFFFF;
       font-weight: 800;
       letter-spacing: -0.3px;
+      white-space: nowrap;
+      line-height: 1;
+    }
+    .header-right-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
     .nav-links-desktop {
       display: flex;
@@ -102,8 +112,90 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
+      white-space: nowrap;
     }
     .nav-link:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.1); }
+
+    .dropdown-parent { 
+      position: relative; 
+      padding-bottom: 8px;
+      margin-bottom: -8px;
+    }
+    .dropdown-menu {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
+      min-width: 190px;
+      padding: 8px;
+      display: none;
+      z-index: 2000;
+    }
+    .dropdown-parent:hover .dropdown-menu { display: block; }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      color: #334155 !important;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none !important;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+    .dropdown-item:hover {
+      background: #EFF6FF;
+      color: var(--royal-blue) !important;
+      transform: translateX(3px);
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      top: 74px;
+      left: 0;
+      right: 0;
+      background: var(--apex-navy);
+      padding: 20px 24px;
+      border-bottom: 3.5px solid var(--apex-gold);
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: block;
+      width: 100%;
+    }
+
+    @media (max-width: 860px) {
+      header { padding: 10px 16px; }
+      body { padding-top: 66px; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .brand-text h1 { font-size: 17px; }
+      .header-logo { width: 38px; height: 38px; }
+    }
 
     /* MAIN CONTAINER: TWO COLUMN DESKTOP */
     main {
@@ -392,9 +484,7 @@
       max-width: 480px;
     }
 
-    /* ========================================================
-       MODAL BASE & VERBATIM REPLICATED FORM WIZARDS
-       ======================================================== */
+    /* MODAL BASE */
     .app-modal-overlay {
       position: fixed;
       inset: 0;
@@ -459,7 +549,7 @@
       flex: 1;
     }
 
-    /* REPLICATED FORM CONTROLS & WIZARD HEADERS */
+    /* FORMS & WIZARDS */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
     .form-group-full { grid-column: span 2; }
     .form-group-half { grid-column: span 1; }
@@ -603,9 +693,7 @@
       color: var(--apex-navy);
     }
 
-    /* ========================================================
-       STANDARDIZED MOBILE BOTTOM DOCK (INTACT/FLUSH)
-       ======================================================== */
+    /* STANDARDIZED MOBILE BOTTOM DOCK (FLUSH TO SCREEN) */
     .mobile-bottom-dock { display: none !important; }
 
     @media (max-width: 768px) {
@@ -694,12 +782,37 @@
       </div>
     </a>
     
-    <nav class="nav-links-desktop">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="browse.html" class="nav-link">Browse</a>
-      <a href="resources.html" class="nav-link">Resources</a>
-      <a href="about.html" class="nav-link">More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
-    </nav>
+    <div class="header-right-actions">
+      <nav class="nav-links-desktop">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="resources.html" class="nav-link">Resources</a>
+        
+        <div class="dropdown-parent">
+          <a href="javascript:void(0)" class="nav-link">
+            More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
+            <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
+            <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
+          </div>
+        </div>
+      </nav>
+
+      <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="index.html">🏠 Home</a>
+    <a href="browse.html">🔍 Browse</a>
+    <a href="resources.html">📚 Resources</a>
+    <a href="about.html">ℹ️ About Apex</a>
+    <a href="feedback.html">💬 Feedback</a>
+    <a href="donate.html">💛 Donate</a>
   </div>
 </header>
 
@@ -834,9 +947,7 @@
   </div>
 </main>
 
-<!-- ========================================================
-     TEACHER EDIT DETAILS MODAL (EXACT REPLICA OF REGISTRATION)
-     ======================================================== -->
+<!-- TEACHER EDIT DETAILS MODAL -->
 <div class="app-modal-overlay" id="editTeacherModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -1051,9 +1162,7 @@
   </div>
 </div>
 
-<!-- ========================================================
-     STUDENT EDIT DETAILS MODAL (EXACT REPLICA OF REGISTRATION)
-     ======================================================== -->
+<!-- STUDENT EDIT DETAILS MODAL -->
 <div class="app-modal-overlay" id="editStudentModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -1246,9 +1355,7 @@
   </div>
 </div>
 
-<!-- ========================================================
-     CROP & ZOOM AVATAR MODAL
-     ======================================================== -->
+<!-- CROP & ZOOM AVATAR MODAL -->
 <div class="app-modal-overlay" id="cropModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -1274,7 +1381,7 @@
   </div>
 </div>
 
-<!-- STANDARDIZED MOBILE BOTTOM DOCK (INTACT/FLUSH) -->
+<!-- BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn tile-enquiries">
     <div class="tile-icon-bubble"><i class="fa-solid fa-comments"></i></div>
@@ -1308,7 +1415,10 @@ let currentRole = null;
 let profileRecord = null;
 let cropperInstance = null;
 
-/* LOGOUT */
+function toggleMobileNav() { 
+  document.getElementById("mobileDrawer").classList.toggle("open"); 
+}
+
 async function handleLogout() {
   if (confirm("Are you sure you want to log out?")) {
     await db.auth.signOut();
@@ -1317,9 +1427,6 @@ async function handleLogout() {
   }
 }
 
-/* ========================================================
-   REPLICATED DROPDOWN CHECKLIST CORE FUNCTIONS
-   ======================================================== */
 function toggleMultiDropdown(id) {
   const box = document.getElementById(id);
   const isOpen = box.classList.contains("show");
@@ -1410,9 +1517,6 @@ function handleCompOtherToggle(p) {
   updateMultiLabel(p + "Comp");
 }
 
-/* ========================================================
-   TEACHER FORM CASCADE CONTROLLERS
-   ======================================================== */
 function toggleTeacherAddressEdit() {
   const mode = document.getElementById("etMode").value;
   document.getElementById("etAddressBox").classList.toggle("hidden", mode === "Online");
@@ -1441,9 +1545,6 @@ function navTeacherEditStep(step) {
   });
 }
 
-/* ========================================================
-   STUDENT FORM CASCADE CONTROLLERS
-   ======================================================== */
 function toggleStudentAddressEdit() {
   const mode = document.getElementById("esMode").value;
   document.getElementById("esAddressBox").classList.toggle("hidden", mode === "Online");
@@ -1489,14 +1590,10 @@ function navStudentEditStep(step) {
   });
 }
 
-/* ========================================================
-   OPEN / CLOSE EDIT MODAL ROUTING
-   ======================================================== */
 function openEditModal() {
   if (!profileRecord) return;
 
   if (currentRole === 'teacher') {
-    // Populate Step 1: Basic
     document.getElementById("etName").value = profileRecord.teacher_name || "";
     const mobileParts = (profileRecord.mobile || "").split(" ");
     if (mobileParts.length > 1) {
@@ -1529,7 +1626,6 @@ function openEditModal() {
       document.getElementById("etExp").value = "";
     }
 
-    // Step 2: Category
     const classes = (profileRecord.classes || "").split(", ");
     setCheckedValues("etGradesDropdown", classes, "etGrades");
 
@@ -1539,14 +1635,12 @@ function openEditModal() {
     const boards = (profileRecord.board || "").split(", ");
     setCheckedValues("etBoardsDropdown", boards, "etBoards");
 
-    // Step 3: Fee & Time
     if (profileRecord.fee) document.getElementById("etFeeAmount").value = profileRecord.fee;
     
     navTeacherEditStep(1);
     document.body.classList.add("modal-open");
     document.getElementById("editTeacherModalOverlay").classList.add("active");
   } else {
-    // Student Edit Populate
     document.getElementById("esName").value = profileRecord.student_name || "";
     document.getElementById("esParentName").value = profileRecord.parent_name || "";
     const sParts = (profileRecord.mobile || "").split(" ");
@@ -1586,9 +1680,6 @@ function closeEditModal() {
   document.body.classList.remove("modal-open");
 }
 
-/* ========================================================
-   SAVE REPLICATED DETAILS TO SUPABASE
-   ======================================================== */
 async function saveTeacherEdit() {
   const btn = document.getElementById("btnSaveTeacherEdit");
   btn.disabled = true;
@@ -1762,9 +1853,6 @@ async function saveStudentEdit() {
   closeEditModal();
 }
 
-/* ========================================================
-   CROP & ZOOM AVATAR ENGINE
-   ======================================================== */
 function onAvatarFilePicked(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -1821,9 +1909,6 @@ async function applyAndSaveCroppedAvatar() {
   closeCropModal();
 }
 
-/* ========================================================
-   POPULATE UI FROM SUPABASE
-   ======================================================== */
 function populateUI(data) {
   const name = data.teacher_name || data.student_name || "Vusala Lokesh";
   document.getElementById("profileName").textContent = name;
@@ -1843,9 +1928,6 @@ function populateUI(data) {
   }
 }
 
-/* ========================================================
-   INITIAL LOAD & AUTH RECOVERY
-   ======================================================== */
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
