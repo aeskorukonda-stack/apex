@@ -109,7 +109,7 @@
       gap: 8px;
     }
 
-    /* Hide on all screens when authenticated */
+    /* Hide immediately on all screens when authenticated */
     #headerAuthGroup.hidden,
     body.logged-in-mobile #headerAuthGroup {
       display: none !important;
@@ -158,49 +158,20 @@
       margin-bottom: 18px;
       width: 100%;
     }
-    .search-input-wrapper {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      width: 100%;
-      min-width: 0;
-    }
+    .search-input-wrapper { display: flex; align-items: center; gap: 10px; width: 100%; }
     .search-bar-input {
-      flex: 1 1 auto;
-      min-width: 0;
-      height: 44px;
-      padding: 8px 14px 8px 40px;
-      border: 1.5px solid #CBD5E1;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-family: inherit;
-      background: #F8FAFC;
-      color: var(--text-main);
-      outline: none;
+      flex: 1; height: 44px; padding: 8px 14px 8px 40px; border: 1.5px solid #CBD5E1; border-radius: 10px;
+      font-size: 13.5px; font-family: inherit; background: #F8FAFC; color: var(--text-main); outline: none;
       transition: var(--transition);
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2364748B' viewBox='0 0 512 512'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.1-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: 14px center;
-      background-size: 15px;
+      background-repeat: no-repeat; background-position: 14px center; background-size: 15px;
     }
     .search-bar-input:focus { border-color: var(--royal-blue); background-color: #FFFFFF; box-shadow: 0 0 0 3px var(--royal-blue-glow); }
     
     .btn-advanced-toggle {
-      height: 44px;
-      padding: 0 16px;
-      background: #F8FAFC;
-      border: 1.5px solid #CBD5E1;
-      color: var(--apex-navy);
-      border-radius: 10px;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      white-space: nowrap;
-      transition: var(--transition);
-      flex-shrink: 0;
+      height: 44px; padding: 0 16px; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--apex-navy);
+      border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center;
+      gap: 8px; white-space: nowrap; transition: var(--transition); flex-shrink: 0;
     }
     .btn-advanced-toggle:hover { background: #EEF2F6; border-color: var(--border-focus); }
 
@@ -481,12 +452,9 @@
     }
     .empty-state i { font-size: 32px; color: #CBD5E1; margin-bottom: 10px; display: block; }
 
-    /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
+    /* Bottom dock - hidden by default */
     .mobile-bottom-dock {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
+      display: none;
     }
     body:not(.logged-in-mobile) .mobile-bottom-dock {
       display: none !important;
@@ -506,37 +474,69 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
+    /* MOBILE VIEWPORT */
     @media (max-width: 768px) {
-      body.logged-in-mobile { padding-bottom: 92px !important; }
+      body.logged-in-mobile {
+        padding-bottom: 84px !important;
+      }
+      
+      /* Make bottom dock intact with the bottom screen edge */
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 8px;
-        position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
-        background: #FFFFFF;
-        padding: 8px 10px;
-        border-radius: 16px;
-        border: 1.5px solid #CBD5E1;
-        box-shadow: 0 8px 24px rgba(10, 25, 47, 0.16);
-        z-index: 9999;
-        align-items: center;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: #FFFFFF !important;
+        padding: 8px 12px max(8px, env(safe-area-inset-bottom)) !important;
+        border-top: 1.5px solid #CBD5E1 !important;
+        border-radius: 14px 14px 0 0 !important;
+        box-shadow: 0 -4px 16px rgba(10, 25, 47, 0.1) !important;
+        z-index: 99999 !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
+
       .dock-btn {
-        display: flex; align-items: center; justify-content: center; gap: 6px;
-        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
-        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
-        background: #FFFFFF; color: #0A192F; position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 9px 4px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-align: center;
+        border: 1.5px solid #E2E8F0;
+        background: #F8FAFC;
+        color: #0A192F;
+        position: relative;
       }
-      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .dock-btn:active {
+        background: #EEF2F6;
+      }
+      .dock-btn-label-stacked {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
       .dock-badge {
-        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
-        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
+        position: absolute;
+        top: -5px;
+        right: -3px;
+        background: #EF4444;
+        color: #FFFFFF;
+        font-size: 9.5px;
+        font-weight: 800;
+        border-radius: 10px;
+        padding: 1px 5px;
       }
 
       main { padding: 12px 10px 20px !important; }
@@ -547,23 +547,6 @@
       .header-logo { width: 36px; height: 36px; }
       .brand-text h1 { font-size: 16.5px; }
       .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
-
-      /* Mobile alignment fix for search & filter */
-      .search-container-card { padding: 10px 12px; }
-      .search-input-wrapper { gap: 8px; }
-      .search-bar-input {
-        height: 40px;
-        font-size: 12.5px;
-        padding: 8px 12px 8px 36px;
-        background-position: 12px center;
-        background-size: 14px;
-      }
-      .btn-advanced-toggle {
-        height: 40px;
-        padding: 0 12px;
-        font-size: 12px;
-        gap: 6px;
-      }
     }
   </style>
 </head>
@@ -632,69 +615,611 @@
       <div class="filters-row-grid">
         <div class="filter-field">
           <label class="filter-label">Category</label>
-          <select id="filterCategory" class="filter-select" onchange="applyFilters()">
-            <option value="">All Categories</option>
-            <option value="tutor">Tutors</option>
-            <option value="student">Student Inquiries</option>
+          <select id="filterCategory" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Categories</option>
+            <option value="Academic">Academic (School & College)</option>
+            <option value="Non-Academic">Non-Academic & Skills</option>
+            <option value="Competitive">Competitive & Jobs</option>
+            <option value="Others">Others</option>
           </select>
         </div>
+
         <div class="filter-field">
-          <label class="filter-label">Board / Curriculum</label>
-          <select id="filterBoard" class="filter-select" onchange="applyFilters()">
-            <option value="">All Boards</option>
-            <option value="cbse">CBSE</option>
-            <option value="icse">ICSE</option>
-            <option value="state">State Board</option>
-            <option value="igcse">IGCSE / IB</option>
+          <label class="filter-label">Class / Level</label>
+          <select id="filterLevel" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Levels</option>
+            <option value="Class 1">Grade 1</option>
+            <option value="Class 2">Grade 2</option>
+            <option value="Class 3">Grade 3</option>
+            <option value="Class 4">Grade 4</option>
+            <option value="Class 5">Grade 5</option>
+            <option value="Class 6">Grade 6</option>
+            <option value="Class 7">Grade 7</option>
+            <option value="Class 8">Grade 8</option>
+            <option value="Class 9">Grade 9</option>
+            <option value="Class 10">Grade 10</option>
+            <option value="Class 11">Grade 11</option>
+            <option value="Class 12">Grade 12</option>
+            <option value="Competitive">Competitive / Jobs</option>
+            <option value="Skills">Skills / Creative</option>
           </select>
         </div>
+
         <div class="filter-field">
-          <label class="filter-label">Mode</label>
-          <select id="filterMode" class="filter-select" onchange="applyFilters()">
-            <option value="">All Modes</option>
-            <option value="online">Online</option>
-            <option value="offline">Offline / Home Tuition</option>
+          <label class="filter-label">Board / Syllabus</label>
+          <select id="filterBoard" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Boards</option>
+            <option value="CBSE">CBSE</option>
+            <option value="ICSE">ICSE</option>
+            <option value="IGCSE">IGCSE</option>
+            <option value="IB">IB</option>
+            <option value="State">State Board</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Subject / Stream</label>
+          <select id="filterSubject" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Subjects</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="Science">Science (General)</option>
+            <option value="English">English</option>
+            <option value="Social Science">Social Science</option>
+            <option value="Economics">Economics</option>
+            <option value="Accountancy">Accountancy</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Abacus">Abacus</option>
+            <option value="Music">Music / Vocal</option>
+            <option value="Art & Craft">Art & Craft</option>
+            <option value="Public Speaking">Public Speaking</option>
+            <option value="RRB">RRB / Railway</option>
+            <option value="SSC">SSC</option>
+            <option value="Banking">Banking</option>
+            <option value="Civils">Civils / UPSC</option>
+            <option value="NEET/JEE">NEET / JEE</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Tuition Mode</label>
+          <select id="filterMode" class="filter-select" onchange="filterDirectory()">
+            <option value="All">Any Mode</option>
+            <option value="Online">Online</option>
+            <option value="Home">Home</option>
+            <option value="Both">Both</option>
           </select>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- RESULTS COUNT BAR -->
   <div class="results-count-bar">
-    <span id="resultsCount">0 Profiles Found</span>
-    <span style="color: var(--royal-blue);">Viewing Verified Educators</span>
+    <span id="resultsCount">Loading available profiles...</span>
+    <span id="roleNotice" style="color:var(--royal-blue); font-weight:700;"></span>
   </div>
 
-  <!-- CARDS CONTAINER -->
   <div class="cards-grid" id="cardsGrid">
-    <div class="empty-state">
-      <i class="fa-regular fa-folder-open"></i>
-      <h3 style="margin: 0 0 6px 0; font-size: 17px; font-weight: 800; color: var(--apex-navy);">No Profiles Available</h3>
-      <p style="margin: 0; color: var(--text-muted); font-size: 13.5px;">Please check back in a few moments.</p>
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:70%;"></div>
+          <div class="skeleton-line" style="height:12px;width:40%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
+    </div>
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:60%;"></div>
+          <div class="skeleton-line" style="height:12px;width:50%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
+    </div>
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:65%;"></div>
+          <div class="skeleton-line" style="height:12px;width:35%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
     </div>
   </div>
 </main>
 
+<!-- BOTTOM DOCK (Hidden for guests, appears fixed and intact when logged in) -->
+<nav class="mobile-bottom-dock" id="mobileBottomDock">
+  <a href="enquiries.html" class="dock-btn">
+    <i class="fa-solid fa-clipboard-list" style="color: #059669; font-size:14px;"></i>
+    <div class="dock-btn-label-stacked">
+      <span>My</span>
+      <span>Enquiries</span>
+    </div>
+    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+  </a>
+
+  <a href="profile.html" class="dock-btn">
+    <i class="fa-solid fa-user" style="color: #6366F1; font-size:14px;"></i>
+    <div class="dock-btn-label-stacked">
+      <span>View My</span>
+      <span>Profile</span>
+    </div>
+  </a>
+
+  <a href="browse.html" class="dock-btn">
+    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7; font-size:14px;"></i>
+    <div class="dock-btn-label-stacked">
+      <span>Browse</span>
+      <span id="dockBrowseLabel">Teachers</span>
+    </div>
+  </a>
+</nav>
+
 <script>
-  function toggleMobileNav() {
-    const drawer = document.getElementById('mobileDrawer');
-    if (drawer) drawer.classList.toggle('open');
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let currentUser = null;
+let currentRole = null;
+let currentProfile = null;
+let rawData = [];
+let lockedStudentIds = new Set();
+let loggedInStudentHasConfirmedTuition = false;
+let myConfirmedTeacherId = null;
+let teacherSuccessfulTuitionMap = {};
+let debounceTimer = null;
+
+function clean(v) { return String(v || '').trim(); }
+function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
+function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
+function toggleAdvancedFilters() { document.getElementById("advancedDrawer").classList.toggle("open"); }
+
+function debounceFilter() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(filterDirectory, 200);
+}
+
+function formatGradeRanges(rawClasses) {
+  if (!rawClasses) return 'All Grades';
+  if (!rawClasses.includes('Class')) return rawClasses;
+  const nums = [], others = [];
+  rawClasses.split(',').forEach(p => {
+    p = p.trim();
+    const match = p.match(/Class\s*(\d+)/i) || p.match(/Grade\s*(\d+)/i);
+    if (match) nums.push(parseInt(match[1], 10));
+    else others.push(p);
+  });
+  if (nums.length === 0) return rawClasses;
+  nums.sort((a, b) => a - b);
+  const ranges = [];
+  let start = nums[0], end = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] === end + 1) end = nums[i];
+    else {
+      ranges.push(start === end ? `Grade ${start}` : `Grades ${start}-${end}`);
+      start = end = nums[i];
+    }
+  }
+  ranges.push(start === end ? `Grade ${start}` : `Grades ${start}-${end}`);
+  if (others.length > 0) return `${ranges.join(', ')} • ${others.join(', ')}`;
+  return ranges.join(', ');
+}
+
+function parseSpecMetrics(qualificationRaw, timingFeeRaw) {
+  let qual = "Educator", exp = "", price = "";
+  if (qualificationRaw) {
+    if (qualificationRaw.includes("•")) {
+      const qp = qualificationRaw.split("•");
+      qual = qp[0].trim();
+      exp = qp[1].trim();
+    } else {
+      qual = qualificationRaw.trim();
+    }
+  }
+  if (timingFeeRaw) {
+    if (timingFeeRaw.includes("•")) {
+      const tp = timingFeeRaw.split("•");
+      price = tp[0].trim();
+    } else {
+      price = timingFeeRaw.trim();
+    }
+  }
+  return { qual, exp, price };
+}
+
+function cleanSubjectText(sub) {
+  if (!sub) return 'All Subjects';
+  return sub.replace(/^(Academic:\s*|Non-Academic:\s*|Competitive:\s*|Others:\s*)/i, '').trim();
+}
+
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+async function syncGlobalConfirmedTuitions() {
+  lockedStudentIds.clear();
+  loggedInStudentHasConfirmedTuition = false;
+  myConfirmedTeacherId = null;
+  teacherSuccessfulTuitionMap = {};
+
+  const currentUid = currentUser ? clean(currentUser.id) : "";
+  const currentMob = currentProfile ? cleanDigits(currentProfile.mobile) : "";
+
+  const { data: enqData } = await db
+    .from("enquiries")
+    .select("sender_id, recipient_id, sender_mobile, recipient_mobile, status, confirmed_at, created_at, ended_at")
+    .in("status", ["confirmed", "completed", "Confirmed", "Completed"]);
+
+  if (enqData) {
+    enqData.forEach(row => {
+      const sId = clean(row.sender_id);
+      const rId = clean(row.recipient_id);
+      const sMob = cleanDigits(row.sender_mobile);
+      const rMob = cleanDigits(row.recipient_mobile);
+      const status = String(row.status || '').toLowerCase();
+
+      if (status === 'confirmed') {
+        if (sId) lockedStudentIds.add(sId);
+        if (rId) lockedStudentIds.add(rId);
+        if (sMob) lockedStudentIds.add(sMob);
+        if (rMob) lockedStudentIds.add(rMob);
+
+        if (currentRole === 'student') {
+          if (sId === currentUid || rId === currentUid || (currentMob && (sMob === currentMob || rMob === currentMob))) {
+            loggedInStudentHasConfirmedTuition = true;
+            myConfirmedTeacherId = (sId === currentUid) ? rId : sId;
+          }
+        }
+      }
+
+      if (status === 'completed') {
+        const start = new Date(row.confirmed_at || row.created_at).getTime();
+        const end = new Date(row.ended_at || Date.now()).getTime();
+        if ((end - start) >= THIRTY_DAYS_MS) {
+          const tId = rId || sId;
+          if (tId) teacherSuccessfulTuitionMap[tId] = (teacherSuccessfulTuitionMap[tId] || 0) + 1;
+        }
+      }
+    });
+  }
+}
+
+function renderStarBadge(teacherId) {
+  const count = teacherSuccessfulTuitionMap[teacherId] || 0;
+  if (!count) return "";
+  const stars = Math.min(5, Math.floor(count / 2) || 1);
+  return `<span class="star-rating-pill"><i class="fa-solid fa-star"></i> ${stars} (${count})</span>`;
+}
+
+async function handleWhatsAppConnect(targetId, targetName, targetMobile, subject) {
+  if (!currentUser) {
+    alert("Please sign in to connect directly on WhatsApp.");
+    window.location.href = "index.html?auth=signin";
+    return;
   }
 
-  function toggleAdvancedFilters() {
-    const drawer = document.getElementById('advancedDrawer');
-    if (drawer) drawer.classList.toggle('open');
+  const cleanTargetId = clean(targetId);
+  if (currentRole === 'student' && loggedInStudentHasConfirmedTuition) {
+    if (myConfirmedTeacherId === cleanTargetId) {
+      const cleanPhone = cleanDigits(targetMobile);
+      window.open(`https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}`, '_blank');
+      return;
+    }
+    alert("You already have an active confirmed tuition. Please conclude your active tuition before contacting new educators.");
+    return;
   }
 
-  function debounceFilter() {
-    // Search implementation hook
+  const isTeacher = (currentRole === 'teacher');
+  const myName = currentProfile ? (isTeacher ? currentProfile.teacher_name : currentProfile.student_name) : (currentUser.email.split('@')[0]);
+
+  try {
+    await db.from("enquiries").insert([{
+      sender_id: currentUser.id,
+      recipient_id: cleanTargetId,
+      sender_name: myName,
+      sender_mobile: currentProfile?.mobile || '',
+      recipient_name: targetName,
+      recipient_mobile: targetMobile,
+      subject: subject || 'Tuition',
+      status: 'Pending'
+    }]);
+  } catch (err) {
+    console.error("Enquiry log error:", err);
   }
 
-  function applyFilters() {
-    // Filter implementation hook
+  const cleanPhone = cleanDigits(targetMobile);
+  const waPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+  const msg = encodeURIComponent(`Hi ${targetName}, I found your profile on Apex Tuitions for ${subject}. I would like to connect!`);
+  window.open(`https://wa.me/${waPhone}?text=${msg}`, '_blank');
+
+  await syncGlobalConfirmedTuitions();
+  renderCards(rawData);
+}
+
+async function fetchDirectoryData() {
+  const grid = document.getElementById("cardsGrid");
+  
+  let targetTable = 'teachers';
+  if (currentRole === 'teacher') {
+    targetTable = 'students';
+    document.getElementById("roleNotice").textContent = "Viewing Student Requirements";
+  } else {
+    document.getElementById("roleNotice").textContent = "Viewing Verified Educators";
   }
+
+  try {
+    const [profilesRes] = await Promise.all([
+      db.from(targetTable).select('*').order('created_at', { ascending: false }).limit(60),
+      syncGlobalConfirmedTuitions()
+    ]);
+
+    const { data, error } = profilesRes;
+
+    if (error || !data || data.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-folder-open"></i>
+          <h3>No Profiles Available</h3>
+          <p style="font-size:12px;color:var(--text-muted);">Please check back in a few moments.</p>
+        </div>
+      `;
+      document.getElementById("resultsCount").textContent = "0 Profiles Found";
+      rawData = [];
+      return;
+    }
+
+    rawData = data;
+    filterDirectory();
+  } catch (err) {
+    console.error("Directory fetch failed:", err);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>Unable to load profiles</h3>
+        <p style="font-size:12px;color:var(--text-muted);">Please check your network and refresh.</p>
+      </div>
+    `;
+  }
+}
+
+function renderCards(list) {
+  const grid = document.getElementById("cardsGrid");
+  document.getElementById("resultsCount").textContent = `Showing ${list.length} ${list.length === 1 ? 'profile' : 'profiles'}`;
+
+  if (!list.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No Matching Profiles</h3>
+        <p style="font-size:12px;color:var(--text-muted);">Try loosening search terms or filter constraints.</p>
+      </div>
+    `;
+    return;
+  }
+
+  const isTeacherTable = (currentRole !== 'teacher');
+
+  grid.innerHTML = list.map(item => {
+    const itemId = clean(item.id);
+    const itemMobDigits = cleanDigits(item.mobile);
+    const name = isTeacherTable ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
+    const roleTag = isTeacherTable ? 'Teacher' : 'Student';
+    const firstInitial = (name.charAt(0) || 'A').toUpperCase();
+    
+    const subject = cleanSubjectText(item.subject);
+    const groupedGrades = formatGradeRanges(isTeacherTable ? item.classes : item.student_class);
+    const board = item.board || 'CBSE';
+    const mode = item.tuition_mode || 'Online';
+    const { qual, exp, price } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
+
+    let actionBtnHtml = "";
+    if (!isTeacherTable && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
+      actionBtnHtml = `<span class="btn-locked"><i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i> Tuition Confirmed</span>`;
+    } else {
+      actionBtnHtml = `
+        <button class="btn-connect-wa" onclick="handleWhatsAppConnect('${itemId}', '${name}', '${item.mobile || ''}', '${subject}')">
+          <i class="fa-brands fa-whatsapp" style="font-size:15px;"></i> Contact via WhatsApp
+        </button>
+      `;
+    }
+
+    const avatarHtml = item.avatar_url 
+      ? `<img src="${item.avatar_url}" alt="${name}" class="card-avatar" onerror="this.outerHTML='<div class=\\'avatar-fallback\\'>${firstInitial}</div>';">`
+      : `<div class="avatar-fallback">${firstInitial}</div>`;
+
+    return `
+      <div class="tutor-card">
+        <div>
+          <div class="card-header-flex">
+            <div class="avatar-wrapper">
+              ${avatarHtml}
+              <i class="fa-solid fa-circle-check verified-icon" title="Verified Profile"></i>
+            </div>
+            
+            <div class="card-info">
+              <h3 class="card-name-title" title="${name}">${name}</h3>
+              <div class="badge-subline">
+                <span class="role-badge">${roleTag}</span>
+                ${isTeacherTable ? renderStarBadge(itemId) : ''}
+              </div>
+            </div>
+
+            ${(isTeacherTable && price) ? `<div class="fee-badge">${price}</div>` : ''}
+          </div>
+
+          <div class="specs-grid">
+            <span class="spec-pill"><i class="fa-solid fa-laptop-file"></i> ${mode}</span>
+            <span class="spec-pill"><i class="fa-solid fa-layer-group"></i> ${groupedGrades}</span>
+            ${(isTeacherTable && qual && qual !== 'Educator') ? `<span class="spec-pill"><i class="fa-solid fa-graduation-cap"></i> ${qual}</span>` : ''}
+            ${(isTeacherTable && exp) ? `<span class="spec-pill"><i class="fa-solid fa-briefcase"></i> ${exp}</span>` : ''}
+          </div>
+
+          <div class="card-body-details">
+            <div class="meta-item" title="${subject}">
+              <i class="fa-solid fa-book-open"></i>
+              <div class="meta-text"><strong>Subject:</strong> ${subject}</div>
+            </div>
+            <div class="meta-item" title="${board}">
+              <i class="fa-solid fa-school"></i>
+              <div class="meta-text"><strong>Board:</strong> ${board}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer-box">
+          ${actionBtnHtml}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function filterDirectory() {
+  const searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
+  const cat = document.getElementById("filterCategory").value;
+  const level = document.getElementById("filterLevel").value;
+  const board = document.getElementById("filterBoard").value;
+  const subject = document.getElementById("filterSubject").value;
+  const mode = document.getElementById("filterMode").value;
+
+  const filtered = rawData.filter(item => {
+    const name = (item.teacher_name || item.student_name || '').toLowerCase();
+    const rawCat = (item.classes || '') + ' ' + (item.subject || '') + ' ' + (item.student_class || '');
+    const rawLevel = (item.classes || '') + ' ' + (item.student_class || '');
+    const rawBoard = item.board || '';
+    const rawSubject = item.subject || '';
+    const rawMode = item.tuition_mode || '';
+    const rawLocation = (item.address || '').toLowerCase();
+
+    const matchesSearch = !searchQuery || 
+      name.includes(searchQuery) || 
+      rawSubject.toLowerCase().includes(searchQuery) || 
+      rawBoard.toLowerCase().includes(searchQuery) || 
+      rawLocation.includes(searchQuery);
+
+    if (!matchesSearch) return false;
+
+    let matchCat = (cat === "All");
+    if (!matchCat) {
+      if (cat === "Academic") matchCat = rawCat.includes("Class") || rawCat.includes("Grade");
+      else if (cat === "Non-Academic") matchCat = rawCat.includes("Non-Academic") || rawCat.includes("Skill");
+      else if (cat === "Competitive") matchCat = rawCat.includes("Competitive");
+      else matchCat = rawCat.includes("Others");
+    }
+
+    let matchLevel = (level === "All");
+    if (!matchLevel) {
+      matchLevel = rawLevel.includes(level);
+    }
+
+    const matchBoard = (board === "All") || rawBoard.toLowerCase().includes(board.toLowerCase());
+    const matchSubject = (subject === "All") || rawSubject.toLowerCase().includes(subject.toLowerCase());
+    const matchMode = (mode === "All") || rawMode.toLowerCase().includes(mode.toLowerCase()) || (rawMode === "Both");
+
+    return matchCat && matchLevel && matchBoard && matchSubject && matchMode;
+  });
+
+  renderCards(filtered);
+}
+
+// Global Auth State Management across page switches
+function setAuthState(isAuthenticated) {
+  const authGroup = document.getElementById("headerAuthGroup");
+  const mSignIn = document.getElementById("mDrawerSignIn");
+  const mSignUp = document.getElementById("mDrawerSignUp");
+  const bottomDock = document.getElementById("mobileBottomDock");
+
+  if (isAuthenticated) {
+    document.body.classList.add("logged-in-mobile");
+    if (authGroup) {
+      authGroup.classList.add("hidden");
+      authGroup.style.setProperty("display", "none", "important");
+    }
+    if (mSignIn) mSignIn.classList.add("hidden");
+    if (mSignUp) mSignUp.classList.add("hidden");
+  } else {
+    document.body.classList.remove("logged-in-mobile");
+    if (authGroup) {
+      authGroup.classList.remove("hidden");
+      authGroup.style.display = "flex";
+    }
+    if (mSignIn) mSignIn.classList.remove("hidden");
+    if (mSignUp) mSignUp.classList.remove("hidden");
+  }
+}
+
+// Instant synchronous check using cached state to prevent layout flash
+if (localStorage.getItem("apex_cached_auth") === "true") {
+  document.body.classList.add("logged-in-mobile");
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  const cachedAuth = localStorage.getItem("apex_cached_auth");
+  if (cachedAuth === "true") {
+    setAuthState(true);
+  }
+
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    currentUser = session.user;
+    localStorage.setItem("apex_cached_auth", "true");
+    setAuthState(true);
+
+    // Fetch user profile
+    const { data: t } = await db.from("teachers").select("teacher_name, mobile").eq("id", currentUser.id).maybeSingle();
+    if (t) {
+      currentRole = 'teacher';
+      currentProfile = t;
+    } else {
+      const { data: s } = await db.from("students").select("student_name, mobile").eq("id", currentUser.id).maybeSingle();
+      currentRole = 'student';
+      currentProfile = s;
+    }
+
+    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+    if (dockBrowseLabel) dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
+
+    // Non-blocking enquiry counter
+    db.from("enquiries")
+      .select("id", { count: 'exact', head: true })
+      .eq("recipient_id", currentUser.id)
+      .eq("status", "Pending")
+      .then(({ count }) => {
+        const dBadge = document.getElementById("dockEnquiryBadge");
+        if (dBadge && count > 0) {
+          dBadge.textContent = count;
+          dBadge.classList.remove("hidden");
+        }
+      });
+  } else {
+    localStorage.removeItem("apex_cached_auth");
+    setAuthState(false);
+  }
+
+  db.auth.onAuthStateChange((event, session) => {
+    if (session && session.user) {
+      currentUser = session.user;
+      localStorage.setItem("apex_cached_auth", "true");
+      setAuthState(true);
+    } else {
+      currentUser = null;
+      localStorage.removeItem("apex_cached_auth");
+      setAuthState(false);
+    }
+  });
+
+  await fetchDirectoryData();
+});
 </script>
-
 </body>
 </html>
