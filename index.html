@@ -1130,6 +1130,9 @@
 
     /* Wizard / Forms styling */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
+    #sStep1 .form-grid-2, #sStep2 .form-grid-2, #sStep3 .form-grid-2 {
+      align-items: start;
+    }
     .form-group-full { grid-column: span 2; }
     .form-group-half { grid-column: span 1; }
     label {
@@ -2037,6 +2040,10 @@
               <label>Address (for Home/Both)</label>
               <textarea id="sAddress" placeholder="Street, landmark"></textarea>
             </div>
+            <div class="form-group-half">
+              <label>Location</label>
+              <input id="sLocation" type="text" placeholder="City, Area">
+            </div>         
             <div class="form-group-full">
               <label>Location</label>
               <input id="sLocation" type="text" placeholder="City, Area">
