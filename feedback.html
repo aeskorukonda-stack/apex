@@ -47,10 +47,6 @@
       padding-bottom: 0;
     }
 
-    body.has-bottom-nav {
-      padding-bottom: 82px; /* Space for the flush bottom nav */
-    }
-
     /* HEADER */
     header {
       background: rgba(10, 25, 47, 0.98);
@@ -166,6 +162,7 @@
       transform: translateX(3px);
     }
 
+    /* DESKTOP GUEST AUTH CONTAINER */
     .header-auth-buttons {
       display: flex;
       align-items: center;
@@ -193,14 +190,6 @@
       background: rgba(255, 255, 255, 0.16);
       border-color: #ffffff;
       transform: translateY(-1px);
-    }
-    .btn-signout {
-      border-color: rgba(239, 68, 68, 0.4);
-      color: #FCA5A5 !important;
-    }
-    .btn-signout:hover {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #EF4444;
     }
 
     .mobile-menu-toggle {
@@ -242,81 +231,9 @@
       gap: 8px;
     }
 
-    /* INTACT BOTTOM DOCK (Flush with bottom, full-width container) */
+    /* BOTTOM BAR - HIDDEN ON DESKTOP */
     .mobile-bottom-bar {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      width: 100%;
-      background: #FFFFFF;
-      border-top: 1.5px solid #E2E8F0;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
-      z-index: 9998;
-      padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-      gap: 8px;
-      justify-content: center;
-      align-items: stretch;
-    }
-    body.is-logged-in .mobile-bottom-bar {
-      display: flex;
-    }
-
-    .bottom-bar-item {
-      display: flex;
-      flex: 1;
-      max-width: 130px;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      text-decoration: none;
-      padding: 6px 4px;
-      border-radius: 14px;
-      border: 1px solid #E2E8F0;
-      background: #FFFFFF;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .bottom-bar-item.active {
-      border: 1.5px solid #3B82F6;
-      box-shadow: 0 0 0 1px #3B82F6 inset;
-    }
-
-    .bottom-bar-icon-box {
-      width: 36px;
-      height: 36px;
-      border-radius: 11px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-    .bottom-bar-icon-box.green {
-      background-color: #E8FBF0;
-      color: #10B981;
-    }
-    .bottom-bar-icon-box.yellow {
-      background-color: #FEF3C7;
-      color: #D97706;
-    }
-    .bottom-bar-icon-box.blue {
-      background-color: #EFF6FF;
-      color: #2563EB;
-    }
-
-    .bottom-bar-label {
-      font-size: 12px;
-      font-weight: 800;
-      color: #0F172A;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      display: none !important; 
     }
 
     /* MAIN CONTENT */
@@ -554,13 +471,14 @@
       .ticker-window { height: 260px; }
     }
 
+    /* MOBILE VIEW SPECIFIC (≤ 768px) */
     @media (max-width: 768px) {
       header { padding: 10px 16px; }
       .brand-text h1 { font-size: 16px; }
       .header-logo { width: 34px; height: 34px; }
       
       .nav-links-desktop { display: none; }
-      .header-auth-buttons { display: none; } 
+      .header-auth-buttons { display: none !important; } 
       .mobile-menu-toggle { display: flex; }
 
       .tab-btn {
@@ -568,6 +486,85 @@
         font-size: 12.5px;
       }
       .footer-grid { grid-template-columns: 1fr; }
+
+      body.is-logged-in {
+        padding-bottom: 85px;
+      }
+
+      /* INTACT MOBILE BOTTOM DOCK */
+      body.is-logged-in .mobile-bottom-bar {
+        display: flex !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: #FFFFFF;
+        border-top: 1.5px solid #DCE3EC;
+        border-top-left-radius: 24px;
+        border-top-right-radius: 24px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+        z-index: 9998;
+        padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .bottom-bar-item {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        text-decoration: none;
+        padding: 8px 6px;
+        border-radius: 16px;
+        border: 1.5px solid #E2E8F0;
+        background: #FFFFFF;
+        transition: var(--transition);
+      }
+      .bottom-bar-item:active {
+        transform: scale(0.97);
+      }
+      .bottom-bar-item.active {
+        border-color: #3B82F6;
+        box-shadow: 0 0 0 1px #3B82F6 inset;
+      }
+
+      .bottom-bar-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+      }
+      .bottom-bar-icon-box.green {
+        background-color: #E8FBF0;
+        color: #10B981;
+      }
+      .bottom-bar-icon-box.yellow {
+        background-color: #FEF3C7;
+        color: #D97706;
+      }
+      .bottom-bar-icon-box.blue {
+        background-color: #EFF6FF;
+        color: #2563EB;
+      }
+
+      .bottom-bar-label {
+        font-size: 13px;
+        font-weight: 800;
+        color: #0F172A;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
     }
   </style>
 </head>
@@ -606,22 +603,10 @@
         </div>
       </nav>
 
-      <!-- Desktop Auth Header Buttons -->
+      <!-- Desktop Guest Auth Buttons (hidden after sign in) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
-        <!-- Guest View -->
-        <div id="authGuest" style="display: flex; gap: 8px;">
-          <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
-          <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
-        </div>
-        <!-- Signed-in View -->
-        <div id="authUser" style="display: none; align-items: center; gap: 8px;">
-          <a href="profile.html" class="btn-header-auth">
-            <i class="fa-solid fa-circle-user"></i> Profile
-          </a>
-          <button type="button" class="btn-header-auth btn-signout" onclick="handleSignOut()">
-            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-          </button>
-        </div>
+        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
       </div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
@@ -639,13 +624,9 @@
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
     
-    <!-- Mobile Guest View -->
+    <!-- Mobile Guest View (hidden after sign in) -->
     <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
     <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
-
-    <!-- Mobile Signed-in View -->
-    <a href="profile.html" id="mDrawerProfile" style="display: none;">👤 My Profile</a>
-    <a href="javascript:void(0)" id="mDrawerSignOut" onclick="handleSignOut()" style="display: none; color: #FCA5A5;">🚪 Sign Out</a>
   </div>
 </header>
 
@@ -750,7 +731,7 @@
   </div>
 </main>
 
-<!-- INTACT BOTTOM DOCK (Enquiries, Profile, Students) -->
+<!-- MOBILE INTACT BOTTOM DOCK (Visible strictly on mobile when logged in) -->
 <nav class="mobile-bottom-bar" id="mobileBottomBar">
   <a href="enquiries.html" class="bottom-bar-item">
     <div class="bottom-bar-icon-box green">
@@ -758,7 +739,7 @@
     </div>
     <span class="bottom-bar-label"><i class="fa-solid fa-comment-dots" style="color:#C084FC; font-size:11px;"></i> Enquiries</span>
   </a>
-  <a href="profile.html" class="bottom-bar-item">
+  <a href="profile.html" class="bottom-bar-item active">
     <div class="bottom-bar-icon-box yellow">
       <i class="fa-solid fa-id-badge"></i>
     </div>
@@ -835,7 +816,7 @@
     }
   }
 
-  // --- AUTOMATIC AUTH DETECTION & UI SYNC ---
+  // --- LOCAL & SUPABASE SESSION SYNC ---
   const SUPABASE_URL = 'YOUR_SUPABASE_URL';
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
   let client = null;
@@ -861,37 +842,27 @@
   }
 
   function setAuthenticatedUI(isLoggedIn) {
-    const guestGroup = document.getElementById('authGuest');
-    const userGroup = document.getElementById('authUser');
+    const headerAuth = document.getElementById('headerAuthGroup');
     const mSignIn = document.getElementById('mDrawerSignIn');
     const mSignUp = document.getElementById('mDrawerSignUp');
-    const mProfile = document.getElementById('mDrawerProfile');
-    const mSignOut = document.getElementById('mDrawerSignOut');
 
     if (isLoggedIn) {
-      document.body.classList.add('is-logged-in', 'has-bottom-nav');
-      if (guestGroup) guestGroup.style.display = 'none';
-      if (userGroup) userGroup.style.display = 'flex';
+      document.body.classList.add('is-logged-in');
+      if (headerAuth) headerAuth.style.display = 'none';
       if (mSignIn) mSignIn.style.display = 'none';
       if (mSignUp) mSignUp.style.display = 'none';
-      if (mProfile) mProfile.style.display = 'flex';
-      if (mSignOut) mSignOut.style.display = 'flex';
     } else {
-      document.body.classList.remove('is-logged-in', 'has-bottom-nav');
-      if (guestGroup) guestGroup.style.display = 'flex';
-      if (userGroup) userGroup.style.display = 'none';
+      document.body.classList.remove('is-logged-in');
+      if (headerAuth) headerAuth.style.display = 'flex';
       if (mSignIn) mSignIn.style.display = 'flex';
       if (mSignUp) mSignUp.style.display = 'flex';
-      if (mProfile) mProfile.style.display = 'none';
-      if (mSignOut) mSignOut.style.display = 'none';
     }
   }
 
-  // Check storage directly on page load
-  const hasLocalSession = checkStoredSession();
-  setAuthenticatedUI(hasLocalSession);
+  // Immediate local session check
+  setAuthenticatedUI(checkStoredSession());
 
-  // Client-side Supabase watcher
+  // Supabase listener
   if (typeof supabase !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('YOUR_SUPABASE_URL')) {
     client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -902,20 +873,6 @@
     client.auth.onAuthStateChange((_event, session) => {
       setAuthenticatedUI(!!(session && session.user));
     });
-  }
-
-  async function handleSignOut() {
-    if (client) {
-      await client.auth.signOut();
-    }
-    for (let i = localStorage.length - 1; i >= 0; i--) {
-      const key = localStorage.key(i);
-      if (key && (key.startsWith('sb-') || key.includes('supabase.auth.token'))) {
-        localStorage.removeItem(key);
-      }
-    }
-    setAuthenticatedUI(false);
-    window.location.href = 'index.html';
   }
 
   function submitFeedback() {
