@@ -3145,7 +3145,7 @@ function handleStudentCompOther() {
 async function loginWithOAuth(provider) {
   if (provider === 'google' && window.google) {
     google.accounts.id.initialize({
-      client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", // <-- paste your Client ID here
+      client_id: "PASTE_YOUR_GOOGLE_CLIENT_ID_HERE.apps.googleusercontent.com",
       callback: async (response) => {
         sessionStorage.setItem("apex_oauth_pending", "true");
         const { data, error } = await db.auth.signInWithIdToken({
@@ -3161,10 +3161,23 @@ async function loginWithOAuth(provider) {
         }
       }
     });
+
+    // Opens the Google Sign-In prompt directly on apextuitions.com
     google.accounts.id.prompt();
     return;
   }
 
+  // Fallback for Microsoft
+  sessionStorage.setItem("apex_oauth_pending", "true");
+  const { error } = await db.auth.signInWithOAuth({
+    provider,
+    options: { redirectTo: window.location.origin + window.location.pathname }
+  });
+  if (error) {
+    sessionStorage.removeItem("apex_oauth_pending");
+    showMsg("heroAuthMsg", error.message, false);
+  }
+}
   // Standard redirect fallback for Microsoft
   sessionStorage.setItem("apex_oauth_pending", "true");
   const { error } = await db.auth.signInWithOAuth({
