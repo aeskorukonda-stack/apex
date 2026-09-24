@@ -3154,57 +3154,52 @@ function handleStudentCompOther() {
 }
 
  async function loginWithOAuth(provider) {
-  if (provider === 'google' && window.google) {
-    // 1. Put your real Google Client ID here
-    const GOOGLE_CLIENT_ID = "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com";
+    if (provider === 'google' && window.google) {
+      google.accounts.id.initialize({
+        client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+        callback: async (response) => {
+          showMsg("heroAuthMsg", "Signing in with Google...", true);
+          sessionStorage.setItem("apex_oauth_pending", "true");
 
-    if (GOOGLE_CLIENT_ID.includes("112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com")) {
-      alert("112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com");
+          const { data, error } = await db.auth.signInWithIdToken({
+            provider: 'google',
+            token: response.credential
+          });
+
+          if (error) {
+            sessionStorage.removeItem("apex_oauth_pending");
+            showMsg("heroAuthMsg", error.message, false);
+          } else if (data?.user) {
+            localStorage.setItem("apex_cached_auth", "true");
+            renderAuthenticatedHome(data.user);
+          }
+        }
+      });
+
+      // Renders the Google prompt directly on apextuitions.com
+      google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          // If browser popups/cookies block One Tap, trigger direct redirect flow
+          db.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.origin + window.location.pathname }
+          });
+        }
+      });
       return;
     }
 
-    // 2. Launch Google's direct branded popup on apextuitions.com
-    const client = google.accounts.oauth2.initCodeClient({
-      client_id: GOOGLE_CLIENT_ID,
-      scope: 'openid email profile',
-      ux_mode: 'popup',
-      callback: async (response) => {
-        if (response.error) {
-          showMsg("heroAuthMsg", response.error, false);
-          return;
-        }
-
-        showMsg("heroAuthMsg", "Signing in with Google...", true);
-        sessionStorage.setItem("apex_oauth_pending", "true");
-
-        // Exchange the code with your Supabase auth instance
-        const { data, error } = await db.auth.exchangeCodeForSession(response.code);
-
-        if (error) {
-          sessionStorage.removeItem("apex_oauth_pending");
-          showMsg("heroAuthMsg", error.message, false);
-        } else if (data?.user) {
-          localStorage.setItem("apex_cached_auth", "true");
-          renderAuthenticatedHome(data.user);
-        }
-      }
+    // Microsoft OAuth flow
+    sessionStorage.setItem("apex_oauth_pending", "true");
+    const { error } = await db.auth.signInWithOAuth({
+      provider,
+      options: { redirectTo: window.location.origin + window.location.pathname }
     });
-
-    client.requestCode();
-    return;
+    if (error) {
+      sessionStorage.removeItem("apex_oauth_pending");
+      showMsg("heroAuthMsg", error.message, false);
+    }
   }
-
-  // Microsoft OAuth flow (Free tier requires standard redirect)
-  sessionStorage.setItem("apex_oauth_pending", "true");
-  const { error } = await db.auth.signInWithOAuth({
-    provider,
-    options: { redirectTo: window.location.origin + window.location.pathname }
-  });
-  if (error) {
-    sessionStorage.removeItem("apex_oauth_pending");
-    showMsg("heroAuthMsg", error.message, false);
-  }
-}
 async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
