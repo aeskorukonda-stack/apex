@@ -109,7 +109,6 @@
       gap: 8px;
     }
 
-    /* Hide immediately on all screens when authenticated */
     #headerAuthGroup.hidden,
     body.logged-in-mobile #headerAuthGroup {
       display: none !important;
@@ -270,10 +269,7 @@
       padding: 1px;
     }
 
-    .card-info {
-      flex: 1;
-      min-width: 0;
-    }
+    .card-info { flex: 1; min-width: 0; }
     .card-name-title {
       font-size: 15px;
       font-weight: 800;
@@ -433,10 +429,7 @@
       justify-content: space-between;
       animation: pulse 1.5s infinite ease-in-out;
     }
-    .skeleton-line {
-      background: #E2E8F0;
-      border-radius: 6px;
-    }
+    .skeleton-line { background: #E2E8F0; border-radius: 6px; }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.45; }
@@ -452,7 +445,7 @@
     }
     .empty-state i { font-size: 32px; color: #CBD5E1; margin-bottom: 10px; display: block; }
 
-    /* Bottom dock - hidden by default */
+    /* BOTTOM DOCK (Hidden by default for guests) */
     .mobile-bottom-dock {
       display: none;
     }
@@ -474,69 +467,99 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
-    /* MOBILE VIEWPORT */
+    /* SCREENSHOT 2 BOTTOM DOCK LAYOUT */
     @media (max-width: 768px) {
       body.logged-in-mobile {
-        padding-bottom: 84px !important;
+        padding-bottom: 96px !important;
       }
-      
-      /* Make bottom dock intact with the bottom screen edge */
+
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
+        gap: 10px;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
         background: #FFFFFF !important;
-        padding: 8px 12px max(8px, env(safe-area-inset-bottom)) !important;
-        border-top: 1.5px solid #CBD5E1 !important;
-        border-radius: 14px 14px 0 0 !important;
-        box-shadow: 0 -4px 16px rgba(10, 25, 47, 0.1) !important;
+        padding: 8px 10px max(8px, env(safe-area-inset-bottom)) !important;
+        border-top: 1.5px solid #E2E8F0 !important;
+        border-radius: 20px 20px 0 0 !important;
+        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08) !important;
         z-index: 99999 !important;
+        align-items: center;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
 
-      .dock-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 6px;
-        padding: 9px 4px;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 11px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-align: center;
-        border: 1.5px solid #E2E8F0;
-        background: #F8FAFC;
-        color: #0A192F;
-        position: relative;
-      }
-      .dock-btn:active {
-        background: #EEF2F6;
-      }
-      .dock-btn-label-stacked {
+      .dock-card-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 14px;
+        padding: 6px 4px 8px;
+        text-decoration: none;
+        position: relative;
+        transition: var(--transition);
       }
+      .dock-card-btn:hover, .dock-card-btn:active, .dock-card-btn.active {
+        border-color: #3B82F6;
+        background: #FFFFFF;
+      }
+
+      /* Rounded icon badge squircle */
+      .dock-icon-squircle {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
+        font-size: 18px;
+      }
+      .dock-icon-green {
+        background-color: #E6FBF2;
+        color: #10B981;
+      }
+      .dock-icon-amber {
+        background-color: #FEF3C7;
+        color: #D97706;
+      }
+      .dock-icon-blue {
+        background-color: #EFF6FF;
+        color: #2563EB;
+      }
+
+      /* Text label below icon */
+      .dock-label-text {
+        font-size: 12.5px;
+        font-weight: 800;
+        color: #0A192F;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        line-height: 1;
+      }
+      .dock-label-text i {
+        font-size: 11px;
+      }
+
       .dock-badge {
         position: absolute;
-        top: -5px;
-        right: -3px;
+        top: -4px;
+        right: 4px;
         background: #EF4444;
         color: #FFFFFF;
         font-size: 9.5px;
         font-weight: 800;
         border-radius: 10px;
-        padding: 1px 5px;
+        padding: 1px 6px;
       }
 
       main { padding: 12px 10px 20px !important; }
@@ -577,7 +600,7 @@
         </div>
       </nav>
 
-      <!-- DEDICATED HEADER AUTH BUTTONS (Visible for guests on all pages) -->
+      <!-- DEDICATED HEADER AUTH BUTTONS (Hidden when authenticated) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
@@ -738,31 +761,37 @@
   </div>
 </main>
 
-<!-- BOTTOM DOCK (Hidden for guests, appears fixed and intact when logged in) -->
+<!-- BOTTOM DOCK (MATCHING SCREENSHOT 2 UI) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn">
-    <i class="fa-solid fa-clipboard-list" style="color: #059669; font-size:14px;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>My</span>
-      <span>Enquiries</span>
+  <!-- Enquiries Button -->
+  <a href="enquiries.html" class="dock-card-btn" id="dockEnquiriesBtn">
+    <div class="dock-icon-squircle dock-icon-green">
+      <i class="fa-solid fa-comments"></i>
     </div>
+    <span class="dock-label-text">
+      <i class="fa-regular fa-comment" style="color: #6366F1;"></i> Enquiries
+    </span>
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <a href="profile.html" class="dock-btn">
-    <i class="fa-solid fa-user" style="color: #6366F1; font-size:14px;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>View My</span>
-      <span>Profile</span>
+  <!-- Profile Button -->
+  <a href="profile.html" class="dock-card-btn" id="dockProfileBtn">
+    <div class="dock-icon-squircle dock-icon-amber">
+      <i class="fa-solid fa-id-badge"></i>
     </div>
+    <span class="dock-label-text">
+      <i class="fa-solid fa-user" style="color: #6366F1;"></i> Profile
+    </span>
   </a>
 
-  <a href="browse.html" class="dock-btn">
-    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7; font-size:14px;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>Browse</span>
-      <span id="dockBrowseLabel">Teachers</span>
+  <!-- Directory / Browse Button -->
+  <a href="browse.html" class="dock-card-btn active" id="dockBrowseBtn">
+    <div class="dock-icon-squircle dock-icon-blue">
+      <i class="fa-solid fa-compass"></i>
     </div>
+    <span class="dock-label-text">
+      <i class="fa-solid fa-magnifying-glass" style="color: #3B82F6;"></i> <span id="dockBrowseLabel">Students</span>
+    </span>
   </a>
 </nav>
 
@@ -1137,7 +1166,6 @@ function setAuthState(isAuthenticated) {
   const authGroup = document.getElementById("headerAuthGroup");
   const mSignIn = document.getElementById("mDrawerSignIn");
   const mSignUp = document.getElementById("mDrawerSignUp");
-  const bottomDock = document.getElementById("mobileBottomDock");
 
   if (isAuthenticated) {
     document.body.classList.add("logged-in-mobile");
@@ -1158,7 +1186,7 @@ function setAuthState(isAuthenticated) {
   }
 }
 
-// Instant synchronous check using cached state to prevent layout flash
+// Instant check to avoid layout shift
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
@@ -1175,7 +1203,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     localStorage.setItem("apex_cached_auth", "true");
     setAuthState(true);
 
-    // Fetch user profile
+    // Fetch user profile to adapt student/teacher label
     const { data: t } = await db.from("teachers").select("teacher_name, mobile").eq("id", currentUser.id).maybeSingle();
     if (t) {
       currentRole = 'teacher';
@@ -1187,9 +1215,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-    if (dockBrowseLabel) dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
+    if (dockBrowseLabel) {
+      dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
+    }
 
-    // Non-blocking enquiry counter
+    // Unread enquiry badge indicator
     db.from("enquiries")
       .select("id", { count: 'exact', head: true })
       .eq("recipient_id", currentUser.id)
