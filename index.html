@@ -278,7 +278,7 @@
       color: #ffffff;
       padding: 42px 24px 60px;
       position: relative;
-      overflow: hidden;
+      overflow: visible;
       border-bottom: 3px solid var(--apex-gold);
     }
     .grand-hero-wrap::before {
@@ -1191,15 +1191,16 @@
       top: calc(100% + 4px);
       left: 0;
       right: 0;
-      max-height: 180px;
+      max-height: 170px;
       overflow-y: auto;
       background: #FFFFFF;
       border: 1.5px solid var(--border-subtle);
       border-radius: 10px;
-      box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15);
-      z-index: 3000;
+      box-shadow: 0 12px 28px rgba(10, 25, 47, 0.22);
+      z-index: 99999;
       padding: 6px;
       display: none;
+      -webkit-overflow-scrolling: touch;
     }
     .multiselect-dropdown-box.show { display: block; }
     .multiselect-item {
