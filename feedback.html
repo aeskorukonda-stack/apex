@@ -48,7 +48,7 @@
     }
 
     body.has-bottom-nav {
-      padding-bottom: 74px; /* Space for sticky bottom nav when logged in */
+      padding-bottom: 90px; /* Space for the floating bottom pill bar */
     }
 
     /* HEADER */
@@ -186,12 +186,21 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 6px;
       white-space: nowrap;
     }
     .btn-header-auth:hover {
       background: rgba(255, 255, 255, 0.16);
       border-color: #ffffff;
       transform: translateY(-1px);
+    }
+    .btn-signout {
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #FCA5A5 !important;
+    }
+    .btn-signout:hover {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #EF4444;
     }
 
     .mobile-menu-toggle {
@@ -228,45 +237,85 @@
       font-size: 14.5px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    /* BOTTOM MOBILE NAVBAR (HIDDEN UNTIL AUTHENTICATED) */
+    /* BOTTOM FLOATING ACTION BAR: Displayed ONLY when authenticated */
     .mobile-bottom-bar {
-      display: none; /* Never show unless .auth-logged-in is applied */
+      display: none;
       position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: #ffffff;
-      border-top: 1px solid var(--border-subtle);
-      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
       z-index: 9998;
-      padding: 8px 16px env(safe-area-inset-bottom, 8px);
-      justify-content: space-around;
+      padding: 8px 12px;
+      gap: 10px;
       align-items: center;
+      max-width: 95vw;
     }
     body.is-logged-in .mobile-bottom-bar {
       display: flex;
     }
+
     .bottom-bar-item {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      justify-content: center;
+      gap: 6px;
       text-decoration: none;
-      color: #475569;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 6px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--border-subtle);
+      padding: 10px 18px;
+      border-radius: 14px;
+      border: 1px solid #E2E8F0;
       background: #FFFFFF;
-      min-width: 90px;
-      text-align: center;
+      min-width: 96px;
+      transition: var(--transition);
+      cursor: pointer;
     }
-    .bottom-bar-item i {
-      font-size: 14px;
-      color: var(--royal-blue);
+    .bottom-bar-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .bottom-bar-item.active {
+      border: 1.5px solid #3B82F6;
+      box-shadow: 0 0 0 1px #3B82F6 inset;
+    }
+
+    .bottom-bar-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+    .bottom-bar-icon-box.green {
+      background-color: #E8FBF0;
+      color: #10B981;
+    }
+    .bottom-bar-icon-box.yellow {
+      background-color: #FEF3C7;
+      color: #D97706;
+    }
+    .bottom-bar-icon-box.blue {
+      background-color: #EFF6FF;
+      color: #2563EB;
+    }
+
+    .bottom-bar-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: #0F172A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* MAIN CONTENT */
@@ -499,7 +548,6 @@
       color: #64748B;
     }
 
-    /* RESPONSIVE FIXES FOR CLUMSY HEADER */
     @media (max-width: 900px) {
       .layout-grid { grid-template-columns: 1fr; }
       .ticker-window { height: 260px; }
@@ -510,7 +558,6 @@
       .brand-text h1 { font-size: 16px; }
       .header-logo { width: 34px; height: 34px; }
       
-      /* Hide desktop navbar and auth buttons from tiny top bar */
       .nav-links-desktop { display: none; }
       .header-auth-buttons { display: none; } 
       .mobile-menu-toggle { display: flex; }
@@ -520,6 +567,19 @@
         font-size: 12.5px;
       }
       .footer-grid { grid-template-columns: 1fr; }
+      
+      .bottom-bar-item {
+        padding: 6px 12px;
+        min-width: 80px;
+      }
+      .bottom-bar-icon-box {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+      }
+      .bottom-bar-label {
+        font-size: 11.5px;
+      }
     }
   </style>
 </head>
@@ -558,10 +618,22 @@
         </div>
       </nav>
 
-      <!-- Desktop-only auth buttons -->
+      <!-- Desktop Auth Elements: Guest (Sign In/Up) vs Logged In (Profile/Sign Out) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
-        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
-        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+        <!-- Guest State -->
+        <div id="authGuest" style="display: flex; gap: 8px;">
+          <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+          <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+        </div>
+        <!-- Logged-in State (hidden by default) -->
+        <div id="authUser" style="display: none; align-items: center; gap: 8px;">
+          <a href="profile.html" class="btn-header-auth">
+            <i class="fa-solid fa-circle-user"></i> Profile
+          </a>
+          <button type="button" class="btn-header-auth btn-signout" onclick="handleSignOut()">
+            <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+          </button>
+        </div>
       </div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
@@ -570,7 +642,7 @@
     </div>
   </div>
 
-  <!-- Mobile Drawer Menu containing auth + pages -->
+  <!-- Mobile Drawer Menu -->
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
     <a href="browse.html">📚 Browse</a>
@@ -578,8 +650,14 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
+    
+    <!-- Mobile Guest links -->
     <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
     <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
+
+    <!-- Mobile Authenticated links -->
+    <a href="profile.html" id="mDrawerProfile" style="display: none;">👤 My Profile</a>
+    <a href="javascript:void(0)" id="mDrawerSignOut" onclick="handleSignOut()" style="display: none; color: #FCA5A5;">🚪 Sign Out</a>
   </div>
 </header>
 
@@ -684,19 +762,25 @@
   </div>
 </main>
 
-<!-- BOTTOM ACTION BAR: Displayed ONLY when authenticated -->
+<!-- BOTTOM FLOATING BAR: Shows Enquiries, Profile, and Students -->
 <nav class="mobile-bottom-bar" id="mobileBottomBar">
-  <a href="enquiries.html" class="bottom-bar-item">
-    <i class="fa-solid fa-clipboard-list"></i>
-    <span>Enquiries</span>
+  <a href="enquiries.html" class="bottom-bar-item active">
+    <div class="bottom-bar-icon-box green">
+      <i class="fa-solid fa-comments"></i>
+    </div>
+    <span class="bottom-bar-label">💬 Enquiries</span>
   </a>
   <a href="profile.html" class="bottom-bar-item">
-    <i class="fa-solid fa-circle-user"></i>
-    <span>View My Profile</span>
+    <div class="bottom-bar-icon-box yellow">
+      <i class="fa-solid fa-id-badge"></i>
+    </div>
+    <span class="bottom-bar-label">👤 Profile</span>
   </a>
   <a href="browse.html" class="bottom-bar-item">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span>Browse Teachers</span>
+    <div class="bottom-bar-icon-box blue">
+      <i class="fa-solid fa-compass"></i>
+    </div>
+    <span class="bottom-bar-label">🔍 Students</span>
   </a>
 </nav>
 
@@ -763,35 +847,105 @@
     }
   }
 
-  // Supabase Auth Guard for the bottom navigation bar
-  // Replace SUPABASE_URL and SUPABASE_ANON_KEY with your project credentials
+  // --- AUTOMATIC AUTH DETECTION & UI SYNC ---
+  // Replace with your project details if desired, though fallback works with existing localStorage sessions!
   const SUPABASE_URL = 'YOUR_SUPABASE_URL';
   const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
-  
-  if (typeof supabase !== 'undefined' && SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let client = null;
 
-    async function checkAuthStatus() {
-      const { data: { session } } = await client.auth.getSession();
-      updateAuthUI(session);
-
-      client.auth.onAuthStateChange((_event, session) => {
-        updateAuthUI(session);
-      });
-    }
-
-    function updateAuthUI(session) {
-      if (session && session.user) {
-        document.body.classList.add('is-logged-in', 'has-bottom-nav');
-        if (document.getElementById('headerAuthGroup')) {
-          document.getElementById('headerAuthGroup').style.display = 'none';
+  function checkStoredSession() {
+    try {
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && (key.startsWith('sb-') || key.includes('supabase.auth.token')) && key.endsWith('-auth-token')) {
+          const raw = localStorage.getItem(key);
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && (parsed.access_token || parsed.user || (parsed.currentSession && parsed.currentSession.user))) {
+              return true;
+            }
+          }
         }
-      } else {
-        document.body.classList.remove('is-logged-in', 'has-bottom-nav');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+    return false;
+  }
+
+  function setAuthenticatedUI(isLoggedIn) {
+    const guestGroup = document.getElementById('authGuest');
+    const userGroup = document.getElementById('authUser');
+    const mSignIn = document.getElementById('mDrawerSignIn');
+    const mSignUp = document.getElementById('mDrawerSignUp');
+    const mProfile = document.getElementById('mDrawerProfile');
+    const mSignOut = document.getElementById('mDrawerSignOut');
+
+    if (isLoggedIn) {
+      document.body.classList.add('is-logged-in', 'has-bottom-nav');
+      if (guestGroup) guestGroup.style.display = 'none';
+      if (userGroup) userGroup.style.display = 'flex';
+      if (mSignIn) mSignIn.style.display = 'none';
+      if (mSignUp) mSignUp.style.display = 'none';
+      if (mProfile) mProfile.style.display = 'flex';
+      if (mSignOut) mSignOut.style.display = 'flex';
+    } else {
+      document.body.classList.remove('is-logged-in', 'has-bottom-nav');
+      if (guestGroup) guestGroup.style.display = 'flex';
+      if (userGroup) userGroup.style.display = 'none';
+      if (mSignIn) mSignIn.style.display = 'flex';
+      if (mSignUp) mSignUp.style.display = 'flex';
+      if (mProfile) mProfile.style.display = 'none';
+      if (mSignOut) mSignOut.style.display = 'none';
+    }
+  }
+
+  // 1. Immediate local session check to avoid flicker
+  const hasLocalSession = checkStoredSession();
+  setAuthenticatedUI(hasLocalSession);
+
+  // 2. Supabase SDK Client Sync
+  if (typeof supabase !== 'undefined' && SUPABASE_URL && !SUPABASE_URL.includes('YOUR_SUPABASE_URL')) {
+    client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    client.auth.getSession().then(({ data: { session } }) => {
+      setAuthenticatedUI(!!(session && session.user));
+    });
+
+    client.auth.onAuthStateChange((_event, session) => {
+      setAuthenticatedUI(!!(session && session.user));
+    });
+  }
+
+  async function handleSignOut() {
+    if (client) {
+      await client.auth.signOut();
+    }
+    // Clear tokens in storage
+    for (let i = localStorage.length - 1; i >= 0; i--) {
+      const key = localStorage.key(i);
+      if (key && (key.startsWith('sb-') || key.includes('supabase.auth.token'))) {
+        localStorage.removeItem(key);
       }
     }
+    setAuthenticatedUI(false);
+    window.location.href = 'index.html';
+  }
 
-    checkAuthStatus();
+  function submitFeedback() {
+    const msg = document.getElementById('fbMsg');
+    msg.className = 'msg success';
+    msg.textContent = 'Feedback submitted successfully!';
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 3500);
+  }
+
+  function submitHelpQuery() {
+    const msg = document.getElementById('helpMsg');
+    msg.className = 'msg success';
+    msg.textContent = 'Support request sent successfully!';
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 3500);
   }
 </script>
 </body>
