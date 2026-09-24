@@ -2068,34 +2068,45 @@
 
             <div class="form-group-half" id="sAcademicGradeGroup">
               <label>Class / Grade (1 to 12)</label>
-              <select id="sClass">
-                <option value="Class 1">Grade 1</option>
-                <option value="Class 2">Grade 2</option>
-                <option value="Class 3">Grade 3</option>
-                <option value="Class 4">Grade 4</option>
-                <option value="Class 5">Grade 5</option>
-                <option value="Class 6">Grade 6</option>
-                <option value="Class 7">Grade 7</option>
-                <option value="Class 8">Grade 8</option>
-                <option value="Class 9">Grade 9</option>
-                <option value="Class 10" selected>Grade 10</option>
-                <option value="Class 11">Grade 11</option>
-                <option value="Class 12">Grade 12</option>
-              </select>
+              <input type="hidden" id="sClass" value="Class 10">
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="sClassTrigger" onclick="toggleMultiDropdown('sClassDropdown')">
+                  Grade 10 <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+                </div>
+                <div class="multiselect-dropdown-box" id="sClassDropdown">
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 1', 'Grade 1')">Grade 1</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 2', 'Grade 2')">Grade 2</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 3', 'Grade 3')">Grade 3</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 4', 'Grade 4')">Grade 4</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 5', 'Grade 5')">Grade 5</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 6', 'Grade 6')">Grade 6</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 7', 'Grade 7')">Grade 7</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 8', 'Grade 8')">Grade 8</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 9', 'Grade 9')">Grade 9</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 10', 'Grade 10')">Grade 10</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 11', 'Grade 11')">Grade 11</div>
+                  <div class="multiselect-item" onclick="selectStudentClass('Class 12', 'Grade 12')">Grade 12</div>
+                </div>
+              </div>
             </div>
 
             <div class="form-group-half" id="sAcademicBoardsGroup">
               <label>Board</label>
-              <select id="sBoard" onchange="handleStudentBoardOther()">
-                <option value="CBSE">CBSE</option>
-                <option value="ICSE">ICSE</option>
-                <option value="IGCSE">IGCSE</option>
-                <option value="IB">IB</option>
-                <option value="State">State Board</option>
-                <option value="Others">Others</option>
-              </select>
-            </div>
-            <div class="form-group-full hidden" id="sBoardOtherGroup">
+              <input type="hidden" id="sBoard" value="CBSE">
+              <div class="custom-multiselect">
+                <div class="multiselect-trigger" id="sBoardTrigger" onclick="toggleMultiDropdown('sBoardDropdown')">
+                  CBSE <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
+                </div>
+                <div class="multiselect-dropdown-box" id="sBoardDropdown">
+                  <div class="multiselect-item" onclick="selectStudentBoard('CBSE', 'CBSE')">CBSE</div>
+                  <div class="multiselect-item" onclick="selectStudentBoard('ICSE', 'ICSE')">ICSE</div>
+                  <div class="multiselect-item" onclick="selectStudentBoard('IGCSE', 'IGCSE')">IGCSE</div>
+                  <div class="multiselect-item" onclick="selectStudentBoard('IB', 'IB')">IB</div>
+                  <div class="multiselect-item" onclick="selectStudentBoard('State', 'State Board')">State Board</div>
+                  <div class="multiselect-item" onclick="selectStudentBoard('Others', 'Others')">Others</div>
+                </div>
+              </div>
+            </div>            <div class="form-group-full hidden" id="sBoardOtherGroup">
               <label>Specify Board</label>
               <input id="sBoardOtherInput" type="text" placeholder="Specify board">
             </div>
@@ -3070,7 +3081,20 @@ function handleTeacherCategoryChange() {
   document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
   document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
 }
+function selectStudentClass(val, label) {
+  document.getElementById("sClass").value = val;
+  document.getElementById("sClassTrigger").innerHTML = `${label} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  document.getElementById("sClassDropdown").classList.remove("show");
+  document.getElementById("sClassTrigger").classList.remove("open");
+}
 
+function selectStudentBoard(val, label) {
+  document.getElementById("sBoard").value = val;
+  document.getElementById("sBoardTrigger").innerHTML = `${label} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
+  document.getElementById("sBoardDropdown").classList.remove("show");
+  document.getElementById("sBoardTrigger").classList.remove("open");
+  handleStudentBoardOther();
+}
 function handleBoardOtherToggle(p) {
   const cb = document.getElementById(p + "BoardOtherCb");
   document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
