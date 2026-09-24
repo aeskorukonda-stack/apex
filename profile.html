@@ -539,6 +539,7 @@
       color: var(--text-main);
       outline: none;
       transition: var(--transition);
+      background-color: #FFFFFF;
     }
     .form-control:focus {
       border-color: var(--royal-blue);
@@ -560,6 +561,78 @@
       border-radius: 8px;
       font-size: 13.5px;
       color: #334155;
+    }
+
+    /* DROPDOWN CHECKLIST STYLING */
+    .checklist-dropdown {
+      position: relative;
+    }
+    .checklist-header {
+      width: 100%;
+      min-height: 42px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1.5px solid var(--border-subtle);
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--text-main);
+      user-select: none;
+    }
+    .checklist-header:after {
+      content: "\f078";
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      font-size: 10px;
+      color: var(--text-muted);
+      transition: transform 0.2s ease;
+    }
+    .checklist-dropdown.open .checklist-header:after {
+      transform: rotate(180deg);
+    }
+    .checklist-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      margin-top: 4px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      padding: 6px;
+    }
+    .checklist-dropdown.open .checklist-options {
+      display: block;
+    }
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+      transition: background 0.15s ease;
+    }
+    .check-item:hover {
+      background: #F1F5F9;
+    }
+    .check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--royal-blue);
+      cursor: pointer;
     }
 
     .modal-footer {
@@ -884,7 +957,7 @@
   </div>
 </main>
 
-<!-- EDIT PROFILE MODAL (3 STEPS) -->
+<!-- EDIT PROFILE MODAL (3 STEPS WITH DROPDOWNS & CHECKLISTS) -->
 <div class="app-modal-overlay" id="editModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -912,41 +985,108 @@
             <input type="tel" id="fPhone" class="form-control" placeholder="Phone">
           </div>
         </div>
+        
+        <!-- SINGLE SELECT DROPDOWN -->
         <div class="form-group">
           <label>Tuition Mode</label>
           <select id="fMode" class="form-control">
             <option value="Online">Online</option>
-            <option value="Offline">Offline</option>
-            <option value="Both">Both</option>
+            <option value="Offline / Home">Offline / Home</option>
+            <option value="Both">Both (Online & Offline)</option>
           </select>
         </div>
+
         <div class="form-group">
           <label>Location</label>
-          <input type="text" id="fLocation" class="form-control" placeholder="City, Area">
+          <input type="text" id="fLocation" class="form-control" placeholder="City, Area (e.g. Vizag, Anakapalli)">
         </div>
+
+        <!-- SINGLE SELECT QUALIFICATION DROPDOWN -->
         <div class="form-group">
           <label>Qualification</label>
-          <input type="text" id="fQual" class="form-control" placeholder="e.g. M.Sc., B.Ed.">
+          <select id="fQual" class="form-control">
+            <option value="B.Tech">B.Tech</option>
+            <option value="B.Ed.">B.Ed.</option>
+            <option value="M.Sc.">M.Sc.</option>
+            <option value="M.Sc., B.Ed.">M.Sc., B.Ed.</option>
+            <option value="B.Sc.">B.Sc.</option>
+            <option value="B.A.">B.A.</option>
+            <option value="M.A.">M.A.</option>
+            <option value="M.Tech">M.Tech</option>
+            <option value="Ph.D.">Ph.D.</option>
+            <option value="Other">Other</option>
+          </select>
         </div>
+
         <div class="form-group">
           <label>Experience (Years)</label>
           <input type="text" id="fExp" class="form-control" placeholder="e.g. 5">
         </div>
       </div>
 
-      <!-- STEP 2: CATEGORY -->
+      <!-- STEP 2: CATEGORY WITH DROPDOWN CHECKLISTS -->
       <div id="modalStep2" class="hidden">
+        <!-- GRADES DROPDOWN CHECKLIST -->
         <div class="form-group">
           <label>Grades / Classes</label>
-          <input type="text" id="fGrades" class="form-control" placeholder="e.g. Class 8, Class 9, Class 10">
+          <div class="checklist-dropdown" id="ddGrades">
+            <div class="checklist-header" onclick="toggleChecklist('ddGrades')">
+              <span id="ddGradesText">Select Grades...</span>
+            </div>
+            <div class="checklist-options">
+              <label class="check-item"><input type="checkbox" value="Class 1" onchange="syncChecklist('ddGrades')"> Class 1</label>
+              <label class="check-item"><input type="checkbox" value="Class 2" onchange="syncChecklist('ddGrades')"> Class 2</label>
+              <label class="check-item"><input type="checkbox" value="Class 3" onchange="syncChecklist('ddGrades')"> Class 3</label>
+              <label class="check-item"><input type="checkbox" value="Class 4" onchange="syncChecklist('ddGrades')"> Class 4</label>
+              <label class="check-item"><input type="checkbox" value="Class 5" onchange="syncChecklist('ddGrades')"> Class 5</label>
+              <label class="check-item"><input type="checkbox" value="Class 6" onchange="syncChecklist('ddGrades')"> Class 6</label>
+              <label class="check-item"><input type="checkbox" value="Class 7" onchange="syncChecklist('ddGrades')"> Class 7</label>
+              <label class="check-item"><input type="checkbox" value="Class 8" onchange="syncChecklist('ddGrades')"> Class 8</label>
+              <label class="check-item"><input type="checkbox" value="Class 9" onchange="syncChecklist('ddGrades')"> Class 9</label>
+              <label class="check-item"><input type="checkbox" value="Class 10" onchange="syncChecklist('ddGrades')"> Class 10</label>
+              <label class="check-item"><input type="checkbox" value="Class 11 / Intermediate" onchange="syncChecklist('ddGrades')"> Class 11 / Intermediate</label>
+              <label class="check-item"><input type="checkbox" value="Class 12 / Intermediate" onchange="syncChecklist('ddGrades')"> Class 12 / Intermediate</label>
+            </div>
+          </div>
         </div>
+
+        <!-- BOARD DROPDOWN CHECKLIST -->
         <div class="form-group">
           <label>Curriculum / Board</label>
-          <input type="text" id="fBoard" class="form-control" placeholder="e.g. CBSE, ICSE, State">
+          <div class="checklist-dropdown" id="ddBoard">
+            <div class="checklist-header" onclick="toggleChecklist('ddBoard')">
+              <span id="ddBoardText">Select Boards...</span>
+            </div>
+            <div class="checklist-options">
+              <label class="check-item"><input type="checkbox" value="CBSE" onchange="syncChecklist('ddBoard')"> CBSE</label>
+              <label class="check-item"><input type="checkbox" value="ICSE" onchange="syncChecklist('ddBoard')"> ICSE</label>
+              <label class="check-item"><input type="checkbox" value="State" onchange="syncChecklist('ddBoard')"> State Board</label>
+              <label class="check-item"><input type="checkbox" value="IGCSE" onchange="syncChecklist('ddBoard')"> IGCSE</label>
+              <label class="check-item"><input type="checkbox" value="IB" onchange="syncChecklist('ddBoard')"> IB</label>
+            </div>
+          </div>
         </div>
+
+        <!-- SUBJECTS DROPDOWN CHECKLIST -->
         <div class="form-group">
           <label>Subjects / Specialization</label>
-          <input type="text" id="fSubject" class="form-control" placeholder="e.g. Mathematics, English">
+          <div class="checklist-dropdown" id="ddSubject">
+            <div class="checklist-header" onclick="toggleChecklist('ddSubject')">
+              <span id="ddSubjectText">Select Subjects...</span>
+            </div>
+            <div class="checklist-options">
+              <label class="check-item"><input type="checkbox" value="Mathematics" onchange="syncChecklist('ddSubject')"> Mathematics</label>
+              <label class="check-item"><input type="checkbox" value="Science (General)" onchange="syncChecklist('ddSubject')"> Science (General)</label>
+              <label class="check-item"><input type="checkbox" value="Physics" onchange="syncChecklist('ddSubject')"> Physics</label>
+              <label class="check-item"><input type="checkbox" value="Chemistry" onchange="syncChecklist('ddSubject')"> Chemistry</label>
+              <label class="check-item"><input type="checkbox" value="Biology" onchange="syncChecklist('ddSubject')"> Biology</label>
+              <label class="check-item"><input type="checkbox" value="English" onchange="syncChecklist('ddSubject')"> English</label>
+              <label class="check-item"><input type="checkbox" value="Social Studies" onchange="syncChecklist('ddSubject')"> Social Studies</label>
+              <label class="check-item"><input type="checkbox" value="Computer Science" onchange="syncChecklist('ddSubject')"> Computer Science</label>
+              <label class="check-item"><input type="checkbox" value="Hindi" onchange="syncChecklist('ddSubject')"> Hindi</label>
+              <label class="check-item"><input type="checkbox" value="Telugu" onchange="syncChecklist('ddSubject')"> Telugu</label>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -958,7 +1098,7 @@
         </div>
         <div class="form-group">
           <label>Timings & Timezone</label>
-          <input type="text" id="fTimings" class="form-control" placeholder="e.g. Flexible (GMT+5:30)">
+          <input type="text" id="fTimings" class="form-control" placeholder="e.g. Flexible (GMT+5:30 (IST - India))">
         </div>
       </div>
     </div>
@@ -1037,6 +1177,53 @@ async function handleLogout() {
 }
 
 /* ========================================================
+   DROPDOWN CHECKLIST CONTROLLERS
+   ======================================================== */
+function toggleChecklist(containerId) {
+  const container = document.getElementById(containerId);
+  const isOpen = container.classList.contains("open");
+  // Close any other open dropdown checklists
+  document.querySelectorAll(".checklist-dropdown").forEach(d => d.classList.remove("open"));
+  if (!isOpen) {
+    container.classList.add("open");
+  }
+}
+
+// Close checklists when clicking outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".checklist-dropdown")) {
+    document.querySelectorAll(".checklist-dropdown").forEach(d => d.classList.remove("open"));
+  }
+});
+
+function syncChecklist(containerId) {
+  const container = document.getElementById(containerId);
+  const checked = Array.from(container.querySelectorAll("input[type='checkbox']:checked")).map(cb => cb.value);
+  const textEl = container.querySelector(".checklist-header span");
+  
+  if (checked.length === 0) {
+    textEl.textContent = containerId === 'ddGrades' ? "Select Grades..." : containerId === 'ddBoard' ? "Select Boards..." : "Select Subjects...";
+  } else {
+    textEl.textContent = checked.join(", ");
+  }
+}
+
+function setChecklistValues(containerId, valueString) {
+  const container = document.getElementById(containerId);
+  const values = (valueString || "").split(",").map(v => v.trim().toLowerCase());
+  
+  container.querySelectorAll("input[type='checkbox']").forEach(cb => {
+    cb.checked = values.includes(cb.value.toLowerCase());
+  });
+  syncChecklist(containerId);
+}
+
+function getChecklistValues(containerId) {
+  const container = document.getElementById(containerId);
+  return Array.from(container.querySelectorAll("input[type='checkbox']:checked")).map(cb => cb.value).join(", ");
+}
+
+/* ========================================================
    MULTI-STEP TEACHER EDIT MODAL
    ======================================================== */
 function openEditModal() {
@@ -1046,13 +1233,15 @@ function openEditModal() {
   document.getElementById("fPhone").value = (profileRecord.mobile || "").replace('+91', '').trim();
   document.getElementById("fMode").value = profileRecord.tuition_mode || "Online";
   document.getElementById("fLocation").value = profileRecord.address || "";
-  document.getElementById("fQual").value = profileRecord.qualification || "";
+  document.getElementById("fQual").value = profileRecord.qualification || "B.Tech";
   document.getElementById("fExp").value = profileRecord.experience || "";
-  document.getElementById("fGrades").value = profileRecord.grades || "";
-  document.getElementById("fBoard").value = profileRecord.board || "";
-  document.getElementById("fSubject").value = profileRecord.subject || "";
   document.getElementById("fFee").value = profileRecord.fee_details || "";
   document.getElementById("fTimings").value = profileRecord.timings || "";
+
+  // Populate Dropdown Checklists
+  setChecklistValues("ddGrades", profileRecord.grades || "Class 8, Class 9, Class 10");
+  setChecklistValues("ddBoard", profileRecord.board || "CBSE, ICSE, State");
+  setChecklistValues("ddSubject", profileRecord.subject || "Mathematics, English");
 
   goStep(1);
   document.body.classList.add("modal-open");
@@ -1062,6 +1251,7 @@ function openEditModal() {
 function closeEditModal() {
   document.getElementById("editModalOverlay").classList.remove("active");
   document.body.classList.remove("modal-open");
+  document.querySelectorAll(".checklist-dropdown").forEach(d => d.classList.remove("open"));
 }
 
 function goStep(step) {
@@ -1092,11 +1282,11 @@ async function saveTeacherProfile() {
     mobile: phoneFormatted,
     tuition_mode: document.getElementById("fMode").value,
     address: document.getElementById("fLocation").value.trim(),
-    qualification: document.getElementById("fQual").value.trim(),
+    qualification: document.getElementById("fQual").value,
     experience: document.getElementById("fExp").value.trim(),
-    grades: document.getElementById("fGrades").value.trim(),
-    board: document.getElementById("fBoard").value.trim(),
-    subject: document.getElementById("fSubject").value.trim(),
+    grades: getChecklistValues("ddGrades"),
+    board: getChecklistValues("ddBoard"),
+    subject: getChecklistValues("ddSubject"),
     fee_details: document.getElementById("fFee").value.trim(),
     timings: document.getElementById("fTimings").value.trim()
   };
