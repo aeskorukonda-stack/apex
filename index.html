@@ -3153,7 +3153,7 @@ function handleStudentCompOther() {
   document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
- async function loginWithOAuth(provider) {
+async function loginWithOAuth(provider) {
     if (provider === 'google' && window.google) {
       google.accounts.id.initialize({
         client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
@@ -3176,10 +3176,9 @@ function handleStudentCompOther() {
         }
       });
 
-      // Renders the Google prompt directly on apextuitions.com
+      // Opens the Google Sign-in prompt without any alert popups
       google.accounts.id.prompt((notification) => {
         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // If browser popups/cookies block One Tap, trigger direct redirect flow
           db.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: window.location.origin + window.location.pathname }
