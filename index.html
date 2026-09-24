@@ -3143,6 +3143,29 @@ function handleStudentCompOther() {
 }
 
 async function loginWithOAuth(provider) {
+  if (provider === 'google' && window.google) {
+    google.accounts.id.initialize({
+      client_id: "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com", // <-- paste your Client ID here
+      callback: async (response) => {
+        sessionStorage.setItem("apex_oauth_pending", "true");
+        const { data, error } = await db.auth.signInWithIdToken({
+          provider: 'google',
+          token: response.credential
+        });
+        if (error) {
+          sessionStorage.removeItem("apex_oauth_pending");
+          showMsg("heroAuthMsg", error.message, false);
+        } else if (data?.user) {
+          localStorage.setItem("apex_cached_auth", "true");
+          renderAuthenticatedHome(data.user);
+        }
+      }
+    });
+    google.accounts.id.prompt();
+    return;
+  }
+
+  // Standard redirect fallback for Microsoft
   sessionStorage.setItem("apex_oauth_pending", "true");
   const { error } = await db.auth.signInWithOAuth({
     provider,
@@ -3153,7 +3176,6 @@ async function loginWithOAuth(provider) {
     showMsg("heroAuthMsg", error.message, false);
   }
 }
-
 async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
