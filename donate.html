@@ -349,41 +349,45 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
+    /* INTACT SCREEN-ATTACHED BOTTOM NAVIGATION */
     @media (max-width: 768px) {
-      /* Reserve clearance for the flush bottom dock + device safe area */
       body.logged-in-mobile { 
-        padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important; 
+        padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; 
       }
       
-      /* Screen-intact bottom dock */
+      /* Fixed completely flush to the bottom, zero margin/rounding away from screen */
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
+        gap: 8px;
         position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
         background: #FFFFFF;
-        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-        border-top: 1px solid #E2E8F0;
-        box-shadow: 0 -4px 18px rgba(10, 25, 47, 0.08);
-        z-index: 9999;
-        align-items: center;
+        padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px;
+        margin: 0 !important;
+        border-radius: 0 !important; /* Screen intact, no outer curved gap */
+        border: none !important;
+        border-top: 1px solid #CBD5E1 !important;
+        box-shadow: 0 -3px 12px rgba(10, 25, 47, 0.08);
+        z-index: 99999;
+        align-items: stretch;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
 
-      /* Pill container card */
+      /* Inner tab card items matching the reference photo */
       .dock-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        padding: 8px 6px 7px;
+        gap: 5px;
+        padding: 7px 4px 6px;
         border-radius: 14px;
         text-decoration: none;
         background: #FFFFFF;
@@ -393,24 +397,24 @@
         -webkit-tap-highlight-color: transparent;
       }
 
-      /* Active highlighted tab state matching the screenshot */
+      /* Active tab border */
       .dock-btn.active-dock-tab {
         border-color: #2563EB;
         background: #FFFFFF;
       }
 
-      /* Rounded icon badge container */
+      /* Rounded icon tile */
       .dock-icon-box {
         width: 36px;
         height: 36px;
-        border-radius: 10px;
+        border-radius: 11px;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
       }
       .dock-icon-box.green {
-        background-color: #E6FBF2;
+        background-color: #ECFDF5;
         color: #10B981;
       }
       .dock-icon-box.gold {
@@ -422,23 +426,23 @@
         color: #2563EB;
       }
 
-      /* Label text styling */
+      /* Tab labels with mini-icon */
       .dock-btn-label-stacked {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 4.5px;
-        font-size: 13.5px;
+        gap: 4px;
+        font-size: 13px;
         font-weight: 800;
         color: #0F172A;
-        line-height: 1.1;
+        line-height: 1;
         letter-spacing: -0.2px;
       }
       .dock-label-icon {
-        font-size: 12px;
+        font-size: 11.5px;
       }
 
-      /* Badge indicator */
+      /* Enquiries badge */
       .dock-badge {
         position: absolute;
         top: -4px;
@@ -448,8 +452,8 @@
         font-size: 9.5px;
         font-weight: 800;
         border-radius: 10px;
-        padding: 1px 6px;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
+        padding: 1px 5px;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.35);
       }
     }
 
@@ -537,9 +541,9 @@
   </div>
 </main>
 
-<!-- Bottom Dock (Hidden until verified authenticated) -->
+<!-- Bottom Dock (Intact with screen, hidden until authenticated) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <!-- Enquiries Button -->
+  <!-- Enquiries -->
   <a href="enquiries.html" class="dock-btn">
     <div class="dock-icon-box green">
       <i class="fa-solid fa-comments"></i>
@@ -551,7 +555,7 @@
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <!-- Profile Button -->
+  <!-- Profile -->
   <a href="profile.html" class="dock-btn active-dock-tab">
     <div class="dock-icon-box gold">
       <i class="fa-solid fa-id-badge"></i>
@@ -562,7 +566,7 @@
     </div>
   </a>
 
-  <!-- Browse Button -->
+  <!-- Browse -->
   <a href="browse.html" class="dock-btn">
     <div class="dock-icon-box blue">
       <i class="fa-solid fa-compass"></i>
