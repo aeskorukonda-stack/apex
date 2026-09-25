@@ -255,7 +255,7 @@
       margin-bottom: 20px;
     }
 
-    /* AUTH WALL (ONLY SIGNED-IN USERS CAN SUBMIT) */
+    /* AUTH WALL */
     .auth-gate-box {
       text-align: center;
       padding: 44px 20px;
@@ -432,7 +432,7 @@
     .hidden { display: none !important; }
 
     /* =========================================================
-       STICKY / INTACT BOTTOM BAR (SCREENSHOT 3 REPLICA)
+       STICKY / INTACT BOTTOM BAR (MOBILE VIEW)
        ========================================================= */
     .mobile-bottom-dock {
       display: none;
@@ -446,22 +446,24 @@
     @media (max-width: 768px) {
       body {
         padding-top: 68px;
-        padding-bottom: 120px !important; /* Preserves scroll clearance behind dock */
+        padding-bottom: 110px !important; /* Space preserved so footer and forms aren't obscured */
       }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .footer-grid { grid-template-columns: 1fr; }
 
-      /* Fixed firmly to bottom viewport edge */
+      /* Firmly pinned to screen bottom viewport */
       .mobile-bottom-dock {
         display: block !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        width: 100% !important;
+        width: 100vw !important;
         padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-        background: #F8FAFC !important;
+        background: rgba(248, 250, 252, 0.98) !important;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         z-index: 999999 !important;
         transform: translateZ(0);
         -webkit-transform: translateZ(0);
@@ -474,9 +476,9 @@
         gap: 8px !important;
         background: #ffffff !important;
         border: 1.5px solid #dbeafe !important;
-        border-radius: 24px !important;
-        padding: 8px !important;
-        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+        border-radius: 20px !important;
+        padding: 6px 8px !important;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.12) !important;
       }
 
       /* Button Containers */
@@ -488,8 +490,8 @@
         text-decoration: none !important;
         background: #ffffff !important;
         border: 1.5px solid #e2e8f0 !important;
-        border-radius: 18px !important;
-        padding: 7px 2px 5px !important;
+        border-radius: 14px !important;
+        padding: 6px 2px 4px !important;
         transition: var(--transition);
       }
 
@@ -500,48 +502,45 @@
 
       /* Rounded Icon Squares */
       .dock-icon-wrap {
-        width: 44px !important;
-        height: 44px !important;
-        border-radius: 14px !important;
+        width: 38px !important;
+        height: 38px !important;
+        border-radius: 12px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        margin-bottom: 5px !important;
+        margin-bottom: 4px !important;
       }
 
       .dock-icon-wrap.green-bg {
         background-color: #E8FAF2 !important;
       }
-      .dock-icon-wrap.green-bg svg,
       .dock-icon-wrap.green-bg i {
         color: #10B981 !important;
-        font-size: 21px !important;
+        font-size: 18px !important;
       }
 
       .dock-icon-wrap.yellow-bg {
         background-color: #FEF3C7 !important;
       }
-      .dock-icon-wrap.yellow-bg svg,
       .dock-icon-wrap.yellow-bg i {
         color: #D97706 !important;
-        font-size: 21px !important;
+        font-size: 18px !important;
       }
 
       .dock-icon-wrap.blue-bg {
         background-color: #EFF6FF !important;
       }
-      .dock-icon-wrap.blue-bg svg,
       .dock-icon-wrap.blue-bg i {
         color: #2563EB !important;
-        font-size: 21px !important;
+        font-size: 18px !important;
       }
 
       /* Label text beneath icon */
       .dock-title {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 5px !important;
-        font-size: 12px !important;
+        gap: 4px !important;
+        font-size: 11.5px !important;
         font-weight: 800 !important;
         color: #0F172A !important;
         letter-spacing: -0.2px !important;
@@ -626,8 +625,6 @@
         </div>
       </nav>
 
-      <!-- All header Sign In/Out/Profile buttons removed here -->
-
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
@@ -642,7 +639,6 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
-    <div id="mDrawerAuthSlot"></div>
   </div>
 </header>
 
@@ -762,7 +758,7 @@
   </div>
 </main>
 
-<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK (REPLICATING SCREENSHOT 3) -->
+<!-- MOBILE VIEW INTACT BOTTOM BUTTON BAR -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
     <!-- 1. Enquiries Button -->
@@ -884,23 +880,12 @@ function switchTab(mode) {
   }
 }
 
-async function handleSignOut() {
-  await db.auth.signOut();
-  window.location.reload();
-}
-
 function applyAuthSecurity(user) {
-  const drawerSlot = document.getElementById("mDrawerAuthSlot");
   const gate = document.getElementById("authGate");
   const fbPanel = document.getElementById("feedbackPanel");
   const hpPanel = document.getElementById("helpPanel");
 
   if (user) {
-    drawerSlot.innerHTML = `
-      <a href="profile.html">👤 My Profile</a>
-      <a href="javascript:void(0)" onclick="handleSignOut()" style="color:#F87171 !important;">🚪 Sign Out</a>
-    `;
-
     gate.classList.add("hidden");
     if (currentTab === "feedback") {
       fbPanel.classList.remove("hidden");
@@ -918,11 +903,6 @@ function applyAuthSecurity(user) {
       nameField.value = user.user_metadata.full_name;
     }
   } else {
-    drawerSlot.innerHTML = `
-      <a href="index.html?auth=signin">🔑 Sign In</a>
-      <a href="index.html?auth=signup">✍️ Sign Up</a>
-    `;
-
     fbPanel.classList.add("hidden");
     hpPanel.classList.add("hidden");
     gate.classList.remove("hidden");
