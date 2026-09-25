@@ -163,10 +163,6 @@
       align-items: center;
       gap: 8px;
     }
-    #headerAuthGroup.hidden,
-    body.logged-in-mobile #headerAuthGroup {
-      display: none !important;
-    }
 
     .btn-header-auth {
       background: rgba(255, 255, 255, 0.08);
@@ -182,6 +178,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 6px;
       white-space: nowrap;
     }
     .btn-header-auth:hover {
@@ -467,14 +464,78 @@
       color: #64748B;
     }
 
+    /* PERSISTENT MOBILE BOTTOM NAVIGATION */
+    .mobile-bottom-nav {
+      display: none;
+    }
+
     @media (max-width: 900px) {
       .layout-grid { grid-template-columns: 1fr; }
       .ticker-window { height: 260px; }
     }
+
     @media (max-width: 768px) {
+      body {
+        padding-bottom: 84px; /* clearance for persistent bottom bar */
+      }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .footer-grid { grid-template-columns: 1fr; }
+
+      .mobile-bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 68px;
+        background: #ffffff;
+        border-top: 1px solid var(--border-subtle);
+        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+        z-index: 10001;
+        padding: 6px 12px;
+        justify-content: space-around;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .bottom-nav-item {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        padding: 6px 4px;
+        border-radius: 12px;
+        border: 1.5px solid var(--border-subtle);
+        color: var(--text-main);
+        font-size: 11px;
+        font-weight: 700;
+        transition: var(--transition);
+        gap: 4px;
+        background: #ffffff;
+      }
+
+      .bottom-nav-item.active {
+        border-color: #2563EB;
+        background: #F0F7FF;
+        color: #2563EB;
+      }
+
+      .bottom-nav-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+      }
+
+      .bottom-nav-icon.enquiries { background: #ECFDF5; color: #10B981; }
+      .bottom-nav-icon.profile   { background: #FEF3C7; color: #D97706; }
+      .bottom-nav-icon.students  { background: #EFF6FF; color: #2563EB; }
     }
   </style>
 </head>
@@ -640,6 +701,30 @@
   </div>
 </main>
 
+<!-- PERSISTENT MOBILE BOTTOM NAVIGATION -->
+<nav class="mobile-bottom-nav" id="mobileBottomNav">
+  <a href="enquiries.html" class="bottom-nav-item" id="mTabEnquiries">
+    <div class="bottom-nav-icon enquiries">
+      <i class="fa-solid fa-comments"></i>
+    </div>
+    <span>💬 Enquiries</span>
+  </a>
+
+  <a href="profile.html" class="bottom-nav-item active" id="mTabProfile">
+    <div class="bottom-nav-icon profile">
+      <i class="fa-solid fa-id-card"></i>
+    </div>
+    <span>👤 Profile</span>
+  </a>
+
+  <a href="students.html" class="bottom-nav-item" id="mTabStudents">
+    <div class="bottom-nav-icon students">
+      <i class="fa-solid fa-compass"></i>
+    </div>
+    <span>🔍 Students</span>
+  </a>
+</nav>
+
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
@@ -708,7 +793,72 @@ function switchTab(mode) {
   }
 }
 
-// Populate Scrolling Testimonial Feed (Only approved testimonials)
+async function handleSignOut() {
+  await db.auth.signOut();
+  window.location.reload();
+}
+
+function updateAuthUI(user) {
+  const authGroup = document.getElementById("headerAuthGroup");
+  const mDrawerSignIn = document.getElementById("mDrawerSignIn");
+  const mDrawerSignUp = document.getElementById("mDrawerSignUp");
+  const bottomNav = document.getElementById("mobileBottomNav");
+
+  if (user) {
+    // 1. Header Desktop View
+    if (authGroup) {
+      authGroup.innerHTML = `
+        <a href="profile.html" class="btn-header-auth" style="border-color:var(--apex-gold); color:var(--apex-gold) !important;">
+          <i class="fa-solid fa-user"></i> My Profile
+        </a>
+        <button onclick="handleSignOut()" class="btn-header-auth" style="background:rgba(239,68,68,0.2); border-color:#EF4444; color:#FCA5A5 !important;">
+          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+        </button>
+      `;
+    }
+
+    // 2. Mobile Drawer
+    if (mDrawerSignIn) {
+      mDrawerSignIn.innerHTML = "👤 My Profile";
+      mDrawerSignIn.href = "profile.html";
+      mDrawerSignIn.onclick = null;
+    }
+    if (mDrawerSignUp) {
+      mDrawerSignUp.innerHTML = "🚪 Sign Out";
+      mDrawerSignUp.href = "javascript:void(0)";
+      mDrawerSignUp.onclick = handleSignOut;
+    }
+
+    // 3. Show Sticky Bottom Nav on Mobile
+    if (bottomNav) bottomNav.style.display = "flex";
+
+  } else {
+    // 1. Header Desktop View (Guest)
+    if (authGroup) {
+      authGroup.innerHTML = `
+        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+      `;
+    }
+
+    // 2. Mobile Drawer (Guest)
+    if (mDrawerSignIn) {
+      mDrawerSignIn.innerHTML = "🔑 Sign In";
+      mDrawerSignIn.href = "index.html?auth=signin";
+      mDrawerSignIn.onclick = null;
+    }
+    if (mDrawerSignUp) {
+      mDrawerSignUp.innerHTML = "✍️ Sign Up";
+      mDrawerSignUp.href = "index.html?auth=signup";
+      mDrawerSignUp.onclick = null;
+    }
+
+    // 3. Hide Sticky Bottom Nav on Guest Mobile
+    if (bottomNav) bottomNav.style.display = "none";
+  }
+}
+
+// Populate Scrolling Testimonial Feed
 async function loadTestimonials() {
   const track = document.getElementById("tickerTrack");
   const { data, error } = await db
@@ -737,7 +887,7 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// 1. Submit Feedback / Testimonials (Holds for Admin Approval)
+// Submit Testimonials
 async function submitFeedback() {
   const name = document.getElementById("fbName").value.trim();
   const role = document.getElementById("fbRole").value;
@@ -755,7 +905,6 @@ async function submitFeedback() {
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
-  // approved is set to false so it requires admin authorization before publishing
   const { error } = await db.from("testimonials").insert([{
     user_id: currentUser ? currentUser.id : null,
     name: name,
@@ -778,7 +927,7 @@ async function submitFeedback() {
   msgEl.classList.remove("hidden");
 }
 
-// 2. Submit Help / Query Request directly to public.support_messages
+// Submit Help Query
 async function submitHelpQuery() {
   const name = document.getElementById("helpName").value.trim();
   const email = document.getElementById("helpEmail").value.trim();
@@ -797,7 +946,6 @@ async function submitHelpQuery() {
   btn.disabled = true;
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
-  // Inserts directly into public.support_messages table viewed in admin panel
   const { error } = await db.from("support_messages").insert([{
     name: name || null,
     email: email,
@@ -824,6 +972,7 @@ async function submitHelpQuery() {
 window.addEventListener("DOMContentLoaded", async () => {
   loadTestimonials();
 
+  // Check auth status
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     currentUser = session.user;
@@ -831,9 +980,17 @@ window.addEventListener("DOMContentLoaded", async () => {
       const emailField = document.getElementById("helpEmail");
       if (emailField) emailField.value = currentUser.email;
     }
+    updateAuthUI(currentUser);
+  } else {
+    updateAuthUI(null);
   }
+
+  // Realtime auth listener
+  db.auth.onAuthStateChange((_event, session) => {
+    currentUser = session ? session.user : null;
+    updateAuthUI(currentUser);
+  });
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
