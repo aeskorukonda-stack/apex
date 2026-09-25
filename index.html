@@ -1377,6 +1377,84 @@
       margin: 0 auto;
     }
 
+    /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
+    .social-bar-wrapper {
+      position: fixed;
+      top: 55%;
+      right: 0;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      z-index: 9999;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    /* Smoothly slide offscreen to the right, leaving the toggle button visible */
+    .social-bar-wrapper.is-hidden {
+      transform: translateY(-50%) translateX(calc(100% - 24px));
+    }
+    .social-toggle-btn {
+      width: 24px;
+      height: 48px;
+      background: var(--apex-navy);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-right: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px 0 0 8px;
+      box-shadow: -3px 2px 10px rgba(0, 0, 0, 0.15);
+      font-size: 11px;
+      padding: 0;
+      outline: none;
+      transition: background 0.2s ease;
+    }
+    .social-toggle-btn:hover {
+      background: var(--royal-blue);
+    }
+    .social-toggle-btn i {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .social-bar-wrapper.is-hidden .social-toggle-btn i {
+      transform: rotate(180deg);
+    }
+    .social-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 8px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-subtle);
+      border-right: none;
+      border-radius: 14px 0 0 14px;
+      box-shadow: -4px 6px 20px rgba(10, 25, 47, 0.12);
+    }
+    .social-link {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      color: #ffffff !important;
+      text-decoration: none;
+      font-size: 18px;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, filter 0.2s ease;
+    }
+    .social-link:hover {
+      filter: brightness(1.1);
+      transform: translateX(-4px) scale(1.06);
+      box-shadow: -2px 5px 14px rgba(0, 0, 0, 0.25);
+    }
+    .social-link.social-fb { background-color: #1877F2; }
+    .social-link.social-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
+    .social-link.social-yt { background-color: #FF0000; }
+    .social-link.social-wa { background-color: #25D366; }
+
     @media (max-width: 960px) {
       header { padding: 10px 14px; }
       body { padding-top: 68px; }
@@ -1511,6 +1589,27 @@
 </head>
 <body>
 
+<!-- VERTICAL SOCIAL MEDIA TOOLBAR (RIGHT SIDE) -->
+<div class="social-bar-wrapper" id="socialToolbarWrapper">
+  <button type="button" class="social-toggle-btn" id="socialToggleBtn" onclick="toggleSocialToolbar()" aria-label="Toggle Social Links">
+    <i class="fa-solid fa-chevron-right"></i>
+  </button>
+  <div class="social-bar" aria-label="Social Links">
+    <a href="https://www.facebook.com/share/19swwVedeT/" class="social-link social-fb" target="_blank" rel="noopener noreferrer" title="Facebook">
+      <i class="fa-brands fa-facebook-f"></i>
+    </a>
+    <a href="https://www.instagram.com/aeskorukonda?stkn=dzY2amlxcnY0ZnBq" class="social-link social-insta" target="_blank" rel="noopener noreferrer" title="Instagram">
+      <i class="fa-brands fa-instagram"></i>
+    </a>
+    <a href="https://youtube.com/@apextuitions?si=wGe-ScTJg5VWjCJD" class="social-link social-yt" target="_blank" rel="noopener noreferrer" title="YouTube">
+      <i class="fa-brands fa-youtube"></i>
+    </a>
+    <a href="https://wa.me/" class="social-link social-wa" target="_blank" rel="noopener noreferrer" title="WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+  </div>
+</div>
+
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
@@ -1599,6 +1698,7 @@
           <div class="welcome-card-topbar">
             <span class="welcome-pill-celebrate">
               🎉 Welcome back!
+            </span>
           </div>
 
           <div class="welcome-card-hero">
@@ -2803,6 +2903,11 @@ const ACADEMIC_SUBJECTS_LIST = [
 ];
 
 function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
+
+function toggleSocialToolbar() {
+  const bar = document.getElementById("socialToolbarWrapper");
+  if (bar) bar.classList.toggle("is-hidden");
+}
 
 let oauthRegistrationMode = false;
 let oauthProviderPending = false;
