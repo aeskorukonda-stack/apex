@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Feedback & Help | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -158,40 +158,6 @@
       transform: translateX(3px);
     }
 
-    .header-auth-buttons {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-header-auth {
-      background: rgba(255, 255, 255, 0.08);
-      color: #ffffff !important;
-      font-weight: 700;
-      padding: 6px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 12.5px;
-      border: 1.5px solid rgba(255, 255, 255, 0.28);
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      white-space: nowrap;
-    }
-    .btn-header-auth:hover {
-      background: rgba(255, 255, 255, 0.16);
-      border-color: #ffffff;
-      transform: translateY(-1px);
-    }
-    .btn-header-auth.signout-btn {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: #EF4444;
-      color: #FCA5A5 !important;
-    }
-
     .mobile-menu-toggle {
       display: none;
       background: none;
@@ -289,10 +255,10 @@
       margin-bottom: 20px;
     }
 
-    /* LOCKED AUTH WALL (ONLY LOGGED-IN USERS CAN SUBMIT) */
+    /* AUTH WALL (ONLY SIGNED-IN USERS CAN SUBMIT) */
     .auth-gate-box {
       text-align: center;
-      padding: 40px 20px;
+      padding: 44px 20px;
       background: #ffffff;
       border-radius: var(--card-radius);
       border: 1.5px dashed var(--border-subtle);
@@ -386,7 +352,7 @@
       transform: none;
     }
 
-    /* LIVE TICKER FEED */
+    /* LIVE FEED */
     .ticker-container {
       background: #ffffff;
       border: 1px solid var(--border-subtle);
@@ -466,7 +432,7 @@
     .hidden { display: none !important; }
 
     /* =========================================================
-       STICKY / INTACT MOBILE BOTTOM DOCK (REPLICATING SCREENSHOT 3)
+       STICKY / INTACT BOTTOM BAR (SCREENSHOT 3 REPLICA)
        ========================================================= */
     .mobile-bottom-dock {
       display: none;
@@ -480,25 +446,28 @@
     @media (max-width: 768px) {
       body {
         padding-top: 68px;
-        padding-bottom: 115px !important; /* Space for intact bottom dock */
+        padding-bottom: 120px !important; /* Preserves scroll clearance behind dock */
       }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .footer-grid { grid-template-columns: 1fr; }
 
-      /* Sticky Bottom Nav Dock */
+      /* Fixed firmly to bottom viewport edge */
       .mobile-bottom-dock {
         display: block !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        padding: 8px 14px 14px !important;
+        width: 100% !important;
+        padding: 6px 12px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
         background: #F8FAFC !important;
-        z-index: 99999 !important;
+        z-index: 999999 !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
       }
 
-      /* White outer pill border */
+      /* Pill Shaped Enclosing Box */
       .dock-card-container {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr !important;
@@ -510,7 +479,7 @@
         box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
       }
 
-      /* Individual Nav Buttons */
+      /* Button Containers */
       .dock-item {
         display: flex !important;
         flex-direction: column !important;
@@ -520,17 +489,16 @@
         background: #ffffff !important;
         border: 1.5px solid #e2e8f0 !important;
         border-radius: 18px !important;
-        padding: 8px 2px 6px !important;
+        padding: 7px 2px 5px !important;
         transition: var(--transition);
       }
 
-      /* Active highlighted button */
       .dock-item.active-tab {
         border-color: #3b82f6 !important;
         box-shadow: 0 0 0 1px #3b82f6 !important;
       }
 
-      /* Large Rounded Icon Containers */
+      /* Rounded Icon Squares */
       .dock-icon-wrap {
         width: 44px !important;
         height: 44px !important;
@@ -658,10 +626,7 @@
         </div>
       </nav>
 
-      <!-- DYNAMIC AUTH BUTTONS -->
-      <div class="header-auth-buttons" id="headerAuthGroup">
-        <!-- Rendered by JavaScript -->
-      </div>
+      <!-- All header Sign In/Out/Profile buttons removed here -->
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
@@ -677,8 +642,6 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
-    
-    <!-- Dynamic Drawer Auth Items -->
     <div id="mDrawerAuthSlot"></div>
   </div>
 </header>
@@ -696,14 +659,14 @@
 
   <div class="layout-grid">
     <div>
-      <!-- GATE FOR NON-LOGGED IN USERS -->
+      <!-- AUTH GATE (NON-LOGGED-IN USERS) -->
       <div class="auth-gate-box hidden" id="authGate">
         <div class="auth-gate-icon">
           <i class="fa-solid fa-lock"></i>
         </div>
         <h2 style="font-size:20px; font-weight:800; color:var(--apex-navy); margin-bottom:8px;">Sign In Required</h2>
         <p style="font-size:13.5px; color:var(--text-muted); max-width:380px; margin:0 auto;">
-          Only signed-in users can share testimonials or submit support queries to Apex Tuitions.
+          Only signed-in users have permission to submit feedback or send help inquiries.
         </p>
         <a href="index.html?auth=signin" class="auth-gate-btn">
           <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Continue
@@ -799,7 +762,7 @@
   </div>
 </main>
 
-<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK FROM SCREENSHOT 3 -->
+<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK (REPLICATING SCREENSHOT 3) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
     <!-- 1. Enquiries Button -->
@@ -813,7 +776,7 @@
       </div>
     </a>
 
-    <!-- 2. Profile Button (active) -->
+    <!-- 2. Profile Button -->
     <a href="profile.html" class="dock-item active-tab" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -879,7 +842,6 @@
 const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 
-// Ensure auth session is loaded from storage properly
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
   auth: {
     persistSession: true,
@@ -927,32 +889,18 @@ async function handleSignOut() {
   window.location.reload();
 }
 
-// Strictly controls whether forms are shown or gated, and what buttons show on header
-function renderAuthUI(user) {
-  const headerAuth = document.getElementById("headerAuthGroup");
+function applyAuthSecurity(user) {
   const drawerSlot = document.getElementById("mDrawerAuthSlot");
   const gate = document.getElementById("authGate");
   const fbPanel = document.getElementById("feedbackPanel");
   const hpPanel = document.getElementById("helpPanel");
 
   if (user) {
-    // 1. Logged in: Header gets Profile and Sign Out ONLY
-    headerAuth.innerHTML = `
-      <a href="profile.html" class="btn-header-auth" style="border-color:var(--apex-gold); color:var(--apex-gold) !important;">
-        <i class="fa-solid fa-user"></i> Profile
-      </a>
-      <button onclick="handleSignOut()" class="btn-header-auth signout-btn">
-        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-      </button>
-    `;
-
-    // 2. Mobile Drawer
     drawerSlot.innerHTML = `
       <a href="profile.html">👤 My Profile</a>
       <a href="javascript:void(0)" onclick="handleSignOut()" style="color:#F87171 !important;">🚪 Sign Out</a>
     `;
 
-    // 3. User is signed in -> Unlock forms
     gate.classList.add("hidden");
     if (currentTab === "feedback") {
       fbPanel.classList.remove("hidden");
@@ -962,7 +910,6 @@ function renderAuthUI(user) {
       fbPanel.classList.add("hidden");
     }
 
-    // Prefill user data
     const emailField = document.getElementById("helpEmail");
     if (emailField && user.email) emailField.value = user.email;
 
@@ -970,28 +917,18 @@ function renderAuthUI(user) {
     if (nameField && user.user_metadata && user.user_metadata.full_name) {
       nameField.value = user.user_metadata.full_name;
     }
-
   } else {
-    // 1. Logged out: Header gets Sign In and Sign Up ONLY
-    headerAuth.innerHTML = `
-      <a href="index.html?auth=signin" class="btn-header-auth">Sign In</a>
-      <a href="index.html?auth=signup" class="btn-header-auth">Sign Up</a>
-    `;
-
-    // 2. Mobile Drawer
     drawerSlot.innerHTML = `
       <a href="index.html?auth=signin">🔑 Sign In</a>
       <a href="index.html?auth=signup">✍️ Sign Up</a>
     `;
 
-    // 3. Lock forms behind gate
     fbPanel.classList.add("hidden");
     hpPanel.classList.add("hidden");
     gate.classList.remove("hidden");
   }
 }
 
-// Populate Scrolling Testimonial Feed
 async function loadTestimonials() {
   const track = document.getElementById("tickerTrack");
   const { data } = await db
@@ -1020,7 +957,6 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// Submit Testimonials
 async function submitFeedback() {
   if (!currentUser) {
     alert("Please sign in to submit feedback.");
@@ -1065,7 +1001,6 @@ async function submitFeedback() {
   msgEl.classList.remove("hidden");
 }
 
-// Submit Help Query
 async function submitHelpQuery() {
   if (!currentUser) {
     alert("Please sign in to send queries.");
@@ -1114,18 +1049,15 @@ async function submitHelpQuery() {
 window.addEventListener("DOMContentLoaded", async () => {
   loadTestimonials();
 
-  // Check auth session
   const { data: { session } } = await db.auth.getSession();
   currentUser = session ? session.user : null;
-  renderAuthUI(currentUser);
+  applyAuthSecurity(currentUser);
 
-  // Real-time auth state listener
   db.auth.onAuthStateChange((_event, session) => {
     currentUser = session ? session.user : null;
-    renderAuthUI(currentUser);
+    applyAuthSecurity(currentUser);
   });
 });
 </script>
-<!-- mobile-layout-fix.js REMOVED to prevent overwriting the custom dock -->
 </body>
 </html>
