@@ -392,19 +392,6 @@
       font-weight: 500;
       margin-bottom: 18px;
     }
-    .rating-progress-bar-card {
-      background: #FEFCE8;
-      border: 1px solid #FEF08A;
-      border-radius: 12px;
-      padding: 12px 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      font-weight: 800;
-      font-size: 13.5px;
-      color: #854D0E;
-    }
     .milestone-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -693,81 +680,6 @@
       color: var(--apex-navy);
     }
 
-    /* STANDARDIZED MOBILE BOTTOM DOCK (FLUSH TO SCREEN) */
-    .mobile-bottom-dock { display: none !important; }
-
-    @media (max-width: 768px) {
-      body.logged-in-mobile { padding-bottom: 84px !important; }
-      .profile-dashboard-layout { grid-template-columns: 1fr; }
-
-      body.logged-in-mobile .mobile-bottom-dock {
-        display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
-        position: fixed;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 8px 12px max(8px, env(safe-area-inset-bottom)) 12px !important;
-        border-radius: 0 !important;
-        border: none !important;
-        border-top: 1.5px solid var(--border-subtle) !important;
-        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08) !important;
-        z-index: 1000 !important;
-        align-items: center;
-      }
-      .mobile-bottom-dock .dock-btn {
-        background: #FFFFFF;
-        border: 1.5px solid var(--border-subtle);
-        color: var(--apex-navy);
-        padding: 6px 4px 6px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 800;
-        line-height: 1.2;
-        text-decoration: none;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-        position: relative;
-        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-      .mobile-bottom-dock .dock-btn .tile-icon-bubble {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 15px;
-      }
-      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #10B981; }
-      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
-      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
-      .mobile-bottom-dock .dock-btn:hover, .mobile-bottom-dock .dock-btn.active { border-color: var(--royal-blue); }
-      .mobile-bottom-dock .dock-badge {
-        position: absolute;
-        top: -4px;
-        right: -3px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 12px;
-        padding: 1px 6px;
-        border: 1.5px solid #FFFFFF;
-      }
-      body.modal-open .mobile-bottom-dock { display: none !important; }
-    }
-
     .hidden { display: none !important; }
   </style>
 </head>
@@ -832,7 +744,8 @@
 
       <div class="badge-pill-row">
         <span class="badge-pill-green" id="profileRoleBadge">Verified Educator 👨‍🏫</span>
-        <span class="badge-pill-gold"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0/5 Stars</span>
+        <!-- Hidden automatically for students -->
+        <span class="badge-pill-gold" id="profileRatingBadge"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0/5 Stars</span>
       </div>
 
       <button class="btn-edit-details" onclick="openEditModal()">
@@ -871,7 +784,7 @@
         <div class="chip-value" id="profileSubject">—</div>
       </div>
 
-      <div class="fields-two-col">
+      <div class="fields-two-col" id="teacherFeeQualContainer">
         <div class="detail-card-chip">
           <div class="chip-label"><i class="fa-solid fa-certificate"></i> QUALIFICATION &amp; EXP</div>
           <div class="chip-value" id="profileQualExp">—</div>
@@ -899,7 +812,8 @@
 
     <!-- RIGHT COLUMN -->
     <div class="right-column">
-      <div class="dashboard-panel">
+      <!-- Hidden automatically for students -->
+      <div class="dashboard-panel" id="teacherStarRatingPanel">
         <div class="panel-header-title">
           <i class="fa-solid fa-star" style="color: var(--apex-gold);"></i> Teacher Star Rating Program
         </div>
@@ -1157,7 +1071,7 @@
   </div>
 </div>
 
-<!-- STUDENT EDIT DETAILS MODAL -->
+<!-- STUDENT EDIT DETAILS MODAL: EXACT REPLICA OF REGISTRATION FLOW -->
 <div class="app-modal-overlay" id="editStudentModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -1261,24 +1175,14 @@
             <input id="esBoardOtherInput" type="text" placeholder="Specify board">
           </div>
 
+          <!-- Student Subject Multi-Select Dropdown Checklist (Exact replica of registration) -->
           <div class="form-group-full" id="esAcademicSubjectGroup">
             <label>Subject Requirement</label>
-            <select id="esSubjectSelect" onchange="handleStudentSubjectOtherEdit()">
-              <option value="Mathematics">Mathematics</option>
-              <option value="Science (General)">Science (General)</option>
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Biology">Biology</option>
-              <option value="English">English</option>
-              <option value="Social Science">Social Science</option>
-              <option value="Economics">Economics</option>
-              <option value="Accountancy">Accountancy</option>
-              <option value="Computer Science">Computer Science</option>
-              <option value="Hindi">Hindi</option>
-              <option value="All Subjects">All Subjects</option>
-              <option value="Others">Others</option>
-            </select>
-            <input id="esSubjectOtherInput" type="text" class="hidden" placeholder="Specify exact subject" style="margin-top:6px;">
+            <div class="custom-multiselect">
+              <div class="multiselect-trigger" id="esSubjectsTrigger" onclick="toggleMultiDropdown('esSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
+              <div class="multiselect-dropdown-box" id="esSubjectsDropdown"></div>
+            </div>
+            <input id="esSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
           </div>
 
           <div class="form-group-full hidden" id="esNonAcademicGroup">
@@ -1490,10 +1394,26 @@ function populateTeacherSubjectChecklist() {
   tSubs.innerHTML = html;
 }
 
+function populateStudentSubjectChecklist() {
+  const sSubs = document.getElementById("esSubjectsDropdown");
+  if (!sSubs) return;
+  let html = ACADEMIC_SUBJECTS_LIST.map(sub => `
+    <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('esSubjects')"> ${sub}</label>
+  `).join("");
+  html += `<label class="multiselect-item"><input type="checkbox" id="esSubjectOtherCb" value="Others" onchange="handleStudentSubjectOtherToggle()"> Others</label>`;
+  sSubs.innerHTML = html;
+}
+
 function handleTeacherSubjectOtherToggle() {
   const cb = document.getElementById("etSubjectOtherCb");
   document.getElementById("etSubjectOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel('etSubjects');
+}
+
+function handleStudentSubjectOtherToggle() {
+  const cb = document.getElementById("esSubjectOtherCb");
+  document.getElementById("esSubjectOtherInput").classList.toggle("hidden", !cb.checked);
+  updateMultiLabel('esSubjects');
 }
 
 function handleBoardOtherToggle(p) {
@@ -1564,10 +1484,6 @@ function handleStudentCategoryChangeEdit() {
 function handleStudentBoardOtherEdit() {
   const val = document.getElementById("esBoard").value;
   document.getElementById("esBoardOtherGroup").classList.toggle("hidden", val !== "Others");
-}
-function handleStudentSubjectOtherEdit() {
-  const val = document.getElementById("esSubjectSelect").value;
-  document.getElementById("esSubjectOtherInput").classList.toggle("hidden", val !== "Others");
 }
 function handleStudentSkillOtherEdit() {
   const val = document.getElementById("esSkillSelect").value;
@@ -1660,8 +1576,22 @@ function openEditModal() {
     }
 
     if (profileRecord.student_class) document.getElementById("esClass").value = profileRecord.student_class;
-    if (profileRecord.board) document.getElementById("esBoard").value = profileRecord.board;
-    if (profileRecord.subject) document.getElementById("esSubjectSelect").value = profileRecord.subject;
+    
+    // Set Board
+    const stdBoard = profileRecord.board || "CBSE";
+    const boardKnownOptions = ["CBSE", "ICSE", "IGCSE", "IB", "State"];
+    if (boardKnownOptions.includes(stdBoard)) {
+      document.getElementById("esBoard").value = stdBoard;
+      document.getElementById("esBoardOtherGroup").classList.add("hidden");
+    } else {
+      document.getElementById("esBoard").value = "Others";
+      document.getElementById("esBoardOtherInput").value = stdBoard;
+      document.getElementById("esBoardOtherGroup").classList.remove("hidden");
+    }
+
+    // Set Subjects (Multi-select)
+    const subs = (profileRecord.subject || "").split(", ");
+    setCheckedValues("esSubjectsDropdown", subs, "esSubjects");
 
     navStudentEditStep(1);
     document.body.classList.add("modal-open");
@@ -1796,9 +1726,12 @@ async function saveStudentEdit() {
     if (bVal === "Others") bVal = document.getElementById("esBoardOtherInput").value.trim() || "Other Board";
     boardStr = bVal;
 
-    let subVal = document.getElementById("esSubjectSelect").value;
-    if (subVal === "Others") subVal = document.getElementById("esSubjectOtherInput").value.trim() || "Other Subject";
-    subjectStr = subVal;
+    let subList = getCheckedValues("esSubjectsDropdown").filter(s => s !== "Others");
+    if (document.getElementById("esSubjectOtherCb")?.checked) {
+      const otherSub = document.getElementById("esSubjectOtherInput").value.trim();
+      if (otherSub) subList.push(otherSub);
+    }
+    subjectStr = subList.join(", ") || "All Subjects";
   } else if (category === "Non-Academic") {
     let skillVal = document.getElementById("esSkillSelect").value;
     if (skillVal === "Others") skillVal = document.getElementById("esSkillOtherInput").value.trim() || "Other Skill";
@@ -1905,7 +1838,7 @@ async function applyAndSaveCroppedAvatar() {
 }
 
 function populateUI(data) {
-  const name = data.teacher_name || data.student_name || "Vusala Lokesh";
+  const name = data.teacher_name || data.student_name || "Member";
   document.getElementById("profileName").textContent = name;
   document.getElementById("profileEmail").textContent = currentUser.email || "—";
   document.getElementById("profileMobile").textContent = data.mobile || "—";
@@ -1913,10 +1846,17 @@ function populateUI(data) {
   document.getElementById("profileGrades").textContent = data.classes || data.student_class || "—";
   document.getElementById("profileBoard").textContent = data.board || "—";
   document.getElementById("profileSubject").textContent = data.subject || "—";
-  document.getElementById("profileQualExp").textContent = data.qualification || "Educator";
-  document.getElementById("profileFee").textContent = data.fee ? `₹${data.fee}` : "Negotiable";
   document.getElementById("profileLocation").textContent = data.address || "—";
   document.getElementById("profileTimings").textContent = data.timing_fee_desc || "Flexible";
+
+  if (currentRole === 'student') {
+    // Hide teacher specific qualification & fee
+    document.getElementById("teacherFeeQualContainer").classList.add("hidden");
+  } else {
+    document.getElementById("teacherFeeQualContainer").classList.remove("hidden");
+    document.getElementById("profileQualExp").textContent = data.qualification || "Educator";
+    document.getElementById("profileFee").textContent = data.fee ? `₹${data.fee}` : "Negotiable";
+  }
 
   if (data.avatar_url) {
     document.getElementById("profileAvatarImg").src = data.avatar_url;
@@ -1930,6 +1870,7 @@ if (localStorage.getItem("apex_cached_auth") === "true") {
 window.addEventListener("DOMContentLoaded", async () => {
   populateTeacherGradeChecklist();
   populateTeacherSubjectChecklist();
+  populateStudentSubjectChecklist();
 
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
@@ -1942,6 +1883,8 @@ window.addEventListener("DOMContentLoaded", async () => {
       currentRole = 'teacher';
       profileRecord = t;
       document.getElementById("profileRoleBadge").textContent = "Verified Educator 👨‍🏫";
+      document.getElementById("profileRatingBadge").classList.remove("hidden");
+      document.getElementById("teacherStarRatingPanel").classList.remove("hidden");
       document.getElementById("dockBrowseLabel").textContent = "🔍 Students";
       populateUI(t);
     } else {
@@ -1949,6 +1892,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       currentRole = 'student';
       profileRecord = s || {};
       document.getElementById("profileRoleBadge").textContent = "Student / Parent 🎓";
+      // REMOVE STAR LOGIC DISPLAY IN STUDENT PROFILE PERMANENTLY
+      document.getElementById("profileRatingBadge").classList.add("hidden");
+      document.getElementById("teacherStarRatingPanel").classList.add("hidden");
       document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
       populateUI(profileRecord);
     }
