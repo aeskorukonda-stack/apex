@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Donate | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -350,36 +350,106 @@
     }
 
     @media (max-width: 768px) {
-      body.logged-in-mobile { padding-bottom: 92px !important; }
+      /* Reserve clearance for the flush bottom dock + device safe area */
+      body.logged-in-mobile { 
+        padding-bottom: calc(90px + env(safe-area-inset-bottom, 0px)) !important; 
+      }
+      
+      /* Screen-intact bottom dock */
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
         position: fixed;
-        bottom: 12px;
-        left: 12px;
-        right: 12px;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
         background: #FFFFFF;
-        padding: 8px 10px;
-        border-radius: 16px;
-        border: 1.5px solid #CBD5E1;
-        box-shadow: 0 8px 24px rgba(10, 25, 47, 0.16);
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+        border-top: 1px solid #E2E8F0;
+        box-shadow: 0 -4px 18px rgba(10, 25, 47, 0.08);
         z-index: 9999;
         align-items: center;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
+
+      /* Pill container card */
       .dock-btn {
-        display: flex; align-items: center; justify-content: center; gap: 6px;
-        padding: 10px 4px; border-radius: 10px; text-decoration: none; font-size: 11px;
-        font-weight: 800; line-height: 1.2; text-align: center; border: 1.5px solid #CBD5E1;
-        background: #FFFFFF; color: #0A192F; position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 8px 6px 7px;
+        border-radius: 14px;
+        text-decoration: none;
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
+        position: relative;
+        transition: var(--transition);
+        -webkit-tap-highlight-color: transparent;
       }
-      .dock-btn-label-stacked { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+      /* Active highlighted tab state matching the screenshot */
+      .dock-btn.active-dock-tab {
+        border-color: #2563EB;
+        background: #FFFFFF;
+      }
+
+      /* Rounded icon badge container */
+      .dock-icon-box {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+      }
+      .dock-icon-box.green {
+        background-color: #E6FBF2;
+        color: #10B981;
+      }
+      .dock-icon-box.gold {
+        background-color: #FEF3C7;
+        color: #D97706;
+      }
+      .dock-icon-box.blue {
+        background-color: #EFF6FF;
+        color: #2563EB;
+      }
+
+      /* Label text styling */
+      .dock-btn-label-stacked {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4.5px;
+        font-size: 13.5px;
+        font-weight: 800;
+        color: #0F172A;
+        line-height: 1.1;
+        letter-spacing: -0.2px;
+      }
+      .dock-label-icon {
+        font-size: 12px;
+      }
+
+      /* Badge indicator */
       .dock-badge {
-        position: absolute; top: -5px; right: -4px; background: #EF4444; color: #FFFFFF;
-        font-size: 9.5px; font-weight: 800; border-radius: 10px; padding: 1px 5px;
+        position: absolute;
+        top: -4px;
+        right: 4px;
+        background: #EF4444;
+        color: #FFFFFF;
+        font-size: 9.5px;
+        font-weight: 800;
+        border-radius: 10px;
+        padding: 1px 6px;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.4);
       }
     }
 
@@ -469,28 +539,37 @@
 
 <!-- Bottom Dock (Hidden until verified authenticated) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
+  <!-- Enquiries Button -->
   <a href="enquiries.html" class="dock-btn">
-    <i class="fa-solid fa-clipboard-list" style="color: #059669;"></i>
+    <div class="dock-icon-box green">
+      <i class="fa-solid fa-comments"></i>
+    </div>
     <div class="dock-btn-label-stacked">
-      <span>My</span>
+      <i class="fa-solid fa-comment-dots dock-label-icon" style="color: #A855F7;"></i>
       <span>Enquiries</span>
     </div>
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <a href="profile.html" class="dock-btn">
-    <i class="fa-solid fa-user" style="color: #6366F1;"></i>
+  <!-- Profile Button -->
+  <a href="profile.html" class="dock-btn active-dock-tab">
+    <div class="dock-icon-box gold">
+      <i class="fa-solid fa-id-badge"></i>
+    </div>
     <div class="dock-btn-label-stacked">
-      <span>View My</span>
+      <i class="fa-solid fa-user dock-label-icon" style="color: #3730A3;"></i>
       <span>Profile</span>
     </div>
   </a>
 
+  <!-- Browse Button -->
   <a href="browse.html" class="dock-btn">
-    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+    <div class="dock-icon-box blue">
+      <i class="fa-solid fa-compass"></i>
+    </div>
     <div class="dock-btn-label-stacked">
-      <span>Browse</span>
-      <span id="dockBrowseLabel">Teachers</span>
+      <i class="fa-solid fa-magnifying-glass dock-label-icon" style="color: #6366F1;"></i>
+      <span id="dockBrowseLabel">Students</span>
     </div>
   </a>
 </nav>
