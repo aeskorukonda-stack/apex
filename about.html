@@ -402,10 +402,10 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
-    /* Fixed intact bottom bar when logged in */
+    /* Fixed intact bottom bar when logged in matching card button design */
     @media (max-width: 768px) {
       body.logged-in-mobile { 
-        padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important; 
+        padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; 
       }
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
@@ -416,57 +416,83 @@
         right: 0 !important;
         width: 100vw !important;
         background: #FFFFFF !important;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px !important;
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px !important;
         border-top: 1px solid #E2E8F0 !important;
-        border-bottom: none !important;
-        border-left: none !important;
-        border-right: none !important;
-        border-radius: 0 !important;
-        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08) !important;
+        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.06) !important;
         z-index: 99999 !important;
-        align-items: center;
-        gap: 8px;
+        align-items: stretch;
+        gap: 10px;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
       }
-      .dock-btn {
+      .dock-card-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 3px;
-        padding: 6px 2px;
-        border-radius: 8px;
+        padding: 8px 4px 6px;
+        border-radius: 14px;
         text-decoration: none;
-        font-size: 11px;
-        font-weight: 700;
-        line-height: 1.15;
-        text-align: center;
-        border: none;
-        background: transparent;
-        color: #0A192F;
+        background: #FFFFFF;
+        border: 1.5px solid #CBD5E1;
         position: relative;
-        transition: transform 0.15s ease, background-color 0.15s ease;
+        transition: transform 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
       }
-      .dock-btn:active {
-        background: #F1F5F9;
+      .dock-card-btn.active {
+        border-color: #2563EB;
+        background: #FFFFFF;
+      }
+      .dock-card-btn:active {
         transform: scale(0.97);
+        background: #F8FAFC;
       }
-      .dock-btn i {
-        font-size: 18px;
-        margin-bottom: 1px;
+      .dock-card-icon-wrap {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 5px;
       }
-      .dock-btn-label-stacked { 
-        display: flex; 
-        flex-direction: column; 
-        align-items: center; 
-        justify-content: center; 
+      .dock-card-btn.enquiries .dock-card-icon-wrap {
+        background: #E8FDF3;
+        color: #10B981;
+      }
+      .dock-card-btn.profile .dock-card-icon-wrap {
+        background: #FEF3C7;
+        color: #D97706;
+      }
+      .dock-card-btn.browse .dock-card-icon-wrap {
+        background: #EFF6FF;
+        color: #2563EB;
+      }
+      .dock-card-label {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12.5px;
+        font-weight: 800;
+        color: #0F172A;
+        line-height: 1.2;
+      }
+      .dock-card-label i {
+        font-size: 11px;
+      }
+      .dock-card-btn.enquiries .dock-card-label i {
+        color: #C084FC;
+      }
+      .dock-card-btn.profile .dock-card-label i {
+        color: #312E81;
+      }
+      .dock-card-btn.browse .dock-card-label i {
+        color: #06B6D4;
       }
       .dock-badge {
         position: absolute; 
-        top: 2px; 
-        right: calc(50% - 18px); 
+        top: 4px; 
+        right: 10px; 
         background: #EF4444; 
         color: #FFFFFF;
         font-size: 9px; 
@@ -601,28 +627,34 @@
 
 <!-- Bottom Dock (Hidden until verified authenticated) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn">
-    <i class="fa-solid fa-clipboard-list" style="color: #059669;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>My</span>
+  <a href="enquiries.html" class="dock-card-btn enquiries">
+    <div class="dock-card-icon-wrap">
+      <i class="fa-solid fa-comments" style="font-size: 19px;"></i>
+    </div>
+    <div class="dock-card-label">
+      <i class="fa-solid fa-comment"></i>
       <span>Enquiries</span>
     </div>
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
 
-  <a href="profile.html" class="dock-btn">
-    <i class="fa-solid fa-user" style="color: #6366F1;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>View My</span>
+  <a href="profile.html" class="dock-card-btn profile active">
+    <div class="dock-card-icon-wrap">
+      <i class="fa-solid fa-id-badge" style="font-size: 21px;"></i>
+    </div>
+    <div class="dock-card-label">
+      <i class="fa-solid fa-user"></i>
       <span>Profile</span>
     </div>
   </a>
 
-  <a href="browse.html" class="dock-btn">
-    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
-    <div class="dock-btn-label-stacked">
-      <span>Browse</span>
-      <span id="dockBrowseLabel">Teachers</span>
+  <a href="browse.html" class="dock-card-btn browse">
+    <div class="dock-card-icon-wrap">
+      <i class="fa-regular fa-compass" style="font-size: 20px;"></i>
+    </div>
+    <div class="dock-card-label">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span id="dockBrowseLabel">Students</span>
     </div>
   </a>
 </nav>
