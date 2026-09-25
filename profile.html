@@ -680,6 +680,90 @@
       color: var(--apex-navy);
     }
 
+    /* STANDARDIZED MOBILE BOTTOM DOCK (INTACT THREE BUTTONS) */
+    .mobile-bottom-dock {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      body.logged-in-mobile {
+        padding-bottom: 84px !important;
+      }
+      .profile-dashboard-layout {
+        grid-template-columns: 1fr;
+      }
+
+      body.logged-in-mobile .mobile-bottom-dock {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+        position: fixed;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)) 12px !important;
+        border-radius: 0 !important;
+        border: none !important;
+        border-top: 1.5px solid var(--border-subtle) !important;
+        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08) !important;
+        z-index: 10000 !important;
+        align-items: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+      .mobile-bottom-dock .dock-btn {
+        background: #FFFFFF;
+        border: 1.5px solid var(--border-subtle);
+        color: var(--apex-navy);
+        padding: 6px 4px 6px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 800;
+        line-height: 1.2;
+        text-decoration: none;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+        position: relative;
+        transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .mobile-bottom-dock .dock-btn .tile-icon-bubble {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+      }
+      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #10B981; }
+      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
+      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
+      .mobile-bottom-dock .dock-btn:hover, .mobile-bottom-dock .dock-btn.active { border-color: var(--royal-blue); }
+      .mobile-bottom-dock .dock-badge {
+        position: absolute;
+        top: -4px;
+        right: -3px;
+        background: #EF4444;
+        color: #FFFFFF;
+        font-size: 9.5px;
+        font-weight: 800;
+        border-radius: 12px;
+        padding: 1px 6px;
+        border: 1.5px solid #FFFFFF;
+      }
+      body.modal-open .mobile-bottom-dock { display: none !important; }
+    }
+
     .hidden { display: none !important; }
   </style>
 </head>
@@ -744,7 +828,6 @@
 
       <div class="badge-pill-row">
         <span class="badge-pill-green" id="profileRoleBadge">Verified Educator 👨‍🏫</span>
-        <!-- Hidden automatically for students -->
         <span class="badge-pill-gold" id="profileRatingBadge"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0/5 Stars</span>
       </div>
 
@@ -812,7 +895,6 @@
 
     <!-- RIGHT COLUMN -->
     <div class="right-column">
-      <!-- Hidden automatically for students -->
       <div class="dashboard-panel" id="teacherStarRatingPanel">
         <div class="panel-header-title">
           <i class="fa-solid fa-star" style="color: var(--apex-gold);"></i> Teacher Star Rating Program
@@ -1071,7 +1153,7 @@
   </div>
 </div>
 
-<!-- STUDENT EDIT DETAILS MODAL: EXACT REPLICA OF REGISTRATION FLOW -->
+<!-- STUDENT EDIT DETAILS MODAL -->
 <div class="app-modal-overlay" id="editStudentModalOverlay">
   <div class="app-modal-card">
     <div class="modal-header">
@@ -1175,7 +1257,7 @@
             <input id="esBoardOtherInput" type="text" placeholder="Specify board">
           </div>
 
-          <!-- Student Subject Multi-Select Dropdown Checklist (Exact replica of registration) -->
+          <!-- Multi-Select Checklist matching Registration Exactly -->
           <div class="form-group-full" id="esAcademicSubjectGroup">
             <label>Subject Requirement</label>
             <div class="custom-multiselect">
@@ -1280,7 +1362,7 @@
   </div>
 </div>
 
-<!-- BOTTOM DOCK -->
+<!-- BOTTOM DOCK (INTACT THREE ACTION BUTTONS) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn tile-enquiries">
     <div class="tile-icon-bubble"><i class="fa-solid fa-comments"></i></div>
@@ -1850,7 +1932,6 @@ function populateUI(data) {
   document.getElementById("profileTimings").textContent = data.timing_fee_desc || "Flexible";
 
   if (currentRole === 'student') {
-    // Hide teacher specific qualification & fee
     document.getElementById("teacherFeeQualContainer").classList.add("hidden");
   } else {
     document.getElementById("teacherFeeQualContainer").classList.remove("hidden");
@@ -1892,7 +1973,6 @@ window.addEventListener("DOMContentLoaded", async () => {
       currentRole = 'student';
       profileRecord = s || {};
       document.getElementById("profileRoleBadge").textContent = "Student / Parent 🎓";
-      // REMOVE STAR LOGIC DISPLAY IN STUDENT PROFILE PERMANENTLY
       document.getElementById("profileRatingBadge").classList.add("hidden");
       document.getElementById("teacherStarRatingPanel").classList.add("hidden");
       document.getElementById("dockBrowseLabel").textContent = "🔍 Teachers";
