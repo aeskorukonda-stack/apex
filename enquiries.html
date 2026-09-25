@@ -19,6 +19,7 @@
       --royal-blue: #2563EB;
       --royal-blue-hover: #1D4ED8;
       --apex-gold: #F59E0B;
+      --apex-gold-deep: #D97706;
       --emerald: #10B981;
       --emerald-dark: #059669;
       --emerald-light: #ECFDF5;
@@ -27,28 +28,29 @@
       --text-main: #0F172A;
       --text-muted: #64748B;
       --border-subtle: #E2E8F0;
-      --card-radius: 18px;
-      --btn-radius: 10px;
-      --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
+      --card-radius: 20px;
+      --btn-radius: 12px;
+      --shadow-grand: 0 20px 40px -8px rgba(10, 25, 47, 0.08), 0 4px 12px rgba(10, 25, 47, 0.03);
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg-slate);
+      background: radial-gradient(circle at 50% 0%, #EEF4FF 0%, #F8FAFC 50%, #F1F5F9 100%);
       color: var(--text-main);
       line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
-      padding-top: 74px;
+      padding-top: 76px;
     }
 
     header {
-      background: rgba(10, 25, 47, 0.98);
-      backdrop-filter: blur(12px);
+      background: rgba(10, 25, 47, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: 14px 28px;
       border-bottom: 3.5px solid var(--apex-gold);
       position: fixed;
@@ -56,7 +58,7 @@
       left: 0;
       right: 0;
       z-index: 10000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
       width: 100%;
     }
     .header-wrap {
@@ -74,8 +76,8 @@
       text-decoration: none;
     }
     .header-logo {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       border: 2px solid #ffffff;
       background: #ffffff;
@@ -212,120 +214,327 @@
 
     main {
       flex: 1;
-      padding: 36px 20px 80px;
-      max-width: 680px;
+      padding: 32px 18px 80px;
+      max-width: 760px;
       margin: 0 auto;
       width: 100%;
     }
+
+    /* Grand Container Card */
     .enquiries-card {
       background: #FFFFFF;
       border-radius: var(--card-radius);
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-card);
-      padding: 32px 28px;
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: var(--shadow-grand);
+      padding: 32px 30px;
+      position: relative;
+    }
+
+    .enquiries-header {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #EEF2F6;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .enquiries-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
     }
     .enquiries-header h2 {
-      font-size: 22px;
+      font-size: 23px;
       color: var(--apex-navy);
       font-weight: 800;
-      margin-bottom: 4px;
+      letter-spacing: -0.4px;
     }
     .enquiries-header p {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-muted);
-      margin-bottom: 14px;
+      margin-top: 4px;
     }
+
     .refresh-btn {
-      background: none;
-      border: none;
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
       color: var(--royal-blue);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+    .refresh-btn:hover {
+      background: #DBEAFE;
+      transform: translateY(-1px);
+    }
+
+    /* Grand Item Cards */
+    .enquiry-item-box {
+      border: 1.5px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
+      background: #FFFFFF;
+      margin-bottom: 18px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+      position: relative;
+    }
+    .enquiry-item-box:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
+      transform: translateY(-2px);
+    }
+    .enquiry-item-box.is-confirmed {
+      border-color: #A7F3D0;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+    }
+
+    .enquiry-meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-badge.confirmed {
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .status-badge.confirmed::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+    }
+    .status-badge.pending {
+      background: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .status-badge.pending::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #F59E0B;
+    }
+
+    .enquiry-details-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+    .enquiry-name {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .enquiry-sub {
+      font-size: 13px;
+      color: #334155;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .enquiry-sub strong {
+      color: var(--royal-blue);
+    }
+    .enquiry-phone {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Grand Action Buttons */
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px dashed #E2E8F0;
+    }
+
+    .btn-grand {
+      border: none;
+      border-radius: var(--btn-radius);
+      padding: 10px 16px;
       font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      margin-bottom: 20px;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .btn-grand:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
     }
 
-    .enquiry-item-box {
-      border: 1.5px solid #E2E8F0;
-      border-radius: 14px;
-      padding: 18px 16px;
-      background: #F8FAFC;
-      margin-bottom: 14px;
+    .btn-accept {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #ffffff;
+      flex: 1;
     }
-    .enquiry-meta-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
+    .btn-reject {
+      background: #FFFFFF;
+      color: #EF4444;
+      border: 1.5px solid #FCA5A5;
+      flex: 1;
     }
-    .status-badge {
-      font-size: 10.5px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 6px;
-      text-transform: uppercase;
+    .btn-reject:hover {
+      background: #FEF2F2;
+      border-color: #EF4444;
     }
-    .status-badge.confirmed { background: #DCFCE7; color: #166534; }
-    .status-badge.pending { background: #FEF3C7; color: #B45309; }
 
-    .enquiry-name {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-bottom: 4px;
+    .btn-wa-active {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #ffffff;
+      flex: 1;
+      min-width: 140px;
     }
-    .enquiry-sub {
+    .btn-tuition-lock {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+      cursor: default;
+      flex: 1;
+      min-width: 140px;
+      box-shadow: none;
+    }
+    .btn-tuition-lock:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Support / Donate CTA Highlight */
+    .btn-donate-support {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+      color: #FFFFFF !important;
+      flex: 1.2;
+      min-width: 170px;
+      border: 1px solid #FBBF24;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    .btn-donate-support:hover {
+      background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-end {
+      background: #FFFFFF;
+      color: #E11D48;
+      border: 1.5px solid #FECDD3;
+      padding: 10px 14px;
+      border-radius: var(--btn-radius);
       font-size: 12.5px;
-      color: var(--royal-blue);
       font-weight: 700;
-      margin-bottom: 4px;
+      cursor: pointer;
+      transition: var(--transition);
     }
-    .enquiry-phone {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
+    .btn-end:hover {
+      background: #FFF1F2;
+      border-color: #E11D48;
     }
 
+    .notice-pending {
+      font-size: 12.5px;
+      color: #92400E;
+      font-weight: 700;
+      background: #FFFBEB;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #FDE68A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Free Platform Support Box on Confirmed Tuitions */
+    .support-inline-note {
+      font-size: 11.5px;
+      color: #78350F;
+      background: #FEF3C7;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      border: 1px solid #FDE68A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
+    }
+
+    /* Mobile Bottom Dock */
     .mobile-bottom-dock {
       display: none !important;
     }
 
     @media (max-width: 768px) {
       body.logged-in-mobile { 
-        padding-bottom: calc(78px + env(safe-area-inset-bottom, 0px)) !important; 
+        padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
         grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
+        gap: 10px;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100vw !important;
         background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(16px);
-        padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-        border-top: 1.5px solid #CBD5E1;
-        border-radius: 18px 18px 0 0;
-        box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08);
+        backdrop-filter: blur(18px);
+        padding: 9px 12px calc(9px + env(safe-area-inset-bottom, 0px));
+        border-top: 1.5px solid #E2E8F0;
+        border-radius: 20px 20px 0 0;
+        box-shadow: 0 -4px 25px rgba(10, 25, 47, 0.09);
         z-index: 99999;
         align-items: center;
       }
 
       .mobile-bottom-dock .dock-btn {
         background: #FFFFFF;
-        border: 1px solid #E2E8F0;
+        border: 1.5px solid #E2E8F0;
         color: var(--apex-navy);
-        padding: 6px 4px 4px;
-        border-radius: 12px;
-        font-size: 11px;
+        padding: 7px 4px 5px;
+        border-radius: 14px;
+        font-size: 11.5px;
         font-weight: 800;
-        line-height: 1.2;
         text-decoration: none;
         text-align: center;
         display: flex;
@@ -334,16 +543,17 @@
         justify-content: center;
         gap: 4px;
         position: relative;
+        transition: var(--transition);
       }
 
       .mobile-bottom-dock .dock-btn .tile-icon-bubble {
-        width: 32px;
-        height: 32px;
+        width: 34px;
+        height: 34px;
         border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 15px;
+        font-size: 16px;
       }
       .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { 
         background: #ECFDF5; 
@@ -358,10 +568,9 @@
         color: #2563EB; 
       }
 
-      .mobile-bottom-dock .dock-btn:hover,
       .mobile-bottom-dock .dock-btn.active {
-        background: #FFFFFF;
         border-color: var(--royal-blue);
+        box-shadow: 0 4px 10px rgba(37, 99, 235, 0.12);
       }
 
       .mobile-bottom-dock .dock-badge {
@@ -370,20 +579,21 @@
         right: 4px;
         background: #EF4444;
         color: #FFFFFF;
-        font-size: 9.5px;
+        font-size: 10px;
         font-weight: 800;
         border-radius: 12px;
-        padding: 1px 6px;
+        padding: 1px 7px;
       }
     }
 
     @media (max-width: 960px) {
-      header { padding: 10px 14px; }
-      body { padding-top: 68px; }
+      header { padding: 10px 16px; }
+      body { padding-top: 70px; }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 6px; }
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
+      .enquiries-card { padding: 22px 18px; }
     }
 
     .hidden { display: none !important; }
@@ -442,11 +652,15 @@
 <main>
   <div class="enquiries-card">
     <div class="enquiries-header">
-      <h2>Tuition Enquiries & Confirmation</h2>
-      <p>Manage incoming requests and active tuitions.</p>
-      <button class="refresh-btn" onclick="loadEnquiries()">
-        <i class="fa-solid fa-rotate"></i> Refresh
-      </button>
+      <div class="enquiries-header-top">
+        <div>
+          <h2>Tuition Enquiries</h2>
+          <p>Tracking your pending & confirmed tuitions exclusively.</p>
+        </div>
+        <button class="refresh-btn" onclick="loadEnquiries()">
+          <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
+      </div>
     </div>
 
     <div id="enquiriesList">
@@ -511,21 +725,28 @@ function toggleMobileNav() {
 async function loadEnquiries() {
   if (!currentUser) return;
   const listEl = document.getElementById("enquiriesList");
-  listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>Loading records...</p>";
+  listEl.innerHTML = "<p style='font-size:13.5px;color:var(--text-muted);padding:14px 0;'>Loading active records...</p>";
 
+  // Explicitly fetch ONLY Pending & Confirmed records
   const { data, error } = await db.from("enquiries")
     .select("*")
     .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
-    .in("status", ["Pending", "Confirmed"])
+    .in("status", ["Pending", "Confirmed", "pending", "confirmed"])
     .order("created_at", { ascending: false });
 
   if (error) {
-    listEl.innerHTML = "<p style='font-size:13px;color:#EF4444;'>Failed to load enquiries. Please refresh.</p>";
+    listEl.innerHTML = "<p style='font-size:13.5px;color:#EF4444;'>Failed to load enquiries. Please refresh.</p>";
     return;
   }
 
   if (!data || data.length === 0) {
-    listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>No active pending or confirmed enquiries found.</p>";
+    listEl.innerHTML = `
+      <div style="text-align:center;padding:40px 14px;">
+        <i class="fa-regular fa-folder-open" style="font-size:36px;color:#CBD5E1;margin-bottom:12px;"></i>
+        <h4 style="font-size:16px;color:var(--apex-navy);margin-bottom:4px;">No Pending or Confirmed Tuitions</h4>
+        <p style="font-size:13px;color:var(--text-muted);">When a student contacts a teacher, active items will appear here.</p>
+      </div>
+    `;
     return;
   }
 
@@ -533,73 +754,100 @@ async function loadEnquiries() {
     const isIncoming = (item.recipient_id === currentUser.id);
     const rawContactName = isIncoming ? item.sender_name : item.recipient_name;
     const rawContactMobile = isIncoming ? item.sender_mobile : item.recipient_mobile;
-    const rawStatus = item.status || 'Pending';
+    const rawStatus = (item.status || 'Pending');
+    const isConfirmed = rawStatus.toLowerCase() === 'confirmed';
 
     const safeContactName = escapeHtml(rawContactName || 'Member');
     const safeSubject = escapeHtml(item.subject || 'Tuition');
     const safeMobile = escapeHtml(rawContactMobile || 'Not provided');
-    const safeStatus = escapeHtml(rawStatus);
-    const statusClass = escapeHtml(rawStatus.toLowerCase());
+    const safeStatus = isConfirmed ? 'Confirmed' : 'Pending';
+    const statusClass = isConfirmed ? 'confirmed' : 'pending';
     const waUrl = sanitizeWhatsAppUrl(rawContactMobile);
 
     let actionButtons = '';
 
-    if (rawStatus === 'Pending') {
+    if (!isConfirmed) {
       if (isIncoming) {
         actionButtons = `
-          <div style="display:flex;gap:8px;margin-top:10px;">
-            <button onclick="respondEnquiry('${item.id}', 'Confirmed')" style="flex:1;background:#10B981;color:#fff;border:none;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;">
+          <div class="action-row">
+            <button class="btn-grand btn-accept" onclick="respondEnquiry('${item.id}', 'Confirmed')">
               <i class="fa-solid fa-check"></i> Accept Enquiry
             </button>
-            <button onclick="respondEnquiry('${item.id}', 'Rejected')" style="flex:1;background:#EF4444;color:#fff;border:none;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;">
+            <button class="btn-grand btn-reject" onclick="respondEnquiry('${item.id}', 'Rejected')">
               <i class="fa-solid fa-xmark"></i> Reject
             </button>
           </div>
         `;
       } else {
         actionButtons = `
-          <div style="margin-top:10px;font-size:12px;color:#92400E;font-weight:700;background:#FEF3C7;padding:8px 12px;border-radius:8px;border:1px solid #FDE68A;">
-            <i class="fa-solid fa-clock"></i> Enquiry sent. Waiting for response.
+          <div class="action-row">
+            <div class="notice-pending">
+              <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
+            </div>
           </div>
         `;
       }
-    } else if (rawStatus === 'Confirmed') {
+    } else {
       let waButtonHtml = '';
       if (currentRole === 'student') {
-        // ONLY STUDENT'S BUTTON IS LOCKED WITH TUITION CONFIRMED BUTTON
         waButtonHtml = `
-          <div style="flex:1;min-width:140px;background:#10B981;color:#fff;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:default;">
-            <i class="fa-solid fa-lock"></i> Tuition Confirmed
+          <div class="btn-grand btn-tuition-lock">
+            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
           </div>
         `;
       } else {
-        // TEACHER'S WHATSAPP BUTTON IS NEVER LOCKED AT ANY COST
         waButtonHtml = `
-          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-grand btn-wa-active">
             <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
           </a>
         `;
       }
 
+      // DONATE / SUPPORT BUTTON PLACED NEXT TO CONFIRMED TUITION ACTION
+      const donateButtonHtml = `
+        <a href="donate.html" class="btn-grand btn-donate-support" title="Apex Tuitions is 100% free! Support our platform.">
+          <i class="fa-solid fa-hand-holding-heart"></i> Support Platform (Free)
+        </a>
+      `;
+
       actionButtons = `
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center;">
+        <div class="action-row">
           ${waButtonHtml}
-          <button onclick="endTuition('${item.id}')" style="flex:1;min-width:130px;background:#FFF1F2;color:#E11D48;border:1.5px solid #FFE4E6;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;cursor:pointer;">
+          ${donateButtonHtml}
+          <button onclick="endTuition('${item.id}')" class="btn-end" title="Conclude Tuition">
             <i class="fa-solid fa-power-off"></i> End Tuition
           </button>
+        </div>
+        <div class="support-inline-note">
+          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Please consider donating to support platform costs!
         </div>
       `;
     }
 
     return `
-      <div class="enquiry-item-box">
+      <div class="enquiry-item-box ${isConfirmed ? 'is-confirmed' : ''}">
         <div class="enquiry-meta-top">
           <span class="status-badge ${statusClass}">${safeStatus}</span>
-          <span style="font-size:11.5px;color:var(--text-muted);">${isIncoming ? 'Incoming Request' : 'Sent by You'}</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-muted);">
+            <i class="fa-regular ${isIncoming ? 'fa-arrow-down-long' : 'fa-paper-plane'}"></i> ${isIncoming ? 'Incoming Request' : 'Sent by You'}
+          </span>
         </div>
-        <div class="enquiry-name">${safeContactName}</div>
-        <div class="enquiry-sub">Subject: ${safeSubject}</div>
-        <div class="enquiry-phone">WhatsApp: ${safeMobile}</div>
+        
+        <div class="enquiry-details-wrap">
+          <div class="enquiry-name">
+            <i class="fa-regular fa-user" style="color:var(--royal-blue);font-size:15px;"></i>
+            ${safeContactName}
+          </div>
+          <div class="enquiry-sub">
+            <i class="fa-solid fa-book-open" style="color:#64748B;font-size:12px;"></i>
+            Subject: <strong>${safeSubject}</strong>
+          </div>
+          <div class="enquiry-phone">
+            <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:13px;"></i>
+            WhatsApp: ${safeMobile}
+          </div>
+        </div>
+
         ${actionButtons}
       </div>
     `;
@@ -656,7 +904,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const { data: enq } = await db.from("enquiries")
       .select("id")
       .eq("recipient_id", currentUser.id)
-      .eq("status", "Pending");
+      .in("status", ["Pending", "pending"]);
 
     if (enq && enq.length > 0) {
       const badge = document.getElementById("dockEnquiryBadge");
