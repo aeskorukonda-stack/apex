@@ -1413,10 +1413,10 @@
     .social-toggle-btn:hover {
       background: var(--royal-blue);
     }
-    .social-toggle-btn i {
+   .social-toggle-btn i {
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .social-bar-wrapper.is-hidden .social-toggle-btn i {
+    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
       transform: rotate(180deg);
     }
     .social-bar {
@@ -1589,10 +1589,12 @@
 </head>
 <body>
 
+<body>
+
 <!-- VERTICAL SOCIAL MEDIA TOOLBAR (RIGHT SIDE) -->
-<div class="social-bar-wrapper" id="socialToolbarWrapper">
+<div class="social-bar-wrapper is-hidden" id="socialToolbarWrapper">
   <button type="button" class="social-toggle-btn" id="socialToggleBtn" onclick="toggleSocialToolbar()" aria-label="Toggle Social Links">
-    <i class="fa-solid fa-chevron-right"></i>
+    <i class="fa-solid fa-chevron-left"></i>
   </button>
   <div class="social-bar" aria-label="Social Links">
     <a href="https://www.facebook.com/share/19swwVedeT/" class="social-link social-fb" target="_blank" rel="noopener noreferrer" title="Facebook">
