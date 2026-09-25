@@ -305,9 +305,6 @@
       gap: 6px;
     }
 
-    /* ========================================================
-       MOBILE BOTTOM DOCK (FLUSH & SAFE ANCHORED)
-       ======================================================== */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -455,14 +452,12 @@
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
       </div>
 
-      <!-- HAMBURGER BUTTON -->
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
   </div>
 
-  <!-- MOBILE SLIDE-OUT DRAWER -->
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
     <a href="browse.html">🔍 Browse</a>
@@ -477,7 +472,7 @@
   <div class="enquiries-card">
     <div class="enquiries-header">
       <h2>Tuition Enquiries & Confirmation</h2>
-      <p>Showing active Pending and Confirmed tuitions.</p>
+      <p>Manage incoming requests and active tuitions.</p>
       <button class="refresh-btn" onclick="loadEnquiries()">
         <i class="fa-solid fa-rotate"></i> Refresh
       </button>
@@ -489,7 +484,6 @@
   </div>
 </main>
 
-<!-- STANDARDIZED GRAND 3-TILE BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-btn tile-enquiries active">
     <div class="tile-icon-bubble">
@@ -520,6 +514,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
+let currentRole = null;
 
 function escapeHtml(str) {
   if (str === null || str === undefined) return '';
@@ -547,7 +542,6 @@ async function loadEnquiries() {
   const listEl = document.getElementById("enquiriesList");
   listEl.innerHTML = "<p style='font-size:13px;color:var(--text-muted);'>Loading records...</p>";
 
-  // Filtered strictly to Pending and Confirmed records
   const { data, error } = await db.from("enquiries")
     .select("*")
     .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
@@ -577,6 +571,58 @@ async function loadEnquiries() {
     const statusClass = escapeHtml(rawStatus.toLowerCase());
     const waUrl = sanitizeWhatsAppUrl(rawContactMobile);
 
+    let actionButtons = '';
+
+    if (rawStatus === 'Pending') {
+      if (isIncoming) {
+        actionButtons = `
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button onclick="respondEnquiry('${item.id}', 'Confirmed')" style="flex:1;background:#10B981;color:#fff;border:none;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;">
+              <i class="fa-solid fa-check"></i> Accept Enquiry
+            </button>
+            <button onclick="respondEnquiry('${item.id}', 'Rejected')" style="flex:1;background:#EF4444;color:#fff;border:none;border-radius:8px;padding:9px;font-weight:800;font-size:12.5px;cursor:pointer;">
+              <i class="fa-solid fa-xmark"></i> Reject
+            </button>
+          </div>
+        `;
+      } else {
+        actionButtons = `
+          <div style="margin-top:10px;font-size:12px;color:#92400E;font-weight:700;background:#FEF3C7;padding:8px 12px;border-radius:8px;border:1px solid #FDE68A;">
+            <i class="fa-solid fa-clock"></i> Enquiry sent. Waiting for response.
+          </div>
+        `;
+      }
+    } else if (rawStatus === 'Confirmed') {
+      let waButtonHtml = '';
+      if (currentRole === 'student') {
+        // STUDENT BUTTON IS LOCKED WITH TUITION CONFIRMED
+        waButtonHtml = `
+          <div style="flex:1;min-width:140px;background:#10B981;color:#fff;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:6px;cursor:default;">
+            <i class="fa-solid fa-lock"></i> Tuition Confirmed
+          </div>
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="flex:0.8;min-width:110px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+            <i class="fa-brands fa-whatsapp"></i> Chat
+          </a>
+        `;
+      } else {
+        // TEACHER BUTTON REMAINS FULLY UNLOCKED
+        waButtonHtml = `
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;background:#25D366;color:#fff;text-decoration:none;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;text-align:center;display:inline-flex;align-items:center;justify-content:center;gap:6px;">
+            <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+          </a>
+        `;
+      }
+
+      actionButtons = `
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;align-items:center;">
+          ${waButtonHtml}
+          <button onclick="endTuition('${item.id}')" style="flex:1;min-width:130px;background:#FFF1F2;color:#E11D48;border:1.5px solid #FFE4E6;border-radius:8px;padding:9px 12px;font-size:12.5px;font-weight:800;cursor:pointer;">
+            <i class="fa-solid fa-power-off"></i> End Tuition
+          </button>
+        </div>
+      `;
+    }
+
     return `
       <div class="enquiry-item-box">
         <div class="enquiry-meta-top">
@@ -586,12 +632,38 @@ async function loadEnquiries() {
         <div class="enquiry-name">${safeContactName}</div>
         <div class="enquiry-sub">Subject: ${safeSubject}</div>
         <div class="enquiry-phone">WhatsApp: ${safeMobile}</div>
-        <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-chat-wa">
-          <i class="fa-brands fa-whatsapp"></i> Chat
-        </a>
+        ${actionButtons}
       </div>
     `;
   }).join("");
+}
+
+async function respondEnquiry(id, status) {
+  const updates = { status: status };
+  if (status === 'Confirmed') {
+    updates.confirmed_at = new Date().toISOString();
+  }
+  const { error } = await db.from("enquiries").update(updates).eq("id", id);
+  if (error) {
+    alert("Action failed: " + error.message);
+  } else {
+    loadEnquiries();
+  }
+}
+
+async function endTuition(id) {
+  if (!confirm("Are you sure you want to end this tuition? Student's WhatsApp contact lock will be revoked.")) return;
+  const { error } = await db.from("enquiries").update({
+    status: 'Completed',
+    ended_at: new Date().toISOString()
+  }).eq("id", id);
+
+  if (error) {
+    alert("Could not end tuition: " + error.message);
+  } else {
+    alert("Tuition ended successfully. The student can now contact a new teacher.");
+    loadEnquiries();
+  }
 }
 
 if (localStorage.getItem("apex_cached_auth") === "true") {
@@ -606,6 +678,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     document.body.classList.add("logged-in-mobile", "is-logged-in");
 
     const { data: teacher } = await db.from("teachers").select("id").eq("id", currentUser.id).maybeSingle();
+    currentRole = teacher ? 'teacher' : 'student';
+
     const dockBrowseLabel = document.getElementById("dockBrowseLabel");
     if (dockBrowseLabel) {
       dockBrowseLabel.textContent = teacher ? "🔍 Students" : "🔍 Teachers";
