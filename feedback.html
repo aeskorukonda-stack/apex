@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Donate | Apex Tuitions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Feedback & Help | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,17 +33,7 @@
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    *, *::before, *::after { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-    }
-
-    html, body {
-      width: 100%;
-      overflow-x: hidden;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-slate);
@@ -56,6 +46,7 @@
       padding-top: 74px;
     }
 
+    /* HEADER */
     header {
       background: rgba(10, 25, 47, 0.98);
       backdrop-filter: blur(12px);
@@ -104,7 +95,7 @@
     .header-right-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
     }
 
     .nav-links-desktop {
@@ -166,28 +157,26 @@
       color: var(--royal-blue) !important;
       transform: translateX(3px);
     }
-    .dropdown-item i {
-      font-size: 14px;
-      width: 16px;
-      text-align: center;
-    }
 
-    /* Neutral Guest Auth Buttons - Neither is highlighted by default */
     .header-auth-buttons {
       display: flex;
       align-items: center;
       gap: 8px;
     }
+    #headerAuthGroup.hidden,
+    body.logged-in-mobile #headerAuthGroup {
+      display: none !important;
+    }
 
     .btn-header-auth {
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff !important;
-      font-weight: 600;
+      font-weight: 700;
       padding: 7px 16px;
       border-radius: 8px;
       text-decoration: none;
       font-size: 13px;
-      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
@@ -196,18 +185,9 @@
       white-space: nowrap;
     }
     .btn-header-auth:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.16);
       border-color: #ffffff;
       transform: translateY(-1px);
-    }
-
-    /* Hide completely once logged in */
-    .auth-hidden,
-    #headerAuthGroup.auth-hidden,
-    body.is-authenticated #headerAuthGroup,
-    body.is-authenticated #mDrawerSignIn,
-    body.is-authenticated #mDrawerSignUp {
-      display: none !important;
     }
 
     .mobile-menu-toggle {
@@ -243,63 +223,204 @@
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
+    /* MAIN LAYOUT */
     main {
       flex: 1;
-      padding: 48px 24px 68px;
-    }
-    .donate-container {
-      max-width: 620px;
+      padding: 40px 20px 68px;
+      max-width: 1180px;
       margin: 0 auto;
+      width: 100%;
     }
-    .donate-card {
-      background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.04), transparent 45%), #ffffff;
+
+    /* SEGMENT SWITCHER TABS */
+    .tab-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1.5px solid var(--border-subtle);
+      background: #ffffff;
+      color: var(--text-muted);
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tab-btn.active {
+      background: var(--apex-navy);
+      color: #ffffff;
+      border-color: var(--apex-navy);
+      box-shadow: 0 4px 14px rgba(10, 25, 47, 0.15);
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .card {
+      background: #ffffff;
       border-radius: var(--card-radius);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-card);
-      padding: 44px 36px;
-      text-align: center;
+      padding: 36px 32px;
     }
-    .donate-icon {
-      font-size: 48px;
-      color: var(--royal-blue);
-      margin-bottom: 16px;
-      display: inline-block;
-      filter: drop-shadow(0 4px 10px rgba(37, 99, 235, 0.25));
-    }
-    .donate-card h2 {
-      font-size: 26px;
+    .card h2 {
+      font-size: 24px;
       color: var(--apex-navy);
       font-weight: 800;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
       letter-spacing: -0.4px;
     }
-    .donate-card p {
-      font-size: 15px;
+    .card p.subtitle {
+      font-size: 13.5px;
       color: var(--text-muted);
-      margin-bottom: 24px;
-      line-height: 1.65;
+      margin-bottom: 22px;
     }
 
-    .coming-soon-badge {
-      background: #EFF6FF;
-      color: var(--royal-blue);
-      border: 1px dashed #93C5FD;
-      padding: 16px 20px;
-      border-radius: 12px;
-      margin-bottom: 24px;
-      font-size: 14.5px;
-      font-weight: 700;
-      display: flex;
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      color: #475569;
+      text-transform: uppercase;
+      margin: 14px 0 6px;
+      letter-spacing: 0.3px;
+    }
+    input, select, textarea {
+      width: 100%;
+      min-height: 42px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border-subtle);
+      border-radius: var(--btn-radius);
+      font-size: 13.5px;
+      font-family: inherit;
+      background: #F8FAFC;
+      color: var(--text-main);
+      transition: var(--transition);
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--royal-blue);
+      background: #ffffff;
+      box-shadow: 0 0 0 3.5px rgba(37, 99, 235, 0.15);
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      height: 44px;
+      border: 0;
+      border-radius: var(--btn-radius);
+      background: linear-gradient(135deg, var(--apex-navy) 0%, var(--apex-navy-surface) 100%);
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: var(--transition);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 10px;
     }
-
-    /* Guest visitors: bottom dock hidden */
-    .mobile-bottom-dock {
-      display: none !important;
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(10, 25, 47, 0.25);
     }
 
+    /* VERTICAL TESTIMONIAL SCROLLER */
+    .ticker-container {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      box-shadow: var(--shadow-card);
+      padding: 24px;
+      overflow: hidden;
+      position: relative;
+    }
+    .ticker-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1.5px solid #F1F5F9;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .ticker-header h3 {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .ticker-window {
+      height: 380px;
+      overflow: hidden;
+      position: relative;
+    }
+    .ticker-track {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: scrollUp 22s linear infinite;
+    }
+    .ticker-track:hover {
+      animation-play-state: paused;
+    }
+    @keyframes scrollUp {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-50%); }
+    }
+    .ticker-card {
+      background: #F8FAFC;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 13px;
+    }
+    .ticker-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .ticker-role-tag {
+      background: #EEF2F6;
+      padding: 2px 8px;
+      border-radius: 6px;
+      color: var(--royal-blue);
+    }
+
+    .msg {
+      padding: 12px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      text-align: center;
+      margin-top: 14px;
+    }
+    .msg.success { background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; }
+    .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
+    .hidden { display: none !important; }
+
+    /* FOOTER */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
@@ -341,111 +462,14 @@
       color: #64748B;
     }
 
-    .hidden { display: none !important; }
-
-    @media (max-width: 960px) {
-      header { padding: 10px 14px; }
-      body { padding-top: 68px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 900px) {
+      .layout-grid { grid-template-columns: 1fr; }
+      .ticker-window { height: 260px; }
+    }
+    @media (max-width: 768px) {
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
-      .header-auth-buttons { display: flex !important; gap: 6px; }
-      .btn-header-auth { padding: 6px 12px; font-size: 12px; }
-    }
-
-    /* INTACT SEAMLESS BOTTOM DOCK NAVIGATION */
-    @media (max-width: 768px) {
-      body.is-authenticated { 
-        padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important; 
-      }
-      
-      body.is-authenticated .mobile-bottom-dock {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        background: #FFFFFF !important;
-        padding: 6px 10px calc(6px + env(safe-area-inset-bottom, 0px)) 10px !important;
-        margin: 0 !important;
-        border-radius: 0 !important; /* Zero gap, completely flush with screen edges */
-        border: none !important;
-        border-top: 1px solid #CBD5E1 !important;
-        box-shadow: 0 -4px 16px rgba(10, 25, 47, 0.08) !important;
-        z-index: 99999;
-        align-items: stretch;
-      }
-
-      .dock-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        padding: 6px 4px;
-        border-radius: 12px;
-        text-decoration: none;
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        position: relative;
-        transition: var(--transition);
-        -webkit-tap-highlight-color: transparent;
-      }
-
-      .dock-btn.active-dock-tab {
-        border-color: #2563EB;
-        background: #F8FAFC;
-      }
-
-      .dock-icon-box {
-        width: 32px;
-        height: 32px;
-        border-radius: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 15px;
-      }
-      .dock-icon-box.green { background-color: #ECFDF5; color: #10B981; }
-      .dock-icon-box.gold { background-color: #FEF3C7; color: #D97706; }
-      .dock-icon-box.blue { background-color: #EFF6FF; color: #2563EB; }
-
-      .dock-btn-label-stacked {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        font-size: 12px;
-        font-weight: 700;
-        color: #0F172A;
-        line-height: 1;
-      }
-      .dock-label-icon { font-size: 11px; }
-
-      .dock-badge {
-        position: absolute;
-        top: -3px;
-        right: 4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.35);
-      }
-    }
-
-    @media (max-width: 600px) {
-      .header-logo { width: 36px; height: 36px; }
-      .brand-text h1 { font-size: 16.5px; }
-      .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
       .footer-grid { grid-template-columns: 1fr; }
-      .donate-card { padding: 32px 20px; }
     }
   </style>
 </head>
@@ -475,16 +499,15 @@
               <i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex
             </a>
             <a href="feedback.html" class="dropdown-item">
-              <i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback
+              <i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback & Help
             </a>
             <a href="donate.html" class="dropdown-item">
-              <i class="fa-solid fa-hand-holding-dollar" style="color:var(--royal-blue);"></i> Donate
+              <i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate
             </a>
           </div>
         </div>
       </nav>
 
-      <!-- DEDICATED AUTH BUTTONS (Uniform style, neither pre-highlighted) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
@@ -498,102 +521,155 @@
 
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
-    <a href="browse.html">🔍 Browse</a>
-    <a href="resources.html">📚 Resources</a>
+    <a href="browse.html">📚 Browse</a>
+    <a href="resources.html">📖 Resources</a>
     <a href="about.html">ℹ️ About Apex</a>
-    <a href="feedback.html">💬 Feedback</a>
-    <a href="donate.html">💳 Donate</a>
+    <a href="feedback.html">💬 Feedback & Help</a>
+    <a href="donate.html">💛 Donate</a>
     <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
     <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
   </div>
 </header>
 
 <main>
-  <div class="donate-container">
-    <div class="donate-card">
-      <div class="donate-icon"><i class="fa-solid fa-shield-halved"></i></div>
-      <h2>Payment Services</h2>
-      <p>
-        Payment services will be soon available.
-      </p>
+  <!-- Segment Navigation -->
+  <div class="tab-nav">
+    <button class="tab-btn active" id="tabBtnFeedback" onclick="switchTab('feedback')">
+      <i class="fa-solid fa-star"></i> Share Testimonial
+    </button>
+    <button class="tab-btn" id="tabBtnHelp" onclick="switchTab('help')">
+      <i class="fa-solid fa-circle-question"></i> Help / Support Query
+    </button>
+  </div>
 
-      <div class="coming-soon-badge">
-        <i class="fa-solid fa-circle-info"></i> We are currently setting up our secure payment gateway integration.
+  <div class="layout-grid">
+    <!-- FORM PANEL -->
+    <div>
+      <!-- Testimonials Form -->
+      <div class="card" id="feedbackPanel">
+        <h2>Submit Feedback</h2>
+        <p class="subtitle">Share your verified thoughts to be featured on our scrolling feed & profile boards.</p>
+
+        <label>Your Full Name</label>
+        <input id="fbName" type="text" placeholder="e.g. Ramesh Kumar">
+
+        <label>Role</label>
+        <select id="fbRole">
+          <option value="Parent">Parent</option>
+          <option value="Student">Student</option>
+          <option value="Teacher">Teacher / Educator</option>
+        </select>
+
+        <label>Feedback / Testimonial</label>
+        <textarea id="fbMessage" placeholder="How has Apex Tuitions supported your learning or teaching goals?"></textarea>
+
+        <button class="submit-btn" onclick="submitFeedback()">
+          <i class="fa-solid fa-paper-plane"></i> Publish Review
+        </button>
+        <div id="fbMsg" class="msg hidden"></div>
+      </div>
+
+      <!-- Help / Support Request Form -->
+      <div class="card hidden" id="helpPanel">
+        <h2>Raise a Request / Query</h2>
+        <p class="subtitle">Encountering an issue? Submit your message directly to support (aeskorukonda@gmail.com).</p>
+
+        <label>Your Name</label>
+        <input id="helpName" type="text" placeholder="e.g. Ramesh Kumar">
+
+        <label>Your Email / Contact</label>
+        <input id="helpContact" type="text" placeholder="name@example.com or phone">
+
+        <label>Category</label>
+        <select id="helpCategory">
+          <option value="General Query">General Question</option>
+          <option value="Teacher Search Issue">Finding a Tutor Issue</option>
+          <option value="Profile/Login Problem">Profile or Login Issue</option>
+          <option value="Billing/Donation">Donation Inquiry</option>
+          <option value="Urgent Help">Urgent Assistance</option>
+        </select>
+
+        <label>Your Query / Message</label>
+        <textarea id="helpDetails" placeholder="Provide full details of your issue so we can help quickly..."></textarea>
+
+        <button class="submit-btn" onclick="submitHelpQuery()">
+          <i class="fa-solid fa-envelope"></i> Send to Support
+        </button>
+        <div id="helpMsg" class="msg hidden"></div>
+      </div>
+    </div>
+
+    <!-- LIVE TICKER SCROLLER -->
+    <div class="ticker-container">
+      <div class="ticker-header">
+        <h3><i class="fa-solid fa-bolt" style="color:var(--apex-gold);"></i> Live Community Voices</h3>
+        <span style="font-size:11px; color:#10B981; font-weight:700;">● Active Feed</span>
+      </div>
+      <div class="ticker-window">
+        <div class="ticker-track" id="tickerTrack">
+          <!-- Feed items dynamically populated here -->
+          <div class="ticker-card">
+            <p>"Apex Tuitions made it easy to connect with experienced teachers without middleman brokerage."</p>
+            <div class="ticker-meta">
+              <span>Suresh V.</span>
+              <span class="ticker-role-tag">Parent</span>
+            </div>
+          </div>
+          <div class="ticker-card">
+            <p>"The resources and platform reach helped me build a great student base locally."</p>
+            <div class="ticker-meta">
+              <span>Ananya Rao</span>
+              <span class="ticker-role-tag">Teacher</span>
+            </div>
+          </div>
+          <div class="ticker-card">
+            <p>"Direct teacher contact and no commission makes this completely transparent."</p>
+            <div class="ticker-meta">
+              <span>K. Rajesh</span>
+              <span class="ticker-role-tag">Student</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </main>
-
-<!-- Bottom Navigation Dock for Logged-In Users -->
-<nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn">
-    <div class="dock-icon-box green">
-      <i class="fa-solid fa-comments"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-comment-dots dock-label-icon" style="color: #A855F7;"></i>
-      <span>Enquiries</span>
-    </div>
-    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
-  </a>
-
-  <a href="profile.html" class="dock-btn active-dock-tab">
-    <div class="dock-icon-box gold">
-      <i class="fa-solid fa-id-badge"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-user dock-label-icon" style="color: #3730A3;"></i>
-      <span>Profile</span>
-    </div>
-  </a>
-
-  <a href="browse.html" class="dock-btn">
-    <div class="dock-icon-box blue">
-      <i class="fa-solid fa-compass"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-magnifying-glass dock-label-icon" style="color: #6366F1;"></i>
-      <span id="dockBrowseLabel">Students</span>
-    </div>
-  </a>
-</nav>
 
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
       <h4 style="color:#ffffff;">APEX TUITIONS</h4>
       <p style="font-size:12.5px;color:#CBD5E1;line-height:1.6;margin-bottom:10px;">
-        Apex Global Educational Society connecting verified educators directly with students worldwide.
+        A non-profit educational network connecting verified educators directly with students.
       </p>
       <p style="font-size:11.5px;color:#94A3B8;">
-        • aeskorukonda@gmail.com
+        +91 9533450665 • aeskorukonda@gmail.com
       </p>
     </div>
     <div class="footer-col">
-      <h4>For Students</h4>
+      <h4>Quick Links</h4>
       <ul>
         <li><a href="browse.html">Search Tutors</a></li>
         <li><a href="resources.html">Study Resources</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>For Teachers</h4>
+      <h4>Support</h4>
       <ul>
-        <li><a href="profile.html">Teacher Profile</a></li>
-        <li><a href="about.html">Zero Commission Policy</a></li>
+        <li><a href="javascript:void(0)" onclick="switchTab('help')">Help Center</a></li>
+        <li><a href="about.html">Society Policy</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4>Society & Trust</h4>
+      <h4>Community</h4>
       <ul>
-        <li><a href="about.html">About Apex</a></li>
         <li><a href="feedback.html">Testimonials</a></li>
         <li><a href="donate.html">Donate</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    © 2026 Apex Global Educational Society. All rights reserved.
+    © 2026 Apex Tuitions. All rights reserved.
   </div>
 </footer>
 
@@ -602,57 +678,150 @@ const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+let currentUser = null;
+
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
-function updateAuthDisplay(isAuthenticated) {
-  const authGroup = document.getElementById("headerAuthGroup");
-  const mSignIn = document.getElementById("mDrawerSignIn");
-  const mSignUp = document.getElementById("mDrawerSignUp");
+function switchTab(mode) {
+  const fbBtn = document.getElementById("tabBtnFeedback");
+  const hpBtn = document.getElementById("tabBtnHelp");
+  const fbPanel = document.getElementById("feedbackPanel");
+  const hpPanel = document.getElementById("helpPanel");
 
-  if (isAuthenticated) {
-    document.body.classList.add("is-authenticated");
-    if (authGroup) authGroup.classList.add("auth-hidden");
-    if (mSignIn) mSignIn.style.display = "none";
-    if (mSignUp) mSignUp.style.display = "none";
+  if (mode === "feedback") {
+    fbBtn.classList.add("active");
+    hpBtn.classList.remove("active");
+    fbPanel.classList.remove("hidden");
+    hpPanel.classList.add("hidden");
   } else {
-    document.body.classList.remove("is-authenticated");
-    if (authGroup) authGroup.classList.remove("auth-hidden");
-    if (mSignIn) mSignIn.style.display = "";
-    if (mSignUp) mSignUp.style.display = "";
+    hpBtn.classList.add("active");
+    fbBtn.classList.remove("active");
+    hpPanel.classList.remove("hidden");
+    fbPanel.classList.add("hidden");
   }
 }
 
-window.addEventListener("DOMContentLoaded", async () => {
-  const { data: { session } } = await db.auth.getSession();
-  const isLoggedIn = !!(session && session.user);
+// Populate Scrolling Testimonial Feed
+async function loadTestimonials() {
+  const track = document.getElementById("tickerTrack");
+  const { data, error } = await db
+    .from("testimonials")
+    .select("name, role, message")
+    .eq("approved", true)
+    .order("id", { ascending: false })
+    .limit(10);
 
-  updateAuthDisplay(isLoggedIn);
+  if (data && data.length > 0) {
+    // Duplicate entries to enable seamless continuous vertical scrolling loop
+    const combined = [...data, ...data];
+    track.innerHTML = combined.map(item => `
+      <div class="ticker-card">
+        <p>"${escapeHtml(item.message)}"</p>
+        <div class="ticker-meta">
+          <span>${escapeHtml(item.name)}</span>
+          <span class="ticker-role-tag">${escapeHtml(item.role || 'Member')}</span>
+        </div>
+      </div>
+    `).join("");
+  }
+}
 
-  if (isLoggedIn) {
-    const { data: teacher } = await db.from("teachers").select("id").eq("id", session.user.id).maybeSingle();
-    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-    if (dockBrowseLabel) {
-      dockBrowseLabel.textContent = teacher ? "Students" : "Teachers";
-    }
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
-    const { data: enquiries } = await db.from("enquiries").select("id").eq("recipient_id", session.user.id).eq("status", "Pending");
-    const count = (enquiries && enquiries.length) ? enquiries.length : 0;
-    const dockBadge = document.getElementById("dockEnquiryBadge");
-    if (dockBadge) {
-      if (count > 0) {
-        dockBadge.textContent = count;
-        dockBadge.classList.remove("hidden");
-      } else {
-        dockBadge.classList.add("hidden");
-      }
-    }
+// 1. Submit Feedback / Testimonials
+async function submitFeedback() {
+  const name = document.getElementById("fbName").value.trim();
+  const role = document.getElementById("fbRole").value;
+  const message = document.getElementById("fbMessage").value.trim();
+  const msgEl = document.getElementById("fbMsg");
+
+  if (!name || !message) {
+    msgEl.textContent = "Please provide both your name and feedback.";
+    msgEl.className = "msg error";
+    msgEl.classList.remove("hidden");
+    return;
   }
 
-  db.auth.onAuthStateChange((event, session) => {
-    updateAuthDisplay(!!(session && session.user));
-  });
+  const { error } = await db.from("testimonials").insert([{
+    user_id: currentUser ? currentUser.id : null,
+    name: name,
+    role: role,
+    message: message,
+    approved: true
+  }]);
+
+  if (error) {
+    msgEl.textContent = error.message;
+    msgEl.className = "msg error";
+  } else {
+    msgEl.textContent = "Thank you! Your testimonial has been published.";
+    msgEl.className = "msg success";
+    document.getElementById("fbMessage").value = "";
+    loadTestimonials(); // Refresh live ticker
+  }
+  msgEl.classList.remove("hidden");
+}
+
+// 2. Submit Help / Query Request (Sent to aeskorukonda@gmail.com)
+async function submitHelpQuery() {
+  const name = document.getElementById("helpName").value.trim();
+  const contact = document.getElementById("helpContact").value.trim();
+  const category = document.getElementById("helpCategory").value;
+  const details = document.getElementById("helpDetails").value.trim();
+  const msgEl = document.getElementById("helpMsg");
+
+  if (!name || !contact || !details) {
+    msgEl.textContent = "Please complete all fields (name, contact, and query).";
+    msgEl.className = "msg error";
+    msgEl.classList.remove("hidden");
+    return;
+  }
+
+  // Attempt database log if support_tickets table exists
+  try {
+    await db.from("support_tickets").insert([{
+      user_id: currentUser ? currentUser.id : null,
+      name: name,
+      contact: contact,
+      category: category,
+      message: details,
+      recipient: "aeskorukonda@gmail.com"
+    }]);
+  } catch (err) {
+    console.warn("DB Ticket logged fallback:", err);
+  }
+
+  // Construct direct mailto trigger ensuring delivery straight to aeskorukonda@gmail.com
+  const subject = encodeURIComponent(`[Apex Help Query] ${category} - ${name}`);
+  const body = encodeURIComponent(
+    `Hello Apex Support Team,\n\nA new support request has been raised:\n\nName: ${name}\nContact: ${contact}\nCategory: ${category}\n\nQuery Details:\n${details}\n\n-- Sent via Apex Tuitions Help Portal`
+  );
+  
+  // Open user mail client to guarantee sender deliverability
+  window.open(`mailto:aeskorukonda@gmail.com?subject=${subject}&body=${body}`, '_blank');
+
+  msgEl.textContent = "Your request has been prepared! If your mail client did not open automatically, message us directly at aeskorukonda@gmail.com.";
+  msgEl.className = "msg success";
+  msgEl.classList.remove("hidden");
+  document.getElementById("helpDetails").value = "";
+}
+
+window.addEventListener("DOMContentLoaded", async () => {
+  loadTestimonials();
+
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    currentUser = session.user;
+    if (currentUser.email) {
+      const emailField = document.getElementById("helpContact");
+      if (emailField) emailField.value = currentUser.email;
+    }
+  }
 });
 </script>
 <script src="mobile-layout-fix.js"></script>
