@@ -51,7 +51,7 @@
       background: rgba(10, 25, 47, 0.98);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      padding: 14px 28px;
+      padding: 12px 20px;
       border-bottom: 3.5px solid var(--apex-gold);
       position: fixed;
       top: 0;
@@ -72,12 +72,12 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 10px;
       text-decoration: none;
     }
     .header-logo {
-      width: 46px;
-      height: 46px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: 2px solid #ffffff;
       background: #ffffff;
@@ -85,7 +85,7 @@
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
     .brand-text h1 {
-      font-size: 21px;
+      font-size: 18px;
       color: #ffffff;
       font-weight: 800;
       letter-spacing: -0.3px;
@@ -161,17 +161,17 @@
     .header-auth-buttons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .btn-header-auth {
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff !important;
       font-weight: 700;
-      padding: 7px 16px;
+      padding: 6px 14px;
       border-radius: 8px;
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12.5px;
       border: 1.5px solid rgba(255, 255, 255, 0.28);
       cursor: pointer;
       transition: var(--transition);
@@ -186,6 +186,11 @@
       border-color: #ffffff;
       transform: translateY(-1px);
     }
+    .btn-header-auth.signout-btn {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: #EF4444;
+      color: #FCA5A5 !important;
+    }
 
     .mobile-menu-toggle {
       display: none;
@@ -199,14 +204,14 @@
     .mobile-drawer {
       display: none;
       position: fixed;
-      top: 74px;
+      top: 68px;
       left: 0;
       right: 0;
       background: var(--apex-navy);
-      padding: 20px 24px;
+      padding: 16px 20px;
       border-bottom: 3.5px solid var(--apex-gold);
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
       z-index: 9999;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
@@ -215,15 +220,15 @@
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
-      font-size: 15px;
-      padding: 10px 0;
+      font-size: 14.5px;
+      padding: 8px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* MAIN LAYOUT */
+    /* MAIN CONTENT */
     main {
       flex: 1;
-      padding: 40px 20px 68px;
+      padding: 32px 18px 60px;
       max-width: 1180px;
       margin: 0 auto;
       width: 100%;
@@ -234,12 +239,12 @@
       display: flex;
       justify-content: center;
       gap: 12px;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
     }
     .tab-btn {
-      padding: 10px 24px;
+      padding: 10px 22px;
       border-radius: 30px;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 700;
       cursor: pointer;
       border: 1.5px solid var(--border-subtle);
@@ -269,10 +274,10 @@
       border-radius: var(--card-radius);
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-card);
-      padding: 36px 32px;
+      padding: 32px 28px;
     }
     .card h2 {
-      font-size: 24px;
+      font-size: 22px;
       color: var(--apex-navy);
       font-weight: 800;
       margin-bottom: 6px;
@@ -281,27 +286,27 @@
     .card p.subtitle {
       font-size: 13.5px;
       color: var(--text-muted);
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
-    /* AUTH GATE WALL */
-    .auth-gate-card {
+    /* LOCKED AUTH WALL (ONLY LOGGED-IN USERS CAN SUBMIT) */
+    .auth-gate-box {
       text-align: center;
-      padding: 48px 24px;
+      padding: 40px 20px;
       background: #ffffff;
       border-radius: var(--card-radius);
       border: 1.5px dashed var(--border-subtle);
       box-shadow: var(--shadow-card);
     }
     .auth-gate-icon {
-      width: 60px;
-      height: 60px;
-      line-height: 60px;
+      width: 56px;
+      height: 56px;
+      line-height: 56px;
       background: #EFF6FF;
       color: var(--royal-blue);
       border-radius: 50%;
-      font-size: 24px;
-      margin: 0 auto 16px;
+      font-size: 22px;
+      margin: 0 auto 14px;
     }
     .auth-gate-btn {
       display: inline-flex;
@@ -310,11 +315,11 @@
       background: var(--royal-blue);
       color: #ffffff;
       font-weight: 700;
-      padding: 11px 24px;
+      padding: 10px 22px;
       border-radius: var(--btn-radius);
       text-decoration: none;
-      font-size: 14px;
-      margin-top: 18px;
+      font-size: 13.5px;
+      margin-top: 16px;
       transition: var(--transition);
     }
     .auth-gate-btn:hover {
@@ -381,13 +386,13 @@
       transform: none;
     }
 
-    /* VERTICAL TESTIMONIAL SCROLLER */
+    /* LIVE TICKER FEED */
     .ticker-container {
       background: #ffffff;
       border: 1px solid var(--border-subtle);
       border-radius: var(--card-radius);
       box-shadow: var(--shadow-card);
-      padding: 24px;
+      padding: 22px;
       overflow: hidden;
       position: relative;
     }
@@ -408,7 +413,7 @@
       gap: 8px;
     }
     .ticker-window {
-      height: 380px;
+      height: 360px;
       overflow: hidden;
       position: relative;
     }
@@ -460,11 +465,126 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
+    /* =========================================================
+       STICKY / INTACT MOBILE BOTTOM DOCK (REPLICATING SCREENSHOT 3)
+       ========================================================= */
+    .mobile-bottom-dock {
+      display: none;
+    }
+
+    @media (max-width: 900px) {
+      .layout-grid { grid-template-columns: 1fr; }
+      .ticker-window { height: 260px; }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding-top: 68px;
+        padding-bottom: 115px !important; /* Space for intact bottom dock */
+      }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .footer-grid { grid-template-columns: 1fr; }
+
+      /* Sticky Bottom Nav Dock */
+      .mobile-bottom-dock {
+        display: block !important;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        padding: 8px 14px 14px !important;
+        background: #F8FAFC !important;
+        z-index: 99999 !important;
+      }
+
+      /* White outer pill border */
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 8px !important;
+        background: #ffffff !important;
+        border: 1.5px solid #dbeafe !important;
+        border-radius: 24px !important;
+        padding: 8px !important;
+        box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08) !important;
+      }
+
+      /* Individual Nav Buttons */
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: #ffffff !important;
+        border: 1.5px solid #e2e8f0 !important;
+        border-radius: 18px !important;
+        padding: 8px 2px 6px !important;
+        transition: var(--transition);
+      }
+
+      /* Active highlighted button */
+      .dock-item.active-tab {
+        border-color: #3b82f6 !important;
+        box-shadow: 0 0 0 1px #3b82f6 !important;
+      }
+
+      /* Large Rounded Icon Containers */
+      .dock-icon-wrap {
+        width: 44px !important;
+        height: 44px !important;
+        border-radius: 14px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 5px !important;
+      }
+
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg svg,
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 21px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg svg,
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 21px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg svg,
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 21px !important;
+      }
+
+      /* Label text beneath icon */
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        font-size: 12px !important;
+        font-weight: 800 !important;
+        color: #0F172A !important;
+        letter-spacing: -0.2px !important;
+      }
+    }
+
     /* FOOTER */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
-      padding: 56px 24px 28px;
+      padding: 40px 20px 24px;
       border-top: 1px solid rgba(255,255,255,0.08);
       margin-top: auto;
     }
@@ -473,15 +593,15 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 36px;
-      margin-bottom: 36px;
+      gap: 32px;
+      margin-bottom: 28px;
       text-align: left;
     }
     .footer-col h4 {
       color: var(--apex-gold);
       font-size: 13.5px;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
     }
@@ -496,125 +616,10 @@
     .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 22px;
+      padding-top: 18px;
       text-align: center;
       font-size: 12px;
       color: #64748B;
-    }
-
-    /* INTACT MOBILE BOTTOM NAVIGATION DOCK (MATCHING SCREENSHOT) */
-    .mobile-bottom-dock {
-      display: none;
-    }
-
-    @media (max-width: 900px) {
-      .layout-grid { grid-template-columns: 1fr; }
-      .ticker-window { height: 260px; }
-    }
-
-    @media (max-width: 768px) {
-      body.has-bottom-dock {
-        padding-bottom: 105px !important;
-      }
-      .nav-links-desktop { display: none; }
-      .mobile-menu-toggle { display: block; }
-      .footer-grid { grid-template-columns: 1fr; }
-
-      /* Floating Dock Wrapper */
-      .mobile-bottom-dock {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        padding: 10px 14px 14px;
-        background: rgba(248, 250, 252, 0.94);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        z-index: 10005;
-        border-top: 1px solid rgba(226, 232, 240, 0.8);
-      }
-      .mobile-bottom-dock.active-logged-in {
-        display: block !important;
-      }
-
-      /* Dock Card Container */
-      .dock-card-container {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        background: #ffffff;
-        border: 1.5px solid #dbeafe;
-        border-radius: 20px;
-        padding: 10px;
-        box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12);
-      }
-
-      /* Each Distinct Navigation Box */
-      .dock-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #ffffff;
-        border: 1.5px solid #E2E8F0;
-        border-radius: 16px;
-        padding: 8px 4px 6px;
-        text-decoration: none;
-        transition: all 0.2s ease;
-      }
-      .dock-btn.current {
-        border-color: #3B82F6;
-        box-shadow: 0 0 0 1px #3B82F6;
-      }
-
-      /* Inner Pastel Square Icons */
-      .dock-icon-box {
-        width: 44px;
-        height: 44px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 6px;
-      }
-      .dock-icon-box.enquiries-box {
-        background-color: #E8FAF2;
-      }
-      .dock-icon-box.enquiries-box svg,
-      .dock-icon-box.enquiries-box i {
-        color: #10B981;
-        font-size: 20px;
-      }
-      .dock-icon-box.profile-box {
-        background-color: #FEF3C7;
-      }
-      .dock-icon-box.profile-box svg,
-      .dock-icon-box.profile-box i {
-        color: #D97706;
-        font-size: 20px;
-      }
-      .dock-icon-box.students-box {
-        background-color: #EFF6FF;
-      }
-      .dock-icon-box.students-box svg,
-      .dock-icon-box.students-box i {
-        color: #2563EB;
-        font-size: 20px;
-      }
-
-      /* Label Underneath */
-      .dock-label {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 12px;
-        font-weight: 800;
-        color: #0F172A;
-        letter-spacing: -0.2px;
-      }
-      .dock-label i {
-        font-size: 11px;
-      }
     }
   </style>
 </head>
@@ -653,10 +658,9 @@
         </div>
       </nav>
 
-      <!-- Desktop Auth Container -->
+      <!-- DYNAMIC AUTH BUTTONS -->
       <div class="header-auth-buttons" id="headerAuthGroup">
-        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
-        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+        <!-- Rendered by JavaScript -->
       </div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
@@ -675,8 +679,7 @@
     <a href="donate.html">💛 Donate</a>
     
     <!-- Dynamic Drawer Auth Items -->
-    <a href="index.html?auth=signin" id="mDrawerAuthPrimary">🔑 Sign In</a>
-    <a href="index.html?auth=signup" id="mDrawerAuthSecondary">✍️ Sign Up</a>
+    <div id="mDrawerAuthSlot"></div>
   </div>
 </header>
 
@@ -692,23 +695,22 @@
   </div>
 
   <div class="layout-grid">
-    <!-- FORM PANEL / AUTH WALL -->
     <div>
-      <!-- Gate for non-logged in users -->
-      <div class="auth-gate-card hidden" id="authGate">
+      <!-- GATE FOR NON-LOGGED IN USERS -->
+      <div class="auth-gate-box hidden" id="authGate">
         <div class="auth-gate-icon">
           <i class="fa-solid fa-lock"></i>
         </div>
         <h2 style="font-size:20px; font-weight:800; color:var(--apex-navy); margin-bottom:8px;">Sign In Required</h2>
         <p style="font-size:13.5px; color:var(--text-muted); max-width:380px; margin:0 auto;">
-          You must be signed in with your Apex account to submit verified feedback or send direct queries to our support staff.
+          Only signed-in users can share testimonials or submit support queries to Apex Tuitions.
         </p>
         <a href="index.html?auth=signin" class="auth-gate-btn">
           <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Continue
         </a>
       </div>
 
-      <!-- Testimonials Form (Locked to signed in users) -->
+      <!-- Testimonials Form (Authenticated Only) -->
       <div class="card" id="feedbackPanel">
         <h2>Submit Feedback</h2>
         <p class="subtitle">Share your verified thoughts. Submissions will appear on our feed upon admin review.</p>
@@ -732,7 +734,7 @@
         <div id="fbMsg" class="msg hidden"></div>
       </div>
 
-      <!-- Help / Support Request Form (Locked to signed in users) -->
+      <!-- Help / Support Request Form (Authenticated Only) -->
       <div class="card hidden" id="helpPanel">
         <h2>Raise a Request / Query</h2>
         <p class="subtitle">Submit your query directly to our administrative and support team.</p>
@@ -797,37 +799,37 @@
   </div>
 </main>
 
-<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK (MATCHING SCREENSHOT) -->
+<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK FROM SCREENSHOT 3 -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
     <!-- 1. Enquiries Button -->
-    <a href="enquiries.html" class="dock-btn" id="dockEnquiries">
-      <div class="dock-icon-box enquiries-box">
+    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
+      <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
       </div>
-      <div class="dock-label">
+      <div class="dock-title">
         <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
         <span>Enquiries</span>
       </div>
     </a>
 
-    <!-- 2. Profile Button -->
-    <a href="profile.html" class="dock-btn current" id="dockProfile">
-      <div class="dock-icon-box profile-box">
+    <!-- 2. Profile Button (active) -->
+    <a href="profile.html" class="dock-item active-tab" id="dockBtnProfile">
+      <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
       </div>
-      <div class="dock-label">
+      <div class="dock-title">
         <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
         <span>Profile</span>
       </div>
     </a>
 
     <!-- 3. Students Button -->
-    <a href="students.html" class="dock-btn" id="dockStudents">
-      <div class="dock-icon-box students-box">
+    <a href="students.html" class="dock-item" id="dockBtnStudents">
+      <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
       </div>
-      <div class="dock-label">
+      <div class="dock-title">
         <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
         <span>Students</span>
       </div>
@@ -876,7 +878,15 @@
 <script>
 const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// Ensure auth session is loaded from storage properly
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true
+  }
+});
 
 let currentUser = null;
 let currentTab = "feedback";
@@ -917,41 +927,32 @@ async function handleSignOut() {
   window.location.reload();
 }
 
-// Strictly updates UI states based on currentUser
-function renderAuthState(user) {
+// Strictly controls whether forms are shown or gated, and what buttons show on header
+function renderAuthUI(user) {
   const headerAuth = document.getElementById("headerAuthGroup");
-  const mAuthPrimary = document.getElementById("mDrawerAuthPrimary");
-  const mAuthSecondary = document.getElementById("mDrawerAuthSecondary");
-  const dock = document.getElementById("mobileBottomDock");
+  const drawerSlot = document.getElementById("mDrawerAuthSlot");
   const gate = document.getElementById("authGate");
   const fbPanel = document.getElementById("feedbackPanel");
   const hpPanel = document.getElementById("helpPanel");
 
   if (user) {
-    // 1. Header Buttons: Show ONLY My Profile & Sign Out
+    // 1. Logged in: Header gets Profile and Sign Out ONLY
     headerAuth.innerHTML = `
       <a href="profile.html" class="btn-header-auth" style="border-color:var(--apex-gold); color:var(--apex-gold) !important;">
-        <i class="fa-solid fa-user"></i> My Profile
+        <i class="fa-solid fa-user"></i> Profile
       </a>
-      <button onclick="handleSignOut()" class="btn-header-auth" style="background:rgba(239,68,68,0.25); border-color:#EF4444; color:#FCA5A5 !important;">
+      <button onclick="handleSignOut()" class="btn-header-auth signout-btn">
         <i class="fa-solid fa-right-from-bracket"></i> Sign Out
       </button>
     `;
 
     // 2. Mobile Drawer
-    mAuthPrimary.innerHTML = "👤 My Profile";
-    mAuthPrimary.href = "profile.html";
-    mAuthPrimary.onclick = null;
+    drawerSlot.innerHTML = `
+      <a href="profile.html">👤 My Profile</a>
+      <a href="javascript:void(0)" onclick="handleSignOut()" style="color:#F87171 !important;">🚪 Sign Out</a>
+    `;
 
-    mAuthSecondary.innerHTML = "🚪 Sign Out";
-    mAuthSecondary.href = "javascript:void(0)";
-    mAuthSecondary.onclick = handleSignOut;
-
-    // 3. Keep 3 buttons intact with bottom screen on mobile
-    dock.classList.add("active-logged-in");
-    document.body.classList.add("has-bottom-dock");
-
-    // 4. Reveal forms and hide gate
+    // 3. User is signed in -> Unlock forms
     gate.classList.add("hidden");
     if (currentTab === "feedback") {
       fbPanel.classList.remove("hidden");
@@ -961,7 +962,7 @@ function renderAuthState(user) {
       fbPanel.classList.add("hidden");
     }
 
-    // Prefill user metadata
+    // Prefill user data
     const emailField = document.getElementById("helpEmail");
     if (emailField && user.email) emailField.value = user.email;
 
@@ -971,26 +972,19 @@ function renderAuthState(user) {
     }
 
   } else {
-    // 1. Header: Sign In & Sign Up for guest
+    // 1. Logged out: Header gets Sign In and Sign Up ONLY
     headerAuth.innerHTML = `
       <a href="index.html?auth=signin" class="btn-header-auth">Sign In</a>
       <a href="index.html?auth=signup" class="btn-header-auth">Sign Up</a>
     `;
 
     // 2. Mobile Drawer
-    mAuthPrimary.innerHTML = "🔑 Sign In";
-    mAuthPrimary.href = "index.html?auth=signin";
-    mAuthPrimary.onclick = null;
+    drawerSlot.innerHTML = `
+      <a href="index.html?auth=signin">🔑 Sign In</a>
+      <a href="index.html?auth=signup">✍️ Sign Up</a>
+    `;
 
-    mAuthSecondary.innerHTML = "✍️ Sign Up";
-    mAuthSecondary.href = "index.html?auth=signup";
-    mAuthSecondary.onclick = null;
-
-    // 3. Remove bottom dock if not signed in
-    dock.classList.remove("active-logged-in");
-    document.body.classList.remove("has-bottom-dock");
-
-    // 4. Lock out form and display sign-in gate
+    // 3. Lock forms behind gate
     fbPanel.classList.add("hidden");
     hpPanel.classList.add("hidden");
     gate.classList.remove("hidden");
@@ -1026,10 +1020,10 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// Submit Testimonial
+// Submit Testimonials
 async function submitFeedback() {
   if (!currentUser) {
-    alert("You must be logged in to submit feedback.");
+    alert("Please sign in to submit feedback.");
     return;
   }
 
@@ -1074,7 +1068,7 @@ async function submitFeedback() {
 // Submit Help Query
 async function submitHelpQuery() {
   if (!currentUser) {
-    alert("You must be logged in to send inquiries.");
+    alert("Please sign in to send queries.");
     return;
   }
 
@@ -1120,17 +1114,18 @@ async function submitHelpQuery() {
 window.addEventListener("DOMContentLoaded", async () => {
   loadTestimonials();
 
-  // Initial session check
+  // Check auth session
   const { data: { session } } = await db.auth.getSession();
   currentUser = session ? session.user : null;
-  renderAuthState(currentUser);
+  renderAuthUI(currentUser);
 
-  // Real-time listener for Auth changes
+  // Real-time auth state listener
   db.auth.onAuthStateChange((_event, session) => {
     currentUser = session ? session.user : null;
-    renderAuthState(currentUser);
+    renderAuthUI(currentUser);
   });
 });
 </script>
+<!-- mobile-layout-fix.js REMOVED to prevent overwriting the custom dock -->
 </body>
 </html>
