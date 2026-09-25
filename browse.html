@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Browse Tutors & Students | Apex Tuitions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Browse Tutors & Inquiries | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,18 +17,26 @@
       --apex-navy-surface: #112240;
       --royal-blue: #2563EB;
       --royal-blue-hover: #1D4ED8;
+      --royal-blue-glow: rgba(37, 99, 235, 0.15);
       --apex-gold: #F59E0B;
+      --apex-gold-hover: #D97706;
       --emerald: #10B981;
+      --emerald-dark: #059669;
+      --emerald-light: #ECFDF5;
       --bg-slate: #F8FAFC;
       --card-bg: #FFFFFF;
       --text-main: #0F172A;
       --text-muted: #64748B;
       --border-subtle: #E2E8F0;
+      --border-focus: #94A3B8;
       --card-radius: 16px;
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
+      --card-shadow-hover: 0 16px 28px -6px rgba(15, 23, 42, 0.09), 0 6px 12px -4px rgba(15, 23, 42, 0.04);
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; max-width: 100%; }
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden !important; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background-color: var(--bg-slate);
@@ -37,350 +45,532 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-top: 74px;
       -webkit-font-smoothing: antialiased;
+      padding-top: 74px;
     }
 
+    /* HEADER */
     header {
-      background: var(--apex-navy);
-      padding: 12px 24px;
+      background: rgba(10, 25, 47, 0.98);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 14px 28px;
       border-bottom: 3.5px solid var(--apex-gold);
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 10000;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       width: 100%;
     }
     .header-wrap {
-      max-width: 1300px;
+      max-width: 1280px;
       margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
     }
-    .brand-group {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-    }
-    .header-logo {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: #FFFFFF;
-      object-fit: cover;
-    }
-    .brand-text h1 {
-      font-size: 20px;
-      color: #FFFFFF;
-      font-weight: 800;
-      letter-spacing: -0.3px;
-      line-height: 1;
-    }
+    .brand-group { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .header-logo { width: 46px; height: 46px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.9); background: #ffffff; object-fit: cover; flex-shrink: 0; }
+    .brand-text h1 { font-size: 21px; color: #ffffff; font-weight: 800; letter-spacing: -0.3px; line-height: 1; margin: 0; }
+
     .header-right-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-    .nav-links-desktop {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-link {
-      color: #CBD5E1;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 13.5px;
-      padding: 7px 14px;
-      border-radius: 8px;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .nav-link:hover, .nav-link.active { color: #FFFFFF; background: rgba(255, 255, 255, 0.1); }
 
-    .dropdown-parent { 
-      position: relative; 
-      padding-bottom: 8px;
-      margin-bottom: -8px;
+    .nav-links-desktop { display: flex; align-items: center; gap: 8px; }
+    .nav-link {
+      color: #CBD5E1; text-decoration: none; font-weight: 600; font-size: 13.5px; padding: 8px 16px; border-radius: 8px;
+      transition: var(--transition); display: inline-flex; align-items: center; gap: 7px;
     }
+    .nav-link:hover, .nav-link.active { color: #ffffff; background: rgba(255, 255, 255, 0.12); }
+
+    .dropdown-parent { position: relative; padding-bottom: 8px; margin-bottom: -8px; }
     .dropdown-menu {
-      position: absolute;
-      top: 100%;
-      right: 0;
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid var(--border-subtle);
-      box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
-      min-width: 190px;
-      padding: 8px;
-      display: none;
-      z-index: 2000;
+      position: absolute; top: 100%; right: 0; background: #ffffff; border-radius: 12px;
+      border: 1px solid var(--border-subtle); box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
+      min-width: 190px; padding: 8px; display: none; z-index: 2000;
     }
     .dropdown-parent:hover .dropdown-menu { display: block; }
     .dropdown-item {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px; color: #334155 !important;
+      font-size: 13px; font-weight: 700; text-decoration: none !important; border-radius: 8px; transition: var(--transition);
+    }
+    .dropdown-item:hover { background: #EFF6FF; color: var(--royal-blue) !important; }
+
+    /* Dedicated Header Guest Buttons */
+    .header-auth-buttons {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 10px 14px;
-      color: #334155 !important;
-      font-size: 13px;
-      font-weight: 700;
-      text-decoration: none !important;
-      border-radius: 8px;
-      transition: var(--transition);
-    }
-    .dropdown-item:hover {
-      background: #EFF6FF;
-      color: var(--royal-blue) !important;
-      transform: translateX(3px);
+      gap: 8px;
     }
 
-    .mobile-menu-toggle {
-      display: none;
-      background: none;
-      border: none;
-      color: #ffffff;
-      font-size: 22px;
-      cursor: pointer;
-      padding: 6px;
+    #headerAuthGroup.hidden,
+    body.logged-in-mobile #headerAuthGroup {
+      display: none !important;
     }
+
+    .btn-header-auth {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff !important;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+    .btn-header-auth:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .mobile-menu-toggle { display: none; background: none; border: none; color: #ffffff; font-size: 22px; cursor: pointer; padding: 6px; }
     .mobile-drawer {
-      display: none;
-      position: fixed;
-      top: 74px;
-      left: 0;
-      right: 0;
-      background: var(--apex-navy);
-      padding: 20px 24px;
-      border-bottom: 3.5px solid var(--apex-gold);
-      flex-direction: column;
-      gap: 10px;
-      z-index: 9999;
+      display: none; position: fixed; top: 74px; left: 0; right: 0; background: var(--apex-navy);
+      padding: 20px 24px; border-bottom: 3.5px solid var(--apex-gold); flex-direction: column; gap: 10px; z-index: 9999;
       box-shadow: 0 10px 25px rgba(0,0,0,0.25);
     }
     .mobile-drawer.open { display: flex; }
-    .mobile-drawer a {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 15px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: block;
+    .mobile-drawer a { color: #ffffff; text-decoration: none; font-weight: 600; font-size: 15px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+    main { flex: 1; padding: 24px 20px 60px; max-width: 1240px; margin: 0 auto; width: 100%; }
+
+    /* SEARCH BAR CONTAINER */
+    .search-container-card {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--card-radius);
+      padding: 14px 16px;
+      box-shadow: var(--card-shadow);
+      margin-bottom: 18px;
+      width: 100%;
+    }
+    .search-input-wrapper { display: flex; align-items: center; gap: 10px; width: 100%; }
+    .search-bar-input {
+      flex: 1; height: 44px; padding: 8px 14px 8px 40px; border: 1.5px solid #CBD5E1; border-radius: 10px;
+      font-size: 13.5px; font-family: inherit; background: #F8FAFC; color: var(--text-main); outline: none;
+      transition: var(--transition);
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%2364748B' viewBox='0 0 512 512'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.1-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0s208 93.1 208 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: 14px center; background-size: 15px;
+    }
+    .search-bar-input:focus { border-color: var(--royal-blue); background-color: #FFFFFF; box-shadow: 0 0 0 3px var(--royal-blue-glow); }
+    
+    .btn-advanced-toggle {
+      height: 44px; padding: 0 16px; background: #F8FAFC; border: 1.5px solid #CBD5E1; color: var(--apex-navy);
+      border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center;
+      gap: 8px; white-space: nowrap; transition: var(--transition); flex-shrink: 0;
+    }
+    .btn-advanced-toggle:hover { background: #EEF2F6; border-color: var(--border-focus); }
+
+    /* ADVANCED FILTERS DRAWER */
+    .advanced-filters-drawer {
+      display: none; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; padding: 14px; margin-top: 12px;
+    }
+    .advanced-filters-drawer.open { display: block; }
+    .filters-row-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; align-items: flex-end; width: 100%;
+    }
+    .filter-field { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .filter-label { font-size: 10.5px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.3px; }
+    .filter-select {
+      width: 100%; height: 38px; padding: 6px 10px; border: 1.5px solid #CBD5E1; border-radius: 8px; font-size: 12.5px;
+      font-family: inherit; background: #FFFFFF; color: var(--text-main); cursor: pointer;
+    }
+    .filter-select:focus { outline: none; border-color: var(--royal-blue); }
+
+    .results-count-bar {
+      margin-bottom: 16px; font-size: 13px; font-weight: 700; color: var(--text-muted);
+      display: flex; justify-content: space-between; align-items: center; padding: 0 2px;
     }
 
-    main {
-      flex: 1;
-      padding: 24px 20px 80px;
-      max-width: 1300px;
-      margin: 0 auto;
+    /* PROFILE CARDS GRID */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 18px;
       width: 100%;
     }
 
-    /* TOP SEARCH CONTROLS */
-    .browse-controls-card {
+    .tutor-card {
       background: #FFFFFF;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid #E2E8F0;
       border-radius: var(--card-radius);
-      padding: 20px;
-      box-shadow: 0 4px 14px rgba(10, 25, 47, 0.04);
-      margin-bottom: 24px;
-    }
-    .filter-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-    .filter-grid input, .filter-grid select {
-      height: 40px;
-      padding: 8px 12px;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: inherit;
-    }
-
-    /* LISTINGS GRID */
-    .profiles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-      gap: 20px;
-    }
-    .profile-item-card {
-      background: #FFFFFF;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: var(--card-radius);
-      padding: 22px;
-      box-shadow: 0 6px 20px rgba(10, 25, 47, 0.05);
+      padding: 16px;
+      box-shadow: var(--card-shadow);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
       transition: var(--transition);
+      overflow: hidden;
     }
-    .profile-item-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(10, 25, 47, 0.1);
-      border-color: #BFDBFE;
+    .tutor-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--card-shadow-hover);
+      border-color: #CBD5E1;
     }
-    .card-top {
+
+    .card-header-flex {
       display: flex;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 14px;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
     }
-    .card-avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 14px;
-      object-fit: cover;
-      background: var(--apex-navy);
+
+    .avatar-wrapper {
+      position: relative;
+      width: 46px;
+      height: 46px;
       flex-shrink: 0;
     }
-    .card-title-wrap h3 {
-      font-size: 17px;
+    .card-avatar {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+    }
+    .avatar-fallback {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+    }
+    .verified-icon {
+      position: absolute;
+      bottom: -3px;
+      right: -3px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      color: #10B981;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1px;
+    }
+
+    .card-info { flex: 1; min-width: 0; }
+    .card-name-title {
+      font-size: 15px;
       font-weight: 800;
       color: var(--apex-navy);
-      margin-bottom: 2px;
+      line-height: 1.25;
+      margin: 0 0 3px 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    .card-badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 800;
-      padding: 2px 8px;
+    .badge-subline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .role-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--royal-blue);
+      background: #EFF6FF;
+      padding: 1px 7px;
       border-radius: 6px;
     }
-    .card-badge-teacher { background: #DCFCE7; color: #15803D; }
-    .card-badge-student { background: #FEF3C7; color: #B45309; }
+    .star-rating-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 800;
+      color: #B45309;
+      background: #FEF3C7;
+      padding: 1px 6px;
+      border-radius: 6px;
+    }
 
-    .card-details-box {
-      font-size: 12.5px;
+    .fee-badge {
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid #BBF7D0;
+      font-weight: 800;
+      font-size: 11.5px;
+      padding: 3px 8px;
+      border-radius: 7px;
+      white-space: nowrap;
+    }
+
+    .specs-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .spec-pill {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: #334155;
+      background: #F1F5F9;
+    }
+    .spec-pill i { font-size: 10px; color: #64748B; }
+
+    .card-body-details {
+      background: #F8FAFC;
+      border: 1px solid #F1F5F9;
+      border-radius: 10px;
+      padding: 9px 12px;
+      margin-bottom: 14px;
       display: flex;
       flex-direction: column;
       gap: 6px;
-      margin-bottom: 16px;
     }
-    .detail-row {
+    .meta-item {
       display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      color: #334155;
+      align-items: center;
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.3;
+      gap: 7px;
     }
-    .detail-row i {
+    .meta-item i {
       color: var(--royal-blue);
-      margin-top: 3px;
+      font-size: 11px;
       width: 14px;
       text-align: center;
+      flex-shrink: 0;
+    }
+    .meta-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 1;
+    }
+    .meta-text strong {
+      color: var(--apex-navy);
+      font-weight: 700;
+      margin-right: 3px;
     }
 
-    .btn-connect-action {
-      width: 100%;
-      height: 42px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 800;
+    .card-footer-box {
+      border-top: 1px solid #F1F5F9;
+      padding-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-connect-wa {
+      background: #10B981;
+      color: #ffffff;
       border: none;
+      padding: 8px 14px;
+      border-radius: 9px;
+      font-size: 12.5px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: var(--transition);
+      gap: 6px;
       text-decoration: none;
+      transition: var(--transition);
+      width: 100%;
+      box-shadow: 0 2px 4px rgba(16, 185, 129, 0.15);
     }
-    .btn-connect-wa { background: #10B981; color: #FFFFFF; }
-    .btn-connect-wa:hover { background: #059669; }
-    .btn-connect-locked {
-      background: #10B981;
-      color: #FFFFFF;
-      cursor: default;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+    .btn-connect-wa:hover {
+      background: #059669;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
     }
-    .btn-connect-disabled {
-      background: #E2E8F0;
+    .btn-locked {
+      background: #F1F5F9;
       color: #64748B;
-      cursor: not-allowed;
-    }
-    .btn-connect-pending {
-      background: #FEF3C7;
-      color: #92400E;
-      border: 1px solid #FDE68A;
-      cursor: pointer;
+      border: 1px solid #E2E8F0;
+      padding: 8px 12px;
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
     }
 
-    .mobile-bottom-dock { display: none !important; }
+    /* Skeleton Loading UI */
+    .skeleton-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: var(--card-radius);
+      padding: 16px;
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+    .skeleton-line { background: #E2E8F0; border-radius: 6px; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.45; }
+    }
 
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 48px 16px;
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1px dashed var(--border-subtle);
+    }
+    .empty-state i { font-size: 32px; color: #CBD5E1; margin-bottom: 10px; display: block; }
+
+    /* BOTTOM DOCK (Hidden by default for guests) */
+    .mobile-bottom-dock {
+      display: none;
+    }
+    body:not(.logged-in-mobile) .mobile-bottom-dock {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 960px) {
+      header { padding: 10px 14px; }
+      body { padding-top: 68px; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .header-auth-buttons { display: flex; gap: 6px; }
+      .btn-header-auth { padding: 6px 12px; font-size: 12px; }
+    }
+
+    /* SCREENSHOT 2 BOTTOM DOCK LAYOUT */
     @media (max-width: 768px) {
-      body.logged-in-mobile { padding-bottom: 84px !important; }
-      .filter-grid { grid-template-columns: 1fr; }
-      .profiles-grid { grid-template-columns: 1fr; }
+      body.logged-in-mobile {
+        padding-bottom: 96px !important;
+      }
 
       body.logged-in-mobile .mobile-bottom-dock {
         display: grid !important;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 8px;
-        position: fixed;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 10px;
+        position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(16px);
-        padding: 8px 12px max(8px, env(safe-area-inset-bottom)) 12px !important;
-        border-top: 1.5px solid var(--border-subtle) !important;
+        background: #FFFFFF !important;
+        padding: 8px 10px max(8px, env(safe-area-inset-bottom)) !important;
+        border-top: 1.5px solid #E2E8F0 !important;
+        border-radius: 20px 20px 0 0 !important;
         box-shadow: 0 -4px 20px rgba(10, 25, 47, 0.08) !important;
-        z-index: 1000 !important;
+        z-index: 99999 !important;
+        align-items: center;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
       }
-      .mobile-bottom-dock .dock-btn {
-        background: #FFFFFF;
-        border: 1.5px solid var(--border-subtle);
-        color: var(--apex-navy);
-        padding: 6px 4px 6px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 800;
-        text-decoration: none;
+
+      .dock-card-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 4px;
+        background: #FFFFFF;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 14px;
+        padding: 6px 4px 8px;
+        text-decoration: none;
         position: relative;
+        transition: var(--transition);
       }
-      .mobile-bottom-dock .dock-btn .tile-icon-bubble {
-        width: 32px;
-        height: 32px;
-        border-radius: 10px;
+      .dock-card-btn:hover, .dock-card-btn:active, .dock-card-btn.active {
+        border-color: #3B82F6;
+        background: #FFFFFF;
+      }
+
+      /* Rounded icon badge squircle */
+      .dock-icon-squircle {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 15px;
+        margin-bottom: 5px;
+        font-size: 18px;
       }
-      .mobile-bottom-dock .dock-btn.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #10B981; }
-      .mobile-bottom-dock .dock-btn.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
-      .mobile-bottom-dock .dock-btn.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
-      .mobile-bottom-dock .dock-btn:hover, .mobile-bottom-dock .dock-btn.active { border-color: var(--royal-blue); }
-      .mobile-bottom-dock .dock-badge {
+      .dock-icon-green {
+        background-color: #E6FBF2;
+        color: #10B981;
+      }
+      .dock-icon-amber {
+        background-color: #FEF3C7;
+        color: #D97706;
+      }
+      .dock-icon-blue {
+        background-color: #EFF6FF;
+        color: #2563EB;
+      }
+
+      /* Text label below icon */
+      .dock-label-text {
+        font-size: 12.5px;
+        font-weight: 800;
+        color: #0A192F;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        line-height: 1;
+      }
+      .dock-label-text i {
+        font-size: 11px;
+      }
+
+      .dock-badge {
         position: absolute;
         top: -4px;
-        right: -3px;
+        right: 4px;
         background: #EF4444;
         color: #FFFFFF;
         font-size: 9.5px;
         font-weight: 800;
-        border-radius: 12px;
+        border-radius: 10px;
         padding: 1px 6px;
       }
+
+      main { padding: 12px 10px 20px !important; }
+      .cards-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
     }
 
-    .hidden { display: none !important; }
+    @media (max-width: 600px) {
+      .header-logo { width: 36px; height: 36px; }
+      .brand-text h1 { font-size: 16.5px; }
+      .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
+    }
   </style>
 </head>
 <body>
@@ -401,9 +591,7 @@
         <a href="resources.html" class="nav-link">Resources</a>
         
         <div class="dropdown-parent">
-          <a href="javascript:void(0)" class="nav-link">
-            More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>
-          </a>
+          <a href="javascript:void(0)" class="nav-link">More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
           <div class="dropdown-menu">
             <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
             <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
@@ -411,6 +599,12 @@
           </div>
         </div>
       </nav>
+
+      <!-- DEDICATED HEADER AUTH BUTTONS (Hidden when authenticated) -->
+      <div class="header-auth-buttons" id="headerAuthGroup">
+        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+      </div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
@@ -425,68 +619,179 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
     <a href="donate.html">💛 Donate</a>
+    <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
+    <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
   </div>
 </header>
 
 <main>
-  <div class="browse-controls-card">
-    <h2 style="font-size: 20px; font-weight: 800; color: var(--apex-navy);" id="browsePageTitle">Browse Profiles</h2>
-    <p style="font-size: 13px; color: var(--text-muted); margin-top: 2px;">Find verified educators or learning requests matching your criteria.</p>
-
-    <div class="filter-grid">
-      <input type="text" id="filterKeyword" placeholder="Search by subject, name, qualification, city..." oninput="applyFilters()">
-      <select id="filterMode" onchange="applyFilters()">
-        <option value="">All Modes</option>
-        <option value="Online">Online</option>
-        <option value="Home">Home</option>
-        <option value="Both">Both</option>
-      </select>
-      <select id="filterBoard" onchange="applyFilters()">
-        <option value="">All Boards</option>
-        <option value="CBSE">CBSE</option>
-        <option value="ICSE">ICSE</option>
-        <option value="State">State Board</option>
-        <option value="IB">IB</option>
-        <option value="IGCSE">IGCSE</option>
-      </select>
-      <select id="filterGrade" onchange="applyFilters()">
-        <option value="">All Grades</option>
-        <option value="Class 1">Grade 1</option>
-        <option value="Class 2">Grade 2</option>
-        <option value="Class 3">Grade 3</option>
-        <option value="Class 4">Grade 4</option>
-        <option value="Class 5">Grade 5</option>
-        <option value="Class 6">Grade 6</option>
-        <option value="Class 7">Grade 7</option>
-        <option value="Class 8">Grade 8</option>
-        <option value="Class 9">Grade 9</option>
-        <option value="Class 10">Grade 10</option>
-        <option value="Class 11">Grade 11</option>
-        <option value="Class 12">Grade 12</option>
-      </select>
+  <!-- SEARCH BAR & ADVANCED FILTERS -->
+  <section class="search-container-card">
+    <div class="search-input-wrapper">
+      <input type="text" id="searchInput" class="search-bar-input" placeholder="Search by tutor name, subject, board, or city..." oninput="debounceFilter()">
+      <button class="btn-advanced-toggle" onclick="toggleAdvancedFilters()">
+        <i class="fa-solid fa-sliders"></i> Filters
+      </button>
     </div>
+
+    <div class="advanced-filters-drawer" id="advancedDrawer">
+      <div class="filters-row-grid">
+        <div class="filter-field">
+          <label class="filter-label">Category</label>
+          <select id="filterCategory" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Categories</option>
+            <option value="Academic">Academic (School & College)</option>
+            <option value="Non-Academic">Non-Academic & Skills</option>
+            <option value="Competitive">Competitive & Jobs</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Class / Level</label>
+          <select id="filterLevel" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Levels</option>
+            <option value="Class 1">Grade 1</option>
+            <option value="Class 2">Grade 2</option>
+            <option value="Class 3">Grade 3</option>
+            <option value="Class 4">Grade 4</option>
+            <option value="Class 5">Grade 5</option>
+            <option value="Class 6">Grade 6</option>
+            <option value="Class 7">Grade 7</option>
+            <option value="Class 8">Grade 8</option>
+            <option value="Class 9">Grade 9</option>
+            <option value="Class 10">Grade 10</option>
+            <option value="Class 11">Grade 11</option>
+            <option value="Class 12">Grade 12</option>
+            <option value="Competitive">Competitive / Jobs</option>
+            <option value="Skills">Skills / Creative</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Board / Syllabus</label>
+          <select id="filterBoard" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Boards</option>
+            <option value="CBSE">CBSE</option>
+            <option value="ICSE">ICSE</option>
+            <option value="IGCSE">IGCSE</option>
+            <option value="IB">IB</option>
+            <option value="State">State Board</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Subject / Stream</label>
+          <select id="filterSubject" class="filter-select" onchange="filterDirectory()">
+            <option value="All">All Subjects</option>
+            <option value="Mathematics">Mathematics</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+            <option value="Biology">Biology</option>
+            <option value="Science">Science (General)</option>
+            <option value="English">English</option>
+            <option value="Social Science">Social Science</option>
+            <option value="Economics">Economics</option>
+            <option value="Accountancy">Accountancy</option>
+            <option value="Computer Science">Computer Science</option>
+            <option value="Abacus">Abacus</option>
+            <option value="Music">Music / Vocal</option>
+            <option value="Art & Craft">Art & Craft</option>
+            <option value="Public Speaking">Public Speaking</option>
+            <option value="RRB">RRB / Railway</option>
+            <option value="SSC">SSC</option>
+            <option value="Banking">Banking</option>
+            <option value="Civils">Civils / UPSC</option>
+            <option value="NEET/JEE">NEET / JEE</option>
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label class="filter-label">Tuition Mode</label>
+          <select id="filterMode" class="filter-select" onchange="filterDirectory()">
+            <option value="All">Any Mode</option>
+            <option value="Online">Online</option>
+            <option value="Home">Home</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="results-count-bar">
+    <span id="resultsCount">Loading available profiles...</span>
+    <span id="roleNotice" style="color:var(--royal-blue); font-weight:700;"></span>
   </div>
 
-  <div class="profiles-grid" id="profilesGrid">
-    <p style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-muted);">
-      <i class="fa-solid fa-spinner fa-spin"></i> Loading directory...
-    </p>
+  <div class="cards-grid" id="cardsGrid">
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:70%;"></div>
+          <div class="skeleton-line" style="height:12px;width:40%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
+    </div>
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:60%;"></div>
+          <div class="skeleton-line" style="height:12px;width:50%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
+    </div>
+    <div class="skeleton-card">
+      <div style="display:flex;gap:12px;">
+        <div class="skeleton-line" style="width:46px;height:46px;border-radius:12px;"></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:6px;">
+          <div class="skeleton-line" style="height:16px;width:65%;"></div>
+          <div class="skeleton-line" style="height:12px;width:35%;"></div>
+        </div>
+      </div>
+      <div class="skeleton-line" style="height:44px;width:100%;margin-top:10px;"></div>
+      <div class="skeleton-line" style="height:36px;width:100%;border-radius:9px;"></div>
+    </div>
   </div>
 </main>
 
+<!-- BOTTOM DOCK (MATCHING SCREENSHOT 2 UI) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn tile-enquiries">
-    <div class="tile-icon-bubble"><i class="fa-solid fa-comments"></i></div>
-    <span>💬 Enquiries</span>
+  <!-- Enquiries Button -->
+  <a href="enquiries.html" class="dock-card-btn" id="dockEnquiriesBtn">
+    <div class="dock-icon-squircle dock-icon-green">
+      <i class="fa-solid fa-comments"></i>
+    </div>
+    <span class="dock-label-text">
+      <i class="fa-regular fa-comment" style="color: #6366F1;"></i> Enquiries
+    </span>
     <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
   </a>
-  <a href="profile.html" class="dock-btn tile-profile">
-    <div class="tile-icon-bubble"><i class="fa-solid fa-id-badge"></i></div>
-    <span>👤 Profile</span>
+
+  <!-- Profile Button -->
+  <a href="profile.html" class="dock-card-btn" id="dockProfileBtn">
+    <div class="dock-icon-squircle dock-icon-amber">
+      <i class="fa-solid fa-id-badge"></i>
+    </div>
+    <span class="dock-label-text">
+      <i class="fa-solid fa-user" style="color: #6366F1;"></i> Profile
+    </span>
   </a>
-  <a href="browse.html" class="dock-btn tile-browse active">
-    <div class="tile-icon-bubble"><i class="fa-solid fa-compass"></i></div>
-    <span id="dockBrowseLabel">🔍 Browse</span>
+
+  <!-- Directory / Browse Button -->
+  <a href="browse.html" class="dock-card-btn active" id="dockBrowseBtn">
+    <div class="dock-icon-squircle dock-icon-blue">
+      <i class="fa-solid fa-compass"></i>
+    </div>
+    <span class="dock-label-text">
+      <i class="fa-solid fa-magnifying-glass" style="color: #3B82F6;"></i> <span id="dockBrowseLabel">Students</span>
+    </span>
   </a>
 </nav>
 
@@ -498,328 +803,453 @@ const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 let currentUser = null;
 let currentRole = null;
 let currentProfile = null;
-let myActiveTuition = null;
-let myPendingEnquiries = new Map();
-let allLoadedListings = [];
+let rawData = [];
+let lockedStudentIds = new Set();
+let loggedInStudentHasConfirmedTuition = false;
+let myConfirmedTeacherId = null;
+let teacherSuccessfulTuitionMap = {};
+let debounceTimer = null;
 
-function escapeHtml(str) {
-  if (!str) return '';
-  return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' })[m]);
+function clean(v) { return String(v || '').trim(); }
+function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
+function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
+function toggleAdvancedFilters() { document.getElementById("advancedDrawer").classList.toggle("open"); }
+
+function debounceFilter() {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(filterDirectory, 200);
 }
 
-function toggleMobileNav() { 
-  document.getElementById("mobileDrawer").classList.toggle("open"); 
-}
-
-function sanitizeWhatsAppUrl(mobile) {
-  let clean = String(mobile || '').replace(/\D/g, '');
-  if (clean.startsWith('0')) clean = clean.substring(1);
-  if (clean.length === 10) clean = '91' + clean;
-  return `https://wa.me/${encodeURIComponent(clean)}`;
-}
-
-async function loadUserTuitionState() {
-  const { data: { session } } = await db.auth.getSession();
-  if (!session?.user) return;
-  currentUser = session.user;
-
-  const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
-  if (t) {
-    currentRole = 'teacher';
-    currentProfile = t;
-  } else {
-    const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
-    currentRole = 'student';
-    currentProfile = s || {};
+function formatGradeRanges(rawClasses) {
+  if (!rawClasses) return 'All Grades';
+  if (!rawClasses.includes('Class')) return rawClasses;
+  const nums = [], others = [];
+  rawClasses.split(',').forEach(p => {
+    p = p.trim();
+    const match = p.match(/Class\s*(\d+)/i) || p.match(/Grade\s*(\d+)/i);
+    if (match) nums.push(parseInt(match[1], 10));
+    else others.push(p);
+  });
+  if (nums.length === 0) return rawClasses;
+  nums.sort((a, b) => a - b);
+  const ranges = [];
+  let start = nums[0], end = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    if (nums[i] === end + 1) end = nums[i];
+    else {
+      ranges.push(start === end ? `Grade ${start}` : `Grades ${start}-${end}`);
+      start = end = nums[i];
+    }
   }
+  ranges.push(start === end ? `Grade ${start}` : `Grades ${start}-${end}`);
+  if (others.length > 0) return `${ranges.join(', ')} • ${others.join(', ')}`;
+  return ranges.join(', ');
+}
 
-  // Find any active confirmed tuition
-  const { data: confirmed } = await db.from("enquiries")
-    .select("*")
-    .or(`sender_id.eq.${currentUser.id},recipient_id.eq.${currentUser.id}`)
-    .eq("status", "Confirmed")
-    .maybeSingle();
+function parseSpecMetrics(qualificationRaw, timingFeeRaw) {
+  let qual = "Educator", exp = "", price = "";
+  if (qualificationRaw) {
+    if (qualificationRaw.includes("•")) {
+      const qp = qualificationRaw.split("•");
+      qual = qp[0].trim();
+      exp = qp[1].trim();
+    } else {
+      qual = qualificationRaw.trim();
+    }
+  }
+  if (timingFeeRaw) {
+    if (timingFeeRaw.includes("•")) {
+      const tp = timingFeeRaw.split("•");
+      price = tp[0].trim();
+    } else {
+      price = timingFeeRaw.trim();
+    }
+  }
+  return { qual, exp, price };
+}
 
-  myActiveTuition = confirmed || null;
+function cleanSubjectText(sub) {
+  if (!sub) return 'All Subjects';
+  return sub.replace(/^(Academic:\s*|Non-Academic:\s*|Competitive:\s*|Others:\s*)/i, '').trim();
+}
 
-  // Find all pending enquiries
-  const { data: pendings } = await db.from("enquiries")
-    .select("*")
-    .or(`sender_id.eq.${currentUser.id},recipient_id.eq.${currentUser.id}`)
-    .eq("status", "Pending");
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
-  myPendingEnquiries.clear();
-  if (pendings) {
-    pendings.forEach(e => {
-      const otherId = (e.sender_id === currentUser.id) ? e.recipient_id : e.sender_id;
-      myPendingEnquiries.set(otherId, e);
+async function syncGlobalConfirmedTuitions() {
+  lockedStudentIds.clear();
+  loggedInStudentHasConfirmedTuition = false;
+  myConfirmedTeacherId = null;
+  teacherSuccessfulTuitionMap = {};
+
+  const currentUid = currentUser ? clean(currentUser.id) : "";
+  const currentMob = currentProfile ? cleanDigits(currentProfile.mobile) : "";
+
+  const { data: enqData } = await db
+    .from("enquiries")
+    .select("sender_id, recipient_id, sender_mobile, recipient_mobile, status, confirmed_at, created_at, ended_at")
+    .in("status", ["confirmed", "completed", "Confirmed", "Completed"]);
+
+  if (enqData) {
+    enqData.forEach(row => {
+      const sId = clean(row.sender_id);
+      const rId = clean(row.recipient_id);
+      const sMob = cleanDigits(row.sender_mobile);
+      const rMob = cleanDigits(row.recipient_mobile);
+      const status = String(row.status || '').toLowerCase();
+
+      if (status === 'confirmed') {
+        if (sId) lockedStudentIds.add(sId);
+        if (rId) lockedStudentIds.add(rId);
+        if (sMob) lockedStudentIds.add(sMob);
+        if (rMob) lockedStudentIds.add(rMob);
+
+        if (currentRole === 'student') {
+          if (sId === currentUid || rId === currentUid || (currentMob && (sMob === currentMob || rMob === currentMob))) {
+            loggedInStudentHasConfirmedTuition = true;
+            myConfirmedTeacherId = (sId === currentUid) ? rId : sId;
+          }
+        }
+      }
+
+      if (status === 'completed') {
+        const start = new Date(row.confirmed_at || row.created_at).getTime();
+        const end = new Date(row.ended_at || Date.now()).getTime();
+        if ((end - start) >= THIRTY_DAYS_MS) {
+          const tId = rId || sId;
+          if (tId) teacherSuccessfulTuitionMap[tId] = (teacherSuccessfulTuitionMap[tId] || 0) + 1;
+        }
+      }
     });
   }
 }
 
-async function handleProfileConnect(targetId, targetRole, targetName, targetMobile, targetSubject) {
+function renderStarBadge(teacherId) {
+  const count = teacherSuccessfulTuitionMap[teacherId] || 0;
+  if (!count) return "";
+  const stars = Math.min(5, Math.floor(count / 2) || 1);
+  return `<span class="star-rating-pill"><i class="fa-solid fa-star"></i> ${stars} (${count})</span>`;
+}
+
+async function handleWhatsAppConnect(targetId, targetName, targetMobile, subject) {
   if (!currentUser) {
+    alert("Please sign in to connect directly on WhatsApp.");
     window.location.href = "index.html?auth=signin";
     return;
   }
 
-  // RULE: Student cannot contact new teacher with an active tuition. Must end it first.
-  if (currentRole === 'student' && myActiveTuition) {
-    const partnerId = (myActiveTuition.sender_id === currentUser.id) ? myActiveTuition.recipient_id : myActiveTuition.sender_id;
-    if (partnerId === targetId) {
-      window.open(sanitizeWhatsAppUrl(targetMobile), '_blank');
+  const cleanTargetId = clean(targetId);
+  if (currentRole === 'student' && loggedInStudentHasConfirmedTuition) {
+    if (myConfirmedTeacherId === cleanTargetId) {
+      const cleanPhone = cleanDigits(targetMobile);
+      window.open(`https://wa.me/${cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone}`, '_blank');
       return;
     }
-    alert("You already have an active confirmed tuition. You must end your ongoing tuition before contacting a new teacher.");
-    window.location.href = "enquiries.html";
+    alert("You already have an active confirmed tuition. Please conclude your active tuition before contacting new educators.");
     return;
   }
 
-  // Teacher contacting student with existing confirmed relationship
-  if (myActiveTuition && (myActiveTuition.sender_id === targetId || myActiveTuition.recipient_id === targetId)) {
-    window.open(sanitizeWhatsAppUrl(targetMobile), '_blank');
-    return;
+  const isTeacher = (currentRole === 'teacher');
+  const myName = currentProfile ? (isTeacher ? currentProfile.teacher_name : currentProfile.student_name) : (currentUser.email.split('@')[0]);
+
+  try {
+    await db.from("enquiries").insert([{
+      sender_id: currentUser.id,
+      recipient_id: cleanTargetId,
+      sender_name: myName,
+      sender_mobile: currentProfile?.mobile || '',
+      recipient_name: targetName,
+      recipient_mobile: targetMobile,
+      subject: subject || 'Tuition',
+      status: 'Pending'
+    }]);
+  } catch (err) {
+    console.error("Enquiry log error:", err);
   }
 
-  // Pending enquiry check
-  if (myPendingEnquiries.has(targetId)) {
-    alert("An enquiry is already pending with " + targetName + ". Please visit your Enquiries tab.");
-    window.location.href = "enquiries.html";
-    return;
-  }
+  const cleanPhone = cleanDigits(targetMobile);
+  const waPhone = cleanPhone.length === 10 ? '91' + cleanPhone : cleanPhone;
+  const msg = encodeURIComponent(`Hi ${targetName}, I found your profile on Apex Tuitions for ${subject}. I would like to connect!`);
+  window.open(`https://wa.me/${waPhone}?text=${msg}`, '_blank');
 
-  // Confirm sending enquiry
-  if (!confirm(`Send tuition enquiry to ${targetName}? Once accepted, tuition will be confirmed and direct WhatsApp contact will be established.`)) return;
+  await syncGlobalConfirmedTuitions();
+  renderCards(rawData);
+}
 
-  const senderName = currentProfile?.teacher_name || currentProfile?.student_name || 'Member';
-  const senderMobile = currentProfile?.mobile || '';
-
-  const { error } = await db.from("enquiries").insert([{
-    sender_id: currentUser.id,
-    recipient_id: targetId,
-    sender_name: senderName,
-    sender_mobile: senderMobile,
-    recipient_name: targetName,
-    recipient_mobile: targetMobile,
-    subject: targetSubject || 'Tuition Requirement',
-    status: 'Pending',
-    created_at: new Date().toISOString()
-  }]);
-
-  if (error) {
-    alert("Could not send enquiry: " + error.message);
+async function fetchDirectoryData() {
+  const grid = document.getElementById("cardsGrid");
+  
+  let targetTable = 'teachers';
+  if (currentRole === 'teacher') {
+    targetTable = 'students';
+    document.getElementById("roleNotice").textContent = "Viewing Student Requirements";
   } else {
-    alert(`Enquiry successfully sent to ${targetName}! Once accepted, tuition will be confirmed.`);
-    window.location.href = "enquiries.html";
+    document.getElementById("roleNotice").textContent = "Viewing Verified Educators";
+  }
+
+  try {
+    const [profilesRes] = await Promise.all([
+      db.from(targetTable).select('*').order('created_at', { ascending: false }).limit(60),
+      syncGlobalConfirmedTuitions()
+    ]);
+
+    const { data, error } = profilesRes;
+
+    if (error || !data || data.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state">
+          <i class="fa-solid fa-folder-open"></i>
+          <h3>No Profiles Available</h3>
+          <p style="font-size:12px;color:var(--text-muted);">Please check back in a few moments.</p>
+        </div>
+      `;
+      document.getElementById("resultsCount").textContent = "0 Profiles Found";
+      rawData = [];
+      return;
+    }
+
+    rawData = data;
+    filterDirectory();
+  } catch (err) {
+    console.error("Directory fetch failed:", err);
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        <h3>Unable to load profiles</h3>
+        <p style="font-size:12px;color:var(--text-muted);">Please check your network and refresh.</p>
+      </div>
+    `;
   }
 }
 
-function renderActionButton(item) {
-  const isTargetTeacher = (item.role === 'teacher');
-  const targetId = item.id;
-  const targetName = escapeHtml(item.name);
-  const targetMobile = item.mobile || '';
-  const targetSubject = escapeHtml(item.subject || 'Tuition');
+function renderCards(list) {
+  const grid = document.getElementById("cardsGrid");
+  document.getElementById("resultsCount").textContent = `Showing ${list.length} ${list.length === 1 ? 'profile' : 'profiles'}`;
 
-  if (!currentUser) {
-    return `
-      <button class="btn-connect-action btn-connect-wa" onclick="window.location.href='index.html?auth=signin'">
-        <i class="fa-brands fa-whatsapp"></i> Connect via WhatsApp
-      </button>
+  if (!list.length) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No Matching Profiles</h3>
+        <p style="font-size:12px;color:var(--text-muted);">Try loosening search terms or filter constraints.</p>
+      </div>
     `;
+    return;
   }
 
-  const isConfirmedPartner = myActiveTuition && 
-    (myActiveTuition.sender_id === targetId || myActiveTuition.recipient_id === targetId);
+  const isTeacherTable = (currentRole !== 'teacher');
 
-  // IF CONFIRMED:
-  if (isConfirmedPartner) {
-    if (currentRole === 'student') {
-      // STUDENT'S WHATSAPP BUTTON IS LOCKED WITH TUITION CONFIRMED
-      return `
-        <button class="btn-connect-action btn-connect-locked" title="Tuition confirmed with this teacher.">
-          <i class="fa-solid fa-lock"></i> Tuition Confirmed
+  grid.innerHTML = list.map(item => {
+    const itemId = clean(item.id);
+    const itemMobDigits = cleanDigits(item.mobile);
+    const name = isTeacherTable ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
+    const roleTag = isTeacherTable ? 'Teacher' : 'Student';
+    const firstInitial = (name.charAt(0) || 'A').toUpperCase();
+    
+    const subject = cleanSubjectText(item.subject);
+    const groupedGrades = formatGradeRanges(isTeacherTable ? item.classes : item.student_class);
+    const board = item.board || 'CBSE';
+    const mode = item.tuition_mode || 'Online';
+    const { qual, exp, price } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
+
+    let actionBtnHtml = "";
+    if (!isTeacherTable && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
+      actionBtnHtml = `<span class="btn-locked"><i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i> Tuition Confirmed</span>`;
+    } else {
+      actionBtnHtml = `
+        <button class="btn-connect-wa" onclick="handleWhatsAppConnect('${itemId}', '${name}', '${item.mobile || ''}', '${subject}')">
+          <i class="fa-brands fa-whatsapp" style="font-size:15px;"></i> Contact via WhatsApp
         </button>
       `;
-    } else {
-      // TEACHER'S WHATSAPP BUTTON REMAINS UNLOCKED
-      return `
-        <a href="${sanitizeWhatsAppUrl(targetMobile)}" target="_blank" rel="noopener noreferrer" class="btn-connect-action btn-connect-wa">
-          <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
-        </a>
-      `;
     }
-  }
 
-  // IF STUDENT HAS AN ACTIVE TUITION WITH ANOTHER TEACHER -> LOCKED
-  if (currentRole === 'student' && myActiveTuition && !isConfirmedPartner) {
+    const avatarHtml = item.avatar_url 
+      ? `<img src="${item.avatar_url}" alt="${name}" class="card-avatar" onerror="this.outerHTML='<div class=\\'avatar-fallback\\'>${firstInitial}</div>';">`
+      : `<div class="avatar-fallback">${firstInitial}</div>`;
+
     return `
-      <button class="btn-connect-action btn-connect-disabled" disabled title="You must end your ongoing tuition to contact a new teacher.">
-        <i class="fa-solid fa-ban"></i> Tuition In Progress (Locked)
-      </button>
-    `;
-  }
+      <div class="tutor-card">
+        <div>
+          <div class="card-header-flex">
+            <div class="avatar-wrapper">
+              ${avatarHtml}
+              <i class="fa-solid fa-circle-check verified-icon" title="Verified Profile"></i>
+            </div>
+            
+            <div class="card-info">
+              <h3 class="card-name-title" title="${name}">${name}</h3>
+              <div class="badge-subline">
+                <span class="role-badge">${roleTag}</span>
+                ${isTeacherTable ? renderStarBadge(itemId) : ''}
+              </div>
+            </div>
 
-  // IF ENQUIRY IS PENDING
-  if (myPendingEnquiries.has(targetId)) {
-    return `
-      <button class="btn-connect-action btn-connect-pending" onclick="window.location.href='enquiries.html'">
-        <i class="fa-solid fa-clock"></i> Enquiry Pending
-      </button>
-    `;
-  }
+            ${(isTeacherTable && price) ? `<div class="fee-badge">${price}</div>` : ''}
+          </div>
 
-  // DEFAULT CONNECT BUTTON
-  return `
-    <button class="btn-connect-action btn-connect-wa" onclick="handleProfileConnect('${targetId}', '${item.role}', '${targetName}', '${targetMobile}', '${targetSubject}')">
-      <i class="fa-brands fa-whatsapp"></i> Connect via WhatsApp
-    </button>
-  `;
-}
+          <div class="specs-grid">
+            <span class="spec-pill"><i class="fa-solid fa-laptop-file"></i> ${mode}</span>
+            <span class="spec-pill"><i class="fa-solid fa-layer-group"></i> ${groupedGrades}</span>
+            ${(isTeacherTable && qual && qual !== 'Educator') ? `<span class="spec-pill"><i class="fa-solid fa-graduation-cap"></i> ${qual}</span>` : ''}
+            ${(isTeacherTable && exp) ? `<span class="spec-pill"><i class="fa-solid fa-briefcase"></i> ${exp}</span>` : ''}
+          </div>
 
-function renderCard(item) {
-  const isTeacher = (item.role === 'teacher');
-  const avatar = item.avatar_url || (isTeacher 
-    ? "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" 
-    : "https://cdn-icons-png.flaticon.com/512/3135/3135768.png");
-
-  return `
-    <div class="profile-item-card">
-      <div>
-        <div class="card-top">
-          <img src="${avatar}" alt="Avatar" class="card-avatar">
-          <div class="card-title-wrap">
-            <h3>${escapeHtml(item.name)}</h3>
-            <span class="card-badge ${isTeacher ? 'card-badge-teacher' : 'card-badge-student'}">
-              ${isTeacher ? 'Verified Educator 👨‍🏫' : 'Student / Learner 🎓'}
-            </span>
+          <div class="card-body-details">
+            <div class="meta-item" title="${subject}">
+              <i class="fa-solid fa-book-open"></i>
+              <div class="meta-text"><strong>Subject:</strong> ${subject}</div>
+            </div>
+            <div class="meta-item" title="${board}">
+              <i class="fa-solid fa-school"></i>
+              <div class="meta-text"><strong>Board:</strong> ${board}</div>
+            </div>
           </div>
         </div>
 
-        <div class="card-details-box">
-          <div class="detail-row">
-            <i class="fa-solid fa-book-open"></i>
-            <div><strong>Subject:</strong> ${escapeHtml(item.subject || 'All Subjects')}</div>
-          </div>
-          <div class="detail-row">
-            <i class="fa-solid fa-graduation-cap"></i>
-            <div><strong>Grades / Board:</strong> ${escapeHtml(item.classes || 'Any')} • ${escapeHtml(item.board || 'Any Board')}</div>
-          </div>
-          <div class="detail-row">
-            <i class="fa-solid fa-chalkboard-user"></i>
-            <div><strong>Tuition Mode:</strong> ${escapeHtml(item.tuition_mode || 'Online')}</div>
-          </div>
-          <div class="detail-row">
-            <i class="fa-solid fa-location-dot"></i>
-            <div><strong>Location:</strong> ${escapeHtml(item.address || 'Flexible')}</div>
-          </div>
-          <div class="detail-row">
-            <i class="fa-regular fa-clock"></i>
-            <div><strong>Schedule &amp; Fee:</strong> ${escapeHtml(item.timing_fee_desc || 'Negotiable')}</div>
-          </div>
+        <div class="card-footer-box">
+          ${actionBtnHtml}
         </div>
       </div>
-
-      <div>
-        ${renderActionButton(item)}
-      </div>
-    </div>
-  `;
+    `;
+  }).join('');
 }
 
-function applyFilters() {
-  const kw = document.getElementById("filterKeyword").value.trim().toLowerCase();
-  const mode = document.getElementById("filterMode").value;
+function filterDirectory() {
+  const searchQuery = document.getElementById("searchInput").value.toLowerCase().trim();
+  const cat = document.getElementById("filterCategory").value;
+  const level = document.getElementById("filterLevel").value;
   const board = document.getElementById("filterBoard").value;
-  const grade = document.getElementById("filterGrade").value;
+  const subject = document.getElementById("filterSubject").value;
+  const mode = document.getElementById("filterMode").value;
 
-  const filtered = allLoadedListings.filter(item => {
-    if (mode && item.tuition_mode !== 'Both' && item.tuition_mode !== mode) return false;
-    if (board && !String(item.board || '').toLowerCase().includes(board.toLowerCase())) return false;
-    if (grade && !String(item.classes || '').toLowerCase().includes(grade.toLowerCase())) return false;
-    if (kw) {
-      const matchBlob = `${item.name} ${item.subject} ${item.qualification} ${item.address} ${item.board} ${item.classes}`.toLowerCase();
-      if (!matchBlob.includes(kw)) return false;
+  const filtered = rawData.filter(item => {
+    const name = (item.teacher_name || item.student_name || '').toLowerCase();
+    const rawCat = (item.classes || '') + ' ' + (item.subject || '') + ' ' + (item.student_class || '');
+    const rawLevel = (item.classes || '') + ' ' + (item.student_class || '');
+    const rawBoard = item.board || '';
+    const rawSubject = item.subject || '';
+    const rawMode = item.tuition_mode || '';
+    const rawLocation = (item.address || '').toLowerCase();
+
+    const matchesSearch = !searchQuery || 
+      name.includes(searchQuery) || 
+      rawSubject.toLowerCase().includes(searchQuery) || 
+      rawBoard.toLowerCase().includes(searchQuery) || 
+      rawLocation.includes(searchQuery);
+
+    if (!matchesSearch) return false;
+
+    let matchCat = (cat === "All");
+    if (!matchCat) {
+      if (cat === "Academic") matchCat = rawCat.includes("Class") || rawCat.includes("Grade");
+      else if (cat === "Non-Academic") matchCat = rawCat.includes("Non-Academic") || rawCat.includes("Skill");
+      else if (cat === "Competitive") matchCat = rawCat.includes("Competitive");
+      else matchCat = rawCat.includes("Others");
     }
-    return true;
+
+    let matchLevel = (level === "All");
+    if (!matchLevel) {
+      matchLevel = rawLevel.includes(level);
+    }
+
+    const matchBoard = (board === "All") || rawBoard.toLowerCase().includes(board.toLowerCase());
+    const matchSubject = (subject === "All") || rawSubject.toLowerCase().includes(subject.toLowerCase());
+    const matchMode = (mode === "All") || rawMode.toLowerCase().includes(mode.toLowerCase()) || (rawMode === "Both");
+
+    return matchCat && matchLevel && matchBoard && matchSubject && matchMode;
   });
 
-  const grid = document.getElementById("profilesGrid");
-  if (filtered.length === 0) {
-    grid.innerHTML = `<p style="grid-column: 1/-1; text-align:center; padding:40px; color:var(--text-muted);">No profiles matching the selected filters were found.</p>`;
-    return;
-  }
-  grid.innerHTML = filtered.map(renderCard).join("");
+  renderCards(filtered);
 }
 
-async function loadDirectory() {
-  await loadUserTuitionState();
+// Global Auth State Management across page switches
+function setAuthState(isAuthenticated) {
+  const authGroup = document.getElementById("headerAuthGroup");
+  const mSignIn = document.getElementById("mDrawerSignIn");
+  const mSignUp = document.getElementById("mDrawerSignUp");
 
-  // If current role is teacher -> browse students; if student -> browse teachers; guest -> browse teachers
-  const targetTable = (currentRole === 'teacher') ? 'students' : 'teachers';
-  const targetRole = (currentRole === 'teacher') ? 'student' : 'teacher';
-
-  document.getElementById("browsePageTitle").textContent = (currentRole === 'teacher') 
-    ? "Explore Open Student Tuitions" 
-    : "Find Verified Home & Online Tutors";
-
-  const { data, error } = await db.from(targetTable).select("*").order("created_at", { ascending: false });
-
-  if (error) {
-    document.getElementById("profilesGrid").innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:#EF4444; padding:30px;">Error loading directory: ${error.message}</p>`;
-    return;
+  if (isAuthenticated) {
+    document.body.classList.add("logged-in-mobile");
+    if (authGroup) {
+      authGroup.classList.add("hidden");
+      authGroup.style.setProperty("display", "none", "important");
+    }
+    if (mSignIn) mSignIn.classList.add("hidden");
+    if (mSignUp) mSignUp.classList.add("hidden");
+  } else {
+    document.body.classList.remove("logged-in-mobile");
+    if (authGroup) {
+      authGroup.classList.remove("hidden");
+      authGroup.style.display = "flex";
+    }
+    if (mSignIn) mSignIn.classList.remove("hidden");
+    if (mSignUp) mSignUp.classList.remove("hidden");
   }
-
-  allLoadedListings = (data || []).map(r => ({
-    id: r.id,
-    role: targetRole,
-    name: r.teacher_name || r.student_name || 'Member',
-    mobile: r.mobile || '',
-    subject: r.subject || '',
-    classes: r.classes || r.student_class || '',
-    board: r.board || '',
-    tuition_mode: r.tuition_mode || 'Online',
-    address: r.address || '',
-    qualification: r.qualification || '',
-    timing_fee_desc: r.timing_fee_desc || '',
-    avatar_url: r.avatar_url || ''
-  }));
-
-  // Parse any URL search queries
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get("subject")) document.getElementById("filterKeyword").value = urlParams.get("subject");
-  if (urlParams.get("class")) document.getElementById("filterGrade").value = urlParams.get("class");
-  if (urlParams.get("board")) document.getElementById("filterBoard").value = urlParams.get("board");
-
-  applyFilters();
 }
 
+// Instant check to avoid layout shift
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
+  const cachedAuth = localStorage.getItem("apex_cached_auth");
+  if (cachedAuth === "true") {
+    setAuthState(true);
+  }
+
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     currentUser = session.user;
     localStorage.setItem("apex_cached_auth", "true");
-    document.body.classList.add("logged-in-mobile");
+    setAuthState(true);
 
-    const { data: enq } = await db.from("enquiries")
-      .select("id")
-      .eq("recipient_id", currentUser.id)
-      .eq("status", "Pending");
-
-    if (enq && enq.length > 0) {
-      const badge = document.getElementById("dockEnquiryBadge");
-      badge.textContent = enq.length;
-      badge.classList.remove("hidden");
+    // Fetch user profile to adapt student/teacher label
+    const { data: t } = await db.from("teachers").select("teacher_name, mobile").eq("id", currentUser.id).maybeSingle();
+    if (t) {
+      currentRole = 'teacher';
+      currentProfile = t;
+    } else {
+      const { data: s } = await db.from("students").select("student_name, mobile").eq("id", currentUser.id).maybeSingle();
+      currentRole = 'student';
+      currentProfile = s;
     }
+
+    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+    if (dockBrowseLabel) {
+      dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
+    }
+
+    // Unread enquiry badge indicator
+    db.from("enquiries")
+      .select("id", { count: 'exact', head: true })
+      .eq("recipient_id", currentUser.id)
+      .eq("status", "Pending")
+      .then(({ count }) => {
+        const dBadge = document.getElementById("dockEnquiryBadge");
+        if (dBadge && count > 0) {
+          dBadge.textContent = count;
+          dBadge.classList.remove("hidden");
+        }
+      });
+  } else {
+    localStorage.removeItem("apex_cached_auth");
+    setAuthState(false);
   }
 
-  await loadDirectory();
+  db.auth.onAuthStateChange((event, session) => {
+    if (session && session.user) {
+      currentUser = session.user;
+      localStorage.setItem("apex_cached_auth", "true");
+      setAuthState(true);
+    } else {
+      currentUser = null;
+      localStorage.removeItem("apex_cached_auth");
+      setAuthState(false);
+    }
+  });
+
+  await fetchDirectoryData();
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
