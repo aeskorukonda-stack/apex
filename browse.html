@@ -256,6 +256,9 @@
       background: linear-gradient(135deg, #1E3A8A, #2563EB);
       box-shadow: 0 4px 10px rgba(37, 99, 235, 0.2);
     }
+    .avatar-fallback.student-avatar {
+      background: linear-gradient(135deg, #0F766E, #0D9488);
+    }
     .verified-icon {
       position: absolute;
       bottom: -3px;
@@ -296,6 +299,11 @@
       padding: 2px 8px;
       border-radius: 6px;
       border: 1px solid #DBEAFE;
+    }
+    .role-badge.student-role {
+      color: #0F766E;
+      background: #CCFBF1;
+      border: 1px solid #99F6E4;
     }
     .star-rating-pill {
       display: inline-flex;
@@ -453,6 +461,124 @@
       border: 1.5px dashed #CBD5E1;
     }
     .empty-state i { font-size: 38px; color: #94A3B8; margin-bottom: 12px; display: block; }
+
+    /* SIGN-IN POPUP MODAL (GUEST CLICK) */
+    .auth-modal-backdrop {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 25, 47, 0.72);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 999999;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .auth-modal-backdrop.open {
+      display: flex;
+    }
+    .auth-modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 420px;
+      border-radius: 20px;
+      padding: 30px 24px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(10, 25, 47, 0.35);
+      position: relative;
+      animation: modalPop 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1.5px solid #E2E8F0;
+    }
+    @keyframes modalPop {
+      0% { opacity: 0; transform: scale(0.92) translateY(12px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: #F1F5F9;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748B;
+      font-size: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .modal-close-btn:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+    .modal-icon-bubble {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
+      color: var(--royal-blue);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin: 0 auto 16px;
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.15);
+    }
+    .auth-modal-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--apex-navy);
+      margin-bottom: 8px;
+    }
+    .auth-modal-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+      line-height: 1.5;
+    }
+    .modal-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .modal-btn-signin {
+      background: linear-gradient(135deg, #2563EB, #1D4ED8);
+      color: #FFFFFF;
+      padding: 12px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+      display: block;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+      transition: var(--transition);
+    }
+    .modal-btn-signin:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+    }
+    .modal-btn-signup {
+      background: #F8FAFC;
+      color: var(--apex-navy);
+      padding: 11px;
+      border-radius: 12px;
+      font-size: 13.5px;
+      font-weight: 700;
+      text-decoration: none;
+      display: block;
+      border: 1.5px solid #CBD5E1;
+      transition: var(--transition);
+    }
+    .modal-btn-signup:hover {
+      background: #F1F5F9;
+    }
 
     /* Bottom Dock */
     .mobile-bottom-dock {
@@ -622,7 +748,7 @@
   <!-- SEARCH BAR & ADVANCED FILTERS -->
   <section class="search-container-card">
     <div class="search-input-wrapper">
-      <input type="text" id="searchInput" class="search-bar-input" placeholder="Search by tutor name, subject, board, or city..." oninput="debounceFilter()">
+      <input type="text" id="searchInput" class="search-bar-input" placeholder="Search by name, subject, board, or city..." oninput="debounceFilter()">
       <button class="btn-advanced-toggle" onclick="toggleAdvancedFilters()">
         <i class="fa-solid fa-sliders"></i> Filters
       </button>
@@ -755,6 +881,24 @@
   </div>
 </main>
 
+<!-- SIGN IN PROMPT POP-UP MODAL (GUEST USERS) -->
+<div class="auth-modal-backdrop" id="authModalBackdrop" onclick="handleBackdropClick(event)">
+  <div class="auth-modal-card">
+    <button class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close modal">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="modal-icon-bubble">
+      <i class="fa-solid fa-user-lock"></i>
+    </div>
+    <h3>Sign In Required</h3>
+    <p>Please sign in or create a free Apex Tuitions account to connect directly on WhatsApp and manage your tuitions.</p>
+    <div class="modal-actions">
+      <a href="index.html?auth=signin" class="modal-btn-signin">Sign In</a>
+      <a href="index.html?auth=signup" class="modal-btn-signup">Create Free Account</a>
+    </div>
+  </div>
+</div>
+
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <a href="enquiries.html" class="dock-card-btn" id="dockEnquiriesBtn">
     <div class="dock-icon-squircle dock-icon-green">
@@ -804,6 +948,19 @@ function clean(v) { return String(v || '').trim(); }
 function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
 function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
 function toggleAdvancedFilters() { document.getElementById("advancedDrawer").classList.toggle("open"); }
+
+/* MODAL CONTROLS */
+function openAuthModal() {
+  document.getElementById("authModalBackdrop").classList.add("open");
+}
+function closeAuthModal() {
+  document.getElementById("authModalBackdrop").classList.remove("open");
+}
+function handleBackdropClick(e) {
+  if (e.target.id === "authModalBackdrop") {
+    closeAuthModal();
+  }
+}
 
 function debounceFilter() {
   clearTimeout(debounceTimer);
@@ -921,9 +1078,9 @@ function renderStarBadge(teacherId) {
 }
 
 async function handleWhatsAppConnect(targetId, targetName, targetMobile, subject) {
+  // IF USER IS NOT LOGGED IN: SHOW POPUP, DO NOT DIRECTLY REDIRECT
   if (!currentUser) {
-    alert("Please sign in to connect directly on WhatsApp.");
-    window.location.href = "index.html?auth=signin";
+    openAuthModal();
     return;
   }
 
@@ -967,16 +1124,49 @@ async function handleWhatsAppConnect(targetId, targetName, targetMobile, subject
 
 async function fetchDirectoryData() {
   const grid = document.getElementById("cardsGrid");
-  
-  let targetTable = 'teachers';
-  if (currentRole === 'teacher') {
-    targetTable = 'students';
-    document.getElementById("roleNotice").textContent = "Viewing Student Requirements";
-  } else {
-    document.getElementById("roleNotice").textContent = "Viewing Verified Educators";
-  }
 
   try {
+    // If not logged in: load BOTH teachers and students
+    if (!currentUser) {
+      document.getElementById("roleNotice").textContent = "Viewing Teachers & Students";
+
+      const [teachersRes, studentsRes] = await Promise.all([
+        db.from('teachers').select('*').order('created_at', { ascending: false }).limit(40),
+        db.from('students').select('*').order('created_at', { ascending: false }).limit(40),
+        syncGlobalConfirmedTuitions()
+      ]);
+
+      const tList = (teachersRes.data || []).map(item => ({ ...item, _entityType: 'teacher' }));
+      const sList = (studentsRes.data || []).map(item => ({ ...item, _entityType: 'student' }));
+
+      // Merge and interleave/sort by creation time
+      rawData = [...tList, ...sList].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+
+      if (rawData.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i class="fa-solid fa-folder-open"></i>
+            <h3>No Profiles Available</h3>
+            <p style="font-size:12.5px;color:var(--text-muted);">Please check back in a few moments.</p>
+          </div>
+        `;
+        document.getElementById("resultsCount").textContent = "0 Profiles Found";
+        return;
+      }
+
+      filterDirectory();
+      return;
+    }
+
+    // Logged in: show complementary role
+    let targetTable = 'teachers';
+    if (currentRole === 'teacher') {
+      targetTable = 'students';
+      document.getElementById("roleNotice").textContent = "Viewing Student Requirements";
+    } else {
+      document.getElementById("roleNotice").textContent = "Viewing Verified Educators";
+    }
+
     const [profilesRes] = await Promise.all([
       db.from(targetTable).select('*').order('created_at', { ascending: false }).limit(60),
       syncGlobalConfirmedTuitions()
@@ -997,7 +1187,10 @@ async function fetchDirectoryData() {
       return;
     }
 
-    rawData = data;
+    rawData = data.map(item => ({
+      ...item,
+      _entityType: (targetTable === 'teachers') ? 'teacher' : 'student'
+    }));
     filterDirectory();
   } catch (err) {
     console.error("Directory fetch failed:", err);
@@ -1026,23 +1219,22 @@ function renderCards(list) {
     return;
   }
 
-  const isTeacherTable = (currentRole !== 'teacher');
-
   grid.innerHTML = list.map(item => {
+    const isTeacher = (item._entityType === 'teacher');
     const itemId = clean(item.id);
     const itemMobDigits = cleanDigits(item.mobile);
-    const name = isTeacherTable ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
-    const roleTag = isTeacherTable ? 'Teacher' : 'Student';
-    const firstInitial = (name.charAt(0) || 'A').toUpperCase();
+    const name = isTeacher ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
+    const roleTag = isTeacher ? 'Teacher' : 'Student';
+    const firstInitial = (name.charAt(0) || (isTeacher ? 'T' : 'S')).toUpperCase();
     
     const subject = cleanSubjectText(item.subject);
-    const groupedGrades = formatGradeRanges(isTeacherTable ? item.classes : item.student_class);
+    const groupedGrades = formatGradeRanges(isTeacher ? item.classes : item.student_class);
     const board = item.board || 'CBSE';
     const mode = item.tuition_mode || 'Online';
     const { qual, exp, price } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
 
     let actionBtnHtml = "";
-    if (!isTeacherTable && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
+    if (!isTeacher && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
       actionBtnHtml = `<span class="btn-locked"><i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i> Tuition Confirmed</span>`;
     } else {
       actionBtnHtml = `
@@ -1052,9 +1244,10 @@ function renderCards(list) {
       `;
     }
 
+    const fallbackClass = isTeacher ? '' : 'student-avatar';
     const avatarHtml = item.avatar_url 
-      ? `<img src="${item.avatar_url}" alt="${name}" class="card-avatar" onerror="this.outerHTML='<div class=\\'avatar-fallback\\'>${firstInitial}</div>';">`
-      : `<div class="avatar-fallback">${firstInitial}</div>`;
+      ? `<img src="${item.avatar_url}" alt="${name}" class="card-avatar" onerror="this.outerHTML='<div class=\\'avatar-fallback ${fallbackClass}\\'>${firstInitial}</div>';">`
+      : `<div class="avatar-fallback ${fallbackClass}">${firstInitial}</div>`;
 
     return `
       <div class="tutor-card">
@@ -1068,19 +1261,19 @@ function renderCards(list) {
             <div class="card-info">
               <h3 class="card-name-title" title="${name}">${name}</h3>
               <div class="badge-subline">
-                <span class="role-badge">${roleTag}</span>
-                ${isTeacherTable ? renderStarBadge(itemId) : ''}
+                <span class="role-badge ${!isTeacher ? 'student-role' : ''}">${roleTag}</span>
+                ${isTeacher ? renderStarBadge(itemId) : ''}
               </div>
             </div>
 
-            ${(isTeacherTable && price) ? `<div class="fee-badge">${price}</div>` : ''}
+            ${(isTeacher && price) ? `<div class="fee-badge">${price}</div>` : ''}
           </div>
 
           <div class="specs-grid">
             <span class="spec-pill"><i class="fa-solid fa-laptop-file"></i> ${mode}</span>
             <span class="spec-pill"><i class="fa-solid fa-layer-group"></i> ${groupedGrades}</span>
-            ${(isTeacherTable && qual && qual !== 'Educator') ? `<span class="spec-pill"><i class="fa-solid fa-graduation-cap"></i> ${qual}</span>` : ''}
-            ${(isTeacherTable && exp) ? `<span class="spec-pill"><i class="fa-solid fa-briefcase"></i> ${exp}</span>` : ''}
+            ${(isTeacher && qual && qual !== 'Educator') ? `<span class="spec-pill"><i class="fa-solid fa-graduation-cap"></i> ${qual}</span>` : ''}
+            ${(isTeacher && exp) ? `<span class="spec-pill"><i class="fa-solid fa-briefcase"></i> ${exp}</span>` : ''}
           </div>
 
           <div class="card-body-details">
@@ -1218,20 +1411,24 @@ window.addEventListener("DOMContentLoaded", async () => {
         }
       });
   } else {
+    currentUser = null;
+    currentRole = null;
     localStorage.removeItem("apex_cached_auth");
     setAuthState(false);
   }
 
-  db.auth.onAuthStateChange((event, session) => {
+  db.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user) {
       currentUser = session.user;
       localStorage.setItem("apex_cached_auth", "true");
       setAuthState(true);
     } else {
       currentUser = null;
+      currentRole = null;
       localStorage.removeItem("apex_cached_auth");
       setAuthState(false);
     }
+    await fetchDirectoryData();
   });
 
   await fetchDirectoryData();
