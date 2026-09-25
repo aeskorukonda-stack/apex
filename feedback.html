@@ -284,6 +284,44 @@
       margin-bottom: 22px;
     }
 
+    /* AUTH GATE WALL */
+    .auth-gate-card {
+      text-align: center;
+      padding: 48px 24px;
+      background: #ffffff;
+      border-radius: var(--card-radius);
+      border: 1.5px dashed var(--border-subtle);
+      box-shadow: var(--shadow-card);
+    }
+    .auth-gate-icon {
+      width: 60px;
+      height: 60px;
+      line-height: 60px;
+      background: #EFF6FF;
+      color: var(--royal-blue);
+      border-radius: 50%;
+      font-size: 24px;
+      margin: 0 auto 16px;
+    }
+    .auth-gate-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--royal-blue);
+      color: #ffffff;
+      font-weight: 700;
+      padding: 11px 24px;
+      border-radius: var(--btn-radius);
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 18px;
+      transition: var(--transition);
+    }
+    .auth-gate-btn:hover {
+      background: var(--royal-blue-hover);
+      transform: translateY(-2px);
+    }
+
     label {
       display: block;
       font-size: 11px;
@@ -464,8 +502,8 @@
       color: #64748B;
     }
 
-    /* PERSISTENT MOBILE BOTTOM NAVIGATION */
-    .mobile-bottom-nav {
+    /* INTACT MOBILE BOTTOM NAVIGATION DOCK (MATCHING SCREENSHOT) */
+    .mobile-bottom-dock {
       display: none;
     }
 
@@ -475,67 +513,108 @@
     }
 
     @media (max-width: 768px) {
-      body {
-        padding-bottom: 84px; /* clearance for persistent bottom bar */
+      body.has-bottom-dock {
+        padding-bottom: 105px !important;
       }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .footer-grid { grid-template-columns: 1fr; }
 
-      .mobile-bottom-nav {
-        display: flex;
+      /* Floating Dock Wrapper */
+      .mobile-bottom-dock {
         position: fixed;
         bottom: 0;
         left: 0;
         right: 0;
-        height: 68px;
-        background: #ffffff;
-        border-top: 1px solid var(--border-subtle);
-        box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
-        z-index: 10001;
-        padding: 6px 12px;
-        justify-content: space-around;
-        align-items: center;
-        gap: 10px;
+        padding: 10px 14px 14px;
+        background: rgba(248, 250, 252, 0.94);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 10005;
+        border-top: 1px solid rgba(226, 232, 240, 0.8);
+      }
+      .mobile-bottom-dock.active-logged-in {
+        display: block !important;
       }
 
-      .bottom-nav-item {
-        flex: 1;
+      /* Dock Card Container */
+      .dock-card-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        background: #ffffff;
+        border: 1.5px solid #dbeafe;
+        border-radius: 20px;
+        padding: 10px;
+        box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.12);
+      }
+
+      /* Each Distinct Navigation Box */
+      .dock-btn {
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        text-decoration: none;
-        padding: 6px 4px;
-        border-radius: 12px;
-        border: 1.5px solid var(--border-subtle);
-        color: var(--text-main);
-        font-size: 11px;
-        font-weight: 700;
-        transition: var(--transition);
-        gap: 4px;
         background: #ffffff;
+        border: 1.5px solid #E2E8F0;
+        border-radius: 16px;
+        padding: 8px 4px 6px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+      .dock-btn.current {
+        border-color: #3B82F6;
+        box-shadow: 0 0 0 1px #3B82F6;
       }
 
-      .bottom-nav-item.active {
-        border-color: #2563EB;
-        background: #F0F7FF;
-        color: #2563EB;
-      }
-
-      .bottom-nav-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
+      /* Inner Pastel Square Icons */
+      .dock-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 14px;
+        margin-bottom: 6px;
+      }
+      .dock-icon-box.enquiries-box {
+        background-color: #E8FAF2;
+      }
+      .dock-icon-box.enquiries-box svg,
+      .dock-icon-box.enquiries-box i {
+        color: #10B981;
+        font-size: 20px;
+      }
+      .dock-icon-box.profile-box {
+        background-color: #FEF3C7;
+      }
+      .dock-icon-box.profile-box svg,
+      .dock-icon-box.profile-box i {
+        color: #D97706;
+        font-size: 20px;
+      }
+      .dock-icon-box.students-box {
+        background-color: #EFF6FF;
+      }
+      .dock-icon-box.students-box svg,
+      .dock-icon-box.students-box i {
+        color: #2563EB;
+        font-size: 20px;
       }
 
-      .bottom-nav-icon.enquiries { background: #ECFDF5; color: #10B981; }
-      .bottom-nav-icon.profile   { background: #FEF3C7; color: #D97706; }
-      .bottom-nav-icon.students  { background: #EFF6FF; color: #2563EB; }
+      /* Label Underneath */
+      .dock-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        font-weight: 800;
+        color: #0F172A;
+        letter-spacing: -0.2px;
+      }
+      .dock-label i {
+        font-size: 11px;
+      }
     }
   </style>
 </head>
@@ -574,6 +653,7 @@
         </div>
       </nav>
 
+      <!-- Desktop Auth Container -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
@@ -585,6 +665,7 @@
     </div>
   </div>
 
+  <!-- Mobile Drawer -->
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
     <a href="browse.html">📚 Browse</a>
@@ -592,8 +673,10 @@
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
-    <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
-    <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
+    
+    <!-- Dynamic Drawer Auth Items -->
+    <a href="index.html?auth=signin" id="mDrawerAuthPrimary">🔑 Sign In</a>
+    <a href="index.html?auth=signup" id="mDrawerAuthSecondary">✍️ Sign Up</a>
   </div>
 </header>
 
@@ -609,9 +692,23 @@
   </div>
 
   <div class="layout-grid">
-    <!-- FORM PANEL -->
+    <!-- FORM PANEL / AUTH WALL -->
     <div>
-      <!-- Testimonials Form -->
+      <!-- Gate for non-logged in users -->
+      <div class="auth-gate-card hidden" id="authGate">
+        <div class="auth-gate-icon">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h2 style="font-size:20px; font-weight:800; color:var(--apex-navy); margin-bottom:8px;">Sign In Required</h2>
+        <p style="font-size:13.5px; color:var(--text-muted); max-width:380px; margin:0 auto;">
+          You must be signed in with your Apex account to submit verified feedback or send direct queries to our support staff.
+        </p>
+        <a href="index.html?auth=signin" class="auth-gate-btn">
+          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In to Continue
+        </a>
+      </div>
+
+      <!-- Testimonials Form (Locked to signed in users) -->
       <div class="card" id="feedbackPanel">
         <h2>Submit Feedback</h2>
         <p class="subtitle">Share your verified thoughts. Submissions will appear on our feed upon admin review.</p>
@@ -635,7 +732,7 @@
         <div id="fbMsg" class="msg hidden"></div>
       </div>
 
-      <!-- Help / Support Request Form -->
+      <!-- Help / Support Request Form (Locked to signed in users) -->
       <div class="card hidden" id="helpPanel">
         <h2>Raise a Request / Query</h2>
         <p class="subtitle">Submit your query directly to our administrative and support team.</p>
@@ -644,7 +741,7 @@
         <input id="helpName" type="text" placeholder="e.g. Ramesh Kumar">
 
         <label>Your Email</label>
-        <input id="helpEmail" type="email" placeholder="name@example.com">
+        <input id="helpEmail" type="email" placeholder="name@example.com" readonly style="background:#E2E8F0; cursor:not-allowed;">
 
         <label>Category / Subject</label>
         <select id="helpCategory">
@@ -673,7 +770,6 @@
       </div>
       <div class="ticker-window">
         <div class="ticker-track" id="tickerTrack">
-          <!-- Feed items dynamically populated here -->
           <div class="ticker-card">
             <p>"Apex Tuitions made it easy to connect with experienced teachers without middleman brokerage."</p>
             <div class="ticker-meta">
@@ -701,28 +797,42 @@
   </div>
 </main>
 
-<!-- PERSISTENT MOBILE BOTTOM NAVIGATION -->
-<nav class="mobile-bottom-nav" id="mobileBottomNav">
-  <a href="enquiries.html" class="bottom-nav-item" id="mTabEnquiries">
-    <div class="bottom-nav-icon enquiries">
-      <i class="fa-solid fa-comments"></i>
-    </div>
-    <span>💬 Enquiries</span>
-  </a>
+<!-- EXACT 3-BUTTON INTACT BOTTOM DOCK (MATCHING SCREENSHOT) -->
+<nav class="mobile-bottom-dock" id="mobileBottomDock">
+  <div class="dock-card-container">
+    <!-- 1. Enquiries Button -->
+    <a href="enquiries.html" class="dock-btn" id="dockEnquiries">
+      <div class="dock-icon-box enquiries-box">
+        <i class="fa-solid fa-comments"></i>
+      </div>
+      <div class="dock-label">
+        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
+        <span>Enquiries</span>
+      </div>
+    </a>
 
-  <a href="profile.html" class="bottom-nav-item active" id="mTabProfile">
-    <div class="bottom-nav-icon profile">
-      <i class="fa-solid fa-id-card"></i>
-    </div>
-    <span>👤 Profile</span>
-  </a>
+    <!-- 2. Profile Button -->
+    <a href="profile.html" class="dock-btn current" id="dockProfile">
+      <div class="dock-icon-box profile-box">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+      <div class="dock-label">
+        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
+        <span>Profile</span>
+      </div>
+    </a>
 
-  <a href="students.html" class="bottom-nav-item" id="mTabStudents">
-    <div class="bottom-nav-icon students">
-      <i class="fa-solid fa-compass"></i>
-    </div>
-    <span>🔍 Students</span>
-  </a>
+    <!-- 3. Students Button -->
+    <a href="students.html" class="dock-btn" id="dockStudents">
+      <div class="dock-icon-box students-box">
+        <i class="fa-solid fa-compass"></i>
+      </div>
+      <div class="dock-label">
+        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+        <span>Students</span>
+      </div>
+    </a>
+  </div>
 </nav>
 
 <footer>
@@ -769,27 +879,36 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
+let currentTab = "feedback";
 
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
 function switchTab(mode) {
+  currentTab = mode;
   const fbBtn = document.getElementById("tabBtnFeedback");
   const hpBtn = document.getElementById("tabBtnHelp");
   const fbPanel = document.getElementById("feedbackPanel");
   const hpPanel = document.getElementById("helpPanel");
+  const gate = document.getElementById("authGate");
 
   if (mode === "feedback") {
     fbBtn.classList.add("active");
     hpBtn.classList.remove("active");
-    fbPanel.classList.remove("hidden");
-    hpPanel.classList.add("hidden");
+    if (currentUser) {
+      fbPanel.classList.remove("hidden");
+      hpPanel.classList.add("hidden");
+      gate.classList.add("hidden");
+    }
   } else {
     hpBtn.classList.add("active");
     fbBtn.classList.remove("active");
-    hpPanel.classList.remove("hidden");
-    fbPanel.classList.add("hidden");
+    if (currentUser) {
+      hpPanel.classList.remove("hidden");
+      fbPanel.classList.add("hidden");
+      gate.classList.add("hidden");
+    }
   }
 }
 
@@ -798,70 +917,90 @@ async function handleSignOut() {
   window.location.reload();
 }
 
-function updateAuthUI(user) {
-  const authGroup = document.getElementById("headerAuthGroup");
-  const mDrawerSignIn = document.getElementById("mDrawerSignIn");
-  const mDrawerSignUp = document.getElementById("mDrawerSignUp");
-  const bottomNav = document.getElementById("mobileBottomNav");
+// Strictly updates UI states based on currentUser
+function renderAuthState(user) {
+  const headerAuth = document.getElementById("headerAuthGroup");
+  const mAuthPrimary = document.getElementById("mDrawerAuthPrimary");
+  const mAuthSecondary = document.getElementById("mDrawerAuthSecondary");
+  const dock = document.getElementById("mobileBottomDock");
+  const gate = document.getElementById("authGate");
+  const fbPanel = document.getElementById("feedbackPanel");
+  const hpPanel = document.getElementById("helpPanel");
 
   if (user) {
-    // 1. Header Desktop View
-    if (authGroup) {
-      authGroup.innerHTML = `
-        <a href="profile.html" class="btn-header-auth" style="border-color:var(--apex-gold); color:var(--apex-gold) !important;">
-          <i class="fa-solid fa-user"></i> My Profile
-        </a>
-        <button onclick="handleSignOut()" class="btn-header-auth" style="background:rgba(239,68,68,0.2); border-color:#EF4444; color:#FCA5A5 !important;">
-          <i class="fa-solid fa-right-from-bracket"></i> Sign Out
-        </button>
-      `;
-    }
+    // 1. Header Buttons: Show ONLY My Profile & Sign Out
+    headerAuth.innerHTML = `
+      <a href="profile.html" class="btn-header-auth" style="border-color:var(--apex-gold); color:var(--apex-gold) !important;">
+        <i class="fa-solid fa-user"></i> My Profile
+      </a>
+      <button onclick="handleSignOut()" class="btn-header-auth" style="background:rgba(239,68,68,0.25); border-color:#EF4444; color:#FCA5A5 !important;">
+        <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+      </button>
+    `;
 
     // 2. Mobile Drawer
-    if (mDrawerSignIn) {
-      mDrawerSignIn.innerHTML = "👤 My Profile";
-      mDrawerSignIn.href = "profile.html";
-      mDrawerSignIn.onclick = null;
-    }
-    if (mDrawerSignUp) {
-      mDrawerSignUp.innerHTML = "🚪 Sign Out";
-      mDrawerSignUp.href = "javascript:void(0)";
-      mDrawerSignUp.onclick = handleSignOut;
+    mAuthPrimary.innerHTML = "👤 My Profile";
+    mAuthPrimary.href = "profile.html";
+    mAuthPrimary.onclick = null;
+
+    mAuthSecondary.innerHTML = "🚪 Sign Out";
+    mAuthSecondary.href = "javascript:void(0)";
+    mAuthSecondary.onclick = handleSignOut;
+
+    // 3. Keep 3 buttons intact with bottom screen on mobile
+    dock.classList.add("active-logged-in");
+    document.body.classList.add("has-bottom-dock");
+
+    // 4. Reveal forms and hide gate
+    gate.classList.add("hidden");
+    if (currentTab === "feedback") {
+      fbPanel.classList.remove("hidden");
+      hpPanel.classList.add("hidden");
+    } else {
+      hpPanel.classList.remove("hidden");
+      fbPanel.classList.add("hidden");
     }
 
-    // 3. Show Sticky Bottom Nav on Mobile
-    if (bottomNav) bottomNav.style.display = "flex";
+    // Prefill user metadata
+    const emailField = document.getElementById("helpEmail");
+    if (emailField && user.email) emailField.value = user.email;
+
+    const nameField = document.getElementById("fbName");
+    if (nameField && user.user_metadata && user.user_metadata.full_name) {
+      nameField.value = user.user_metadata.full_name;
+    }
 
   } else {
-    // 1. Header Desktop View (Guest)
-    if (authGroup) {
-      authGroup.innerHTML = `
-        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
-        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
-      `;
-    }
+    // 1. Header: Sign In & Sign Up for guest
+    headerAuth.innerHTML = `
+      <a href="index.html?auth=signin" class="btn-header-auth">Sign In</a>
+      <a href="index.html?auth=signup" class="btn-header-auth">Sign Up</a>
+    `;
 
-    // 2. Mobile Drawer (Guest)
-    if (mDrawerSignIn) {
-      mDrawerSignIn.innerHTML = "🔑 Sign In";
-      mDrawerSignIn.href = "index.html?auth=signin";
-      mDrawerSignIn.onclick = null;
-    }
-    if (mDrawerSignUp) {
-      mDrawerSignUp.innerHTML = "✍️ Sign Up";
-      mDrawerSignUp.href = "index.html?auth=signup";
-      mDrawerSignUp.onclick = null;
-    }
+    // 2. Mobile Drawer
+    mAuthPrimary.innerHTML = "🔑 Sign In";
+    mAuthPrimary.href = "index.html?auth=signin";
+    mAuthPrimary.onclick = null;
 
-    // 3. Hide Sticky Bottom Nav on Guest Mobile
-    if (bottomNav) bottomNav.style.display = "none";
+    mAuthSecondary.innerHTML = "✍️ Sign Up";
+    mAuthSecondary.href = "index.html?auth=signup";
+    mAuthSecondary.onclick = null;
+
+    // 3. Remove bottom dock if not signed in
+    dock.classList.remove("active-logged-in");
+    document.body.classList.remove("has-bottom-dock");
+
+    // 4. Lock out form and display sign-in gate
+    fbPanel.classList.add("hidden");
+    hpPanel.classList.add("hidden");
+    gate.classList.remove("hidden");
   }
 }
 
 // Populate Scrolling Testimonial Feed
 async function loadTestimonials() {
   const track = document.getElementById("tickerTrack");
-  const { data, error } = await db
+  const { data } = await db
     .from("testimonials")
     .select("name, role, message")
     .eq("approved", true)
@@ -887,8 +1026,13 @@ function escapeHtml(str) {
   return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// Submit Testimonials
+// Submit Testimonial
 async function submitFeedback() {
+  if (!currentUser) {
+    alert("You must be logged in to submit feedback.");
+    return;
+  }
+
   const name = document.getElementById("fbName").value.trim();
   const role = document.getElementById("fbRole").value;
   const message = document.getElementById("fbMessage").value.trim();
@@ -906,7 +1050,7 @@ async function submitFeedback() {
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Submitting...';
 
   const { error } = await db.from("testimonials").insert([{
-    user_id: currentUser ? currentUser.id : null,
+    user_id: currentUser.id,
     name: name,
     role: role,
     message: message,
@@ -920,7 +1064,7 @@ async function submitFeedback() {
     msgEl.textContent = "Submission error: " + error.message;
     msgEl.className = "msg error";
   } else {
-    msgEl.textContent = "Thank you! Your feedback has been received and will appear publicly once approved by the admin.";
+    msgEl.textContent = "Thank you! Your feedback has been received and will appear publicly once approved by admin.";
     msgEl.className = "msg success";
     document.getElementById("fbMessage").value = "";
   }
@@ -929,6 +1073,11 @@ async function submitFeedback() {
 
 // Submit Help Query
 async function submitHelpQuery() {
+  if (!currentUser) {
+    alert("You must be logged in to send inquiries.");
+    return;
+  }
+
   const name = document.getElementById("helpName").value.trim();
   const email = document.getElementById("helpEmail").value.trim();
   const category = document.getElementById("helpCategory").value;
@@ -937,7 +1086,7 @@ async function submitHelpQuery() {
   const btn = document.getElementById("helpSubmitBtn");
 
   if (!email || !details) {
-    msgEl.textContent = "Please provide your email address and message details.";
+    msgEl.textContent = "Please provide details regarding your inquiry.";
     msgEl.className = "msg error";
     msgEl.classList.remove("hidden");
     return;
@@ -947,7 +1096,7 @@ async function submitHelpQuery() {
   btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
 
   const { error } = await db.from("support_messages").insert([{
-    name: name || null,
+    name: name || currentUser.email,
     email: email,
     subject: category,
     message: details,
@@ -958,11 +1107,10 @@ async function submitHelpQuery() {
   btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send to Admin';
 
   if (error) {
-    console.error("Support message error:", error);
     msgEl.textContent = "Error sending inquiry: " + error.message;
     msgEl.className = "msg error";
   } else {
-    msgEl.textContent = "Your inquiry has been submitted directly to the admin. We will review it shortly!";
+    msgEl.textContent = "Your inquiry has been submitted directly to the admin team.";
     msgEl.className = "msg success";
     document.getElementById("helpDetails").value = "";
   }
@@ -972,23 +1120,15 @@ async function submitHelpQuery() {
 window.addEventListener("DOMContentLoaded", async () => {
   loadTestimonials();
 
-  // Check auth status
+  // Initial session check
   const { data: { session } } = await db.auth.getSession();
-  if (session && session.user) {
-    currentUser = session.user;
-    if (currentUser.email) {
-      const emailField = document.getElementById("helpEmail");
-      if (emailField) emailField.value = currentUser.email;
-    }
-    updateAuthUI(currentUser);
-  } else {
-    updateAuthUI(null);
-  }
+  currentUser = session ? session.user : null;
+  renderAuthState(currentUser);
 
-  // Realtime auth listener
+  // Real-time listener for Auth changes
   db.auth.onAuthStateChange((_event, session) => {
     currentUser = session ? session.user : null;
-    updateAuthUI(currentUser);
+    renderAuthState(currentUser);
   });
 });
 </script>
