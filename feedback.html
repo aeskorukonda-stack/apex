@@ -44,6 +44,7 @@
       flex-direction: column;
       -webkit-font-smoothing: antialiased;
       padding-top: 74px;
+      overflow-x: hidden;
     }
 
     /* HEADER */
@@ -431,130 +432,12 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* =========================================================
-       SEAMLESS MOBILE BOTTOM DOCK (INTACT & NON-FLOATING)
-       ========================================================= */
+    /* SEAMLESS MOBILE BOTTOM DOCK */
     .mobile-bottom-dock {
       display: none;
     }
 
-    @media (max-width: 900px) {
-      .layout-grid { grid-template-columns: 1fr; }
-      .ticker-window { height: 260px; }
-    }
-
-    @media (max-width: 768px) {
-      body.has-dock {
-        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
-      }
-      .nav-links-desktop { display: none; }
-      .mobile-menu-toggle { display: block; }
-      .footer-grid { grid-template-columns: 1fr; }
-
-      /* Firmly attached edge-to-edge with no floating borders or outer margins */
-      .mobile-bottom-dock {
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
-        background: #ffffff !important;
-        border-top: 1.5px solid #E2E8F0 !important;
-        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
-        z-index: 999999 !important;
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-      }
-
-      /* When authenticated, display as full-width flex */
-      .mobile-bottom-dock.dock-visible {
-        display: block !important;
-      }
-
-      /* Clean 3-column flush grid */
-      .dock-card-container {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0 !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 6px 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        width: 100% !important;
-      }
-
-      /* Native-style tab items */
-      .dock-item {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-decoration: none !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 4px 0 !important;
-        box-shadow: none !important;
-        transition: var(--transition);
-      }
-
-      .dock-item.active-tab .dock-title {
-        color: var(--royal-blue) !important;
-        font-weight: 800 !important;
-      }
-
-      /* Tab Icon Wrap */
-      .dock-icon-wrap {
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 8px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-bottom: 2px !important;
-      }
-
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
-
-      /* Tab label text */
-      .dock-title {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 3px !important;
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        color: #475569 !important;
-        letter-spacing: -0.2px !important;
-      }
-    }
-
-    /* FOOTER */
+    /* FOOTER (BASE DESKTOP STYLES FIRST) */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
@@ -594,6 +477,140 @@
       text-align: center;
       font-size: 12px;
       color: #64748B;
+    }
+
+    /* =========================================================
+       RESPONSIVE MEDIA QUERIES (PLACED AFTER BASE RULES)
+       ========================================================= */
+    @media (max-width: 900px) {
+      .layout-grid { grid-template-columns: 1fr; }
+      .ticker-window { height: 260px; }
+    }
+
+    @media (max-width: 768px) {
+      body.has-dock {
+        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+      }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+
+      main {
+        padding: 20px 14px 40px;
+      }
+      .card {
+        padding: 24px 18px;
+      }
+      .tab-nav {
+        flex-direction: column;
+        gap: 8px;
+      }
+      .tab-btn {
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Fixed 1-column mobile footer stacking */
+      .footer-grid { 
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+      }
+
+      /* Firmly attached edge-to-edge dock */
+      .mobile-bottom-dock {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
+        background: #ffffff !important;
+        border-top: 1.5px solid #E2E8F0 !important;
+        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
+        z-index: 999999 !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+      }
+
+      .mobile-bottom-dock.dock-visible {
+        display: block !important;
+      }
+
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 6px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+      }
+
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 4px 0 !important;
+        box-shadow: none !important;
+        transition: var(--transition);
+      }
+
+      .dock-item.active-tab .dock-title {
+        color: var(--royal-blue) !important;
+        font-weight: 800 !important;
+      }
+
+      .dock-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 2px !important;
+      }
+
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
+
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: -0.2px !important;
+      }
     }
   </style>
 </head>
@@ -811,7 +828,7 @@
         Apex Global Educational Society connecting verified educators directly with students.
       </p>
       <p style="font-size:11.5px;color:#94A3B8;">
-       aeskorukonda@gmail.com
+        aeskorukonda@gmail.com
       </p>
     </div>
     <div class="footer-col">
@@ -894,7 +911,6 @@ function applyAuthSecurity(user) {
   const mobileDock = document.getElementById("mobileBottomDock");
 
   if (user) {
-    // Reveal dock and add bottom spacing to body only when user is logged in
     if (mobileDock) mobileDock.classList.add("dock-visible");
     document.body.classList.add("has-dock");
 
@@ -915,7 +931,6 @@ function applyAuthSecurity(user) {
       nameField.value = user.user_metadata.full_name;
     }
   } else {
-    // Hide dock and remove bottom spacing when user is logged out
     if (mobileDock) mobileDock.classList.remove("dock-visible");
     document.body.classList.remove("has-dock");
 
