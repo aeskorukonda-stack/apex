@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Tracker - Apex Online Tuitions</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; max-width: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f1f5f9;
+    color: #0f172a;
+    line-height: 1.5;
+    padding: 14px 10px 40px;
+    min-height: 100vh;
+  }
+
+  /* FULL-SCREEN PIN GATE */
+  #adminGate {
+    position: fixed;
+    inset: 0;
+    background: #0A192F;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999;
+    padding: 16px;
+  }
+  .gate-box {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px 20px;
+    width: 100%;
+    max-width: 340px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  }
+  .gate-box h2 {
+    color: #0A192F;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+  .gate-box input {
+    width: 100%;
+    height: 44px;
+    font-size: 20px;
+    letter-spacing: 6px;
+    text-align: center;
+    border: 2px solid #cbd5e1;
+    border-radius: 8px;
+    margin: 14px 0 10px;
+    font-family: monospace;
+  }
+  .gate-box input:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+  .btn-gate {
+    width: 100%;
+    height: 42px;
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .gate-error {
+    color: #ef4444;
+    font-size: 12px;
+    font-weight: 700;
+    margin-top: 8px;
+  }
+
+  /* MAIN TRACKER LAYOUT */
+  .admin-wrap {
+    max-width: 1360px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .admin-card {
+    background: #ffffff;
+    border-radius: 14px;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 14px rgba(10, 25, 47, 0.05);
+    padding: 16px;
+  }
+  .top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+  }
+  .top-bar h1 {
+    font-size: 18px;
+    color: #0A192F;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .btn-action {
+    background: #0A192F;
+    color: #ffffff;
+    border: none;
+    padding: 7px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: 0.2s;
+  }
+  .btn-action:hover { filter: brightness(1.1); }
+  .btn-export { background: #059669; }
+  .btn-pin { background: #4f46e5; }
+  .btn-lock { background: #dc2626; }
+  .btn-home { background: #475569; }
+
+  /* METRICS STRIP */
+  .metrics-strip {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .m-box {
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .m-blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+  .m-green { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+  .m-amber { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+  .m-gold { background: #fffdf0; border: 1.5px solid #fcd34d; color: #b45309; }
+  .m-purple { background: #faf5ff; border: 1.5px solid #e9d5ff; color: #7e22ce; }
+  .m-box b { font-size: 22px; display: block; }
+  .m-box span { font-size: 10px; font-weight: 800; text-transform: uppercase; }
+
+  .table-scroll {
+    overflow-x: auto;
+    width: 100%;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    min-width: 920px;
+  }
+  thead tr {
+    background: #0A192F;
+    color: #ffffff;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+    vertical-align: middle;
+  }
+  th { font-size: 11px; font-weight: 800; text-transform: uppercase; }
+
+  .badge {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 800;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .badge-confirmed { background: #dcfce7; color: #166534; border: 1px solid #86efac; }
+  .badge-pending { background: #fef3c7; color: #92400e; border: 1px solid #fde68a; }
+  .badge-ended { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; }
+  .badge-rejected { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+
+  .role-pill {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    margin-bottom: 2px;
+  }
+  .role-teacher { background: #eff6ff; color: #1d4ed8; }
+  .role-student { background: #f5f3ff; color: #6d28d9; }
+
+  .select-override {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-size: 11.5px;
+    font-weight: 700;
+    background: #f8fafc;
+    cursor: pointer;
+  }
+
+  .wa-btn {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+    margin: 2px 0;
+  }
+  .wa-initiator { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+  .wa-recipient { background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe; }
+  .wa-btn:hover { filter: brightness(0.95); }
+
+  #pinChangeModal {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 25, 47, 0.7);
+    backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100000;
+    padding: 16px;
+  }
+  .modal-box {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  }
+  .modal-box h3 {
+    color: #0A192F;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .modal-box label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #475569;
+    margin: 8px 0 4px;
+    text-transform: uppercase;
+  }
+  .modal-box input {
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .modal-box input:focus {
+    outline: none;
+    border-color: #2563eb;
+  }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+
+<div id="adminGate">
+  <div class="gate-box">
+    <i class="fa-solid fa-lock" style="font-size:32px;color:#0A192F;margin-bottom:8px;"></i>
+    <h2>Apex Management PIN</h2>
+    <p style="font-size:12px;color:#64748b;">Enter PIN to view live enquiries and tuitions</p>
+    <input type="password" id="pinInput" placeholder="••••" maxlength="15" autofocus onkeydown="if(event.key==='Enter') verifyGatePin()">
+    <button class="btn-gate" onclick="verifyGatePin()">Unlock Tracker</button>
+    <div id="gateError" class="gate-error hidden">❌ Invalid PIN.</div>
+  </div>
+</div>
+
+<div id="pinChangeModal" class="hidden">
+  <div class="modal-box">
+    <h3><i class="fa-solid fa-key" style="color:#4f46e5;"></i> Change Admin PIN</h3>
+    <label>Current PIN</label>
+    <input type="password" id="oldPinInput" placeholder="Enter current PIN">
+    <label>New PIN</label>
+    <input type="password" id="newPinInput" placeholder="Enter new PIN">
+    <label>Confirm New PIN</label>
+    <input type="password" id="confirmNewPinInput" placeholder="Confirm new PIN">
+    <div id="pinChangeErr" style="color:#ef4444;font-size:11.5px;font-weight:700;margin-top:4px;" class="hidden"></div>
+    <div style="display:flex;gap:8px;margin-top:14px;">
+      <button onclick="saveNewAdminPin()" style="flex:1;height:38px;background:#4f46e5;color:#fff;border:none;border-radius:8px;font-weight:800;font-size:12.5px;cursor:pointer;">Update PIN</button>
+      <button onclick="closePinModal()" style="flex:1;height:38px;background:#e2e8f0;color:#475569;border:none;border-radius:8px;font-weight:700;font-size:12.5px;cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="admin-wrap hidden" id="adminMainWrap">
+  <!-- SECTION 1: ENQUIRIES TRACKER -->
+  <div class="admin-card">
+    <div class="top-bar">
+      <h1><i class="fa-solid fa-shield-halved" style="color:#f59e0b;"></i> Enquiries &amp; Star Audit Tracker</h1>
+      <div class="btn-group">
+        <button class="btn-action btn-export" onclick="exportDataToCSV()"><i class="fa-solid fa-file-excel"></i> Export to Sheets</button>
+        <button class="btn-action btn-pin" onclick="openPinModal()"><i class="fa-solid fa-key"></i> Change PIN</button>
+        <button class="btn-action" onclick="fetchLiveEnquiries()"><i class="fa-solid fa-rotate"></i> Refresh</button>
+        <button class="btn-action btn-lock" onclick="lockConsole()"><i class="fa-solid fa-lock"></i> Lock</button>
+        <a href="index.html" class="btn-action btn-home">Home</a>
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="metrics-strip">
+      <div class="m-box m-blue">
+        <b id="statTotal">0</b>
+        <span>Total Contacts</span>
+      </div>
+      <div class="m-box m-green">
+        <b id="statConfirmed">0</b>
+        <span>Active Confirmed</span>
+      </div>
+      <div class="m-box m-amber">
+        <b id="statPending">0</b>
+        <span>Pending Approval</span>
+      </div>
+      <div class="m-box m-gold">
+        <b id="statStars">0</b>
+        <span>⭐ 30+ Day Successful</span>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date Contacted</th>
+            <th>Initiator</th>
+            <th>Recipient</th>
+            <th>Subject</th>
+            <th>Status</th>
+            <th>30-Day Star Status</th>
+            <th>Update Status</th>
+            <th>WhatsApp</th>
+          </tr>
+        </thead>
+        <tbody id="trackerTableBody">
+          <tr>
+            <td colspan="8" style="padding:20px;text-align:center;color:#64748b;">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 2: HELP & SUPPORT INQUIRIES TRACKER -->
+  <div class="admin-card">
+    <div class="top-bar">
+      <h1><i class="fa-solid fa-headset" style="color:#2563eb;"></i> Help &amp; Support Inquiries (<span id="supportCount">0</span>)</h1>
+      <div class="btn-group">
+        <button class="btn-action" onclick="loadSupportMessages()"><i class="fa-solid fa-rotate"></i> Refresh Support</button>
+      </div>
+    </div>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>User / Contact</th>
+            <th>Category</th>
+            <th>Message Details</th>
+            <th style="text-align:center;">Status</th>
+            <th style="text-align:center;">Action</th>
+          </tr>
+        </thead>
+        <tbody id="supportTableBody">
+          <tr>
+            <td colspan="6" style="padding:20px;text-align:center;color:#64748b;">
+              <i class="fa-solid fa-spinner fa-spin"></i> Loading support messages...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const DEFAULT_PIN = "1985";
+let cachedEnquiriesData = [];
+const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+
+function getActiveAdminPin() {
+  return localStorage.getItem("apex_custom_admin_pin") || DEFAULT_PIN;
+}
+
+function verifyGatePin() {
+  const entered = document.getElementById("pinInput").value.trim();
+  if (entered === getActiveAdminPin()) {
+    sessionStorage.setItem("apex_admin_auth", "true");
+    document.getElementById("adminGate").classList.add("hidden");
+    document.getElementById("adminMainWrap").classList.remove("hidden");
+    fetchLiveEnquiries();
+    loadSupportMessages();
+  } else {
+    document.getElementById("gateError").classList.remove("hidden");
+    document.getElementById("pinInput").value = "";
+    document.getElementById("pinInput").focus();
+  }
+}
+
+function lockConsole() {
+  sessionStorage.removeItem("apex_admin_auth");
+  window.location.reload();
+}
+
+function openPinModal() {
+  document.getElementById("oldPinInput").value = "";
+  document.getElementById("newPinInput").value = "";
+  document.getElementById("confirmNewPinInput").value = "";
+  document.getElementById("pinChangeErr").classList.add("hidden");
+  document.getElementById("pinChangeModal").classList.remove("hidden");
+}
+
+function closePinModal() {
+  document.getElementById("pinChangeModal").classList.add("hidden");
+}
+
+function saveNewAdminPin() {
+  const oldPin = document.getElementById("oldPinInput").value.trim();
+  const newPin = document.getElementById("newPinInput").value.trim();
+  const confirmPin = document.getElementById("confirmNewPinInput").value.trim();
+  const errEl = document.getElementById("pinChangeErr");
+
+  if (oldPin !== getActiveAdminPin()) {
+    errEl.textContent = "Current PIN is incorrect.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  if (!newPin || newPin.length < 4) {
+    errEl.textContent = "New PIN must be at least 4 digits.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+  if (newPin !== confirmPin) {
+    errEl.textContent = "New PINs do not match.";
+    errEl.classList.remove("hidden");
+    return;
+  }
+
+  localStorage.setItem("apex_custom_admin_pin", newPin);
+  alert("✓ Admin Security PIN updated successfully!");
+  closePinModal();
+}
+
+function exportDataToCSV() {
+  if (!cachedEnquiriesData || cachedEnquiriesData.length === 0) {
+    alert("No records to export.");
+    return;
+  }
+
+  const headers = ["Date Contacted", "Confirmed Date", "Ended Date", "Initiator Role", "Initiator Name", "Initiator Mobile", "Recipient Role", "Recipient Name", "Recipient Mobile", "Subject", "Status", "30-Day Star Status"];
+  const csvRows = [headers.join(",")];
+
+  cachedEnquiriesData.forEach(row => {
+    const values = [
+      `"${row.dateStr}"`,
+      `"${row.confDateStr}"`,
+      `"${row.endDateStr}"`,
+      `"${row.initiatorRole}"`,
+      `"${(row.sender_name || '').replace(/"/g, '""')}"`,
+      `"${row.sender_mobile || ''}"`,
+      `"${row.recipientRole}"`,
+      `"${(row.recipient_name || '').replace(/"/g, '""')}"`,
+      `"${row.recipient_mobile || ''}"`,
+      `"${(row.subject || '').replace(/"/g, '""')}"`,
+      `"${row.displayStatus}"`,
+      `"${row.starCreditStatus}"`
+    ];
+    csvRows.push(values.join(","));
+  });
+
+  const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", `Apex_Enquiries_StarAudit_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
+function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
+
+function escapeHtml(str) {
+  return String(str || "").replace(/[&<>"']/g, m => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" })[m]);
+}
+
+/* =========================================================
+   1. ENQUIRIES & STAR AUDIT
+   ========================================================= */
+async function fetchLiveEnquiries() {
+  const tbody = document.getElementById("trackerTableBody");
+  tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading enquiries...</td></tr>`;
+
+  const [enqRes, teachersRes, studentsRes] = await Promise.all([
+    db.from("enquiries").select("*").order("created_at", { ascending: false }),
+    db.from("teachers").select("id"),
+    db.from("students").select("id")
+  ]);
+
+  if (enqRes.error) {
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:20px;text-align:center;color:#ef4444;">Error: ${escapeHtml(enqRes.error.message)}</td></tr>`;
+    return;
+  }
+
+  const teacherIdSet = new Set((teachersRes.data || []).map(t => String(t.id)));
+  const studentIdSet = new Set((studentsRes.data || []).map(s => String(s.id)));
+
+  const list = enqRes.data || [];
+  const confirmedCount = list.filter(x => String(x.status).toLowerCase() === "confirmed").length;
+  const pendingCount = list.filter(x => String(x.status).toLowerCase() === "pending").length;
+  
+  let starCreditCount = 0;
+
+  cachedEnquiriesData = list.map(item => {
+    const dateStr = item.created_at ? new Date(item.created_at).toLocaleDateString("en-GB") : "Recent";
+    const confDateStr = item.confirmed_at ? new Date(item.confirmed_at).toLocaleDateString("en-GB") : "-";
+    const endDateStr = item.ended_at ? new Date(item.ended_at).toLocaleDateString("en-GB") : "-";
+    const stRaw = String(item.status || "Pending").toLowerCase();
+
+    const sId = String(item.sender_id || '');
+    const rId = String(item.recipient_id || '');
+
+    let initiatorRole = "Member";
+    let recipientRole = "Member";
+
+    if (teacherIdSet.has(sId)) initiatorRole = "Educator";
+    else if (studentIdSet.has(sId)) initiatorRole = "Student";
+
+    if (teacherIdSet.has(rId)) recipientRole = "Educator";
+    else if (studentIdSet.has(rId)) recipientRole = "Student";
+
+    let displayStatus = "Pending";
+    let starCreditStatus = "Not eligible";
+
+    if (stRaw === "confirmed") {
+      displayStatus = "Confirmed Active";
+      if (item.confirmed_at) {
+        const confTime = new Date(item.confirmed_at).getTime();
+        const days = Math.floor((Date.now() - confTime) / (1000 * 60 * 60 * 24));
+        starCreditStatus = `Active (${days}/30 days completed)`;
+      }
+    } else if (stRaw === "completed" || stRaw === "ended") {
+      displayStatus = "Tuition Ended";
+      const start = new Date(item.confirmed_at || item.created_at).getTime();
+      const end = new Date(item.ended_at || Date.now()).getTime();
+
+      if ((end - start) >= THIRTY_DAYS_MS) {
+        starCreditStatus = "✅ 1 Successful Tuition (Counted for Star)";
+        starCreditCount++;
+      } else {
+        starCreditStatus = "❌ Ended before 30 days (Not counted)";
+      }
+    } else if (stRaw === "rejected") {
+      displayStatus = "Rejected";
+    }
+
+    return {
+      ...item,
+      dateStr,
+      confDateStr,
+      endDateStr,
+      stRaw,
+      initiatorRole,
+      recipientRole,
+      displayStatus,
+      starCreditStatus
+    };
+  });
+
+  document.getElementById("statTotal").textContent = list.length;
+  document.getElementById("statConfirmed").textContent = confirmedCount;
+  document.getElementById("statPending").textContent = pendingCount;
+  document.getElementById("statStars").textContent = starCreditCount;
+
+  if (list.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="8" style="padding:24px;text-align:center;color:#64748b;">No enquiries recorded yet.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = cachedEnquiriesData.map(item => {
+    let badgeClass = "badge-pending";
+    if (item.stRaw === "confirmed") badgeClass = "badge-confirmed";
+    else if (item.stRaw === "completed" || item.stRaw === "ended") badgeClass = "badge-ended";
+    else if (item.stRaw === "rejected") badgeClass = "badge-rejected";
+
+    const sDigits = cleanDigits(item.sender_mobile);
+    const waSender = sDigits.length === 10 ? "91" + sDigits : sDigits;
+
+    const rDigits = cleanDigits(item.recipient_mobile);
+    const waRecipient = rDigits.length === 10 ? "91" + rDigits : rDigits;
+
+    const isStarEarned = item.starCreditStatus.includes("✅");
+
+    return `
+      <tr>
+        <td style="color:#64748b;font-size:12px;">${item.dateStr}</td>
+        <td>
+          <span class="role-pill ${item.initiatorRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.initiatorRole}</span><br>
+          <b>${escapeHtml(item.sender_name || 'Initiator')}</b><br>
+          <small style="color:#64748b;">${escapeHtml(item.sender_mobile || 'No Phone')}</small>
+        </td>
+        <td>
+          <span class="role-pill ${item.recipientRole === 'Educator' ? 'role-teacher' : 'role-student'}">${item.recipientRole}</span><br>
+          <b>${escapeHtml(item.recipient_name || 'Recipient')}</b><br>
+          <small style="color:#64748b;">${escapeHtml(item.recipient_mobile || 'No Phone')}</small>
+        </td>
+        <td><b>${escapeHtml(item.subject || 'Tuition')}</b></td>
+        <td><span class="badge ${badgeClass}">${item.displayStatus}</span></td>
+        <td style="font-size:11.5px;font-weight:700;color:${isStarEarned ? '#059669' : '#64748b'};">
+          ${item.starCreditStatus}
+        </td>
+        <td>
+          <select class="select-override" onchange="overrideStatus('${item.id}', this.value)">
+            <option value="Pending" ${item.stRaw === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="Confirmed" ${item.stRaw === 'confirmed' ? 'selected' : ''}>Confirm</option>
+            <option value="Completed" ${item.stRaw === 'completed' || item.stRaw === 'ended' ? 'selected' : ''}>Tuition Ended</option>
+            <option value="Rejected" ${item.stRaw === 'rejected' ? 'selected' : ''}>Reject</option>
+          </select>
+        </td>
+        <td>
+          <div style="display:flex;flex-direction:column;gap:3px;">
+            ${waSender ? `
+              <a href="https://wa.me/${waSender}" target="_blank" class="wa-btn wa-initiator" title="Chat with Initiator">
+                <i class="fa-brands fa-whatsapp"></i> Initiator
+              </a>
+            ` : ''}
+            ${waRecipient ? `
+              <a href="https://wa.me/${waRecipient}" target="_blank" class="wa-btn wa-recipient" title="Chat with Recipient">
+                <i class="fa-brands fa-whatsapp"></i> Recipient
+              </a>
+            ` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function overrideStatus(id, newStatus) {
+  const updates = { status: newStatus };
+  if (newStatus === 'Confirmed') {
+    updates.confirmed_at = new Date().toISOString();
+  } else if (newStatus === 'Completed') {
+    updates.ended_at = new Date().toISOString();
+  }
+
+  const { error } = await db.from("enquiries").update(updates).eq("id", id);
+  if (error) {
+    alert("Error updating status: " + error.message);
+  } else {
+    fetchLiveEnquiries();
+  }
+}
+
+/* =========================================================
+   2. HELP & SUPPORT MESSAGES
+   ========================================================= */
+async function loadSupportMessages() {
+  const tbody = document.getElementById("supportTableBody");
+  const countEl = document.getElementById("supportCount");
+  if (!tbody) return;
+
+  tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#64748b;"><i class="fa-solid fa-spinner fa-spin"></i> Loading support messages...</td></tr>`;
+
+  const { data: messages, error } = await db
+    .from("support_messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:20px;text-align:center;color:#ef4444;">Error loading support messages: ${escapeHtml(error.message)}</td></tr>`;
+    return;
+  }
+
+  if (!messages || messages.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="padding:24px;text-align:center;color:#64748b;">No support tickets received yet.</td></tr>`;
+    if (countEl) countEl.textContent = "0";
+    return;
+  }
+
+  if (countEl) countEl.textContent = messages.length;
+
+  tbody.innerHTML = messages.map(msg => {
+    const formattedDate = msg.created_at ? new Date(msg.created_at).toLocaleString("en-IN", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit"
+    }) : "-";
+
+    const isResolved = (msg.status || '').toLowerCase() === "resolved";
+    const statusBg = isResolved ? "#dcfce7" : "#fef3c7";
+    const statusColor = isResolved ? "#166534" : "#92400e";
+    const borderCol = isResolved ? "#86efac" : "#fde68a";
+
+    return `
+      <tr>
+        <td style="color:#64748b;font-size:12px;white-space:nowrap;">${formattedDate}</td>
+        <td>
+          <b>${escapeHtml(msg.name || 'Anonymous')}</b><br>
+          <a href="mailto:${encodeURIComponent(msg.email)}" style="color:#2563eb;text-decoration:none;font-size:12px;font-weight:600;">
+            ${escapeHtml(msg.email)}
+          </a>
+        </td>
+        <td>
+          <span style="background:#eff6ff;color:#1d4ed8;padding:2px 8px;border-radius:4px;font-size:10.5px;font-weight:800;border:1px solid #bfdbfe;">
+            ${escapeHtml(msg.subject || 'General')}
+          </span>
+        </td>
+        <td style="max-width:320px;line-height:1.4;word-break:break-word;color:#334155;">
+          ${escapeHtml(msg.message)}
+        </td>
+        <td style="text-align:center;white-space:nowrap;">
+          <span class="badge" style="background:${statusBg};color:${statusColor};border:1px solid ${borderCol};">
+            ${escapeHtml(msg.status || 'Unread')}
+          </span>
+        </td>
+        <td style="text-align:center;white-space:nowrap;">
+          <button onclick="toggleSupportStatus('${msg.id}', '${msg.status || 'Unread'}')" 
+                  style="padding:4px 10px;border-radius:6px;border:1px solid #cbd5e1;background:#ffffff;font-size:11.5px;font-weight:700;cursor:pointer;color:#0f172a;transition:0.2s;">
+            ${isResolved ? 'Mark Unread' : '✓ Mark Resolved'}
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+}
+
+async function toggleSupportStatus(id, currentStatus) {
+  const nextStatus = (currentStatus === "Resolved") ? "Unread" : "Resolved";
+
+  const { error } = await db
+    .from("support_messages")
+    .update({ status: nextStatus })
+    .eq("id", id);
+
+  if (!error) {
+    loadSupportMessages();
+  } else {
+    alert("Unable to update status: " + error.message);
+  }
+}
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (sessionStorage.getItem("apex_admin_auth") === "true") {
+    document.getElementById("adminGate").classList.add("hidden");
+    document.getElementById("adminMainWrap").classList.remove("hidden");
+    fetchLiveEnquiries();
+    loadSupportMessages();
+  }
+});
+</script>
+</body>
+</html>
