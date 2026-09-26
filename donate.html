@@ -349,111 +349,127 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
-    /* INTACT SCREEN-ATTACHED BOTTOM NAVIGATION */
+    /* =========================================================
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
+       ========================================================= */
     @media (max-width: 768px) {
       body.logged-in-mobile { 
-        padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; 
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
-      
-      /* Fixed completely flush to the bottom, zero margin/rounding away from screen */
+
       body.logged-in-mobile .mobile-bottom-dock {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        position: fixed;
+        display: block !important;
+        position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100vw !important;
         max-width: 100vw !important;
-        background: #FFFFFF;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px;
         margin: 0 !important;
-        border-radius: 0 !important; /* Screen intact, no outer curved gap */
+        padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)) 0 !important;
+        border-radius: 0 !important;
         border: none !important;
-        border-top: 1px solid #CBD5E1 !important;
-        box-shadow: 0 -3px 12px rgba(10, 25, 47, 0.08);
-        z-index: 99999;
-        align-items: stretch;
+        border-top: 1.5px solid #E2E8F0 !important;
+        background: #ffffff !important;
+        box-shadow: 0 -2px 10px rgba(10, 25, 47, 0.08) !important;
+        z-index: 999999 !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
       }
 
-      /* Inner tab card items matching the reference photo */
-      .dock-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        padding: 7px 4px 6px;
-        border-radius: 14px;
-        text-decoration: none;
-        background: #FFFFFF;
-        border: 1.5px solid #CBD5E1;
-        position: relative;
-        transition: var(--transition);
-        -webkit-tap-highlight-color: transparent;
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
       }
 
-      /* Active tab border */
-      .dock-btn.active-dock-tab {
-        border-color: #2563EB;
-        background: #FFFFFF;
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 3px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
 
-      /* Rounded icon tile */
-      .dock-icon-box {
-        width: 36px;
-        height: 36px;
-        border-radius: 11px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
-      }
-      .dock-icon-box.green {
-        background-color: #ECFDF5;
-        color: #10B981;
-      }
-      .dock-icon-box.gold {
-        background-color: #FEF3C7;
-        color: #D97706;
-      }
-      .dock-icon-box.blue {
-        background-color: #EFF6FF;
-        color: #2563EB;
+      .dock-item.active-tab .dock-title {
+        color: var(--royal-blue) !important;
+        font-weight: 800 !important;
       }
 
-      /* Tab labels with mini-icon */
-      .dock-btn-label-stacked {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        font-size: 13px;
-        font-weight: 800;
-        color: #0F172A;
-        line-height: 1;
-        letter-spacing: -0.2px;
-      }
-      .dock-label-icon {
-        font-size: 11.5px;
+      .dock-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 2px !important;
       }
 
-      /* Enquiries badge */
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
+
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: -0.2px !important;
+        line-height: 1 !important;
+      }
+
       .dock-badge {
-        position: absolute;
-        top: -4px;
-        right: 4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.35);
+        position: absolute !important;
+        top: 0px !important;
+        right: 20% !important;
+        background: #EF4444 !important;
+        color: #FFFFFF !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        border-radius: 10px !important;
+        padding: 1px 5px !important;
+        line-height: 1 !important;
       }
     }
 
@@ -541,41 +557,43 @@
   </div>
 </main>
 
-<!-- Bottom Dock (Intact with screen, hidden until authenticated) -->
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <!-- Enquiries -->
-  <a href="enquiries.html" class="dock-btn">
-    <div class="dock-icon-box green">
-      <i class="fa-solid fa-comments"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-comment-dots dock-label-icon" style="color: #A855F7;"></i>
-      <span>Enquiries</span>
-    </div>
-    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
-  </a>
+  <div class="dock-card-container">
+    <!-- Enquiries -->
+    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
+      <div class="dock-icon-wrap green-bg">
+        <i class="fa-solid fa-comments"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
+        <span>Enquiries</span>
+      </div>
+      <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+    </a>
 
-  <!-- Profile -->
-  <a href="profile.html" class="dock-btn active-dock-tab">
-    <div class="dock-icon-box gold">
-      <i class="fa-solid fa-id-badge"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-user dock-label-icon" style="color: #3730A3;"></i>
-      <span>Profile</span>
-    </div>
-  </a>
+    <!-- Profile -->
+    <a href="profile.html" class="dock-item" id="dockBtnProfile">
+      <div class="dock-icon-wrap yellow-bg">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
+        <span>Profile</span>
+      </div>
+    </a>
 
-  <!-- Browse -->
-  <a href="browse.html" class="dock-btn">
-    <div class="dock-icon-box blue">
-      <i class="fa-solid fa-compass"></i>
-    </div>
-    <div class="dock-btn-label-stacked">
-      <i class="fa-solid fa-magnifying-glass dock-label-icon" style="color: #6366F1;"></i>
-      <span id="dockBrowseLabel">Students</span>
-    </div>
-  </a>
+    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
+    <a href="browse.html" class="dock-item" id="dockBtnBrowse">
+      <div class="dock-icon-wrap blue-bg">
+        <i class="fa-solid fa-compass"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+        <span id="dockBrowseLabel">Find Tutor</span>
+      </div>
+    </a>
+  </div>
 </nav>
 
 <footer>
@@ -644,6 +662,18 @@ function setAuthState(isAuthenticated) {
   }
 }
 
+async function updateDockRoleLabel(userId) {
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (!dockBrowseLabel || !userId) return;
+
+  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
+  if (teacher) {
+    dockBrowseLabel.textContent = "Find Students";
+  } else {
+    dockBrowseLabel.textContent = "Find Tutor";
+  }
+}
+
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
@@ -657,11 +687,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     localStorage.setItem("apex_cached_auth", "true");
     setAuthState(true);
 
-    const { data: teacher } = await db.from("teachers").select("id").eq("id", session.user.id).maybeSingle();
-    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-    if (dockBrowseLabel) {
-      dockBrowseLabel.textContent = teacher ? "Students" : "Teachers";
-    }
+    await updateDockRoleLabel(session.user.id);
 
     const { data: enquiries } = await db.from("enquiries").select("id").eq("recipient_id", session.user.id).eq("status", "Pending");
     const count = (enquiries && enquiries.length) ? enquiries.length : 0;
@@ -679,10 +705,11 @@ window.addEventListener("DOMContentLoaded", async () => {
     setAuthState(false);
   }
 
-  db.auth.onAuthStateChange((event, session) => {
+  db.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user) {
       localStorage.setItem("apex_cached_auth", "true");
       setAuthState(true);
+      await updateDockRoleLabel(session.user.id);
     } else {
       localStorage.removeItem("apex_cached_auth");
       setAuthState(false);
@@ -690,6 +717,5 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
