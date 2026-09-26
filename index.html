@@ -3449,7 +3449,27 @@ async function handleTeacherApplication() {
     authUser = data.user;
   }
   if (!authUser) return showMsg("tAppMsg", "Please sign in again to continue.", false);
+// Security Checks
+  const nameVal = ApexSecurity.validateUserTextField(name, "Teacher Name", { required: true, maxLength: 80 });
+  if (!nameVal.valid) return showMsg("tAppMsg", nameVal.error, false);
 
+  const locVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!locVal.valid) return showMsg("tAppMsg", locVal.error, false);
+
+  if (address) {
+    const addrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
+    if (!addrVal.valid) return showMsg("tAppMsg", addrVal.error, false);
+  }
+
+  if (qual) {
+    const qualVal = ApexSecurity.validateUserTextField(qual, "Qualification", { maxLength: 100 });
+    if (!qualVal.valid) return showMsg("tAppMsg", qualVal.error, false);
+  }
+
+  if (subjectsStr) {
+    const subVal = ApexSecurity.validateUserTextField(subjectsStr, "Subjects", { maxLength: 300 });
+    if (!subVal.valid) return showMsg("tAppMsg", subVal.error, false);
+  }
   await db.from("teachers").upsert([{
     id: authUser.id,
     email: email,
@@ -3547,7 +3567,27 @@ async function handleStudentApplication() {
     authUser = data.user;
   }
   if (!authUser) return showMsg("sAppMsg", "Please sign in again to continue.", false);
+// Security Checks
+  const sNameVal = ApexSecurity.validateUserTextField(sName, "Student Name", { required: true, maxLength: 80 });
+  if (!sNameVal.valid) return showMsg("sAppMsg", sNameVal.error, false);
 
+  if (pName) {
+    const pNameVal = ApexSecurity.validateUserTextField(pName, "Parent Name", { maxLength: 80 });
+    if (!pNameVal.valid) return showMsg("sAppMsg", pNameVal.error, false);
+  }
+
+  const sLocVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!sLocVal.valid) return showMsg("sAppMsg", sLocVal.error, false);
+
+  if (address) {
+    const sAddrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
+    if (!sAddrVal.valid) return showMsg("sAppMsg", sAddrVal.error, false);
+  }
+
+  if (subjectStr) {
+    const sSubVal = ApexSecurity.validateUserTextField(subjectStr, "Subject Requirement", { maxLength: 300 });
+    if (!sSubVal.valid) return showMsg("sAppMsg", sSubVal.error, false);
+  }
   await db.from("students").upsert([{
     id: authUser.id,
     email: email,
