@@ -1299,16 +1299,27 @@ function renderCards(list) {
     const isTeacher = (item._entityType === 'teacher');
     const itemId = clean(item.id);
     const itemMobDigits = cleanDigits(item.mobile);
-    const name = isTeacher ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
-    const roleTag = isTeacher ? 'Teacher' : 'Student';
-    const firstInitial = (name.charAt(0) || (isTeacher ? 'T' : 'S')).toUpperCase();
-    
-    const subject = cleanSubjectText(item.subject);
-    const groupedGrades = formatGradeRanges(isTeacher ? item.classes : item.student_class);
-    const board = item.board || 'CBSE';
-    const mode = item.tuition_mode || 'Online';
-    const { qual, exp, price } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
 
+    // 1. Get raw values
+    const rawName = isTeacher ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
+    const roleTag = isTeacher ? 'Teacher' : 'Student';
+    const firstInitial = (rawName.charAt(0) || (isTeacher ? 'T' : 'S')).toUpperCase();
+    
+    const rawSubject = cleanSubjectText(item.subject);
+    const rawGrades = formatGradeRanges(isTeacher ? item.classes : item.student_class);
+    const rawBoard = item.board || 'CBSE';
+    const rawMode = item.tuition_mode || 'Online';
+    const { qual: rawQual, exp: rawExp, price: rawPrice } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
+
+    // 2. Wrap them with ApexSecurity.escapeHtml() so tags like <script> or <img> become safe plain text
+    const name = ApexSecurity.escapeHtml(rawName);
+    const subject = ApexSecurity.escapeHtml(rawSubject);
+    const groupedGrades = ApexSecurity.escapeHtml(rawGrades);
+    const board = ApexSecurity.escapeHtml(rawBoard);
+    const mode = ApexSecurity.escapeHtml(rawMode);
+    const qual = ApexSecurity.escapeHtml(rawQual);
+    const exp = ApexSecurity.escapeHtml(rawExp);
+    const price = ApexSecurity.escapeHtml(rawPrice);
     let actionBtnHtml = "";
     if (!isTeacher && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
       actionBtnHtml = `<span class="btn-locked"><i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i> Tuition Confirmed</span>`;
