@@ -1866,6 +1866,22 @@ async function saveTeacherEdit() {
   Object.assign(profileRecord, payload);
   populateUI(profileRecord);
   closeEditModal();
+  // Validate updated details
+  const nameVal = ApexSecurity.validateUserTextField(name, "Teacher Name", { required: true, maxLength: 80 });
+  if (!nameVal.valid) { alert(nameVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
+
+  const locVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!locVal.valid) { alert(locVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
+
+  if (address) {
+    const addrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
+    if (!addrVal.valid) { alert(addrVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
+  }
+
+  if (qual) {
+    const qualVal = ApexSecurity.validateUserTextField(qual, "Qualification", { maxLength: 100 });
+    if (!qualVal.valid) { alert(qualVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
+  }
 }
 
 async function saveStudentEdit() {
@@ -1945,6 +1961,17 @@ async function saveStudentEdit() {
   Object.assign(profileRecord, payload);
   populateUI(profileRecord);
   closeEditModal();
+  // Validate updated details
+  const sNameVal = ApexSecurity.validateUserTextField(sName, "Student Name", { required: true, maxLength: 80 });
+  if (!sNameVal.valid) { alert(sNameVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
+
+  if (pName) {
+    const pNameVal = ApexSecurity.validateUserTextField(pName, "Parent Name", { maxLength: 80 });
+    if (!pNameVal.valid) { alert(pNameVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
+  }
+
+  const sLocVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!sLocVal.valid) { alert(sLocVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
 }
 
 function onAvatarFilePicked(e) {
