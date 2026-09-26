@@ -3365,6 +3365,21 @@ const { error } = await db.auth.signInWithOAuth({
 }
 
 async function handleTeacherApplication() {
+  // Validate Email
+  const emailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
+  if (!emailCheck.valid) return showMsg("tAppMsg", emailCheck.error, false);
+
+  // Validate Name (Blocks "Test teacher", "Dummy", etc.)
+  const nameCheck = ApexSecurity.validateRegistrationField(name, 'name', 'Teacher Name');
+  if (!nameCheck.valid) return showMsg("tAppMsg", nameCheck.error, false);
+
+  // Validate Mobile (Blocks "8888888888", "1234567890", etc.)
+  const mobileCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
+  if (!mobileCheck.valid) return showMsg("tAppMsg", mobileCheck.error, false);
+
+  // Validate Location
+  const locCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
+  if (!locCheck.valid) return showMsg("tAppMsg", locCheck.error, false);
   const termsBox = document.getElementById("teacherTermsBox");
   const termsCheckbox = document.getElementById("teacherTerms");
   if (!termsCheckbox.checked) {
@@ -3493,6 +3508,21 @@ async function handleTeacherApplication() {
 }
 
 async function handleStudentApplication() {
+  // Validate Email
+  const sEmailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
+  if (!sEmailCheck.valid) return showMsg("sAppMsg", sEmailCheck.error, false);
+
+  // Validate Student Name
+  const sNameCheck = ApexSecurity.validateRegistrationField(sName, 'name', 'Student Name');
+  if (!sNameCheck.valid) return showMsg("sAppMsg", sNameCheck.error, false);
+
+  // Validate Mobile
+  const sMobCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
+  if (!sMobCheck.valid) return showMsg("sAppMsg", sMobCheck.error, false);
+
+  // Validate Location
+  const sLocCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
+  if (!sLocCheck.valid) return showMsg("sAppMsg", sLocCheck.error, false);
   const termsBox = document.getElementById("studentTermsBox");
   const termsCheckbox = document.getElementById("studentTerms");
   if (!termsCheckbox.checked) {
