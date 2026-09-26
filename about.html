@@ -337,10 +337,7 @@
 
     /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
     .mobile-bottom-dock {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
+      display: none;
     }
     body:not(.logged-in-mobile) .mobile-bottom-dock {
       display: none !important;
@@ -402,132 +399,128 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
-   /* =========================================================
-   UNIFIED INTACT MOBILE BOTTOM DOCK (FROM FEEDBACK PAGE)
-   ========================================================= */
-.mobile-bottom-dock {
-  display: none;
-}
+    /* =========================================================
+       SEAMLESS MOBILE BOTTOM DOCK (MATCHING FEEDBACK PAGE)
+       ========================================================= */
+    @media (max-width: 768px) {
+      body.logged-in-mobile { 
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
+      }
 
-@media (max-width: 768px) {
-  body.has-dock,
-  body.logged-in-mobile {
-    padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
-  }
+      .mobile-bottom-dock {
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
+        background: #ffffff !important;
+        border-top: 1.5px solid #E2E8F0 !important;
+        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
+        z-index: 999999 !important;
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+      }
 
-  .mobile-bottom-dock {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
-    background: #ffffff !important;
-    border-top: 1.5px solid #E2E8F0 !important;
-    box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
-    z-index: 999999 !important;
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-  }
+      body.logged-in-mobile .mobile-bottom-dock {
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
 
-  /* Revealed when authenticated */
-  .mobile-bottom-dock.dock-visible,
-  body.logged-in-mobile .mobile-bottom-dock {
-    display: block !important;
-  }
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 6px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        width: 100% !important;
+      }
 
-  /* 3-column flush grid */
-  .dock-card-container {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important;
-    gap: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 6px 0 !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-    width: 100% !important;
-  }
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 4px 0 !important;
+        box-shadow: none !important;
+        position: relative !important;
+        transition: var(--transition);
+      }
 
-  .dock-item {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    text-decoration: none !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 4px 0 !important;
-    box-shadow: none !important;
-    position: relative !important;
-    transition: var(--transition, all 0.25s ease);
-  }
+      .dock-item.active-tab .dock-title {
+        color: var(--royal-blue) !important;
+        font-weight: 800 !important;
+      }
 
-  .dock-item.active-tab .dock-title {
-    color: var(--royal-blue, #2563EB) !important;
-    font-weight: 800 !important;
-  }
+      .dock-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 2px !important;
+      }
 
-  .dock-icon-wrap {
-    width: 32px !important;
-    height: 32px !important;
-    border-radius: 8px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    margin-bottom: 2px !important;
-  }
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
 
-  .dock-icon-wrap.green-bg {
-    background-color: #E8FAF2 !important;
-  }
-  .dock-icon-wrap.green-bg i {
-    color: #10B981 !important;
-    font-size: 16px !important;
-  }
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
 
-  .dock-icon-wrap.yellow-bg {
-    background-color: #FEF3C7 !important;
-  }
-  .dock-icon-wrap.yellow-bg i {
-    color: #D97706 !important;
-    font-size: 16px !important;
-  }
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
 
-  .dock-icon-wrap.blue-bg {
-    background-color: #EFF6FF !important;
-  }
-  .dock-icon-wrap.blue-bg i {
-    color: #2563EB !important;
-    font-size: 16px !important;
-  }
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: -0.2px !important;
+      }
 
-  .dock-title {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 3px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    color: #475569 !important;
-    letter-spacing: -0.2px !important;
-  }
+      .dock-badge {
+        position: absolute !important;
+        top: 0px !important;
+        right: 22% !important;
+        background: #EF4444 !important;
+        color: #FFFFFF !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        border-radius: 10px !important;
+        padding: 1px 5px !important;
+        line-height: 1 !important;
+      }
+    }
 
-  .dock-badge {
-    position: absolute !important;
-    top: 0px !important;
-    right: 22% !important;
-    background: #EF4444 !important;
-    color: #FFFFFF !important;
-    font-size: 9.5px !important;
-    font-weight: 800 !important;
-    border-radius: 10px !important;
-    padding: 1px 5px !important;
-    line-height: 1 !important;
-  }
-}
     @media (max-width: 600px) {
       .header-logo { width: 36px; height: 36px; }
       .brand-text h1 { font-size: 16.5px; }
@@ -649,7 +642,7 @@
   </div>
 </main>
 
-<!-- Bottom Dock (Hidden until verified authenticated) -->
+<!-- Unified Bottom Dock (Matching feedback page style) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
     <!-- Enquiries -->
@@ -675,7 +668,7 @@
       </div>
     </a>
 
-    <!-- Dynamic Browse Link -->
+    <!-- Browse -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -687,6 +680,7 @@
     </a>
   </div>
 </nav>
+
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
@@ -753,20 +747,61 @@ function setAuthState(isAuthenticated) {
   }
 }
 
+async function updateDockRoleLabel(userId) {
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (!dockBrowseLabel || !userId) return;
+
+  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
+  if (teacher) {
+    dockBrowseLabel.textContent = "Find Students";
+  } else {
+    dockBrowseLabel.textContent = "Find Tutor";
+  }
+}
+
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
- const { data: { session } } = await db.auth.getSession();
-if (session && session.user) {
-  const mobileDock = document.getElementById("mobileBottomDock");
-  if (mobileDock) mobileDock.classList.add("dock-visible");
-  document.body.classList.add("has-dock", "logged-in-mobile");
+  const cachedAuth = localStorage.getItem("apex_cached_auth");
+  setAuthState(cachedAuth === "true");
 
-  await updateDockRoleLabel(session.user.id);
-}
-}</script>
+  const { data: { session } } = await db.auth.getSession();
+  if (session && session.user) {
+    localStorage.setItem("apex_cached_auth", "true");
+    setAuthState(true);
+
+    await updateDockRoleLabel(session.user.id);
+
+    const { data: enquiries } = await db.from("enquiries").select("id").eq("recipient_id", session.user.id).eq("status", "Pending");
+    const count = (enquiries && enquiries.length) ? enquiries.length : 0;
+    const dockBadge = document.getElementById("dockEnquiryBadge");
+    if (dockBadge) {
+      if (count > 0) {
+        dockBadge.textContent = count;
+        dockBadge.classList.remove("hidden");
+      } else {
+        dockBadge.classList.add("hidden");
+      }
+    }
+  } else {
+    localStorage.removeItem("apex_cached_auth");
+    setAuthState(false);
+  }
+
+  db.auth.onAuthStateChange(async (event, session) => {
+    if (session && session.user) {
+      localStorage.setItem("apex_cached_auth", "true");
+      setAuthState(true);
+      await updateDockRoleLabel(session.user.id);
+    } else {
+      localStorage.removeItem("apex_cached_auth");
+      setAuthState(false);
+    }
+  });
+});
+</script>
 <script src="mobile-layout-fix.js"></script>
 </body>
 </html>
