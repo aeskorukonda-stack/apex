@@ -274,41 +274,59 @@
       transform: translateY(-1px);
     }
 
-    /* Grand Item Cards */
+    /* =========================================================
+       ELEVATED & GRAND ENQUIRY ITEM CARD
+       ========================================================= */
     .enquiry-item-box {
-      border: 1.5px solid #E2E8F0;
-      border-radius: 16px;
-      padding: 20px;
+      border: 1px solid #E2E8F0;
+      border-radius: 20px;
+      padding: 22px 24px;
       background: #FFFFFF;
-      margin-bottom: 18px;
-      transition: var(--transition);
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+      margin-bottom: 20px;
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 10px 28px -6px rgba(15, 23, 42, 0.06), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
       position: relative;
+      overflow: hidden;
+    }
+    .enquiry-item-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 5px;
+      background: #CBD5E1;
+      transition: var(--transition);
     }
     .enquiry-item-box:hover {
       border-color: #CBD5E1;
-      box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.1);
       transform: translateY(-2px);
     }
     .enquiry-item-box.is-confirmed {
-      border-color: #A7F3D0;
-      background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+      border-color: #D1FAE5;
+      background: #FFFFFF;
+    }
+    .enquiry-item-box.is-confirmed::before {
+      background: linear-gradient(180deg, #10B981 0%, #059669 100%);
     }
 
     .enquiry-meta-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #F1F5F9;
     }
 
     .status-badge {
       font-size: 11px;
       font-weight: 800;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 4px 12px;
+      border-radius: 9999px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.6px;
       display: inline-flex;
       align-items: center;
       gap: 6px;
@@ -320,11 +338,11 @@
     }
     .status-badge.confirmed::before {
       content: "";
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #10B981;
-      box-shadow: 0 0 8px #10B981;
+      box-shadow: 0 0 10px #10B981;
     }
     .status-badge.pending {
       background: #FFFBEB;
@@ -333,61 +351,117 @@
     }
     .status-badge.pending::before {
       content: "";
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       background: #F59E0B;
+    }
+
+    .direction-badge {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .enquiry-body {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .enquiry-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #EEF4FF 0%, #E0E7FF 100%);
+      color: var(--royal-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      font-weight: 800;
+      flex-shrink: 0;
+      border: 1px solid #C7D2FE;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
     }
 
     .enquiry-details-wrap {
       display: flex;
       flex-direction: column;
-      gap: 5px;
-      margin-bottom: 16px;
+      gap: 7px;
+      flex: 1;
     }
     .enquiry-name {
-      font-size: 17px;
+      font-size: 17.5px;
       font-weight: 800;
       color: var(--apex-navy);
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      letter-spacing: -0.3px;
+      line-height: 1.25;
     }
-    .enquiry-sub {
-      font-size: 13px;
-      color: #334155;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .enquiry-sub strong {
-      color: var(--royal-blue);
-    }
-    .enquiry-phone {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    /* Grand Action Buttons */
-    .action-row {
+    
+    .enquiry-info-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      margin-top: 2px;
+    }
+    .info-tag {
+      font-size: 12.5px;
+      padding: 4px 10px;
+      border-radius: 8px;
+      display: inline-flex;
       align-items: center;
-      padding-top: 14px;
-      border-top: 1px dashed #E2E8F0;
+      gap: 6px;
+      font-weight: 600;
+    }
+    .info-tag-subject {
+      background: #F1F5F9;
+      color: #334155;
+    }
+    .info-tag-subject strong {
+      color: var(--royal-blue);
+      font-weight: 700;
+    }
+    .info-tag-whatsapp {
+      background: #F0FDF4;
+      color: #166534;
+      border: 1px solid #DCFCE7;
+    }
+
+    /* Grand Action Buttons & Actions Layout */
+    .action-row {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 16px;
+      border-top: 1px solid #F1F5F9;
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+    @media (min-width: 580px) {
+      .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     .btn-grand {
       border: none;
-      border-radius: var(--btn-radius);
-      padding: 10px 16px;
-      font-size: 13px;
-      font-weight: 800;
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 13.5px;
+      font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -395,84 +469,103 @@
       gap: 8px;
       text-decoration: none;
       transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-    }
-    .btn-grand:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+      width: 100%;
     }
 
     .btn-accept {
       background: linear-gradient(135deg, #10B981, #059669);
       color: #ffffff;
-      flex: 1;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
     }
+    .btn-accept:hover {
+      background: linear-gradient(135deg, #059669, #047857);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 18px rgba(16, 185, 129, 0.35);
+    }
+
     .btn-reject {
       background: #FFFFFF;
       color: #EF4444;
       border: 1.5px solid #FCA5A5;
-      flex: 1;
     }
     .btn-reject:hover {
       background: #FEF2F2;
       border-color: #EF4444;
+      transform: translateY(-1.5px);
     }
 
     .btn-wa-active {
-      background: linear-gradient(135deg, #25D366, #128C7E);
+      background: linear-gradient(135deg, #22C55E, #16A34A);
       color: #ffffff;
-      flex: 1;
-      min-width: 140px;
+      box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
     }
-    .btn-tuition-lock {
-      background: #F1F5F9;
-      color: #475569;
-      border: 1px solid #CBD5E1;
-      cursor: default;
-      flex: 1;
-      min-width: 140px;
-      box-shadow: none;
-    }
-    .btn-tuition-lock:hover {
-      transform: none;
-      box-shadow: none;
+    .btn-wa-active:hover {
+      background: linear-gradient(135deg, #16A34A, #15803D);
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 18px rgba(34, 197, 94, 0.35);
     }
 
-    /* Support / Donate CTA Highlight */
+    .btn-tuition-lock {
+      background: #F8FAFC;
+      color: #0F172A;
+      border: 1px solid #E2E8F0;
+      cursor: default;
+      font-weight: 700;
+    }
+
     .btn-donate-support {
-      background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
       color: #FFFFFF !important;
-      flex: 1.2;
-      min-width: 170px;
-      border: 1px solid #FBBF24;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+      border: none;
+      box-shadow: 0 6px 18px rgba(217, 119, 6, 0.28);
     }
     .btn-donate-support:hover {
       background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+      transform: translateY(-1.5px);
+      box-shadow: 0 8px 24px rgba(217, 119, 6, 0.4);
     }
 
+    .btn-end-wrap {
+      display: flex;
+      justify-content: center;
+      padding-top: 4px;
+    }
     .btn-end {
-      background: #FFFFFF;
-      color: #E11D48;
-      border: 1.5px solid #FECDD3;
-      padding: 10px 14px;
-      border-radius: var(--btn-radius);
+      background: transparent;
+      color: #EF4444;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 8px;
       font-size: 12.5px;
       font-weight: 700;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
       transition: var(--transition);
     }
     .btn-end:hover {
-      background: #FFF1F2;
-      border-color: #E11D48;
+      background: #FEF2F2;
+      color: #DC2626;
     }
 
     .notice-pending {
-      font-size: 12.5px;
+      font-size: 13px;
       color: #92400E;
-      font-weight: 700;
+      font-weight: 600;
+      background: #FFFBEB;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid #FDE68A;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .support-inline-note {
+      font-size: 12px;
+      color: #78350F;
       background: #FFFBEB;
       padding: 10px 14px;
       border-radius: 10px;
@@ -480,26 +573,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      width: 100%;
-    }
-
-    /* Free Platform Support Box on Confirmed Tuitions */
-    .support-inline-note {
-      font-size: 11.5px;
-      color: #78350F;
-      background: #FEF3C7;
-      padding: 6px 12px;
-      border-radius: 8px;
-      margin-top: 10px;
-      border: 1px solid #FDE68A;
-      display: flex;
-      align-items: center;
-      gap: 6px;
       font-weight: 600;
+      line-height: 1.4;
+      margin-top: 4px;
     }
 
     /* =========================================================
-       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK
        ========================================================= */
     .mobile-bottom-dock {
       display: none;
@@ -633,7 +713,8 @@
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 6px; }
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
-      .enquiries-card { padding: 22px 18px; }
+      .enquiries-card { padding: 22px 16px; }
+      .enquiry-item-box { padding: 18px 16px; }
     }
 
     .hidden { display: none !important; }
@@ -685,7 +766,7 @@
     <a href="resources.html">📚 Resources</a>
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
-    <a href="donate.html">💛 Donate</a>
+    <a href="donate.html">❤️ Donate</a>
   </div>
 </header>
 
@@ -766,6 +847,13 @@ function escapeHtml(str) {
     .replace(/'/g, '&#039;');
 }
 
+function getInitials(name) {
+  if (!name) return 'AT';
+  const parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 function sanitizeWhatsAppUrl(mobile) {
   let clean = String(mobile || '').replace(/\D/g, '');
   if (clean.startsWith('0')) clean = clean.substring(1);
@@ -825,6 +913,7 @@ async function loadEnquiries() {
     const isConfirmed = rawStatus.toLowerCase() === 'confirmed';
 
     const safeContactName = escapeHtml(rawContactName || 'Member');
+    const initials = getInitials(rawContactName);
     const safeSubject = escapeHtml(item.subject || 'Tuition');
     const safeMobile = escapeHtml(rawContactMobile || 'Not provided');
     const safeStatus = isConfirmed ? 'Confirmed' : 'Pending';
@@ -837,12 +926,14 @@ async function loadEnquiries() {
       if (isIncoming) {
         actionButtons = `
           <div class="action-row">
-            <button class="btn-grand btn-accept" onclick="respondEnquiry('${item.id}', 'Confirmed')">
-              <i class="fa-solid fa-check"></i> Accept Enquiry
-            </button>
-            <button class="btn-grand btn-reject" onclick="respondEnquiry('${item.id}', 'Rejected')">
-              <i class="fa-solid fa-xmark"></i> Reject
-            </button>
+            <div class="actions-grid">
+              <button class="btn-grand btn-accept" onclick="respondEnquiry('${item.id}', 'Confirmed')">
+                <i class="fa-solid fa-check"></i> Accept Enquiry
+              </button>
+              <button class="btn-grand btn-reject" onclick="respondEnquiry('${item.id}', 'Rejected')">
+                <i class="fa-solid fa-xmark"></i> Reject
+              </button>
+            </div>
           </div>
         `;
       } else {
@@ -870,7 +961,6 @@ async function loadEnquiries() {
         `;
       }
 
-      // DONATE / SUPPORT BUTTON PLACED NEXT TO CONFIRMED TUITION ACTION
       const donateButtonHtml = `
         <a href="donate.html" class="btn-grand btn-donate-support" title="Apex Tuitions is 100% free! Support our platform.">
           <i class="fa-solid fa-hand-holding-heart"></i> Support Platform
@@ -879,11 +969,15 @@ async function loadEnquiries() {
 
       actionButtons = `
         <div class="action-row">
-          ${waButtonHtml}
-          ${donateButtonHtml}
-          <button onclick="endTuition('${item.id}')" class="btn-end" title="Conclude Tuition">
-            <i class="fa-solid fa-power-off"></i> End Tuition
-          </button>
+          <div class="actions-grid">
+            ${waButtonHtml}
+            ${donateButtonHtml}
+          </div>
+          <div class="btn-end-wrap">
+            <button onclick="endTuition('${item.id}')" class="btn-end" title="Conclude Tuition">
+              <i class="fa-solid fa-power-off"></i> End Tuition
+            </button>
+          </div>
         </div>
         <div class="support-inline-note">
           <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Please support to keep the platform free.
@@ -895,23 +989,29 @@ async function loadEnquiries() {
       <div class="enquiry-item-box ${isConfirmed ? 'is-confirmed' : ''}">
         <div class="enquiry-meta-top">
           <span class="status-badge ${statusClass}">${safeStatus}</span>
-          <span style="font-size:12px;font-weight:700;color:var(--text-muted);">
+          <span class="direction-badge">
             <i class="fa-regular ${isIncoming ? 'fa-arrow-down-long' : 'fa-paper-plane'}"></i> ${isIncoming ? 'Incoming Request' : 'Sent by You'}
           </span>
         </div>
         
-        <div class="enquiry-details-wrap">
-          <div class="enquiry-name">
-            <i class="fa-regular fa-user" style="color:var(--royal-blue);font-size:15px;"></i>
-            ${safeContactName}
+        <div class="enquiry-body">
+          <div class="enquiry-avatar">
+            ${initials}
           </div>
-          <div class="enquiry-sub">
-            <i class="fa-solid fa-book-open" style="color:#64748B;font-size:12px;"></i>
-            Subject: <strong>${safeSubject}</strong>
-          </div>
-          <div class="enquiry-phone">
-            <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:13px;"></i>
-            WhatsApp: ${safeMobile}
+          <div class="enquiry-details-wrap">
+            <div class="enquiry-name">
+              ${safeContactName}
+            </div>
+            <div class="enquiry-info-tags">
+              <span class="info-tag info-tag-subject">
+                <i class="fa-solid fa-book-open" style="color:#64748B;font-size:11px;"></i>
+                <span>Subject: <strong>${safeSubject}</strong></span>
+              </span>
+              <span class="info-tag info-tag-whatsapp">
+                <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:12px;"></i>
+                <span>${safeMobile}</span>
+              </span>
+            </div>
           </div>
         </div>
 
