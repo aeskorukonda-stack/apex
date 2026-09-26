@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="security.js"></script>
 
   <style>
     :root {
@@ -121,7 +122,7 @@
 
     .dropdown-parent { 
       position: relative; 
-      padding-bottom: 6px;
+      padding-bottom: 6px; 
       margin-bottom: -6px;
     }
     .dropdown-menu {
@@ -187,9 +188,9 @@
 
     main { 
       flex: 1; 
-      padding: 24px 20px 36px;
-      display: flex;
-      flex-direction: column;
+      padding: 24px 20px 36px; 
+      display: flex; 
+      flex-direction: column; 
       align-items: center;
     }
 
@@ -424,8 +425,8 @@
       main { padding: 18px 14px 28px; }
       .hub-grid { 
         grid-template-columns: 1fr; 
-        gap: 14px;
-        padding: 18px 16px;
+        gap: 14px; 
+        padding: 18px 16px; 
       }
       .hub-top-bar { padding: 12px 16px; }
       .nav-links-desktop { display: none; }
@@ -767,6 +768,7 @@ const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentUser = null;
+let isTeacher = false;
 let isVerifiedTeacher = false;
 
 function toggleMobileNav() {
@@ -798,9 +800,20 @@ async function handleUploadClick() {
     return;
   }
 
+  // Check if logged in user is a student
+  if (!isTeacher) {
+    showAccessDenied(
+      "Resource uploading is restricted to teachers only. Students can browse and download materials from the Resource Center.",
+      "Browse Downloads",
+      "javascript:openDownloadBrowser()"
+    );
+    return;
+  }
+
+  // Teacher exists but is not verified
   if (!isVerifiedTeacher) {
     showAccessDenied(
-      "Your account is not verified as a teacher. Only verified educators can upload resources.",
+      "Your teacher account is not yet verified. Only verified educators can upload resources.",
       "Profile Verification",
       "profile.html"
     );
@@ -878,15 +891,24 @@ async function checkAuthAndRole() {
 
     const { data: teacher } = await db.from("teachers").select("id, verified").eq("id", currentUser.id).maybeSingle();
 
-    if (teacher && teacher.verified) {
-      isVerifiedTeacher = true;
-      if (statusBadge) {
-        statusBadge.innerHTML = `<span style="color:var(--emerald); display:inline-flex; align-items:center; gap:4px;"><i class="fa-solid fa-circle-check"></i> Verified Teacher</span>`;
+    if (teacher) {
+      isTeacher = true;
+      if (teacher.verified) {
+        isVerifiedTeacher = true;
+        if (statusBadge) {
+          statusBadge.innerHTML = `<span style="color:var(--emerald); display:inline-flex; align-items:center; gap:4px;"><i class="fa-solid fa-circle-check"></i> Verified Teacher</span>`;
+        }
+      } else {
+        isVerifiedTeacher = false;
+        if (statusBadge) {
+          statusBadge.innerHTML = `<span style="color:var(--text-muted);"><i class="fa-solid fa-user-clock"></i> Teacher (Unverified)</span>`;
+        }
       }
     } else {
+      isTeacher = false;
       isVerifiedTeacher = false;
       if (statusBadge) {
-        statusBadge.innerHTML = `<span style="color:var(--text-muted);"><i class="fa-solid fa-user"></i> Logged In</span>`;
+        statusBadge.innerHTML = `<span style="color:var(--royal-blue);"><i class="fa-solid fa-graduation-cap"></i> Student</span>`;
       }
     }
 
@@ -903,6 +925,7 @@ async function checkAuthAndRole() {
     }
   } else {
     currentUser = null;
+    isTeacher = false;
     isVerifiedTeacher = false;
     localStorage.removeItem("apex_cached_auth");
     setAuthState(false);
