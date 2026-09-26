@@ -3450,7 +3450,7 @@ async function handleTeacherApplication() {
   }
   if (!authUser) return showMsg("tAppMsg", "Please sign in again to continue.", false);
 
-  await db.from("teachers").upsert([{
+  const { error: dbError } = await db.from("teachers").upsert([{
     id: authUser.id,
     email: email,
     teacher_name: name,
@@ -3465,6 +3465,10 @@ async function handleTeacherApplication() {
     timing_fee_desc: timingFeeDesc,
     verified: true
   }]);
+
+  if (dbError) {
+    return showMsg("tAppMsg", "Profile insertion failed: " + dbError.message, false);
+  }
 
   localStorage.setItem("apex_cached_auth", "true");
   oauthRegistrationMode = false;
@@ -3548,7 +3552,7 @@ async function handleStudentApplication() {
   }
   if (!authUser) return showMsg("sAppMsg", "Please sign in again to continue.", false);
 
-  await db.from("students").upsert([{
+  const { error: dbError } = await db.from("students").upsert([{
     id: authUser.id,
     email: email,
     student_name: sName,
@@ -3562,6 +3566,10 @@ async function handleStudentApplication() {
     timing_fee_desc: `${timings || 'Flexible'} (${gmt})`,
     verified: true
   }]);
+
+  if (dbError) {
+    return showMsg("sAppMsg", "Profile insertion failed: " + dbError.message, false);
+  }
 
   localStorage.setItem("apex_cached_auth", "true");
   oauthRegistrationMode = false;
