@@ -3604,13 +3604,12 @@ async function renderAuthenticatedHome(user) {
   currentUser = user;
   if (!currentUser) return;
 
-  // Once signed in, hide both guest header and mobile drawer buttons
+  // Hide guest header elements
   document.getElementById("headerAuthGroup")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.add("hidden");
   document.getElementById("authPanelCloseBtn")?.classList.add("hidden");
 
-  // Show dashboard portal
   const portal = document.getElementById("authPortalContainer");
   const heroGrid = document.getElementById("heroGridContainer");
   portal.classList.remove("hidden");
@@ -3621,11 +3620,6 @@ async function renderAuthenticatedHome(user) {
   document.getElementById("viewForgotPassword")?.classList.add("hidden");
   document.getElementById("viewRegisterStudent")?.classList.add("hidden");
   document.getElementById("viewRegisterTeacher")?.classList.add("hidden");
-
-  document.getElementById("heroLoggedInView")?.classList.remove("hidden");
-  
-  // Enable mobile bottom dock only upon successful verified authentication
-  document.body.classList.add("logged-in-mobile");
 
   let roleText = "Verified Member ✓";
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
@@ -3649,12 +3643,25 @@ async function renderAuthenticatedHome(user) {
     }
   }
 
+  // >>> FIX: Check if profile is missing AND OAuth pending flag is active <<<
   if (!currentProfile && sessionStorage.getItem("apex_oauth_pending") === "true") {
     document.getElementById("heroLoggedInView")?.classList.add("hidden");
     document.getElementById("viewOAuthRole")?.classList.remove("hidden");
     setTimeout(scrollToAuthPortal, 60);
     return;
   }
+
+  // If no profile exists even without the flag (e.g., brand new OAuth login), show role selection too:
+  if (!currentProfile) {
+    document.getElementById("heroLoggedInView")?.classList.add("hidden");
+    document.getElementById("viewOAuthRole")?.classList.remove("hidden");
+    setTimeout(scrollToAuthPortal, 60);
+    return;
+  }
+
+  // Otherwise, render normal logged-in dashboard view
+  document.getElementById("heroLoggedInView")?.classList.remove("hidden");
+  document.body.classList.add("logged-in-mobile");
 
   await updateDockRoleLabel(currentUser.id);
 
@@ -3664,7 +3671,6 @@ async function renderAuthenticatedHome(user) {
 
   await syncUserEnquiryBadge();
 }
-
 function renderGuestHome() {
   currentUser = null;
   currentRole = null;
