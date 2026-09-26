@@ -1773,8 +1773,6 @@ function closeEditModal() {
 
 async function saveTeacherEdit() {
   const btn = document.getElementById("btnSaveTeacherEdit");
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
 
   const name = document.getElementById("etName").value.trim();
   const code = document.getElementById("etCode").value.trim();
@@ -1784,6 +1782,29 @@ async function saveTeacherEdit() {
   const location = document.getElementById("etLocation").value.trim();
   const qual = document.getElementById("etQual").value.trim();
   const exp = document.getElementById("etExp").value.trim();
+
+  // Validate updated details BEFORE database update
+  const nameVal = ApexSecurity.validateUserTextField(name, "Teacher Name", { required: true, maxLength: 80 });
+  if (!nameVal.valid) { alert(nameVal.error); return; }
+
+  const mobVal = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
+  if (!mobVal.valid) { alert(mobVal.error); return; }
+
+  const locVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!locVal.valid) { alert(locVal.error); return; }
+
+  if (address) {
+    const addrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
+    if (!addrVal.valid) { alert(addrVal.error); return; }
+  }
+
+  if (qual) {
+    const qualVal = ApexSecurity.validateUserTextField(qual, "Qualification", { maxLength: 100 });
+    if (!qualVal.valid) { alert(qualVal.error); return; }
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
 
   const category = document.getElementById("etCategory").value;
   let classesStr = "";
@@ -1866,28 +1887,10 @@ async function saveTeacherEdit() {
   Object.assign(profileRecord, payload);
   populateUI(profileRecord);
   closeEditModal();
-  // Validate updated details
-  const nameVal = ApexSecurity.validateUserTextField(name, "Teacher Name", { required: true, maxLength: 80 });
-  if (!nameVal.valid) { alert(nameVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
-
-  const locVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
-  if (!locVal.valid) { alert(locVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
-
-  if (address) {
-    const addrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
-    if (!addrVal.valid) { alert(addrVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
-  }
-
-  if (qual) {
-    const qualVal = ApexSecurity.validateUserTextField(qual, "Qualification", { maxLength: 100 });
-    if (!qualVal.valid) { alert(qualVal.error); btn.disabled = false; btn.innerHTML = "SAVE TEACHER DETAILS"; return; }
-  }
 }
 
 async function saveStudentEdit() {
   const btn = document.getElementById("btnSaveStudentEdit");
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
 
   const sName = document.getElementById("esName").value.trim();
   const pName = document.getElementById("esParentName").value.trim();
@@ -1896,6 +1899,29 @@ async function saveStudentEdit() {
   const mode = document.getElementById("esMode").value;
   const address = document.getElementById("esAddress").value.trim();
   const location = document.getElementById("esLocation").value.trim();
+
+  // Validate updated details BEFORE database update
+  const sNameVal = ApexSecurity.validateUserTextField(sName, "Student Name", { required: true, maxLength: 80 });
+  if (!sNameVal.valid) { alert(sNameVal.error); return; }
+
+  if (pName) {
+    const pNameVal = ApexSecurity.validateUserTextField(pName, "Parent Name", { maxLength: 80 });
+    if (!pNameVal.valid) { alert(pNameVal.error); return; }
+  }
+
+  const sMobVal = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
+  if (!sMobVal.valid) { alert(sMobVal.error); return; }
+
+  const sLocVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
+  if (!sLocVal.valid) { alert(sLocVal.error); return; }
+
+  if (address) {
+    const addrVal = ApexSecurity.validateUserTextField(address, "Address", { maxLength: 250 });
+    if (!addrVal.valid) { alert(addrVal.error); return; }
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
 
   const category = document.getElementById("esCategory").value;
   let classesStr = "";
@@ -1961,17 +1987,6 @@ async function saveStudentEdit() {
   Object.assign(profileRecord, payload);
   populateUI(profileRecord);
   closeEditModal();
-  // Validate updated details
-  const sNameVal = ApexSecurity.validateUserTextField(sName, "Student Name", { required: true, maxLength: 80 });
-  if (!sNameVal.valid) { alert(sNameVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
-
-  if (pName) {
-    const pNameVal = ApexSecurity.validateUserTextField(pName, "Parent Name", { maxLength: 80 });
-    if (!pNameVal.valid) { alert(pNameVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
-  }
-
-  const sLocVal = ApexSecurity.validateUserTextField(location, "Location", { required: true, maxLength: 100 });
-  if (!sLocVal.valid) { alert(sLocVal.error); btn.disabled = false; btn.innerHTML = "SAVE STUDENT DETAILS"; return; }
 }
 
 function onAvatarFilePicked(e) {
