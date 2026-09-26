@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Primary SEO -->
   <title>Apex Tuitions | Find Teachers & Students Directly | Home & Online Tutoring</title>
 
@@ -37,8 +37,8 @@
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="security.js"></script>
-<style>
+  <script src="security.js"></script>
+  <style>
     :root {
       --apex-navy: #0A192F;
       --apex-navy-surface: #112240;
@@ -192,11 +192,12 @@
       transform: translateX(3px);
     }
 
-    /* Header Auth Buttons */
+    /* COMPACT HEADER AUTH BUTTONS */
     .header-auth-buttons {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      margin-left: 4px;
     }
     #headerAuthGroup.hidden,
     body.logged-in-mobile #headerAuthGroup {
@@ -207,12 +208,12 @@
       background: rgba(255, 255, 255, 0.08);
       color: #ffffff !important;
       font-weight: 700;
-      padding: 8px 16px;
-      height: 38px;
-      border-radius: 9px;
+      padding: 5px 12px;
+      height: 31px;
+      border-radius: 7px;
       text-decoration: none;
-      font-size: 13.5px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
       cursor: pointer;
       transition: var(--transition);
       display: inline-flex;
@@ -220,6 +221,7 @@
       justify-content: center;
       white-space: nowrap;
       box-sizing: border-box;
+      letter-spacing: 0.1px;
     }
     .btn-header-auth:hover {
       background: rgba(255, 255, 255, 0.16);
@@ -227,7 +229,7 @@
       transform: translateY(-1px);
     }
     .btn-header-auth.active {
-      background: rgba(255, 255, 255, 0.18) !important;
+      background: rgba(255, 255, 255, 0.2) !important;
       color: #ffffff !important;
       font-weight: 700 !important;
       border-color: #ffffff !important;
@@ -356,46 +358,6 @@
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 24px;
-    }
-    .btn-hero-primary {
-      background: var(--apex-gold);
-      color: #070F1E;
-      font-weight: 800;
-      padding: 12px 24px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-    }
-    .btn-hero-primary:hover {
-      background: var(--apex-gold-hover);
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-    .btn-hero-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
-      font-weight: 700;
-      padding: 12px 22px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .btn-hero-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: #ffffff;
     }
 
     .quick-search-pills {
@@ -603,13 +565,15 @@
       border-radius: 8px !important;
     }
 
-    /* Grand Welcome Card Box */
+    /* ========================================================
+       REDESIGNED SLEEK WELCOME CARD
+       ======================================================== */
     .welcome-card-box {
-      background: linear-gradient(145deg, #0A192F 0%, #0F284E 55%, #1E3A8A 100%);
-      border: 2px solid rgba(245, 158, 11, 0.45);
-      border-radius: 18px;
-      padding: 22px 20px 20px;
-      box-shadow: 0 20px 45px -8px rgba(10, 25, 47, 0.4), 0 0 24px rgba(245, 158, 11, 0.12);
+      background: linear-gradient(135deg, #071327 0%, #0D2140 50%, #162E5B 100%);
+      border: 1.5px solid rgba(245, 158, 11, 0.45);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.5), 0 0 18px rgba(245, 158, 11, 0.15);
       position: relative;
       overflow: hidden;
       color: #ffffff;
@@ -617,29 +581,13 @@
     .welcome-card-box::before {
       content: "";
       position: absolute;
-      top: -30px;
-      right: -30px;
+      top: -35px;
+      right: -35px;
       width: 130px;
       height: 130px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, transparent 70%);
-      pointer-events: none;
-      animation: ambientGlow 4s ease-in-out infinite alternate;
-    }
-    .welcome-card-box::after {
-      content: "";
-      position: absolute;
-      bottom: -40px;
-      left: -20px;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%);
       pointer-events: none;
     }
-    @keyframes ambientGlow {
-      0% { transform: scale(1); opacity: 0.7; }
-      100% { transform: scale(1.3); opacity: 1; }
-    }
-
     .welcome-card-topbar {
       display: flex;
       align-items: center;
@@ -655,18 +603,27 @@
       font-size: 11px;
       font-weight: 800;
       color: #FEF08A;
-      background: rgba(245, 158, 11, 0.22);
-      border: 1px solid rgba(245, 158, 11, 0.5);
+      background: rgba(245, 158, 11, 0.2);
+      border: 1px solid rgba(245, 158, 11, 0.45);
       padding: 3px 10px;
       border-radius: 20px;
       letter-spacing: 0.3px;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-      animation: gentleBounce 2.4s ease-in-out infinite;
+    }
+    .welcome-status-tag {
+      font-size: 11px;
+      font-weight: 700;
+      color: #34D399;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .welcome-status-tag i {
+      font-size: 8px;
     }
     .welcome-card-hero {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 14px;
       margin-bottom: 14px;
       position: relative;
       z-index: 2;
@@ -676,91 +633,81 @@
       flex-shrink: 0;
     }
     .welcome-avatar-square {
-      width: 74px;
-      height: 74px;
-      border-radius: 16px;
+      width: 66px;
+      height: 66px;
+      border-radius: 14px;
       object-fit: cover;
-      border: 2.5px solid #F59E0B;
+      border: 2px solid #F59E0B;
       background: #FFFFFF;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3), 0 0 12px rgba(245, 158, 11, 0.4);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
       display: block;
-      transition: var(--transition);
-    }
-    .welcome-avatar-wrapper:hover .welcome-avatar-square {
-      transform: scale(1.05) rotate(-2deg);
-      border-color: #FDE68A;
     }
     .welcome-online-pulse {
       position: absolute;
-      bottom: -3px;
-      right: -3px;
-      width: 17px;
-      height: 17px;
+      bottom: -2px;
+      right: -2px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
       background: #10B981;
-      border: 2.5px solid #0A192F;
-      box-shadow: 0 0 8px #10B981;
+      border: 2px solid #071327;
+      box-shadow: 0 0 6px #10B981;
     }
-
     .welcome-meta {
       flex: 1;
       min-width: 0;
     }
     .welcome-meta h3 {
-      font-size: 18.5px;
+      font-size: 17.5px;
       font-weight: 800;
       color: #FFFFFF;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       line-height: 1.25;
-      letter-spacing: -0.2px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .welcome-badge-role {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
       color: #064E3B;
       background: linear-gradient(135deg, #A7F3D0 0%, #6EE7B7 100%);
       border: 1px solid #34D399;
-      padding: 3px 11px;
+      padding: 2px 9px;
       border-radius: 20px;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
+      gap: 4px;
     }
 
     .welcome-intro-quote {
-      font-size: 12.5px;
+      font-size: 12px;
       color: #E2E8F0;
-      margin-bottom: 16px;
-      line-height: 1.55;
+      margin-bottom: 15px;
+      line-height: 1.5;
       text-align: left;
       position: relative;
       z-index: 2;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.06);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 9px 12px;
-      border-radius: 10px;
-      backdrop-filter: blur(4px);
+      padding: 8px 12px;
+      border-radius: 9px;
     }
 
-    /* Welcome Card Desktop Action Grid */
+    /* Welcome Action Grid */
     .welcome-action-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
+      gap: 8px;
       position: relative;
       z-index: 2;
     }
     .welcome-action-grid .btn-welcome-tile {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-      border: 1.5px solid #CBD5E1;
+      background: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.25);
       color: var(--apex-navy);
-      padding: 12px 6px 10px;
-      border-radius: 12px;
+      padding: 10px 4px 8px;
+      border-radius: 11px;
       font-size: 11.5px;
       font-weight: 800;
       text-decoration: none;
@@ -769,21 +716,20 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+      gap: 5px;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
       position: relative;
       cursor: pointer;
     }
     .welcome-action-grid .btn-welcome-tile .tile-icon-bubble {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
-      transition: var(--transition);
+      font-size: 15px;
     }
     .welcome-action-grid .btn-welcome-tile.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
     .welcome-action-grid .btn-welcome-tile.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
@@ -791,32 +737,24 @@
 
     .welcome-action-grid .btn-welcome-tile:hover {
       background: #FFFFFF;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25), 0 0 12px rgba(245, 158, 11, 0.3);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
       border-color: var(--apex-gold);
-      color: #070F1E;
     }
 
     .badge-counter {
       position: absolute;
-      top: -5px;
-      right: -3px;
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      top: -4px;
+      right: -2px;
+      background: #EF4444;
       color: #ffffff;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: 800;
-      border-radius: 12px;
-      padding: 1px 7px;
-      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+      border-radius: 10px;
+      padding: 1px 6px;
       border: 1.5px solid #FFFFFF;
-      animation: badgePulse 2s infinite;
-    }
-    @keyframes badgePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
     }
 
-    /* Lively Interactive Highlight Box for Mobile */
     .welcome-lively-mobile-box {
       display: none;
       position: relative;
@@ -835,11 +773,6 @@
       gap: 12px;
       font-size: 24px;
       margin-bottom: 6px;
-      animation: floatRow 3s ease-in-out infinite alternate;
-    }
-    @keyframes floatRow {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-4px); }
     }
     .lively-badge-tag {
       font-size: 11.5px;
@@ -1117,7 +1050,7 @@
       line-height: 1.5;
     }
 
-    /* Wizard / Forms styling */
+    /* Form styling */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
     #sStep1 .form-grid-2, #sStep2 .form-grid-2, #sStep3 .form-grid-2 {
       align-items: start;
@@ -1312,7 +1245,7 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
+    /* Bottom dock is NEVER displayed to guest visitors */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -1364,7 +1297,7 @@
       margin: 0 auto;
     }
 
-    /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
+    /* Social Media Toolbar */
     .social-bar-wrapper {
       position: fixed;
       top: 55%;
@@ -1375,7 +1308,6 @@
       z-index: 9999;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    /* Smoothly slide offscreen to the right, leaving the toggle button visible */
     .social-bar-wrapper.is-hidden {
       transform: translateY(-50%) translateX(calc(100% - 24px));
     }
@@ -1397,15 +1329,9 @@
       outline: none;
       transition: background 0.2s ease;
     }
-    .social-toggle-btn:hover {
-      background: var(--royal-blue);
-    }
-   .social-toggle-btn i {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
-      transform: rotate(180deg);
-    }
+    .social-toggle-btn:hover { background: var(--royal-blue); }
+    .social-toggle-btn i { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i { transform: rotate(180deg); }
     .social-bar {
       display: flex;
       flex-direction: column;
@@ -1454,13 +1380,10 @@
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 5px; }
-      .btn-header-auth { height: 38px; padding: 7px 14px; font-size: 13px; border-radius: 9px; }
+      .btn-header-auth { height: 30px; padding: 4px 10px; font-size: 11.5px; border-radius: 6px; }
       .workflow-grid { grid-template-columns: 1fr; }
     }
 
-   /* ========================================================
-       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
-       ======================================================== */
     @media (max-width: 768px) {
       body.logged-in-mobile { padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; }
       
@@ -1546,29 +1469,14 @@
         margin-bottom: 2px !important;
       }
 
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
+      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
+      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 16px !important; }
 
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
+      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
+      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 16px !important; }
 
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
+      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
+      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 16px !important; }
 
       .dock-title {
         display: inline-flex !important;
@@ -1597,7 +1505,6 @@
     @media (max-width: 580px) {
       .header-logo { width: 36px; height: 36px; }
       .brand-text .brand-title { font-size: 16.5px; }
-      .btn-header-auth { height: 38px; padding: 7px 13px; font-size: 13px; border-radius: 9px; }
       .grand-hero-title { font-size: 25px; }
       .photo-category-grid { grid-template-columns: repeat(2, 1fr); }
       .flag-category-grid { grid-template-columns: repeat(2, 1fr); }
@@ -1611,7 +1518,7 @@
 </head>
 <body>
 
-<!-- VERTICAL SOCIAL MEDIA TOOLBAR (RIGHT SIDE) -->
+<!-- VERTICAL SOCIAL MEDIA TOOLBAR -->
 <div class="social-bar-wrapper is-hidden" id="socialToolbarWrapper">
   <button type="button" class="social-toggle-btn" id="socialToggleBtn" onclick="toggleSocialToolbar()" aria-label="Toggle Social Links">
     <i class="fa-solid fa-chevron-left"></i>
@@ -1657,7 +1564,7 @@
         </div>
       </nav>
 
-      <!-- Dedicated Header Buttons: Visible only for guests -->
+      <!-- Compact Header Auth Buttons -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <button type="button" onclick="openAuthView('signin')" class="btn-header-auth" id="navBtnSignIn">Sign In</button>
         <button type="button" onclick="openAuthView('signup')" class="btn-header-auth" id="navBtnSignUp">Sign Up</button>
@@ -1714,12 +1621,15 @@
     <div class="auth-portal-card hidden" id="authPortalContainer">
       <button class="auth-panel-close" id="authPanelCloseBtn" onclick="closeAuthPortal()" title="Close">✕</button>
 
-      <!-- LOGGED IN USER DASHBOARD: GRAND WELCOME CARD -->
+      <!-- LOGGED IN USER DASHBOARD: REDESIGNED WELCOME CARD -->
       <div id="heroLoggedInView" class="hidden">
         <div class="welcome-card-box">
           <div class="welcome-card-topbar">
             <span class="welcome-pill-celebrate">
               🎉 Welcome back!
+            </span>
+            <span class="welcome-status-tag">
+              <i class="fa-solid fa-circle"></i> Active Member
             </span>
           </div>
 
@@ -1729,38 +1639,38 @@
               <div class="welcome-online-pulse" title="Active now"></div>
             </div>
             <div class="welcome-meta">
-              <h3 id="heroWelcomeName">Member Name</h3>
+              <h3 id="heroWelcomeName">Member</h3>
               <div class="welcome-badge-role" id="heroWelcomeRole">Verified Member ✓</div>
             </div>
           </div>
 
           <div class="welcome-intro-quote">
-            🚀 Connect directly with verified members or explore open tutoring opportunities.
+            <i class="fa-solid fa-bullhorn" style="color:var(--apex-gold); margin-right:4px;"></i> 0% commission direct learning platform. Browse open listings or check enquiries below.
           </div>
 
-          <!-- Desktop Action Grid (Kept on Desktop) -->
+          <!-- Desktop Action Grid -->
           <div class="welcome-action-grid">
             <a href="browse.html" class="btn-welcome-tile tile-browse">
               <div class="tile-icon-bubble">
                 <i class="fa-solid fa-compass"></i>
               </div>
-              <span>🔍 Browse</span>
+              <span>Browse</span>
             </a>
             <a href="profile.html" class="btn-welcome-tile tile-profile">
               <div class="tile-icon-bubble">
-                <i class="fa-solid fa-id-badge"></i>
+                <i class="fa-solid fa-user-pen"></i>
               </div>
-              <span>👤 Profile</span>
+              <span>Profile</span>
             </a>
             <a href="enquiries.html" class="btn-welcome-tile tile-enquiries">
               <div class="tile-icon-bubble">
                 <i class="fa-solid fa-comments"></i>
               </div>
-              <span>💬 Enquiries <span class="badge-counter hidden" id="cardEnquiryBadge">0</span></span>
+              <span>Enquiries <span class="badge-counter hidden" id="cardEnquiryBadge">0</span></span>
             </a>
           </div>
 
-          <!-- Lively Animated Emojis Box (Shown on Mobile View) -->
+          <!-- Lively Animated Box (Mobile View) -->
           <div class="welcome-lively-mobile-box">
             <div class="lively-emojis-row">
               <span>🌟</span>
@@ -2221,12 +2131,12 @@
                   <div class="multiselect-item" onclick="selectStudentBoard('Others', 'Others')">Others</div>
                 </div>
               </div>
-            </div>            <div class="form-group-full hidden" id="sBoardOtherGroup">
+            </div>
+            <div class="form-group-full hidden" id="sBoardOtherGroup">
               <label>Specify Board</label>
               <input id="sBoardOtherInput" type="text" placeholder="Specify board">
             </div>
 
-            <!-- Student Subject Multi-Select Checklist -->
             <div class="form-group-full" id="sAcademicSubjectGroup">
               <label>Subject Requirement</label>
               <div class="custom-multiselect">
@@ -2788,15 +2698,12 @@
 </section>
 
 <!-- 7. THREE-STEP HOW IT WORKS -->
-  <!-- Testimonials Section -->
 <section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
   <h2 style="font-size: 22px; font-weight: 800; color: #0A192F; margin-bottom: 16px; text-align: center;">
     What Our Community Says
   </h2>
   <div class="ticker-window" style="height: 260px; overflow: hidden; position: relative; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 16px;">
-    <div class="ticker-track" id="homeTickerTrack">
-      <!-- Loaded dynamically via Supabase -->
-    </div>
+    <div class="ticker-track" id="homeTickerTrack"></div>
   </div>
 </section>
 
@@ -2827,10 +2734,9 @@
   </div>
 </section>
 
-<!-- UNIFIED BOTTOM DOCK (MATCHING FEEDBACK PAGE & SCREEN-INTACT) -->
+<!-- UNIFIED BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
-    <!-- Enquiries -->
     <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
@@ -2842,7 +2748,6 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
-    <!-- Profile -->
     <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -2853,7 +2758,6 @@
       </div>
     </a>
 
-    <!-- Browse (Dynamic: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -2978,24 +2882,13 @@ function scrollToAuthPortal() {
   });
 }
 
-function handleEducatorButtonClick() {
-  if (currentUser) {
-    window.location.href = "profile.html";
-  } else {
-    openAuthView('signup');
-  }
-}
-
 async function openAuthView(type) {
-  // If currentUser is set, verify with the actual server session first
   if (currentUser) {
     const { data: { session } } = await db.auth.getSession();
     if (session && session.user) {
-      // User is genuinely logged in; redirect to their profile instead of getting stuck
       window.location.href = "profile.html";
       return;
     } else {
-      // Stale or dead state: clear it and proceed to open the login form
       renderGuestHome();
     }
   }
@@ -3005,7 +2898,6 @@ async function openAuthView(type) {
   const btnIn = document.getElementById("navBtnSignIn");
   const btnUp = document.getElementById("navBtnSignUp");
 
-  // Force reveal the portal container
   portal.classList.remove("hidden");
   heroGrid.classList.remove("portal-hidden");
 
@@ -3021,6 +2913,7 @@ async function openAuthView(type) {
 
   setTimeout(scrollToAuthPortal, 60);
 }
+
 function closeAuthPortal() {
   if (currentUser) return;
   document.getElementById("authPortalContainer").classList.add("hidden");
@@ -3225,6 +3118,7 @@ function handleTeacherCategoryChange() {
   document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
   document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
 }
+
 function selectStudentClass(val, label) {
   document.getElementById("sClass").value = val;
   document.getElementById("sClassTrigger").innerHTML = `${label} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
@@ -3239,16 +3133,19 @@ function selectStudentBoard(val, label) {
   document.getElementById("sBoardTrigger").classList.remove("open");
   handleStudentBoardOther();
 }
+
 function handleBoardOtherToggle(p) {
   const cb = document.getElementById(p + "BoardOtherCb");
   document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel(p + "Boards");
 }
+
 function handleSkillOtherToggle(p) {
   const cb = document.getElementById(p + "SkillOtherCb");
   document.getElementById(p + "SkillOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel(p + "Skills");
 }
+
 function handleCompOtherToggle(p) {
   const cb = document.getElementById(p + "CompOtherCb");
   document.getElementById(p + "CompOtherInput").classList.toggle("hidden", !cb.checked);
@@ -3280,78 +3177,79 @@ function handleStudentBoardOther() {
   const val = document.getElementById("sBoard").value;
   document.getElementById("sBoardOtherGroup").classList.toggle("hidden", val !== "Others");
 }
+
 function handleStudentSkillOther() {
   const val = document.getElementById("sSkillSelect").value;
   document.getElementById("sSkillOtherInput").classList.toggle("hidden", val !== "Others");
 }
+
 function handleStudentCompOther() {
   const val = document.getElementById("sCompSelect").value;
   document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
-// Helper to generate and hash nonce for Google ID Tokens
-  async function generateNonce() {
-    const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-    const encoder = new TextEncoder();
-    const data = encoder.encode(rawNonce);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    const hashedNonce = Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-    return { rawNonce, hashedNonce };
+async function generateNonce() {
+  const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+  const encoder = new TextEncoder();
+  const data = encoder.encode(rawNonce);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const hashedNonce = Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+  return { rawNonce, hashedNonce };
+}
+
+async function loginWithOAuth(provider) {
+  if (provider === 'google' && window.google) {
+    showMsg("heroAuthMsg", "Connecting with Google...", true);
+    
+    const { rawNonce, hashedNonce } = await generateNonce();
+
+    google.accounts.id.initialize({
+      client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+      nonce: hashedNonce,
+      callback: async (response) => {
+        showMsg("heroAuthMsg", "Signing in with Google...", true);
+        sessionStorage.setItem("apex_oauth_pending", "true");
+
+        const { data, error } = await db.auth.signInWithIdToken({
+          provider: 'google',
+          token: response.credential,
+          nonce: rawNonce
+        });
+
+        if (error) {
+          sessionStorage.removeItem("apex_oauth_pending");
+          showMsg("heroAuthMsg", error.message, false);
+        } else if (data?.user) {
+          localStorage.setItem("apex_cached_auth", "true");
+          renderAuthenticatedHome(data.user);
+        }
+      }
+    });
+
+    google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        db.auth.signInWithOAuth({
+          provider: 'google',
+          options: { redirectTo: window.location.origin + window.location.pathname }
+        });
+      }
+    });
+    return;
   }
 
-  async function loginWithOAuth(provider) {
-    if (provider === 'google' && window.google) {
-      showMsg("heroAuthMsg", "Connecting with Google...", true);
-      
-      const { rawNonce, hashedNonce } = await generateNonce();
-
-      google.accounts.id.initialize({
-        client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
-        nonce: hashedNonce,
-        callback: async (response) => {
-          showMsg("heroAuthMsg", "Signing in with Google...", true);
-          sessionStorage.setItem("apex_oauth_pending", "true");
-
-          const { data, error } = await db.auth.signInWithIdToken({
-            provider: 'google',
-            token: response.credential,
-            nonce: rawNonce
-          });
-
-          if (error) {
-            sessionStorage.removeItem("apex_oauth_pending");
-            showMsg("heroAuthMsg", error.message, false);
-          } else if (data?.user) {
-            localStorage.setItem("apex_cached_auth", "true");
-            renderAuthenticatedHome(data.user);
-          }
-        }
-      });
-
-      google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // Fallback if One Tap UI is suppressed
-          db.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: window.location.origin + window.location.pathname }
-          });
-        }
-      });
-      return;
+  sessionStorage.setItem("apex_oauth_pending", "true");
+  const { error } = await db.auth.signInWithOAuth({
+    provider: 'azure',
+    options: { 
+      redirectTo: window.location.origin + window.location.pathname,
+      scopes: 'email openid profile'
     }
+  });
+}
 
-    // Microsoft OAuth flow
-sessionStorage.setItem("apex_oauth_pending", "true");
-const { error } = await db.auth.signInWithOAuth({
-  provider: 'azure',
-  options: { 
-    redirectTo: window.location.origin + window.location.pathname,
-    scopes: 'email openid profile'
-  }
-});
-  }async function handleHeroLogin() {
+async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
   if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
@@ -3386,19 +3284,15 @@ async function handleTeacherApplication() {
   const qual = document.getElementById("tQual").value.trim();
   const exp = document.getElementById("tExp").value.trim();
 
-  // Validate Email
   const emailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
   if (!emailCheck.valid) return showMsg("tAppMsg", emailCheck.error, false);
 
-  // Validate Name (Blocks "Test teacher", "Dummy", etc.)
   const nameCheck = ApexSecurity.validateRegistrationField(name, 'name', 'Teacher Name');
   if (!nameCheck.valid) return showMsg("tAppMsg", nameCheck.error, false);
 
-  // Validate Mobile (Blocks "8888888888", "1234567890", etc.)
   const mobileCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
   if (!mobileCheck.valid) return showMsg("tAppMsg", mobileCheck.error, false);
 
-  // Validate Location
   const locCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
   if (!locCheck.valid) return showMsg("tAppMsg", locCheck.error, false);
 
@@ -3465,7 +3359,7 @@ async function handleTeacherApplication() {
     authUser = data.user;
   }
   if (!authUser) return showMsg("tAppMsg", "Please sign in again to continue.", false);
-// Security Checks
+
   const nameVal = ApexSecurity.validateUserTextField(name, "Teacher Name", { required: true, maxLength: 80 });
   if (!nameVal.valid) return showMsg("tAppMsg", nameVal.error, false);
 
@@ -3486,6 +3380,7 @@ async function handleTeacherApplication() {
     const subVal = ApexSecurity.validateUserTextField(subjectsStr, "Subjects", { maxLength: 300 });
     if (!subVal.valid) return showMsg("tAppMsg", subVal.error, false);
   }
+
   await db.from("teachers").upsert([{
     id: authUser.id,
     email: email,
@@ -3529,19 +3424,15 @@ async function handleStudentApplication() {
   const address = document.getElementById("sAddress").value.trim();
   const location = document.getElementById("sLocation").value.trim();
 
-  // Validate Email
   const sEmailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
   if (!sEmailCheck.valid) return showMsg("sAppMsg", sEmailCheck.error, false);
 
-  // Validate Student Name
   const sNameCheck = ApexSecurity.validateRegistrationField(sName, 'name', 'Student Name');
   if (!sNameCheck.valid) return showMsg("sAppMsg", sNameCheck.error, false);
 
-  // Validate Mobile
   const sMobCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
   if (!sMobCheck.valid) return showMsg("sAppMsg", sMobCheck.error, false);
 
-  // Validate Location
   const sLocCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
   if (!sLocCheck.valid) return showMsg("sAppMsg", sLocCheck.error, false);
 
@@ -3599,7 +3490,7 @@ async function handleStudentApplication() {
     authUser = data.user;
   }
   if (!authUser) return showMsg("sAppMsg", "Please sign in again to continue.", false);
-// Security Checks
+
   const sNameVal = ApexSecurity.validateUserTextField(sName, "Student Name", { required: true, maxLength: 80 });
   if (!sNameVal.valid) return showMsg("sAppMsg", sNameVal.error, false);
 
@@ -3620,6 +3511,7 @@ async function handleStudentApplication() {
     const sSubVal = ApexSecurity.validateUserTextField(subjectStr, "Subject Requirement", { maxLength: 300 });
     if (!sSubVal.valid) return showMsg("sAppMsg", sSubVal.error, false);
   }
+
   await db.from("students").upsert([{
     id: authUser.id,
     email: email,
@@ -3676,13 +3568,12 @@ async function renderAuthenticatedHome(user) {
   currentUser = user;
   if (!currentUser) return;
 
-  // Once signed in, hide both guest header and mobile drawer buttons
+  // 1. Immediately toggle all interface states so Welcome Card displays without lag
   document.getElementById("headerAuthGroup")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.add("hidden");
   document.getElementById("authPanelCloseBtn")?.classList.add("hidden");
 
-  // Show dashboard portal
   const portal = document.getElementById("authPortalContainer");
   const heroGrid = document.getElementById("heroGridContainer");
   portal.classList.remove("hidden");
@@ -3695,30 +3586,35 @@ async function renderAuthenticatedHome(user) {
   document.getElementById("viewRegisterTeacher")?.classList.add("hidden");
 
   document.getElementById("heroLoggedInView")?.classList.remove("hidden");
-  
-  // Enable mobile bottom dock only upon successful verified authentication
   document.body.classList.add("logged-in-mobile");
 
+  // 2. Immediate placeholder while database resolves
   let roleText = "Verified Member ✓";
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
   let avatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
-  const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
-  if (t) {
+  document.getElementById("heroWelcomeName").textContent = name;
+  document.getElementById("heroWelcomeRole").textContent = roleText;
+  document.getElementById("welcomeAvatarImg").src = avatar;
+
+  // 3. Fetch role & profile details in parallel
+  const [teacherRes, studentRes] = await Promise.all([
+    db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle(),
+    db.from("students").select("*").eq("id", currentUser.id).maybeSingle()
+  ]);
+
+  if (teacherRes.data) {
     currentRole = 'teacher';
-    currentProfile = t;
+    currentProfile = teacherRes.data;
     roleText = "Verified Educator 👨‍🏫";
-    name = t.teacher_name || name;
-    avatar = t.avatar_url || avatar;
-  } else {
-    const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
-    if (s) {
-      currentRole = 'student';
-      currentProfile = s;
-      roleText = "Student / Parent 🎓";
-      name = s.student_name || name;
-      avatar = s.avatar_url || "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";
-    }
+    name = currentProfile.teacher_name || name;
+    avatar = currentProfile.avatar_url || avatar;
+  } else if (studentRes.data) {
+    currentRole = 'student';
+    currentProfile = studentRes.data;
+    roleText = "Student / Parent 🎓";
+    name = currentProfile.student_name || name;
+    avatar = currentProfile.avatar_url || "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";
   }
 
   if (!currentProfile && sessionStorage.getItem("apex_oauth_pending") === "true") {
@@ -3728,13 +3624,14 @@ async function renderAuthenticatedHome(user) {
     return;
   }
 
-  await updateDockRoleLabel(currentUser.id);
-
+  // Update card with fetched data
   document.getElementById("heroWelcomeName").textContent = name;
   document.getElementById("heroWelcomeRole").textContent = roleText;
   document.getElementById("welcomeAvatarImg").src = avatar;
 
-  await syncUserEnquiryBadge();
+  // 4. Background tasks
+  updateDockRoleLabel(currentUser.id);
+  syncUserEnquiryBadge();
 }
 
 function renderGuestHome() {
@@ -3743,12 +3640,10 @@ function renderGuestHome() {
   currentProfile = null;
   oauthRegistrationMode = false;
 
-  // Ensure bottom dock is completely disabled for guests
   document.body.classList.remove("logged-in-mobile");
   document.getElementById("heroLoggedInView")?.classList.add("hidden");
   document.getElementById("authPanelCloseBtn")?.classList.remove("hidden");
   
-  // Show header and mobile drawer auth buttons for guests
   document.getElementById("headerAuthGroup")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.remove("hidden");
@@ -3756,14 +3651,11 @@ function renderGuestHome() {
   document.getElementById("navBtnSignIn")?.classList.remove("active");
   document.getElementById("navBtnSignUp")?.classList.remove("active");
   
-  // Portal hidden by default on guest visits
   document.getElementById("authPortalContainer").classList.add("hidden");
   document.getElementById("heroGridContainer").classList.add("portal-hidden");
 }
 
-/* ========================================================
-   ADMIN ACCESS: Alt + Shift + D AND FOOTER MULTI-TAP
-   ======================================================== */
+/* ADMIN ACCESS */
 window.addEventListener("keydown", (e) => {
   const tag = (document.activeElement?.tagName || "").toLowerCase();
   if (tag === "input" || tag === "textarea") return;
@@ -3813,7 +3705,7 @@ window.addEventListener("load", async () => {
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     localStorage.setItem("apex_cached_auth", "true");
-    await renderAuthenticatedHome(session.user);
+    renderAuthenticatedHome(session.user);
   } else {
     localStorage.removeItem("apex_cached_auth");
     renderGuestHome();
@@ -3823,10 +3715,10 @@ window.addEventListener("load", async () => {
     if (urlParams.get("auth") === "register" || urlParams.get("auth") === "signup") openAuthView("signup");
   }
 
-  db.auth.onAuthStateChange(async (event, session) => {
+  db.auth.onAuthStateChange((event, session) => {
     if (session && session.user) {
       localStorage.setItem("apex_cached_auth", "true");
-      await renderAuthenticatedHome(session.user);
+      renderAuthenticatedHome(session.user);
     } else if (event === 'SIGNED_OUT') {
       localStorage.removeItem("apex_cached_auth");
       renderGuestHome();
