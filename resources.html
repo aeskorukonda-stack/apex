@@ -434,105 +434,127 @@
       .btn-header-auth { padding: 5px 10px; font-size: 12px; }
     }
 
+    /* =========================================================
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
+       ========================================================= */
     @media (max-width: 768px) {
       body.logged-in-mobile { 
-        padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)) !important; 
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
-      
-      /* Firmly attached edge-to-edge with the screen without floating gaps */
+
       body.logged-in-mobile .mobile-bottom-dock {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-        position: fixed;
+        display: block !important;
+        position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100vw !important;
+        max-width: 100vw !important;
         margin: 0 !important;
-        background: #FFFFFF;
-        padding: 8px 10px calc(8px + env(safe-area-inset-bottom, 0px)) 10px;
-        border-top: 1.5px solid #CBD5E1;
-        border-bottom: none;
-        border-left: none;
-        border-right: none;
+        padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)) 0 !important;
         border-radius: 0 !important;
-        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
-        z-index: 99999;
-        align-items: center;
+        border: none !important;
+        border-top: 1.5px solid #E2E8F0 !important;
+        background: #ffffff !important;
+        box-shadow: 0 -2px 10px rgba(10, 25, 47, 0.08) !important;
+        z-index: 999999 !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
       }
 
-      .dock-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 4px;
-        padding: 8px 4px 6px;
-        border-radius: 14px;
-        text-decoration: none;
-        border: 1.5px solid #CBD5E1;
-        background: #FFFFFF;
-        position: relative;
-        transition: var(--transition);
-      }
-      .dock-btn:hover {
-        border-color: #3B82F6;
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
       }
 
-      .dock-btn-icon-tile {
-        width: 36px;
-        height: 36px;
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 16px;
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 3px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
 
-      .dock-btn-tile-green {
-        background: #E8FBF0;
-        color: #10B981;
-      }
-      .dock-btn-tile-yellow {
-        background: #FEF3C7;
-        color: #D97706;
-      }
-      .dock-btn-tile-blue {
-        background: #EFF6FF;
-        color: #2563EB;
+      .dock-item.active-tab .dock-title {
+        color: var(--royal-blue) !important;
+        font-weight: 800 !important;
       }
 
-      .dock-btn-label-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 5px;
-        font-size: 11.5px;
-        font-weight: 800;
-        color: #0F172A;
-        line-height: 1.1;
+      .dock-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 2px !important;
       }
-      .dock-btn-label-row i {
-        font-size: 11px;
+
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
+
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: -0.2px !important;
+        line-height: 1 !important;
       }
 
       .dock-badge {
-        position: absolute;
-        top: -4px;
-        right: 4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 10px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 6px;
-        min-width: 18px;
-        text-align: center;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.35);
+        position: absolute !important;
+        top: 0px !important;
+        right: 20% !important;
+        background: #EF4444 !important;
+        color: #FFFFFF !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        border-radius: 10px !important;
+        padding: 1px 5px !important;
+        line-height: 1 !important;
       }
     }
   </style>
@@ -696,38 +718,43 @@
   </div>
 </main>
 
-<!-- Bottom Dock (Directly intact with screen, edge-to-edge) -->
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-btn">
-    <div class="dock-btn-icon-tile dock-btn-tile-green">
-      <i class="fa-solid fa-comments"></i>
-    </div>
-    <div class="dock-btn-label-row">
-      <i class="fa-solid fa-comment" style="color: #9333EA;"></i>
-      <span>Enquiries</span>
-    </div>
-    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
-  </a>
+  <div class="dock-card-container">
+    <!-- Enquiries -->
+    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
+      <div class="dock-icon-wrap green-bg">
+        <i class="fa-solid fa-comments"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
+        <span>Enquiries</span>
+      </div>
+      <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+    </a>
 
-  <a href="profile.html" class="dock-btn">
-    <div class="dock-btn-icon-tile dock-btn-tile-yellow">
-      <i class="fa-solid fa-id-badge"></i>
-    </div>
-    <div class="dock-btn-label-row">
-      <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
-      <span>Profile</span>
-    </div>
-  </a>
+    <!-- Profile -->
+    <a href="profile.html" class="dock-item" id="dockBtnProfile">
+      <div class="dock-icon-wrap yellow-bg">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
+        <span>Profile</span>
+      </div>
+    </a>
 
-  <a href="browse.html" class="dock-btn">
-    <div class="dock-btn-icon-tile dock-btn-tile-blue">
-      <i class="fa-regular fa-compass"></i>
-    </div>
-    <div class="dock-btn-label-row">
-      <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
-      <span id="dockBrowseLabel">Teachers</span>
-    </div>
-  </a>
+    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
+    <a href="browse.html" class="dock-item" id="dockBtnBrowse">
+      <div class="dock-icon-wrap blue-bg">
+        <i class="fa-solid fa-compass"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+        <span id="dockBrowseLabel">Find Tutor</span>
+      </div>
+    </a>
+  </div>
 </nav>
 
 <footer>
@@ -818,6 +845,18 @@ function setAuthState(isAuthenticated) {
   }
 }
 
+async function updateDockRoleLabel(userId) {
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (!dockBrowseLabel || !userId) return;
+
+  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
+  if (teacher) {
+    dockBrowseLabel.textContent = "Find Students";
+  } else {
+    dockBrowseLabel.textContent = "Find Tutor";
+  }
+}
+
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
@@ -835,11 +874,9 @@ async function checkAuthAndRole() {
     localStorage.setItem("apex_cached_auth", "true");
     setAuthState(true);
 
+    await updateDockRoleLabel(currentUser.id);
+
     const { data: teacher } = await db.from("teachers").select("id, verified").eq("id", currentUser.id).maybeSingle();
-    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-    if (dockBrowseLabel) {
-      dockBrowseLabel.textContent = teacher ? "Students" : "Teachers";
-    }
 
     if (teacher && teacher.verified) {
       isVerifiedTeacher = true;
@@ -872,10 +909,11 @@ async function checkAuthAndRole() {
     if (statusBadge) statusBadge.innerHTML = "";
   }
 
-  db.auth.onAuthStateChange((event, session) => {
+  db.auth.onAuthStateChange(async (event, session) => {
     if (session && session.user) {
       localStorage.setItem("apex_cached_auth", "true");
       setAuthState(true);
+      await updateDockRoleLabel(session.user.id);
     } else {
       localStorage.removeItem("apex_cached_auth");
       setAuthState(false);
@@ -925,6 +963,5 @@ async function submitResource() {
 
 window.addEventListener("DOMContentLoaded", checkAuthAndRole);
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
