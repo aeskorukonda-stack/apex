@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Primary SEO -->
   <title>Apex Tuitions | Find Teachers & Students Directly | Home & Online Tutoring</title>
 
@@ -32,13 +32,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Caveat:wght@700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="security.js"></script>
-  <style>
+<script src="security.js"></script>
+<style>
     :root {
       --apex-navy: #0A192F;
       --apex-navy-surface: #112240;
@@ -192,7 +192,7 @@
       transform: translateX(3px);
     }
 
-    /* COMPACT HEADER AUTH BUTTONS */
+    /* Header Auth Buttons: Decreased & compact sizing */
     .header-auth-buttons {
       display: flex;
       align-items: center;
@@ -395,12 +395,12 @@
     /* Auth Portal Card */
     .auth-portal-card {
       background: #ffffff;
-      border-radius: 20px;
+      border-radius: 24px;
       padding: 24px;
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.2);
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       margin-left: auto;
       position: relative;
       color: var(--text-main);
@@ -566,219 +566,282 @@
     }
 
     /* ========================================================
-       REDESIGNED SLEEK WELCOME CARD
+       PRECISE WELCOME CARD STYLING (EXACT DESIGN MATCH)
        ======================================================== */
     .welcome-card-box {
-      background: linear-gradient(135deg, #071327 0%, #0D2140 50%, #162E5B 100%);
-      border: 1.5px solid rgba(245, 158, 11, 0.45);
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.5), 0 0 18px rgba(245, 158, 11, 0.15);
-      position: relative;
-      overflow: hidden;
-      color: #ffffff;
-    }
-    .welcome-card-box::before {
-      content: "";
-      position: absolute;
-      top: -35px;
-      right: -35px;
-      width: 130px;
-      height: 130px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.3) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .welcome-card-topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 2;
-    }
-    .welcome-pill-celebrate {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #FEF08A;
-      background: rgba(245, 158, 11, 0.2);
-      border: 1px solid rgba(245, 158, 11, 0.45);
-      padding: 3px 10px;
+      background: #FFFFFF;
       border-radius: 20px;
-      letter-spacing: 0.3px;
+      padding: 4px;
+      position: relative;
+      color: #0A192F;
     }
-    .welcome-status-tag {
-      font-size: 11px;
-      font-weight: 700;
-      color: #34D399;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .welcome-status-tag i {
-      font-size: 8px;
-    }
+
     .welcome-card-hero {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 2;
+      gap: 18px;
+      margin-bottom: 18px;
     }
+
     .welcome-avatar-wrapper {
       position: relative;
+      width: 112px;
+      height: 112px;
       flex-shrink: 0;
     }
-    .welcome-avatar-square {
-      width: 66px;
-      height: 66px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 2px solid #F59E0B;
-      background: #FFFFFF;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
-      display: block;
-    }
-    .welcome-online-pulse {
-      position: absolute;
-      bottom: -2px;
-      right: -2px;
-      width: 14px;
-      height: 14px;
+
+    .welcome-avatar-circle-ring {
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
-      background: #10B981;
-      border: 2px solid #071327;
-      box-shadow: 0 0 6px #10B981;
+      padding: 4px;
+      background: #DDF0FF;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    .welcome-avatar-img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+      background: #FFFFFF;
+    }
+
+    .welcome-badge-verified-check {
+      position: absolute;
+      bottom: 4px;
+      right: 2px;
+      width: 28px;
+      height: 28px;
+      background: #10B981;
+      border-radius: 50%;
+      border: 2.5px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 12px;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+    }
+
     .welcome-meta {
       flex: 1;
       min-width: 0;
+      text-align: left;
     }
-    .welcome-meta h3 {
-      font-size: 17.5px;
-      font-weight: 800;
-      color: #FFFFFF;
+
+    .welcome-handwritten-title {
+      font-family: 'Caveat', cursive, sans-serif;
+      font-size: 26px;
+      color: #0A192F;
+      line-height: 1;
+      display: inline-block;
+      position: relative;
       margin-bottom: 4px;
-      line-height: 1.25;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      font-weight: 700;
     }
-    .welcome-badge-role {
-      font-size: 11px;
+
+    .welcome-handwritten-title::after {
+      content: "";
+      position: absolute;
+      bottom: -3px;
+      left: 32%;
+      right: 8%;
+      height: 3px;
+      background: #F59E0B;
+      border-radius: 4px;
+    }
+
+    .welcome-username-text {
+      font-size: 22px;
       font-weight: 800;
-      color: #064E3B;
-      background: linear-gradient(135deg, #A7F3D0 0%, #6EE7B7 100%);
-      border: 1px solid #34D399;
-      padding: 2px 9px;
-      border-radius: 20px;
+      color: #0A192F;
+      margin-bottom: 6px;
+      line-height: 1.15;
+      word-break: break-word;
+      letter-spacing: -0.3px;
+    }
+
+    .welcome-verified-pill {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-    }
-
-    .welcome-intro-quote {
-      font-size: 12px;
-      color: #E2E8F0;
-      margin-bottom: 15px;
-      line-height: 1.5;
-      text-align: left;
-      position: relative;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 8px 12px;
-      border-radius: 9px;
-    }
-
-    /* Welcome Action Grid */
-    .welcome-action-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      position: relative;
-      z-index: 2;
-    }
-    .welcome-action-grid .btn-welcome-tile {
-      background: #FFFFFF;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: var(--apex-navy);
-      padding: 10px 4px 8px;
-      border-radius: 11px;
+      gap: 5px;
+      background: #DCFCE7;
+      color: #15803D;
       font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 11px;
+      border-radius: 20px;
+      margin-bottom: 8px;
+    }
+
+    .welcome-verified-pill i {
+      font-size: 12px;
+      color: #16A34A;
+    }
+
+    .welcome-sub-greeting {
+      font-size: 12.5px;
+      color: #475569;
+      line-height: 1.4;
+      font-weight: 500;
+      text-align: left;
+    }
+
+    /* 0% Commission Banner */
+    .welcome-commission-card {
+      background: #EFF8FF;
+      border-radius: 16px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      border: 1px solid #DCEEFC;
+    }
+
+    .commission-megaphone-bubble {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: #D9EEFC;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .commission-megaphone-bubble i {
+      font-size: 20px;
+      color: #2563EB;
+      transform: rotate(-15deg);
+    }
+
+    .commission-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .commission-content h4 {
+      font-size: 16.5px;
       font-weight: 800;
-      text-decoration: none;
-      text-align: center;
+      color: #0A192F;
+      margin-bottom: 2px;
+      letter-spacing: -0.2px;
+    }
+
+    .commission-content p {
+      font-size: 11px;
+      color: #334155;
+      line-height: 1.45;
+      margin: 0;
+      text-align: left;
+    }
+
+    .whatsapp-connect-action {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      transition: var(--transition);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      position: relative;
-      cursor: pointer;
+      gap: 3px;
+      text-decoration: none;
+      flex-shrink: 0;
+      padding-left: 6px;
     }
-    .welcome-action-grid .btn-welcome-tile .tile-icon-bubble {
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+
+    .wa-icon-bubble {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: #25D366;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 15px;
-    }
-    .welcome-action-grid .btn-welcome-tile.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
-    .welcome-action-grid .btn-welcome-tile.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
-    .welcome-action-grid .btn-welcome-tile.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #059669; }
-
-    .welcome-action-grid .btn-welcome-tile:hover {
-      background: #FFFFFF;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
-      border-color: var(--apex-gold);
-    }
-
-    .badge-counter {
-      position: absolute;
-      top: -4px;
-      right: -2px;
-      background: #EF4444;
-      color: #ffffff;
-      font-size: 9.5px;
-      font-weight: 800;
-      border-radius: 10px;
-      padding: 1px 6px;
-      border: 1.5px solid #FFFFFF;
-    }
-
-    .welcome-lively-mobile-box {
-      display: none;
-      position: relative;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px dashed rgba(245, 158, 11, 0.5);
-      border-radius: 14px;
-      padding: 12px 14px;
-      text-align: center;
-      margin-top: 4px;
-    }
-    .lively-emojis-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
+      color: #FFFFFF;
       font-size: 24px;
-      margin-bottom: 6px;
+      box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+      transition: transform 0.2s ease;
     }
-    .lively-badge-tag {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #FDE68A;
+
+    .whatsapp-connect-action:hover .wa-icon-bubble {
+      transform: scale(1.08);
+    }
+
+    .whatsapp-action-label {
+      font-size: 8.5px;
+      font-weight: 800;
+      color: #059669;
+      text-transform: uppercase;
       letter-spacing: 0.2px;
+      line-height: 1.15;
+      text-align: center;
+      max-width: 68px;
+    }
+
+    /* Bottom 3 Feature Highlights */
+    .welcome-features-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      align-items: stretch;
+      padding-top: 2px;
+    }
+
+    .welcome-feature-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .welcome-feature-col:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background: #E2E8F0;
+    }
+
+    .feature-icon-bubble {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 6px;
+      font-size: 20px;
+    }
+
+    .feature-icon-bubble.blue {
+      background: #DBEAFE;
+      color: #2563EB;
+    }
+
+    .feature-icon-bubble.purple {
+      background: #EDE9FE;
+      color: #7C3AED;
+    }
+
+    .feature-icon-bubble.yellow {
+      background: #FEF3C7;
+      color: #D97706;
+    }
+
+    .welcome-feature-col span {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #0A192F;
+      line-height: 1.25;
+      max-width: 88px;
     }
 
     /* SEO Metrics Bar */
@@ -1050,7 +1113,7 @@
       line-height: 1.5;
     }
 
-    /* Form styling */
+    /* Wizard / Forms styling */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
     #sStep1 .form-grid-2, #sStep2 .form-grid-2, #sStep3 .form-grid-2 {
       align-items: start;
@@ -1245,7 +1308,7 @@
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* Bottom dock is NEVER displayed to guest visitors */
+    /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -1297,7 +1360,7 @@
       margin: 0 auto;
     }
 
-    /* Social Media Toolbar */
+    /* Elegant Vertical Social Media Toolbar */
     .social-bar-wrapper {
       position: fixed;
       top: 55%;
@@ -1329,9 +1392,15 @@
       outline: none;
       transition: background 0.2s ease;
     }
-    .social-toggle-btn:hover { background: var(--royal-blue); }
-    .social-toggle-btn i { transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
-    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i { transform: rotate(180deg); }
+    .social-toggle-btn:hover {
+      background: var(--royal-blue);
+    }
+    .social-toggle-btn i {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
+      transform: rotate(180deg);
+    }
     .social-bar {
       display: flex;
       flex-direction: column;
@@ -1384,6 +1453,9 @@
       .workflow-grid { grid-template-columns: 1fr; }
     }
 
+   /* ========================================================
+       SCREEN-INTACT BOTTOM DOCK FOR MOBILE LOGGED IN
+       ======================================================== */
     @media (max-width: 768px) {
       body.logged-in-mobile { padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; }
       
@@ -1393,13 +1465,6 @@
       
       body.logged-in-mobile .auth-portal-card {
         margin: 0 auto !important;
-      }
-
-      #heroLoggedInView .welcome-action-grid {
-        display: none !important;
-      }
-      #heroLoggedInView .welcome-lively-mobile-box {
-        display: block !important;
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
@@ -1469,14 +1534,29 @@
         margin-bottom: 2px !important;
       }
 
-      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
-      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 16px !important; }
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
 
-      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
-      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 16px !important; }
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
 
-      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
-      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 16px !important; }
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
 
       .dock-title {
         display: inline-flex !important;
@@ -1518,7 +1598,7 @@
 </head>
 <body>
 
-<!-- VERTICAL SOCIAL MEDIA TOOLBAR -->
+<!-- VERTICAL SOCIAL MEDIA TOOLBAR (RIGHT SIDE) -->
 <div class="social-bar-wrapper is-hidden" id="socialToolbarWrapper">
   <button type="button" class="social-toggle-btn" id="socialToggleBtn" onclick="toggleSocialToolbar()" aria-label="Toggle Social Links">
     <i class="fa-solid fa-chevron-left"></i>
@@ -1564,7 +1644,7 @@
         </div>
       </nav>
 
-      <!-- Compact Header Auth Buttons -->
+      <!-- Dedicated Header Buttons: Visible only for guests -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <button type="button" onclick="openAuthView('signin')" class="btn-header-auth" id="navBtnSignIn">Sign In</button>
         <button type="button" onclick="openAuthView('signup')" class="btn-header-auth" id="navBtnSignUp">Sign Up</button>
@@ -1621,66 +1701,70 @@
     <div class="auth-portal-card hidden" id="authPortalContainer">
       <button class="auth-panel-close" id="authPanelCloseBtn" onclick="closeAuthPortal()" title="Close">✕</button>
 
-      <!-- LOGGED IN USER DASHBOARD: REDESIGNED WELCOME CARD -->
+      <!-- LOGGED IN USER DASHBOARD: EXACT WELCOME CARD MATCH -->
       <div id="heroLoggedInView" class="hidden">
         <div class="welcome-card-box">
-          <div class="welcome-card-topbar">
-            <span class="welcome-pill-celebrate">
-              🎉 Welcome back!
-            </span>
-            <span class="welcome-status-tag">
-              <i class="fa-solid fa-circle"></i> Active Member
-            </span>
-          </div>
-
+          <!-- Top Row: Avatar & Greeting -->
           <div class="welcome-card-hero">
             <div class="welcome-avatar-wrapper">
-              <img id="welcomeAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="welcome-avatar-square" alt="Avatar">
-              <div class="welcome-online-pulse" title="Active now"></div>
+              <div class="welcome-avatar-circle-ring">
+                <img id="welcomeAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" class="welcome-avatar-img" alt="Profile">
+              </div>
+              <div class="welcome-badge-verified-check">
+                <i class="fa-solid fa-check"></i>
+              </div>
             </div>
+
             <div class="welcome-meta">
-              <h3 id="heroWelcomeName">Member</h3>
-              <div class="welcome-badge-role" id="heroWelcomeRole">Verified Member ✓</div>
+              <div class="welcome-handwritten-title">Welcome back!</div>
+              <h2 class="welcome-username-text" id="heroWelcomeName">Member</h2>
+              <div class="welcome-verified-pill" id="heroWelcomeRole">
+                <i class="fa-solid fa-circle-check"></i> Verified Member
+              </div>
+              <div class="welcome-sub-greeting">
+                Great to have you on board!<br>Let’s make learning happen.
+              </div>
             </div>
           </div>
 
-          <div class="welcome-intro-quote">
-            <i class="fa-solid fa-bullhorn" style="color:var(--apex-gold); margin-right:4px;"></i> 0% commission direct learning platform. Browse open listings or check enquiries below.
-          </div>
-
-          <!-- Desktop Action Grid -->
-          <div class="welcome-action-grid">
-            <a href="browse.html" class="btn-welcome-tile tile-browse">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-compass"></i>
-              </div>
-              <span>Browse</span>
-            </a>
-            <a href="profile.html" class="btn-welcome-tile tile-profile">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-user-pen"></i>
-              </div>
-              <span>Profile</span>
-            </a>
-            <a href="enquiries.html" class="btn-welcome-tile tile-enquiries">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-comments"></i>
-              </div>
-              <span>Enquiries <span class="badge-counter hidden" id="cardEnquiryBadge">0</span></span>
-            </a>
-          </div>
-
-          <!-- Lively Animated Box (Mobile View) -->
-          <div class="welcome-lively-mobile-box">
-            <div class="lively-emojis-row">
-              <span>🌟</span>
-              <span>📚</span>
-              <span>🎯</span>
-              <span>💬</span>
-              <span>🚀</span>
+          <!-- Middle Row: 0% Commission & WhatsApp Connect -->
+          <div class="welcome-commission-card">
+            <div class="commission-megaphone-bubble">
+              <i class="fa-solid fa-bullhorn"></i>
             </div>
-            <div class="lively-badge-tag">
-              ⚡ Verified Direct Learning Network • 0% Commission
+            <div class="commission-content">
+              <h4>0% commission</h4>
+              <p>Direct learning platform. Connect via WhatsApp and get started — no middlemen, no commission.</p>
+            </div>
+            <a href="browse.html" class="whatsapp-connect-action" id="welcomeWhatsAppBtn" title="Connect Directly">
+              <div class="wa-icon-bubble">
+                <i class="fa-brands fa-whatsapp"></i>
+              </div>
+              <span class="whatsapp-action-label">CONNECT VIA WHATSAPP</span>
+            </a>
+          </div>
+
+          <!-- Bottom Row: 3 Core Pillars -->
+          <div class="welcome-features-row">
+            <div class="welcome-feature-col">
+              <div class="feature-icon-bubble blue">
+                <i class="fa-solid fa-graduation-cap"></i>
+              </div>
+              <span>Quality Learning</span>
+            </div>
+
+            <div class="welcome-feature-col">
+              <div class="feature-icon-bubble purple">
+                <i class="fa-solid fa-comment-dots"></i>
+              </div>
+              <span>Direct Communication</span>
+            </div>
+
+            <div class="welcome-feature-col">
+              <div class="feature-icon-bubble yellow">
+                <i class="fa-solid fa-handshake"></i>
+              </div>
+              <span>You Decide the Price</span>
             </div>
           </div>
         </div>
@@ -2137,6 +2221,7 @@
               <input id="sBoardOtherInput" type="text" placeholder="Specify board">
             </div>
 
+            <!-- Student Subject Multi-Select Checklist -->
             <div class="form-group-full" id="sAcademicSubjectGroup">
               <label>Subject Requirement</label>
               <div class="custom-multiselect">
@@ -2698,12 +2783,15 @@
 </section>
 
 <!-- 7. THREE-STEP HOW IT WORKS -->
+  <!-- Testimonials Section -->
 <section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
   <h2 style="font-size: 22px; font-weight: 800; color: #0A192F; margin-bottom: 16px; text-align: center;">
     What Our Community Says
   </h2>
   <div class="ticker-window" style="height: 260px; overflow: hidden; position: relative; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 16px;">
-    <div class="ticker-track" id="homeTickerTrack"></div>
+    <div class="ticker-track" id="homeTickerTrack">
+      <!-- Loaded dynamically via Supabase -->
+    </div>
   </div>
 </section>
 
@@ -2734,9 +2822,10 @@
   </div>
 </section>
 
-<!-- UNIFIED BOTTOM DOCK -->
+<!-- UNIFIED BOTTOM DOCK (MATCHING FEEDBACK PAGE & SCREEN-INTACT) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
+    <!-- Enquiries -->
     <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
@@ -2748,6 +2837,7 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
+    <!-- Profile -->
     <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -2758,6 +2848,7 @@
       </div>
     </a>
 
+    <!-- Browse (Dynamic: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -2882,7 +2973,16 @@ function scrollToAuthPortal() {
   });
 }
 
+function handleEducatorButtonClick() {
+  if (currentUser) {
+    window.location.href = "profile.html";
+  } else {
+    openAuthView('signup');
+  }
+}
+
 async function openAuthView(type) {
+  // If currentUser is set, verify with the actual server session first
   if (currentUser) {
     const { data: { session } } = await db.auth.getSession();
     if (session && session.user) {
@@ -2898,6 +2998,7 @@ async function openAuthView(type) {
   const btnIn = document.getElementById("navBtnSignIn");
   const btnUp = document.getElementById("navBtnSignUp");
 
+  // Force reveal the portal container
   portal.classList.remove("hidden");
   heroGrid.classList.remove("portal-hidden");
 
@@ -2913,7 +3014,6 @@ async function openAuthView(type) {
 
   setTimeout(scrollToAuthPortal, 60);
 }
-
 function closeAuthPortal() {
   if (currentUser) return;
   document.getElementById("authPortalContainer").classList.add("hidden");
@@ -3118,7 +3218,6 @@ function handleTeacherCategoryChange() {
   document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
   document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
 }
-
 function selectStudentClass(val, label) {
   document.getElementById("sClass").value = val;
   document.getElementById("sClassTrigger").innerHTML = `${label} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
@@ -3133,19 +3232,16 @@ function selectStudentBoard(val, label) {
   document.getElementById("sBoardTrigger").classList.remove("open");
   handleStudentBoardOther();
 }
-
 function handleBoardOtherToggle(p) {
   const cb = document.getElementById(p + "BoardOtherCb");
   document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel(p + "Boards");
 }
-
 function handleSkillOtherToggle(p) {
   const cb = document.getElementById(p + "SkillOtherCb");
   document.getElementById(p + "SkillOtherInput").classList.toggle("hidden", !cb.checked);
   updateMultiLabel(p + "Skills");
 }
-
 function handleCompOtherToggle(p) {
   const cb = document.getElementById(p + "CompOtherCb");
   document.getElementById(p + "CompOtherInput").classList.toggle("hidden", !cb.checked);
@@ -3177,90 +3273,88 @@ function handleStudentBoardOther() {
   const val = document.getElementById("sBoard").value;
   document.getElementById("sBoardOtherGroup").classList.toggle("hidden", val !== "Others");
 }
-
 function handleStudentSkillOther() {
   const val = document.getElementById("sSkillSelect").value;
   document.getElementById("sSkillOtherInput").classList.toggle("hidden", val !== "Others");
 }
-
 function handleStudentCompOther() {
   const val = document.getElementById("sCompSelect").value;
   document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
-async function generateNonce() {
-  const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-  const encoder = new TextEncoder();
-  const data = encoder.encode(rawNonce);
-  const hash = await crypto.subtle.digest('SHA-256', data);
-  const hashedNonce = Array.from(new Uint8Array(hash))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
-  return { rawNonce, hashedNonce };
-}
-
-async function loginWithOAuth(provider) {
-  if (provider === 'google' && window.google) {
-    showMsg("heroAuthMsg", "Connecting with Google...", true);
-    
-    const { rawNonce, hashedNonce } = await generateNonce();
-
-    google.accounts.id.initialize({
-      client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
-      nonce: hashedNonce,
-      callback: async (response) => {
-        showMsg("heroAuthMsg", "Signing in with Google...", true);
-        sessionStorage.setItem("apex_oauth_pending", "true");
-
-        const { data, error } = await db.auth.signInWithIdToken({
-          provider: 'google',
-          token: response.credential,
-          nonce: rawNonce
-        });
-
-        if (error) {
-          sessionStorage.removeItem("apex_oauth_pending");
-          showMsg("heroAuthMsg", error.message, false);
-        } else if (data?.user) {
-          localStorage.setItem("apex_cached_auth", "true");
-          renderAuthenticatedHome(data.user);
-        }
-      }
-    });
-
-    google.accounts.id.prompt((notification) => {
-      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-        db.auth.signInWithOAuth({
-          provider: 'google',
-          options: { redirectTo: window.location.origin + window.location.pathname }
-        });
-      }
-    });
-    return;
+  async function generateNonce() {
+    const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    const encoder = new TextEncoder();
+    const data = encoder.encode(rawNonce);
+    const hash = await crypto.subtle.digest('SHA-256', data);
+    const hashedNonce = Array.from(new Uint8Array(hash))
+      .map(b => b.toString(16).padStart(2, '0'))
+      .join('');
+    return { rawNonce, hashedNonce };
   }
 
-  sessionStorage.setItem("apex_oauth_pending", "true");
-  const { error } = await db.auth.signInWithOAuth({
-    provider: 'azure',
-    options: { 
-      redirectTo: window.location.origin + window.location.pathname,
-      scopes: 'email openid profile'
+  async function loginWithOAuth(provider) {
+    if (provider === 'google' && window.google) {
+      showMsg("heroAuthMsg", "Connecting with Google...", true);
+      
+      const { rawNonce, hashedNonce } = await generateNonce();
+
+      google.accounts.id.initialize({
+        client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+        nonce: hashedNonce,
+        callback: async (response) => {
+          showMsg("heroAuthMsg", "Signing in with Google...", true);
+          sessionStorage.setItem("apex_oauth_pending", "true");
+
+          const { data, error } = await db.auth.signInWithIdToken({
+            provider: 'google',
+            token: response.credential,
+            nonce: rawNonce
+          });
+
+          if (error) {
+            sessionStorage.removeItem("apex_oauth_pending");
+            showMsg("heroAuthMsg", error.message, false);
+          } else if (data?.user) {
+            localStorage.setItem("apex_cached_auth", "true");
+            renderAuthenticatedHome(data.user);
+          }
+        }
+      });
+
+      google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          db.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.origin + window.location.pathname }
+          });
+        }
+      });
+      return;
     }
-  });
-}
 
-async function handleHeroLogin() {
-  const email = document.getElementById("heroEmail").value.trim();
-  const password = document.getElementById("heroPassword").value.trim();
-  if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
+    sessionStorage.setItem("apex_oauth_pending", "true");
+    const { error } = await db.auth.signInWithOAuth({
+      provider: 'azure',
+      options: { 
+        redirectTo: window.location.origin + window.location.pathname,
+        scopes: 'email openid profile'
+      }
+    });
+  }
 
-  showMsg("heroAuthMsg", "Signing in...", true);
-  const { data, error } = await db.auth.signInWithPassword({ email, password });
-  if (error) return showMsg("heroAuthMsg", error.message, false);
+  async function handleHeroLogin() {
+    const email = document.getElementById("heroEmail").value.trim();
+    const password = document.getElementById("heroPassword").value.trim();
+    if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
 
-  localStorage.setItem("apex_cached_auth", "true");
-  renderAuthenticatedHome(data.user);
-}
+    showMsg("heroAuthMsg", "Signing in...", true);
+    const { data, error } = await db.auth.signInWithPassword({ email, password });
+    if (error) return showMsg("heroAuthMsg", error.message, false);
+
+    localStorage.setItem("apex_cached_auth", "true");
+    renderAuthenticatedHome(data.user);
+  }
 
 async function handleTeacherApplication() {
   const termsBox = document.getElementById("teacherTermsBox");
@@ -3284,15 +3378,19 @@ async function handleTeacherApplication() {
   const qual = document.getElementById("tQual").value.trim();
   const exp = document.getElementById("tExp").value.trim();
 
+  // Validate Email
   const emailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
   if (!emailCheck.valid) return showMsg("tAppMsg", emailCheck.error, false);
 
+  // Validate Name
   const nameCheck = ApexSecurity.validateRegistrationField(name, 'name', 'Teacher Name');
   if (!nameCheck.valid) return showMsg("tAppMsg", nameCheck.error, false);
 
+  // Validate Mobile
   const mobileCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
   if (!mobileCheck.valid) return showMsg("tAppMsg", mobileCheck.error, false);
 
+  // Validate Location
   const locCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
   if (!locCheck.valid) return showMsg("tAppMsg", locCheck.error, false);
 
@@ -3424,15 +3522,19 @@ async function handleStudentApplication() {
   const address = document.getElementById("sAddress").value.trim();
   const location = document.getElementById("sLocation").value.trim();
 
+  // Validate Email
   const sEmailCheck = ApexSecurity.validateRegistrationField(email, 'email', 'Email');
   if (!sEmailCheck.valid) return showMsg("sAppMsg", sEmailCheck.error, false);
 
+  // Validate Student Name
   const sNameCheck = ApexSecurity.validateRegistrationField(sName, 'name', 'Student Name');
   if (!sNameCheck.valid) return showMsg("sAppMsg", sNameCheck.error, false);
 
+  // Validate Mobile
   const sMobCheck = ApexSecurity.validateRegistrationField(mobile, 'mobile', 'WhatsApp Number');
   if (!sMobCheck.valid) return showMsg("sAppMsg", sMobCheck.error, false);
 
+  // Validate Location
   const sLocCheck = ApexSecurity.validateRegistrationField(location, 'text', 'Location');
   if (!sLocCheck.valid) return showMsg("sAppMsg", sLocCheck.error, false);
 
@@ -3537,19 +3639,16 @@ async function syncUserEnquiryBadge() {
   if (!currentUser) return;
   const { data } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
   const count = (data && data.length) ? data.length : 0;
-  const cardBadge = document.getElementById("cardEnquiryBadge");
   const dockBadge = document.getElementById("dockEnquiryBadge");
 
-  [cardBadge, dockBadge].forEach(badge => {
-    if (badge) {
-      if (count > 0) {
-        badge.textContent = count;
-        badge.classList.remove("hidden");
-      } else {
-        badge.classList.add("hidden");
-      }
+  if (dockBadge) {
+    if (count > 0) {
+      dockBadge.textContent = count;
+      dockBadge.classList.remove("hidden");
+    } else {
+      dockBadge.classList.add("hidden");
     }
-  });
+  }
 }
 
 async function updateDockRoleLabel(userId) {
@@ -3588,16 +3687,16 @@ async function renderAuthenticatedHome(user) {
   document.getElementById("heroLoggedInView")?.classList.remove("hidden");
   document.body.classList.add("logged-in-mobile");
 
-  // 2. Immediate placeholder while database resolves
-  let roleText = "Verified Member ✓";
+  // 2. Initial immediate fallback values
+  let roleText = `<i class="fa-solid fa-circle-check"></i> Verified Member`;
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
-  let avatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+  let avatar = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80";
 
   document.getElementById("heroWelcomeName").textContent = name;
-  document.getElementById("heroWelcomeRole").textContent = roleText;
+  document.getElementById("heroWelcomeRole").innerHTML = roleText;
   document.getElementById("welcomeAvatarImg").src = avatar;
 
-  // 3. Fetch role & profile details in parallel
+  // 3. Fetch real profile details
   const [teacherRes, studentRes] = await Promise.all([
     db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle(),
     db.from("students").select("*").eq("id", currentUser.id).maybeSingle()
@@ -3606,15 +3705,15 @@ async function renderAuthenticatedHome(user) {
   if (teacherRes.data) {
     currentRole = 'teacher';
     currentProfile = teacherRes.data;
-    roleText = "Verified Educator 👨‍🏫";
+    roleText = `<i class="fa-solid fa-circle-check"></i> Verified Educator`;
     name = currentProfile.teacher_name || name;
-    avatar = currentProfile.avatar_url || avatar;
+    if (currentProfile.avatar_url) avatar = currentProfile.avatar_url;
   } else if (studentRes.data) {
     currentRole = 'student';
     currentProfile = studentRes.data;
-    roleText = "Student / Parent 🎓";
+    roleText = `<i class="fa-solid fa-circle-check"></i> Verified Student`;
     name = currentProfile.student_name || name;
-    avatar = currentProfile.avatar_url || "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";
+    if (currentProfile.avatar_url) avatar = currentProfile.avatar_url;
   }
 
   if (!currentProfile && sessionStorage.getItem("apex_oauth_pending") === "true") {
@@ -3624,12 +3723,12 @@ async function renderAuthenticatedHome(user) {
     return;
   }
 
-  // Update card with fetched data
+  // Bind values
   document.getElementById("heroWelcomeName").textContent = name;
-  document.getElementById("heroWelcomeRole").textContent = roleText;
+  document.getElementById("heroWelcomeRole").innerHTML = roleText;
   document.getElementById("welcomeAvatarImg").src = avatar;
 
-  // 4. Background tasks
+  // Background tasks
   updateDockRoleLabel(currentUser.id);
   syncUserEnquiryBadge();
 }
@@ -3640,10 +3739,12 @@ function renderGuestHome() {
   currentProfile = null;
   oauthRegistrationMode = false;
 
+  // Ensure bottom dock is completely disabled for guests
   document.body.classList.remove("logged-in-mobile");
   document.getElementById("heroLoggedInView")?.classList.add("hidden");
   document.getElementById("authPanelCloseBtn")?.classList.remove("hidden");
   
+  // Show header and mobile drawer auth buttons for guests
   document.getElementById("headerAuthGroup")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.remove("hidden");
@@ -3651,11 +3752,14 @@ function renderGuestHome() {
   document.getElementById("navBtnSignIn")?.classList.remove("active");
   document.getElementById("navBtnSignUp")?.classList.remove("active");
   
+  // Portal hidden by default on guest visits
   document.getElementById("authPortalContainer").classList.add("hidden");
   document.getElementById("heroGridContainer").classList.add("portal-hidden");
 }
 
-/* ADMIN ACCESS */
+/* ========================================================
+   ADMIN ACCESS: Alt + Shift + D AND FOOTER MULTI-TAP
+   ======================================================== */
 window.addEventListener("keydown", (e) => {
   const tag = (document.activeElement?.tagName || "").toLowerCase();
   if (tag === "input" || tag === "textarea") return;
