@@ -2,67 +2,67 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>My Profile | Apex Tuitions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Tuition Enquiries | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Cropper.js for Zoom & Crop -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
       --apex-navy: #0A192F;
       --apex-navy-surface: #112240;
+      --apex-navy-dark: #070F1E;
       --royal-blue: #2563EB;
       --royal-blue-hover: #1D4ED8;
-      --royal-blue-glow: rgba(37, 99, 235, 0.18);
       --apex-gold: #F59E0B;
+      --apex-gold-deep: #D97706;
       --emerald: #10B981;
+      --emerald-dark: #059669;
+      --emerald-light: #ECFDF5;
       --bg-slate: #F8FAFC;
       --card-bg: #FFFFFF;
       --text-main: #0F172A;
       --text-muted: #64748B;
-      --border-subtle: #CBD5E1;
-      --card-radius: 16px;
-      --btn-radius: 10px;
+      --border-subtle: #E2E8F0;
+      --card-radius: 20px;
+      --btn-radius: 12px;
+      --shadow-grand: 0 20px 40px -8px rgba(10, 25, 47, 0.08), 0 4px 12px rgba(10, 25, 47, 0.03);
       --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--bg-slate);
+      background: radial-gradient(circle at 50% 0%, #EEF4FF 0%, #F8FAFC 50%, #F1F5F9 100%);
       color: var(--text-main);
-      line-height: 1.5;
+      line-height: 1.6;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      padding-top: 74px;
       -webkit-font-smoothing: antialiased;
+      padding-top: 76px;
     }
-    body.modal-open { overflow: hidden; }
 
-    /* HEADER & RESPONSIVE FIX */
     header {
-      background: var(--apex-navy);
-      padding: 12px 24px;
+      background: rgba(10, 25, 47, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 14px 28px;
       border-bottom: 3.5px solid var(--apex-gold);
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 10000;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
       width: 100%;
     }
     .header-wrap {
-      max-width: 1300px;
+      max-width: 1280px;
       margin: 0 auto;
       display: flex;
       align-items: center;
@@ -72,49 +72,52 @@
     .brand-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 14px;
       text-decoration: none;
-      flex-shrink: 0;
     }
     .header-logo {
       width: 44px;
       height: 44px;
       border-radius: 50%;
-      background: #FFFFFF;
+      border: 2px solid #ffffff;
+      background: #ffffff;
       object-fit: cover;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
     .brand-text h1 {
-      font-size: 20px;
-      color: #FFFFFF;
+      font-size: 21px;
+      color: #ffffff;
       font-weight: 800;
       letter-spacing: -0.3px;
-      white-space: nowrap;
       line-height: 1;
     }
+
     .header-right-actions {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     .nav-links-desktop {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
     .nav-link {
       color: #CBD5E1;
       text-decoration: none;
       font-weight: 600;
       font-size: 13.5px;
-      padding: 7px 14px;
+      padding: 8px 16px;
       border-radius: 8px;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      white-space: nowrap;
+      gap: 7px;
     }
-    .nav-link:hover { color: #FFFFFF; background: rgba(255, 255, 255, 0.1); }
+    .nav-link:hover, .nav-link.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
 
     .dropdown-parent { 
       position: relative; 
@@ -125,7 +128,7 @@
       position: absolute;
       top: 100%;
       right: 0;
-      background: #ffffff;
+      background: #ffffff !important;
       border-radius: 12px;
       border: 1px solid var(--border-subtle);
       box-shadow: 0 16px 36px rgba(10, 25, 47, 0.16);
@@ -140,8 +143,8 @@
       align-items: center;
       gap: 10px;
       padding: 10px 14px;
-      color: #334155 !important;
-      font-size: 13px;
+      color: #1E293B !important;
+      font-size: 13.5px;
       font-weight: 700;
       text-decoration: none !important;
       border-radius: 8px;
@@ -151,6 +154,29 @@
       background: #EFF6FF;
       color: var(--royal-blue) !important;
       transform: translateX(3px);
+    }
+
+    .header-auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    body.is-logged-in #headerAuthGroup {
+      display: none !important;
+    }
+    .btn-header-auth {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff !important;
+      font-weight: 700;
+      padding: 7px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      border: 1.5px solid rgba(255, 255, 255, 0.28);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .mobile-menu-toggle {
@@ -184,500 +210,292 @@
       font-size: 15px;
       padding: 10px 0;
       border-bottom: 1px solid rgba(255,255,255,0.08);
-      display: block;
-      width: 100%;
     }
 
-    @media (max-width: 860px) {
-      header { padding: 10px 16px; }
-      body { padding-top: 66px; }
-      .nav-links-desktop { display: none; }
-      .mobile-menu-toggle { display: block; }
-      .brand-text h1 { font-size: 17px; }
-      .header-logo { width: 38px; height: 38px; }
-    }
-
-    /* MAIN CONTAINER: TWO COLUMN DESKTOP */
     main {
       flex: 1;
-      padding: 28px 20px 80px;
-      max-width: 1320px;
-      width: 100%;
+      padding: 32px 18px 80px;
+      max-width: 760px;
       margin: 0 auto;
-    }
-    .profile-dashboard-layout {
-      display: grid;
-      grid-template-columns: 390px 1fr;
-      gap: 24px;
-      align-items: start;
+      width: 100%;
     }
 
-    /* LEFT PROFILE CARD */
-    .profile-card {
+    /* Grand Container Card */
+    .enquiries-card {
       background: #FFFFFF;
       border-radius: var(--card-radius);
-      border: 1.5px solid var(--border-subtle);
-      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.05);
-      padding: 28px 20px;
-      text-align: center;
-    }
-    .avatar-wrapper {
+      border: 1px solid rgba(226, 232, 240, 0.85);
+      box-shadow: var(--shadow-grand);
+      padding: 32px 30px;
       position: relative;
-      width: 110px;
-      height: 110px;
-      margin: 0 auto 12px;
-      border-radius: 20px;
-      background: var(--apex-navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(10, 25, 47, 0.25);
     }
-    .avatar-img {
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      object-fit: cover;
-    }
-    .btn-update-photo {
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #0F172A;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: #FFFFFF;
-      font-size: 10.5px;
-      font-weight: 800;
-      padding: 3px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      white-space: nowrap;
-    }
-    .profile-name {
-      font-size: 21px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-top: 14px;
-      margin-bottom: 8px;
-    }
-    .badge-pill-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-    .badge-pill-green {
-      background: #DCFCE7;
-      color: #15803D;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-    }
-    .badge-pill-gold {
-      background: #FEF3C7;
-      color: #B45309;
-      font-size: 11.5px;
-      font-weight: 700;
-      padding: 3px 10px;
-      border-radius: 20px;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .btn-edit-details {
-      width: 100%;
-      height: 42px;
-      background: var(--royal-blue);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 10px;
-      font-size: 13.5px;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: var(--transition);
-      margin-bottom: 20px;
-    }
-    .btn-edit-details:hover { background: var(--royal-blue-hover); }
 
-    .fields-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-    .detail-card-chip {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 10px;
-      padding: 8px 12px;
-      text-align: left;
-      margin-bottom: 8px;
-    }
-    .fields-two-col .detail-card-chip { margin-bottom: 0; }
-    .chip-label {
-      font-size: 10px;
-      font-weight: 800;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 3px;
-    }
-    .chip-value {
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--apex-navy);
-      word-break: break-word;
-    }
-    .btn-logout {
-      width: 100%;
-      height: 38px;
-      margin-top: 14px;
-      background: #FFF1F2;
-      color: #E11D48;
-      border: 1.5px solid #FFE4E6;
-      border-radius: 10px;
-      font-size: 12.5px;
-      font-weight: 800;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      transition: var(--transition);
-    }
-    .btn-logout:hover { background: #FFE4E6; }
-
-    /* RIGHT COLUMN */
-    .right-column {
+    .enquiries-header {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      border-bottom: 1px solid #EEF2F6;
+      padding-bottom: 20px;
+      margin-bottom: 24px;
     }
-    .dashboard-panel {
+    .enquiries-header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .enquiries-header h2 {
+      font-size: 23px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+    .enquiries-header p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .refresh-btn {
+      background: #EFF6FF;
+      border: 1px solid #DBEAFE;
+      color: var(--royal-blue);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: var(--transition);
+    }
+    .refresh-btn:hover {
+      background: #DBEAFE;
+      transform: translateY(-1px);
+    }
+
+    /* Grand Item Cards */
+    .enquiry-item-box {
+      border: 1.5px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 20px;
       background: #FFFFFF;
-      border-radius: var(--card-radius);
-      border: 1.5px solid var(--border-subtle);
-      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.05);
-      padding: 26px;
+      margin-bottom: 18px;
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+      position: relative;
     }
-    .panel-header-title {
+    .enquiry-item-box:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.08);
+      transform: translateY(-2px);
+    }
+    .enquiry-item-box.is-confirmed {
+      border-color: #A7F3D0;
+      background: linear-gradient(180deg, #FFFFFF 0%, #F0FDF4 100%);
+    }
+
+    .enquiry-meta-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .status-badge {
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .status-badge.confirmed {
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .status-badge.confirmed::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+    }
+    .status-badge.pending {
+      background: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .status-badge.pending::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #F59E0B;
+    }
+
+    .enquiry-details-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin-bottom: 16px;
+    }
+    .enquiry-name {
       font-size: 17px;
       font-weight: 800;
       color: var(--apex-navy);
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-bottom: 4px;
     }
-    .panel-header-sub {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      font-weight: 500;
-      margin-bottom: 18px;
-    }
-    .milestone-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    .milestone-card {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
-      padding: 16px;
-    }
-    .milestone-tag {
-      background: #FEF3C7;
-      color: #92400E;
-      font-size: 10px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-      display: inline-block;
-      margin-bottom: 8px;
-    }
-    .milestone-card h4 {
-      font-size: 13.5px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-bottom: 5px;
-    }
-    .milestone-card p {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      line-height: 1.4;
-    }
-    .note-eligibility {
-      background: #EFF6FF;
-      border: 1px solid #BFDBFE;
-      border-radius: 10px;
-      padding: 12px 16px;
-      display: flex;
-      gap: 10px;
-      font-size: 12px;
-      color: #1E40AF;
-      line-height: 1.4;
-    }
-    .video-curated-container {
-      background: #FAFAFA;
-      border: 1px dashed var(--border-subtle);
-      border-radius: 14px;
-      padding: 48px 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .video-play-bubble {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #FEE2E2;
-      color: #DC2626;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      margin-bottom: 14px;
-    }
-    .video-curated-container h4 {
-      font-size: 15px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-bottom: 6px;
-    }
-    .video-curated-container p {
-      font-size: 12px;
-      color: var(--text-muted);
-      max-width: 480px;
-    }
-
-    /* MODAL BASE */
-    .app-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10, 25, 47, 0.7);
-      backdrop-filter: blur(5px);
-      z-index: 100000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s ease;
-    }
-    .app-modal-overlay.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    .app-modal-card {
-      background: #FFFFFF;
-      width: 100%;
-      max-width: 520px;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 24px 48px rgba(0,0,0,0.25);
-      display: flex;
-      flex-direction: column;
-      max-height: 90vh;
-    }
-    .modal-header {
-      background: var(--apex-navy);
-      color: #FFFFFF;
-      padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 3.5px solid var(--apex-gold);
-    }
-    .modal-header h3 {
-      font-size: 16px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .modal-close-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      color: #FFFFFF;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-    }
-    .modal-body {
-      padding: 20px;
-      overflow-y: auto;
-      flex: 1;
-    }
-
-    /* FORMS & WIZARDS */
-    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
-    .form-group-full { grid-column: span 2; }
-    .form-group-half { grid-column: span 1; }
-    label {
-      display: block;
-      font-size: 10.5px;
-      font-weight: 800;
-      margin: 0 0 4px 0;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      text-align: left;
-    }
-    input, select, textarea {
-      width: 100%;
-      height: 38px;
-      min-height: 38px;
-      padding: 6px 10px;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-family: inherit;
-      background: #F8FAFC;
-      color: var(--text-main);
-      transition: var(--transition);
-    }
-    input:focus, select:focus, textarea:focus {
-      outline: none;
-      border-color: var(--royal-blue);
-      background: #FFFFFF;
-      box-shadow: 0 0 0 3.5px var(--royal-blue-glow);
-    }
-    textarea { min-height: 54px; height: 54px; padding: 8px 12px; }
-
-    .custom-multiselect { position: relative; width: 100%; }
-    .multiselect-trigger {
-      width: 100%;
-      height: 38px;
-      padding: 6px 10px;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 8px;
-      font-size: 12px;
-      background: #F8FAFC;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .multiselect-trigger.open {
-      border-color: var(--royal-blue);
-      background: #FFFFFF;
-      box-shadow: 0 0 0 3px var(--royal-blue-glow);
-    }
-    .multiselect-dropdown-box {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
-      max-height: 180px;
-      overflow-y: auto;
-      background: #FFFFFF;
-      border: 1.5px solid var(--border-subtle);
-      border-radius: 10px;
-      box-shadow: 0 10px 24px rgba(10, 25, 47, 0.15);
-      z-index: 3000;
-      padding: 6px;
-      display: none;
-    }
-    .multiselect-dropdown-box.show { display: block; }
-    .multiselect-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 8px;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: var(--transition);
-      text-transform: none;
-      margin: 0;
+    .enquiry-sub {
+      font-size: 13px;
+      color: #334155;
       font-weight: 600;
-    }
-    .multiselect-item:hover { background: #EFF6FF; }
-    .multiselect-item input[type="checkbox"] {
-      width: 15px; height: 15px; min-height: 15px; cursor: pointer; accent-color: var(--royal-blue); margin: 0;
-    }
-
-    .wizard-steps-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin: 4px 0 16px;
-      background: #F8FAFC;
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid #E2E8F0;
+      gap: 6px;
     }
-    .wizard-step-item { display: flex; align-items: center; gap: 6px; font-size: 11.5px; font-weight: 700; color: #94A3B8; }
-    .wizard-step-item.active { color: var(--royal-blue); font-weight: 800; }
-    .step-circle { width: 20px; height: 20px; border-radius: 50%; background: #E2E8F0; color: #64748B; display: inline-flex; align-items: center; justify-content: center; font-size: 10.5px; }
-    .wizard-step-item.active .step-circle { background: var(--royal-blue); color: #ffffff; }
-    .step-line { flex: 1; height: 2px; background: #E2E8F0; margin: 0 6px; }
-
-    .wizard-nav-btns { display: flex; gap: 10px; margin-top: 14px; grid-column: span 2; }
-    .wizard-btn-next { flex: 1; height: 40px; background: var(--royal-blue); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-next:hover { background: var(--royal-blue-hover); }
-    .wizard-btn-back { flex: 1; height: 40px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-back:hover { background: #CBD5E1; }
-    .wizard-btn-submit { flex: 1.5; height: 40px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-submit:hover { background: #059669; }
-
-    /* Cropper Viewport */
-    .cropper-frame {
-      max-height: 360px;
-      background: #000000;
+    .enquiry-sub strong {
+      color: var(--royal-blue);
+    }
+    .enquiry-phone {
+      font-size: 12.5px;
+      color: var(--text-muted);
       display: flex;
       align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      border-radius: 12px;
-      margin-bottom: 12px;
+      gap: 6px;
     }
-    .cropper-frame img { max-width: 100%; display: block; }
-    .cropper-btns-row { display: flex; justify-content: center; gap: 10px; }
-    .cropper-btn-tool {
-      background: #F1F5F9;
-      border: 1px solid var(--border-subtle);
-      padding: 7px 12px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 12px;
+
+    /* Grand Action Buttons */
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px dashed #E2E8F0;
+    }
+
+    .btn-grand {
+      border: none;
+      border-radius: var(--btn-radius);
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      color: var(--apex-navy);
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .btn-grand:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+
+    .btn-accept {
+      background: linear-gradient(135deg, #10B981, #059669);
+      color: #ffffff;
+      flex: 1;
+    }
+    .btn-reject {
+      background: #FFFFFF;
+      color: #EF4444;
+      border: 1.5px solid #FCA5A5;
+      flex: 1;
+    }
+    .btn-reject:hover {
+      background: #FEF2F2;
+      border-color: #EF4444;
+    }
+
+    .btn-wa-active {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: #ffffff;
+      flex: 1;
+      min-width: 140px;
+    }
+    .btn-tuition-lock {
+      background: #F1F5F9;
+      color: #475569;
+      border: 1px solid #CBD5E1;
+      cursor: default;
+      flex: 1;
+      min-width: 140px;
+      box-shadow: none;
+    }
+    .btn-tuition-lock:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Support / Donate CTA Highlight */
+    .btn-donate-support {
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+      color: #FFFFFF !important;
+      flex: 1.2;
+      min-width: 170px;
+      border: 1px solid #FBBF24;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+    }
+    .btn-donate-support:hover {
+      background: linear-gradient(135deg, #D97706 0%, #B45309 100%);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.45);
+    }
+
+    .btn-end {
+      background: #FFFFFF;
+      color: #E11D48;
+      border: 1.5px solid #FECDD3;
+      padding: 10px 14px;
+      border-radius: var(--btn-radius);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-end:hover {
+      background: #FFF1F2;
+      border-color: #E11D48;
+    }
+
+    .notice-pending {
+      font-size: 12.5px;
+      color: #92400E;
+      font-weight: 700;
+      background: #FFFBEB;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #FDE68A;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+
+    /* Free Platform Support Box on Confirmed Tuitions */
+    .support-inline-note {
+      font-size: 11.5px;
+      color: #78350F;
+      background: #FEF3C7;
+      padding: 6px 12px;
+      border-radius: 8px;
+      margin-top: 10px;
+      border: 1px solid #FDE68A;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 600;
     }
 
     /* =========================================================
@@ -688,11 +506,8 @@
     }
 
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important;
-      }
-      .profile-dashboard-layout {
-        grid-template-columns: 1fr;
+      body.logged-in-mobile { 
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
@@ -809,8 +624,16 @@
         padding: 1px 5px !important;
         line-height: 1 !important;
       }
+    }
 
-      body.modal-open .mobile-bottom-dock { display: none !important; }
+    @media (max-width: 960px) {
+      header { padding: 10px 16px; }
+      body { padding-top: 70px; }
+      .nav-links-desktop { display: none; }
+      .mobile-menu-toggle { display: block; }
+      .header-auth-buttons { display: flex; gap: 6px; }
+      .btn-header-auth { padding: 6px 12px; font-size: 12px; }
+      .enquiries-card { padding: 22px 18px; }
     }
 
     .hidden { display: none !important; }
@@ -845,6 +668,11 @@
         </div>
       </nav>
 
+      <div class="header-auth-buttons" id="headerAuthGroup">
+        <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
+        <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
+      </div>
+
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
@@ -862,560 +690,30 @@
 </header>
 
 <main>
-  <div class="profile-dashboard-layout">
-    <!-- LEFT COLUMN: PROFILE CARD -->
-    <div class="profile-card">
-      <div class="avatar-wrapper">
-        <img id="profileAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="avatar-img" alt="Avatar">
-        <label for="avatarFileInput" class="btn-update-photo">
-          <i class="fa-solid fa-camera"></i> UPDATE
-        </label>
-        <input type="file" id="avatarFileInput" accept="image/*" style="display:none;" onchange="onAvatarFilePicked(event)">
-      </div>
-
-      <h2 class="profile-name" id="profileName">Loading Profile...</h2>
-
-      <div class="badge-pill-row">
-        <span class="badge-pill-green" id="profileRoleBadge">Verified Educator 👨‍🏫</span>
-        <span class="badge-pill-gold" id="profileRatingBadge"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0/5 Stars</span>
-      </div>
-
-      <button class="btn-edit-details" onclick="openEditModal()">
-        <i class="fa-solid fa-pen-to-square"></i> Edit Details
-      </button>
-
-      <div class="fields-two-col">
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-regular fa-envelope"></i> EMAIL ADDRESS</div>
-          <div class="chip-value" id="profileEmail">—</div>
+  <div class="enquiries-card">
+    <div class="enquiries-header">
+      <div class="enquiries-header-top">
+        <div>
+          <h2>Tuition Enquiries</h2>
+          <p>Tracking your pending & confirmed tuitions exclusively.</p>
         </div>
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-brands fa-whatsapp"></i> WHATSAPP NUMBER</div>
-          <div class="chip-value" id="profileMobile">—</div>
-        </div>
+        <button class="refresh-btn" onclick="loadEnquiries()">
+          <i class="fa-solid fa-rotate"></i> Refresh
+        </button>
       </div>
-
-      <div class="fields-two-col">
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-solid fa-chalkboard-user"></i> TUITION MODE</div>
-          <div class="chip-value" id="profileMode">—</div>
-        </div>
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-solid fa-users"></i> GRADES / CLASSES</div>
-          <div class="chip-value" id="profileGrades">—</div>
-        </div>
-      </div>
-
-      <div class="detail-card-chip">
-        <div class="chip-label"><i class="fa-solid fa-graduation-cap"></i> CURRICULUM / BOARD</div>
-        <div class="chip-value" id="profileBoard">—</div>
-      </div>
-
-      <div class="detail-card-chip">
-        <div class="chip-label"><i class="fa-solid fa-book-open"></i> SUBJECT(S) / SPECIALIZATION</div>
-        <div class="chip-value" id="profileSubject">—</div>
-      </div>
-
-      <div class="fields-two-col" id="teacherFeeQualContainer">
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-solid fa-certificate"></i> QUALIFICATION &amp; EXP</div>
-          <div class="chip-value" id="profileQualExp">—</div>
-        </div>
-        <div class="detail-card-chip">
-          <div class="chip-label"><i class="fa-solid fa-indian-rupee-sign"></i> FEE DETAILS</div>
-          <div class="chip-value" id="profileFee">—</div>
-        </div>
-      </div>
-
-      <div class="detail-card-chip">
-        <div class="chip-label"><i class="fa-solid fa-location-dot"></i> LOCATION / ADDRESS</div>
-        <div class="chip-value" id="profileLocation">—</div>
-      </div>
-
-      <div class="detail-card-chip">
-        <div class="chip-label"><i class="fa-regular fa-clock"></i> TIMINGS &amp; GMT ZONE</div>
-        <div class="chip-value" id="profileTimings">—</div>
-      </div>
-
-      <button class="btn-logout" onclick="handleLogout()">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i> Log Out
-      </button>
     </div>
 
-    <!-- RIGHT COLUMN -->
-    <div class="right-column">
-      <div class="dashboard-panel" id="teacherStarRatingPanel">
-        <div class="panel-header-title">
-          <i class="fa-solid fa-star" style="color: var(--apex-gold);"></i> Teacher Star Rating Program
-        </div>
-        <div class="panel-header-sub">
-          Star badges are earned transparently based on verified teaching engagements completed through Apex.
-        </div>
-
-        <div class="milestone-grid">
-          <div class="milestone-card">
-            <span class="milestone-tag"><i class="fa-solid fa-star"></i> 1 Star Milestone</span>
-            <h4>2 Confirmed Tuitions</h4>
-            <p>A teacher earns a star for two confirmed tuitions if ended after completing 30 days.</p>
-          </div>
-          <div class="milestone-card">
-            <span class="milestone-tag"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i> Elite 5 Stars</span>
-            <h4>10 Confirmed Tuitions</h4>
-            <p>Similarly, 5 stars are earned for 10 confirmed tuitions completed past the 30-day requirement.</p>
-          </div>
-        </div>
-
-        <div class="note-eligibility">
-          <i class="fa-solid fa-circle-info" style="font-size:16px; margin-top:1px;"></i>
-          <div>
-            <strong>Note on Eligibility:</strong> Only confirmed assignments successfully sustained for 30+ days and verified by students count toward your Star rank.
-          </div>
-        </div>
-      </div>
-
-      <div class="dashboard-panel">
-        <div class="panel-header-title">
-          <i class="fa-brands fa-youtube" style="color: #DC2626;"></i> Apex YouTube Videos
-        </div>
-        <div class="video-curated-container">
-          <div class="video-play-bubble"><i class="fa-solid fa-play"></i></div>
-          <h4>Apex Video Library Coming Soon</h4>
-          <p>Featured student masterclasses, parent guidance notes, educator spotlight sessions, and platform tutorials will appear here.</p>
-        </div>
-      </div>
+    <div id="enquiriesList">
+      <!-- Dynamic Enquiries -->
     </div>
   </div>
 </main>
 
-<!-- TEACHER EDIT DETAILS MODAL -->
-<div class="app-modal-overlay" id="editTeacherModalOverlay">
-  <div class="app-modal-card">
-    <div class="modal-header">
-      <h3><i class="fa-solid fa-chalkboard-user"></i> Edit Teacher Registration Details</h3>
-      <button class="modal-close-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="modal-body">
-      <div class="wizard-steps-header">
-        <div class="wizard-step-item active" id="etStepHead1"><span class="step-circle">1</span> Basic</div>
-        <div class="step-line"></div>
-        <div class="wizard-step-item" id="etStepHead2"><span class="step-circle">2</span> Category</div>
-        <div class="step-line"></div>
-        <div class="wizard-step-item" id="etStepHead3"><span class="step-circle">3</span> Fee &amp; Time</div>
-      </div>
-
-      <!-- STEP 1: BASIC -->
-      <div id="etStep1">
-        <div class="form-grid-2">
-          <div class="form-group-full">
-            <label>Name</label>
-            <input id="etName" type="text" placeholder="Full name">
-          </div>
-          <div class="form-group-full">
-            <label>WhatsApp Number</label>
-            <div style="display:flex;gap:4px;">
-              <input id="etCode" type="text" value="+91" style="flex:0.4;text-align:center;">
-              <input id="etMobile" type="tel" style="flex:1;" placeholder="Phone">
-            </div>
-          </div>
-          <div class="form-group-half">
-            <label>Tuition Mode</label>
-            <select id="etMode" onchange="toggleTeacherAddressEdit()">
-              <option value="Online">Online</option>
-              <option value="Home">Home</option>
-              <option value="Both">Both</option>
-            </select>
-          </div>
-          <div class="form-group-half">
-            <label>Location</label>
-            <input id="etLocation" type="text" placeholder="City, Area">
-          </div>
-          <div class="form-group-full hidden" id="etAddressBox">
-            <label>Address (for Home/Both)</label>
-            <textarea id="etAddress" placeholder="Street, landmark"></textarea>
-          </div>
-          <div class="form-group-half">
-            <label>Qualification</label>
-            <input id="etQual" type="text" placeholder="e.g. M.Sc., B.Ed.">
-          </div>
-          <div class="form-group-half">
-            <label>Experience (Years)</label>
-            <input id="etExp" type="number" min="0" placeholder="e.g. 5">
-          </div>
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-next" onclick="navTeacherEditStep(2)">Next: Category →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2: CATEGORY -->
-      <div id="etStep2" class="hidden">
-        <div class="form-grid-2">
-          <div class="form-group-full">
-            <label>Main Category</label>
-            <select id="etCategory" onchange="handleTeacherCategoryChangeEdit()">
-              <option value="Academic">Academic (School &amp; College)</option>
-              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
-              <option value="Competitive">Competitive &amp; Jobs</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-
-          <div class="form-group-full" id="etAcademicGradesGroup">
-            <label>Grades (Select 1 to 12)</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="etGradesTrigger" onclick="toggleMultiDropdown('etGradesDropdown')">Select Grades <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="etGradesDropdown"></div>
-            </div>
-          </div>
-
-          <div class="form-group-full" id="etAcademicSubjectsGroup">
-            <label>Subjects (Grades 1 to 12)</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="etSubjectsTrigger" onclick="toggleMultiDropdown('etSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="etSubjectsDropdown"></div>
-            </div>
-            <input id="etSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full" id="etAcademicBoardsGroup">
-            <label>Boards</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="etBoardsTrigger" onclick="toggleMultiDropdown('etBoardsDropdown')">Select Boards <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="etBoardsDropdown">
-                <label class="multiselect-item"><input type="checkbox" value="CBSE" onchange="updateMultiLabel('etBoards')"> CBSE</label>
-                <label class="multiselect-item"><input type="checkbox" value="ICSE" onchange="updateMultiLabel('etBoards')"> ICSE</label>
-                <label class="multiselect-item"><input type="checkbox" value="IGCSE" onchange="updateMultiLabel('etBoards')"> IGCSE</label>
-                <label class="multiselect-item"><input type="checkbox" value="IB" onchange="updateMultiLabel('etBoards')"> IB</label>
-                <label class="multiselect-item"><input type="checkbox" value="State" onchange="updateMultiLabel('etBoards')"> State Board</label>
-                <label class="multiselect-item"><input type="checkbox" id="etBoardOtherCb" value="Others" onchange="handleBoardOtherToggle('et')"> Others</label>
-              </div>
-            </div>
-            <input id="etBoardOtherInput" type="text" class="hidden" placeholder="Specify Board" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="etNonAcademicGroup">
-            <label>Non-Academic Skills</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="etSkillsTrigger" onclick="toggleMultiDropdown('etSkillsDropdown')">Select Skills <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="etSkillsDropdown">
-                <label class="multiselect-item"><input type="checkbox" value="Abacus" onchange="updateMultiLabel('etSkills')"> Abacus</label>
-                <label class="multiselect-item"><input type="checkbox" value="Music Vocal" onchange="updateMultiLabel('etSkills')"> Music Vocal</label>
-                <label class="multiselect-item"><input type="checkbox" value="Instruments" onchange="updateMultiLabel('etSkills')"> Instruments</label>
-                <label class="multiselect-item"><input type="checkbox" value="Art &amp; Craft" onchange="updateMultiLabel('etSkills')"> Art &amp; Craft</label>
-                <label class="multiselect-item"><input type="checkbox" value="Public Speaking" onchange="updateMultiLabel('etSkills')"> Public Speaking</label>
-                <label class="multiselect-item"><input type="checkbox" value="Creative Writing" onchange="updateMultiLabel('etSkills')"> Creative Writing</label>
-                <label class="multiselect-item"><input type="checkbox" value="Foreign Languages" onchange="updateMultiLabel('etSkills')"> Foreign Languages</label>
-                <label class="multiselect-item"><input type="checkbox" id="etSkillOtherCb" value="Others" onchange="handleSkillOtherToggle('et')"> Others</label>
-              </div>
-            </div>
-            <input id="etSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="etCompetitiveGroup">
-            <label>Competitive Exams &amp; Jobs</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="etCompTrigger" onclick="toggleMultiDropdown('etCompDropdown')">Select Exams <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="etCompDropdown">
-                <label class="multiselect-item"><input type="checkbox" value="RRB" onchange="updateMultiLabel('etComp')"> RRB</label>
-                <label class="multiselect-item"><input type="checkbox" value="SSC" onchange="updateMultiLabel('etComp')"> SSC</label>
-                <label class="multiselect-item"><input type="checkbox" value="Banking" onchange="updateMultiLabel('etComp')"> Banking</label>
-                <label class="multiselect-item"><input type="checkbox" value="Civils" onchange="updateMultiLabel('etComp')"> Civils / UPSC</label>
-                <label class="multiselect-item"><input type="checkbox" value="Dsc TET" onchange="updateMultiLabel('etComp')"> Dsc TET</label>
-                <label class="multiselect-item"><input type="checkbox" value="NEET/JEE" onchange="updateMultiLabel('etComp')"> NEET/JEE</label>
-                <label class="multiselect-item"><input type="checkbox" id="etCompOtherCb" value="Others" onchange="handleCompOtherToggle('et')"> Others</label>
-              </div>
-            </div>
-            <input id="etCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="etCategoryOtherGroup">
-            <label>Specify Category</label>
-            <input id="etCategoryOtherInput" type="text" placeholder="Specify specialization">
-          </div>
-
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-back" onclick="navTeacherEditStep(1)">← Back</button>
-            <button class="wizard-btn-next" onclick="navTeacherEditStep(3)">Next: Fee &amp; Time →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3: FEE & TIME -->
-      <div id="etStep3" class="hidden">
-        <div class="form-grid-2">
-          <div class="form-group-full">
-            <label>Expected Fee</label>
-            <div style="display:flex;gap:4px;">
-              <select id="etCurrency" style="flex:0.8;">
-                <option value="INR">INR (₹)</option>
-                <option value="USD">USD ($)</option>
-                <option value="EUR">EUR (€)</option>
-                <option value="GBP">GBP (£)</option>
-                <option value="AED">AED</option>
-                <option value="SAR">SAR</option>
-                <option value="CAD">CAD</option>
-                <option value="AUD">AUD</option>
-                <option value="SGD">SGD</option>
-                <option value="QAR">QAR</option>
-                <option value="KWD">KWD</option>
-                <option value="OMR">OMR</option>
-                <option value="JPY">JPY (¥)</option>
-                <option value="MYR">MYR</option>
-              </select>
-              <input id="etFeeAmount" type="number" min="0" placeholder="Amount" style="flex:1;">
-              <select id="etFeeType" style="flex:0.8;">
-                <option value="Per class">Per class</option>
-                <option value="Per month">Per month</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group-half">
-            <label>Time Window</label>
-            <input id="etTimings" type="text" placeholder="e.g. 5:00 PM – 8:00 PM">
-          </div>
-          <div class="form-group-half">
-            <label>GMT Zone</label>
-            <select id="etGmt">
-              <option value="GMT+5:30 (IST - India)">GMT+5:30 (IST - India)</option>
-              <option value="GMT+0:00 (GMT/UTC - London)">GMT+0:00 (GMT/UTC)</option>
-              <option value="GMT+1:00 (CET - Europe)">GMT+1:00 (CET)</option>
-              <option value="GMT+2:00 (EET - Egypt/SA)">GMT+2:00 (EET)</option>
-              <option value="GMT+3:00 (AST - Saudi/Kuwait)">GMT+3:00 (AST)</option>
-              <option value="GMT+4:00 (GST - UAE/Dubai)">GMT+4:00 (GST)</option>
-              <option value="GMT+8:00 (SGT - Singapore/MY)">GMT+8:00 (SGT)</option>
-              <option value="GMT+9:00 (JST - Japan)">GMT+9:00 (JST)</option>
-              <option value="GMT+10:00 (AEST - Australia)">GMT+10:00 (AEST)</option>
-              <option value="GMT-5:00 (EST - US East)">GMT-5:00 (EST)</option>
-              <option value="GMT-6:00 (CST - US Central)">GMT-6:00 (CST)</option>
-              <option value="GMT-7:00 (MST - US Mountain)">GMT-7:00 (MST)</option>
-              <option value="GMT-8:00 (PST - US Pacific)">GMT-8:00 (PST)</option>
-            </select>
-          </div>
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-back" onclick="navTeacherEditStep(2)">← Back</button>
-            <button class="wizard-btn-submit" id="btnSaveTeacherEdit" onclick="saveTeacherEdit()">SAVE TEACHER DETAILS</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- STUDENT EDIT DETAILS MODAL -->
-<div class="app-modal-overlay" id="editStudentModalOverlay">
-  <div class="app-modal-card">
-    <div class="modal-header">
-      <h3><i class="fa-solid fa-graduation-cap"></i> Edit Student Registration Details</h3>
-      <button class="modal-close-btn" onclick="closeEditModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="modal-body">
-      <div class="wizard-steps-header">
-        <div class="wizard-step-item active" id="esStepHead1"><span class="step-circle">1</span> Basic</div>
-        <div class="step-line"></div>
-        <div class="wizard-step-item" id="esStepHead2"><span class="step-circle">2</span> Learning</div>
-        <div class="step-line"></div>
-        <div class="wizard-step-item" id="esStepHead3"><span class="step-circle">3</span> Schedule</div>
-      </div>
-
-      <!-- STEP 1: BASIC -->
-      <div id="esStep1">
-        <div class="form-grid-2">
-          <div class="form-group-half">
-            <label>Student Name</label>
-            <input id="esName" type="text" placeholder="Student name">
-          </div>
-          <div class="form-group-half">
-            <label>Parent Name</label>
-            <input id="esParentName" type="text" placeholder="Parent name">
-          </div>
-          <div class="form-group-half">
-            <label>WhatsApp Number</label>
-            <div style="display:flex;gap:4px;">
-              <input id="esCode" type="text" value="+91" style="flex:0.4;text-align:center;">
-              <input id="esMobile" type="tel" style="flex:1;" placeholder="Phone">
-            </div>
-          </div>
-          <div class="form-group-half">
-            <label>Tuition Mode</label>
-            <select id="esMode" onchange="toggleStudentAddressEdit()">
-              <option value="Online">Online</option>
-              <option value="Home">Home</option>
-              <option value="Both">Both</option>
-            </select>
-          </div>
-          <div class="form-group-full hidden" id="esAddressBox">
-            <label>Address (for Home/Both)</label>
-            <textarea id="esAddress" placeholder="Street, landmark"></textarea>
-          </div>
-          <div class="form-group-full">
-            <label>Location</label>
-            <input id="esLocation" type="text" placeholder="City, Area">
-          </div>
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-next" onclick="navStudentEditStep(2)">Next: Learning →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 2: LEARNING -->
-      <div id="esStep2" class="hidden">
-        <div class="form-grid-2">
-          <div class="form-group-full">
-            <label>Main Category</label>
-            <select id="esCategory" onchange="handleStudentCategoryChangeEdit()">
-              <option value="Academic">Academic (School &amp; College)</option>
-              <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
-              <option value="Competitive">Competitive &amp; Jobs</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-
-          <div class="form-group-half" id="esAcademicGradeGroup">
-            <label>Class / Grade (1 to 12)</label>
-            <select id="esClass">
-              <option value="Class 1">Grade 1</option>
-              <option value="Class 2">Grade 2</option>
-              <option value="Class 3">Grade 3</option>
-              <option value="Class 4">Grade 4</option>
-              <option value="Class 5">Grade 5</option>
-              <option value="Class 6">Grade 6</option>
-              <option value="Class 7">Grade 7</option>
-              <option value="Class 8">Grade 8</option>
-              <option value="Class 9">Grade 9</option>
-              <option value="Class 10" selected>Grade 10</option>
-              <option value="Class 11">Grade 11</option>
-              <option value="Class 12">Grade 12</option>
-            </select>
-          </div>
-
-          <div class="form-group-half" id="esAcademicBoardsGroup">
-            <label>Board</label>
-            <select id="esBoard" onchange="handleStudentBoardOtherEdit()">
-              <option value="CBSE">CBSE</option>
-              <option value="ICSE">ICSE</option>
-              <option value="IGCSE">IGCSE</option>
-              <option value="IB">IB</option>
-              <option value="State">State Board</option>
-              <option value="Others">Others</option>
-            </select>
-          </div>
-          <div class="form-group-full hidden" id="esBoardOtherGroup">
-            <label>Specify Board</label>
-            <input id="esBoardOtherInput" type="text" placeholder="Specify board">
-          </div>
-
-          <!-- Multi-Select Checklist matching Registration Exactly -->
-          <div class="form-group-full" id="esAcademicSubjectGroup">
-            <label>Subject Requirement</label>
-            <div class="custom-multiselect">
-              <div class="multiselect-trigger" id="esSubjectsTrigger" onclick="toggleMultiDropdown('esSubjectsDropdown')">Select Subjects <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></div>
-              <div class="multiselect-dropdown-box" id="esSubjectsDropdown"></div>
-            </div>
-            <input id="esSubjectOtherInput" type="text" class="hidden" placeholder="Specify Other Subject(s)" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="esNonAcademicGroup">
-            <label>Non-Academic &amp; Creative Skills</label>
-            <select id="esSkillSelect" onchange="handleStudentSkillOtherEdit()">
-              <option value="Abacus">Abacus</option>
-              <option value="Music Vocal and Instruments">Music Vocal and Instruments</option>
-              <option value="Art &amp; Craft">Art &amp; Craft</option>
-              <option value="Public Speaking">Public Speaking</option>
-              <option value="Creative Writing">Creative Writing</option>
-              <option value="Foreign Languages">Foreign Languages</option>
-              <option value="Others">Others</option>
-            </select>
-            <input id="esSkillOtherInput" type="text" class="hidden" placeholder="Specify Skill" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="esCompetitiveGroup">
-            <label>Competitive Exams &amp; Jobs</label>
-            <select id="esCompSelect" onchange="handleStudentCompOtherEdit()">
-              <option value="RRB">RRB</option>
-              <option value="SSC">SSC</option>
-              <option value="Banking">Banking</option>
-              <option value="Civils">Civils / UPSC</option>
-              <option value="Dsc TET">Dsc TET</option>
-              <option value="NEET/JEE">NEET/JEE</option>
-              <option value="Others">Others</option>
-            </select>
-            <input id="esCompOtherInput" type="text" class="hidden" placeholder="Specify Exam / Goal" style="margin-top:6px;">
-          </div>
-
-          <div class="form-group-full hidden" id="esCategoryOtherGroup">
-            <label>Specify Category</label>
-            <input id="esCategoryOtherInput" type="text" placeholder="Specify learning requirement">
-          </div>
-
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-back" onclick="navStudentEditStep(1)">← Back</button>
-            <button class="wizard-btn-next" onclick="navStudentEditStep(3)">Next: Schedule →</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- STEP 3: SCHEDULE -->
-      <div id="esStep3" class="hidden">
-        <div class="form-grid-2">
-          <div class="form-group-half">
-            <label>Preferred Timings</label>
-            <input id="esTimings" type="text" placeholder="e.g. Evening 6-8 PM">
-          </div>
-          <div class="form-group-half">
-            <label>GMT Zone</label>
-            <select id="esGmt">
-              <option value="GMT+5:30 (IST)">GMT+5:30 (IST - India)</option>
-              <option value="GMT+0:00 (GMT)">GMT+0:00 (GMT/UTC)</option>
-              <option value="GMT+4:00 (GST)">GMT+4:00 (GST - UAE)</option>
-              <option value="GMT+3:00 (AST)">GMT+3:00 (AST - Gulf)</option>
-              <option value="GMT+8:00 (SGT)">GMT+8:00 (SGT - Singapore)</option>
-              <option value="GMT-5:00 (EST)">GMT-5:00 (EST - US)</option>
-              <option value="GMT-8:00 (PST)">GMT-8:00 (PST - US)</option>
-            </select>
-          </div>
-          <div class="wizard-nav-btns">
-            <button class="wizard-btn-back" onclick="navStudentEditStep(2)">← Back</button>
-            <button class="wizard-btn-submit" id="btnSaveStudentEdit" onclick="saveStudentEdit()">SAVE STUDENT DETAILS</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- CROP & ZOOM AVATAR MODAL -->
-<div class="app-modal-overlay" id="cropModalOverlay">
-  <div class="app-modal-card">
-    <div class="modal-header">
-      <h3><i class="fa-solid fa-crop-simple"></i> Crop &amp; Zoom Avatar</h3>
-      <button class="modal-close-btn" onclick="closeCropModal()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-
-    <div class="modal-body">
-      <div class="cropper-frame">
-        <img id="imageToCrop" src="" alt="Crop Source">
-      </div>
-      <div class="cropper-btns-row">
-        <button class="cropper-btn-tool" onclick="cropperInstance.zoom(0.1)"><i class="fa-solid fa-magnifying-glass-plus"></i> Zoom In</button>
-        <button class="cropper-btn-tool" onclick="cropperInstance.zoom(-0.1)"><i class="fa-solid fa-magnifying-glass-minus"></i> Zoom Out</button>
-        <button class="cropper-btn-tool" onclick="cropperInstance.rotate(90)"><i class="fa-solid fa-rotate-right"></i> Rotate</button>
-      </div>
-    </div>
-
-    <div class="modal-footer" style="padding:14px 20px; background:#F8FAFC; border-top:1px solid #E2E8F0; display:flex; justify-content:flex-end; gap:10px;">
-      <button style="background:#E2E8F0; color:#334155; font-weight:700; padding:9px 18px; border-radius:8px; border:none; cursor:pointer;" onclick="closeCropModal()">Cancel</button>
-      <button id="btnSaveCropped" style="background:var(--royal-blue); color:#fff; font-weight:700; padding:9px 20px; border-radius:8px; border:none; cursor:pointer;" onclick="applyAndSaveCroppedAvatar()"><i class="fa-solid fa-check"></i> Crop &amp; Save</button>
-    </div>
-  </div>
-</div>
-
-<!-- UNIFIED BOTTOM DOCK (MATCHING FEEDBACK PAGE & SCREEN-INTACT) -->
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
-    <!-- Enquiries -->
-    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
+    <!-- Enquiries (Active) -->
+    <a href="enquiries.html" class="dock-item active-tab" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
       </div>
@@ -1426,8 +724,8 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
-    <!-- Profile (Active) -->
-    <a href="profile.html" class="dock-item active-tab" id="dockBtnProfile">
+    <!-- Profile -->
+    <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
       </div>
@@ -1437,7 +735,7 @@
       </div>
     </a>
 
-    <!-- Browse (Dynamic: Find Students / Find Tutor) -->
+    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -1455,28 +753,28 @@ const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const ACADEMIC_SUBJECTS_LIST = [
-  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
-  "English", "Social Science", "History", "Geography", "Economics",
-  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
-  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)"
-];
-
 let currentUser = null;
 let currentRole = null;
-let profileRecord = null;
-let cropperInstance = null;
 
-function toggleMobileNav() { 
-  document.getElementById("mobileDrawer").classList.toggle("open"); 
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
 
-async function handleLogout() {
-  if (confirm("Are you sure you want to log out?")) {
-    await db.auth.signOut();
-    localStorage.removeItem("apex_cached_auth");
-    window.location.href = "index.html?auth=signin";
-  }
+function sanitizeWhatsAppUrl(mobile) {
+  let clean = String(mobile || '').replace(/\D/g, '');
+  if (clean.startsWith('0')) clean = clean.substring(1);
+  if (clean.length === 10) clean = '91' + clean;
+  return `https://wa.me/${encodeURIComponent(clean)}`;
+}
+
+function toggleMobileNav() {
+  document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
 async function updateDockRoleLabel(userId) {
@@ -1491,584 +789,196 @@ async function updateDockRoleLabel(userId) {
   }
 }
 
-function toggleMultiDropdown(id) {
-  const box = document.getElementById(id);
-  const isOpen = box.classList.contains("show");
-  document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
-  document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
-  if (!isOpen) {
-    box.classList.add("show");
-    box.previousElementSibling.classList.add("open");
-  }
-}
+async function loadEnquiries() {
+  if (!currentUser) return;
+  const listEl = document.getElementById("enquiriesList");
+  listEl.innerHTML = "<p style='font-size:13.5px;color:var(--text-muted);padding:14px 0;'>Loading active records...</p>";
 
-window.addEventListener("click", (e) => {
-  if (!e.target.closest(".custom-multiselect")) {
-    document.querySelectorAll(".multiselect-dropdown-box").forEach(el => el.classList.remove("show"));
-    document.querySelectorAll(".multiselect-trigger").forEach(el => el.classList.remove("open"));
-  }
-});
-
-function getCheckedValues(containerId) {
-  const checked = document.querySelectorAll(`#${containerId} input[type="checkbox"]:checked`);
-  return Array.from(checked).map(c => c.value);
-}
-
-function setCheckedValues(containerId, valuesArray, prefix) {
-  const cbs = document.querySelectorAll(`#${containerId} input[type="checkbox"]`);
-  cbs.forEach(cb => {
-    cb.checked = valuesArray.some(val => val.trim().toLowerCase() === cb.value.trim().toLowerCase());
-  });
-  updateMultiLabel(prefix);
-}
-
-function updateMultiLabel(prefix) {
-  const trigger = document.getElementById(prefix + "Trigger");
-  if (!trigger) return;
-  const values = getCheckedValues(prefix + "Dropdown").filter(v => v !== "Others");
-  const hasOther = document.querySelector(`#${prefix}Dropdown input[value="Others"]:checked`);
-
-  let count = values.length + (hasOther ? 1 : 0);
-  if (count === 0) {
-    trigger.innerHTML = `Select Items <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  } else if (count <= 2) {
-    const displayArr = [...values];
-    if (hasOther) displayArr.push("Others");
-    trigger.innerHTML = `${displayArr.join(", ")} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  } else {
-    trigger.innerHTML = `${count} Selected <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
-  }
-}
-
-function populateTeacherGradeChecklist() {
-  const tGrades = document.getElementById("etGradesDropdown");
-  let html = "";
-  for (let i = 1; i <= 12; i++) {
-    html += `<label class="multiselect-item"><input type="checkbox" value="Class ${i}" onchange="updateMultiLabel('etGrades')"> Grade ${i}</label>`;
-  }
-  if (tGrades) tGrades.innerHTML = html;
-}
-
-function populateTeacherSubjectChecklist() {
-  const tSubs = document.getElementById("etSubjectsDropdown");
-  if (!tSubs) return;
-  let html = ACADEMIC_SUBJECTS_LIST.map(sub => `
-    <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('etSubjects')"> ${sub}</label>
-  `).join("");
-  html += `<label class="multiselect-item"><input type="checkbox" id="etSubjectOtherCb" value="Others" onchange="handleTeacherSubjectOtherToggle()"> Others</label>`;
-  tSubs.innerHTML = html;
-}
-
-function populateStudentSubjectChecklist() {
-  const sSubs = document.getElementById("esSubjectsDropdown");
-  if (!sSubs) return;
-  let html = ACADEMIC_SUBJECTS_LIST.map(sub => `
-    <label class="multiselect-item"><input type="checkbox" value="${sub}" onchange="updateMultiLabel('esSubjects')"> ${sub}</label>
-  `).join("");
-  html += `<label class="multiselect-item"><input type="checkbox" id="esSubjectOtherCb" value="Others" onchange="handleStudentSubjectOtherToggle()"> Others</label>`;
-  sSubs.innerHTML = html;
-}
-
-function handleTeacherSubjectOtherToggle() {
-  const cb = document.getElementById("etSubjectOtherCb");
-  document.getElementById("etSubjectOtherInput").classList.toggle("hidden", !cb.checked);
-  updateMultiLabel('etSubjects');
-}
-
-function handleStudentSubjectOtherToggle() {
-  const cb = document.getElementById("esSubjectOtherCb");
-  document.getElementById("esSubjectOtherInput").classList.toggle("hidden", !cb.checked);
-  updateMultiLabel('esSubjects');
-}
-
-function handleBoardOtherToggle(p) {
-  const cb = document.getElementById(p + "BoardOtherCb");
-  document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
-  updateMultiLabel(p + "Boards");
-}
-function handleSkillOtherToggle(p) {
-  const cb = document.getElementById(p + "SkillOtherCb");
-  document.getElementById(p + "SkillOtherInput").classList.toggle("hidden", !cb.checked);
-  updateMultiLabel(p + "Skills");
-}
-function handleCompOtherToggle(p) {
-  const cb = document.getElementById(p + "CompOtherCb");
-  document.getElementById(p + "CompOtherInput").classList.toggle("hidden", !cb.checked);
-  updateMultiLabel(p + "Comp");
-}
-
-function toggleTeacherAddressEdit() {
-  const mode = document.getElementById("etMode").value;
-  document.getElementById("etAddressBox").classList.toggle("hidden", mode === "Online");
-}
-
-function handleTeacherCategoryChangeEdit() {
-  const cat = document.getElementById("etCategory").value;
-  const isAcad = (cat === "Academic");
-  const isNonAcad = (cat === "Non-Academic");
-  const isComp = (cat === "Competitive");
-  const isOthers = (cat === "Others");
-
-  document.getElementById("etAcademicGradesGroup").classList.toggle("hidden", !isAcad);
-  document.getElementById("etAcademicSubjectsGroup").classList.toggle("hidden", !isAcad);
-  document.getElementById("etAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
-
-  document.getElementById("etNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
-  document.getElementById("etCompetitiveGroup").classList.toggle("hidden", !isComp);
-  document.getElementById("etCategoryOtherGroup").classList.toggle("hidden", !isOthers);
-}
-
-function navTeacherEditStep(step) {
-  [1, 2, 3].forEach(i => {
-    document.getElementById("etStep" + i).classList.toggle("hidden", i !== step);
-    document.getElementById("etStepHead" + i).classList.toggle("active", i <= step);
-  });
-}
-
-function toggleStudentAddressEdit() {
-  const mode = document.getElementById("esMode").value;
-  document.getElementById("esAddressBox").classList.toggle("hidden", mode === "Online");
-}
-
-function handleStudentCategoryChangeEdit() {
-  const cat = document.getElementById("esCategory").value;
-  const isAcad = (cat === "Academic");
-  const isNonAcad = (cat === "Non-Academic");
-  const isComp = (cat === "Competitive");
-  const isOthers = (cat === "Others");
-
-  document.getElementById("esAcademicGradeGroup").classList.toggle("hidden", !isAcad);
-  document.getElementById("esAcademicBoardsGroup").classList.toggle("hidden", !isAcad);
-  document.getElementById("esAcademicSubjectGroup").classList.toggle("hidden", !isAcad);
-
-  document.getElementById("esNonAcademicGroup").classList.toggle("hidden", !isNonAcad);
-  document.getElementById("esCompetitiveGroup").classList.toggle("hidden", !isComp);
-  document.getElementById("esCategoryOtherGroup").classList.toggle("hidden", !isOthers);
-}
-
-function handleStudentBoardOtherEdit() {
-  const val = document.getElementById("esBoard").value;
-  document.getElementById("esBoardOtherGroup").classList.toggle("hidden", val !== "Others");
-}
-function handleStudentSkillOtherEdit() {
-  const val = document.getElementById("esSkillSelect").value;
-  document.getElementById("esSkillOtherInput").classList.toggle("hidden", val !== "Others");
-}
-function handleStudentCompOtherEdit() {
-  const val = document.getElementById("esCompSelect").value;
-  document.getElementById("esCompOtherInput").classList.toggle("hidden", val !== "Others");
-}
-
-function navStudentEditStep(step) {
-  [1, 2, 3].forEach(i => {
-    document.getElementById("esStep" + i).classList.toggle("hidden", i !== step);
-    document.getElementById("esStepHead" + i).classList.toggle("active", i <= step);
-  });
-}
-
-function openEditModal() {
-  if (!profileRecord) return;
-
-  if (currentRole === 'teacher') {
-    document.getElementById("etName").value = profileRecord.teacher_name || "";
-    const mobileParts = (profileRecord.mobile || "").split(" ");
-    if (mobileParts.length > 1) {
-      document.getElementById("etCode").value = mobileParts[0];
-      document.getElementById("etMobile").value = mobileParts.slice(1).join(" ");
-    } else {
-      document.getElementById("etCode").value = "+91";
-      document.getElementById("etMobile").value = profileRecord.mobile || "";
-    }
-    document.getElementById("etMode").value = profileRecord.tuition_mode || "Online";
-    toggleTeacherAddressEdit();
-    
-    const addressStr = profileRecord.address || "";
-    if (addressStr.includes(" • ")) {
-      const parts = addressStr.split(" • ");
-      document.getElementById("etAddress").value = parts[0];
-      document.getElementById("etLocation").value = parts.slice(1).join(" • ");
-    } else {
-      document.getElementById("etAddress").value = "";
-      document.getElementById("etLocation").value = addressStr;
-    }
-
-    const qualStr = profileRecord.qualification || "";
-    if (qualStr.includes(" • ")) {
-      const qParts = qualStr.split(" • ");
-      document.getElementById("etQual").value = qParts[0];
-      document.getElementById("etExp").value = qParts[1].replace(/[^0-9]/g, '');
-    } else {
-      document.getElementById("etQual").value = qualStr;
-      document.getElementById("etExp").value = "";
-    }
-
-    const classes = (profileRecord.classes || "").split(", ");
-    setCheckedValues("etGradesDropdown", classes, "etGrades");
-
-    const subs = (profileRecord.subject || "").split(", ");
-    setCheckedValues("etSubjectsDropdown", subs, "etSubjects");
-
-    const boards = (profileRecord.board || "").split(", ");
-    setCheckedValues("etBoardsDropdown", boards, "etBoards");
-
-    if (profileRecord.fee) document.getElementById("etFeeAmount").value = profileRecord.fee;
-    
-    navTeacherEditStep(1);
-    document.body.classList.add("modal-open");
-    document.getElementById("editTeacherModalOverlay").classList.add("active");
-  } else {
-    document.getElementById("esName").value = profileRecord.student_name || "";
-    document.getElementById("esParentName").value = profileRecord.parent_name || "";
-    const sParts = (profileRecord.mobile || "").split(" ");
-    if (sParts.length > 1) {
-      document.getElementById("esCode").value = sParts[0];
-      document.getElementById("esMobile").value = sParts.slice(1).join(" ");
-    } else {
-      document.getElementById("esCode").value = "+91";
-      document.getElementById("esMobile").value = profileRecord.mobile || "";
-    }
-    document.getElementById("esMode").value = profileRecord.tuition_mode || "Online";
-    toggleStudentAddressEdit();
-
-    const sAddr = profileRecord.address || "";
-    if (sAddr.includes(" • ")) {
-      const parts = sAddr.split(" • ");
-      document.getElementById("esAddress").value = parts[0];
-      document.getElementById("esLocation").value = parts.slice(1).join(" • ");
-    } else {
-      document.getElementById("esAddress").value = "";
-      document.getElementById("esLocation").value = sAddr;
-    }
-
-    if (profileRecord.student_class) document.getElementById("esClass").value = profileRecord.student_class;
-    
-    // Set Board
-    const stdBoard = profileRecord.board || "CBSE";
-    const boardKnownOptions = ["CBSE", "ICSE", "IGCSE", "IB", "State"];
-    if (boardKnownOptions.includes(stdBoard)) {
-      document.getElementById("esBoard").value = stdBoard;
-      document.getElementById("esBoardOtherGroup").classList.add("hidden");
-    } else {
-      document.getElementById("esBoard").value = "Others";
-      document.getElementById("esBoardOtherInput").value = stdBoard;
-      document.getElementById("esBoardOtherGroup").classList.remove("hidden");
-    }
-
-    // Set Subjects (Multi-select)
-    const subs = (profileRecord.subject || "").split(", ");
-    setCheckedValues("esSubjectsDropdown", subs, "esSubjects");
-
-    navStudentEditStep(1);
-    document.body.classList.add("modal-open");
-    document.getElementById("editStudentModalOverlay").classList.add("active");
-  }
-}
-
-function closeEditModal() {
-  document.getElementById("editTeacherModalOverlay").classList.remove("active");
-  document.getElementById("editStudentModalOverlay").classList.remove("active");
-  document.body.classList.remove("modal-open");
-}
-
-async function saveTeacherEdit() {
-  const btn = document.getElementById("btnSaveTeacherEdit");
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
-
-  const name = document.getElementById("etName").value.trim();
-  const code = document.getElementById("etCode").value.trim();
-  const mobile = document.getElementById("etMobile").value.trim();
-  const mode = document.getElementById("etMode").value;
-  const address = document.getElementById("etAddress").value.trim();
-  const location = document.getElementById("etLocation").value.trim();
-  const qual = document.getElementById("etQual").value.trim();
-  const exp = document.getElementById("etExp").value.trim();
-
-  const category = document.getElementById("etCategory").value;
-  let classesStr = "";
-  let subjectsStr = "";
-  let boardsStr = "";
-
-  if (category === "Academic") {
-    const grades = getCheckedValues("etGradesDropdown");
-    classesStr = grades.join(", ") || "Grades 1-12";
-    
-    let subList = getCheckedValues("etSubjectsDropdown").filter(s => s !== "Others");
-    if (document.getElementById("etSubjectOtherCb")?.checked) {
-      const otherSub = document.getElementById("etSubjectOtherInput").value.trim();
-      if (otherSub) subList.push(otherSub);
-    }
-    subjectsStr = subList.join(", ") || "All Subjects";
-    
-    let bList = getCheckedValues("etBoardsDropdown").filter(b => b !== "Others");
-    if (document.getElementById("etBoardOtherCb")?.checked) {
-      const otherB = document.getElementById("etBoardOtherInput").value.trim();
-      if (otherB) bList.push(otherB);
-    }
-    boardsStr = bList.join(", ") || "CBSE";
-  } else if (category === "Non-Academic") {
-    let sList = getCheckedValues("etSkillsDropdown").filter(s => s !== "Others");
-    if (document.getElementById("etSkillOtherCb")?.checked) {
-      const otherS = document.getElementById("etSkillOtherInput").value.trim();
-      if (otherS) sList.push(otherS);
-    }
-    classesStr = "Non-Academic / Creative Skills";
-    subjectsStr = sList.join(", ") || "Creative Skills";
-    boardsStr = "Skill Track";
-  } else if (category === "Competitive") {
-    let cList = getCheckedValues("etCompDropdown").filter(c => c !== "Others");
-    if (document.getElementById("etCompOtherCb")?.checked) {
-      const otherC = document.getElementById("etCompOtherInput").value.trim();
-      if (otherC) cList.push(otherC);
-    }
-    classesStr = "Competitive Exams & Jobs";
-    subjectsStr = cList.join(", ") || "Competitive Coaching";
-    boardsStr = "Exam Track";
-  } else {
-    const spec = document.getElementById("etCategoryOtherInput").value.trim();
-    classesStr = "Specialized / Other";
-    subjectsStr = spec || "Other Specialization";
-    boardsStr = "Other";
-  }
-
-  const currency = document.getElementById("etCurrency").value;
-  const feeAmt = document.getElementById("etFeeAmount").value.trim();
-  const feeType = document.getElementById("etFeeType").value;
-  const timings = document.getElementById("etTimings").value.trim();
-  const gmt = document.getElementById("etGmt").value;
-
-  const timingFeeDesc = `${feeAmt ? currency + ' ' + feeAmt + ' (' + feeType + ')' : 'Negotiable'} • ${timings || 'Flexible'} (${gmt})`;
-
-  const payload = {
-    teacher_name: name,
-    mobile: `${code} ${mobile}`.trim(),
-    tuition_mode: mode,
-    address: `${address ? address + ' • ' : ''}${location}`,
-    qualification: `${qual || 'Educator'}${exp ? ' • ' + exp + ' Yrs Exp' : ''}`,
-    classes: classesStr,
-    board: boardsStr,
-    subject: subjectsStr,
-    fee: Number(feeAmt) || 0,
-    timing_fee_desc: timingFeeDesc
-  };
-
-  const { error } = await db.from("teachers").update(payload).eq('id', currentUser.id);
-
-  btn.disabled = false;
-  btn.innerHTML = `SAVE TEACHER DETAILS`;
+  // Explicitly fetch ONLY Pending & Confirmed records
+  const { data, error } = await db.from("enquiries")
+    .select("*")
+    .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
+    .in("status", ["Pending", "Confirmed", "pending", "confirmed"])
+    .order("created_at", { ascending: false });
 
   if (error) {
-    alert("Error updating profile: " + error.message);
+    listEl.innerHTML = "<p style='font-size:13.5px;color:#EF4444;'>Failed to load enquiries. Please refresh.</p>";
     return;
   }
 
-  Object.assign(profileRecord, payload);
-  populateUI(profileRecord);
-  closeEditModal();
-}
-
-async function saveStudentEdit() {
-  const btn = document.getElementById("btnSaveStudentEdit");
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
-
-  const sName = document.getElementById("esName").value.trim();
-  const pName = document.getElementById("esParentName").value.trim();
-  const code = document.getElementById("esCode").value.trim();
-  const mobile = document.getElementById("esMobile").value.trim();
-  const mode = document.getElementById("esMode").value;
-  const address = document.getElementById("esAddress").value.trim();
-  const location = document.getElementById("esLocation").value.trim();
-
-  const category = document.getElementById("esCategory").value;
-  let classesStr = "";
-  let subjectStr = "";
-  let boardStr = "";
-
-  if (category === "Academic") {
-    classesStr = document.getElementById("esClass").value;
-    let bVal = document.getElementById("esBoard").value;
-    if (bVal === "Others") bVal = document.getElementById("esBoardOtherInput").value.trim() || "Other Board";
-    boardStr = bVal;
-
-    let subList = getCheckedValues("esSubjectsDropdown").filter(s => s !== "Others");
-    if (document.getElementById("esSubjectOtherCb")?.checked) {
-      const otherSub = document.getElementById("esSubjectOtherInput").value.trim();
-      if (otherSub) subList.push(otherSub);
-    }
-    subjectStr = subList.join(", ") || "All Subjects";
-  } else if (category === "Non-Academic") {
-    let skillVal = document.getElementById("esSkillSelect").value;
-    if (skillVal === "Others") skillVal = document.getElementById("esSkillOtherInput").value.trim() || "Other Skill";
-    classesStr = "Non-Academic / Creative Skills";
-    subjectStr = skillVal;
-    boardStr = "Skill Track";
-  } else if (category === "Competitive") {
-    let compVal = document.getElementById("esCompSelect").value;
-    if (compVal === "Others") compVal = document.getElementById("esCompOtherInput").value.trim() || "Other Exam";
-    classesStr = "Competitive Exams & Jobs";
-    subjectStr = compVal;
-    boardStr = "Exam Track";
-  } else {
-    const otherSpec = document.getElementById("esCategoryOtherInput").value.trim();
-    classesStr = "Specialized / Other";
-    subjectStr = otherSpec || "General";
-    boardStr = "Other";
-  }
-
-  const timings = document.getElementById("esTimings").value.trim();
-  const gmt = document.getElementById("esGmt").value;
-
-  const payload = {
-    student_name: sName,
-    parent_name: pName,
-    mobile: `${code} ${mobile}`.trim(),
-    tuition_mode: mode,
-    student_class: classesStr,
-    board: boardStr,
-    subject: subjectStr,
-    address: `${address ? address + ' • ' : ''}${location}`,
-    timing_fee_desc: `${timings || 'Flexible'} (${gmt})`
-  };
-
-  const { error } = await db.from("students").update(payload).eq('id', currentUser.id);
-
-  btn.disabled = false;
-  btn.innerHTML = `SAVE STUDENT DETAILS`;
-
-  if (error) {
-    alert("Error updating profile: " + error.message);
+  if (!data || data.length === 0) {
+    listEl.innerHTML = `
+      <div style="text-align:center;padding:40px 14px;">
+        <i class="fa-regular fa-folder-open" style="font-size:36px;color:#CBD5E1;margin-bottom:12px;"></i>
+        <h4 style="font-size:16px;color:var(--apex-navy);margin-bottom:4px;">No Pending or Confirmed Tuitions</h4>
+        <p style="font-size:13px;color:var(--text-muted);">When a student contacts a teacher, active items will appear here.</p>
+      </div>
+    `;
     return;
   }
 
-  Object.assign(profileRecord, payload);
-  populateUI(profileRecord);
-  closeEditModal();
+  listEl.innerHTML = data.map(item => {
+    const isIncoming = (item.recipient_id === currentUser.id);
+    const rawContactName = isIncoming ? item.sender_name : item.recipient_name;
+    const rawContactMobile = isIncoming ? item.sender_mobile : item.recipient_mobile;
+    const rawStatus = (item.status || 'Pending');
+    const isConfirmed = rawStatus.toLowerCase() === 'confirmed';
+
+    const safeContactName = escapeHtml(rawContactName || 'Member');
+    const safeSubject = escapeHtml(item.subject || 'Tuition');
+    const safeMobile = escapeHtml(rawContactMobile || 'Not provided');
+    const safeStatus = isConfirmed ? 'Confirmed' : 'Pending';
+    const statusClass = isConfirmed ? 'confirmed' : 'pending';
+    const waUrl = sanitizeWhatsAppUrl(rawContactMobile);
+
+    let actionButtons = '';
+
+    if (!isConfirmed) {
+      if (isIncoming) {
+        actionButtons = `
+          <div class="action-row">
+            <button class="btn-grand btn-accept" onclick="respondEnquiry('${item.id}', 'Confirmed')">
+              <i class="fa-solid fa-check"></i> Accept Enquiry
+            </button>
+            <button class="btn-grand btn-reject" onclick="respondEnquiry('${item.id}', 'Rejected')">
+              <i class="fa-solid fa-xmark"></i> Reject
+            </button>
+          </div>
+        `;
+      } else {
+        actionButtons = `
+          <div class="action-row">
+            <div class="notice-pending">
+              <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
+            </div>
+          </div>
+        `;
+      }
+    } else {
+      let waButtonHtml = '';
+      if (currentRole === 'student') {
+        waButtonHtml = `
+          <div class="btn-grand btn-tuition-lock">
+            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
+          </div>
+        `;
+      } else {
+        waButtonHtml = `
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-grand btn-wa-active">
+            <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+          </a>
+        `;
+      }
+
+      // DONATE / SUPPORT BUTTON PLACED NEXT TO CONFIRMED TUITION ACTION
+      const donateButtonHtml = `
+        <a href="donate.html" class="btn-grand btn-donate-support" title="Apex Tuitions is 100% free! Support our platform.">
+          <i class="fa-solid fa-hand-holding-heart"></i> Support Platform
+        </a>
+      `;
+
+      actionButtons = `
+        <div class="action-row">
+          ${waButtonHtml}
+          ${donateButtonHtml}
+          <button onclick="endTuition('${item.id}')" class="btn-end" title="Conclude Tuition">
+            <i class="fa-solid fa-power-off"></i> End Tuition
+          </button>
+        </div>
+        <div class="support-inline-note">
+          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Please support to keep the platform free.
+        </div>
+      `;
+    }
+
+    return `
+      <div class="enquiry-item-box ${isConfirmed ? 'is-confirmed' : ''}">
+        <div class="enquiry-meta-top">
+          <span class="status-badge ${statusClass}">${safeStatus}</span>
+          <span style="font-size:12px;font-weight:700;color:var(--text-muted);">
+            <i class="fa-regular ${isIncoming ? 'fa-arrow-down-long' : 'fa-paper-plane'}"></i> ${isIncoming ? 'Incoming Request' : 'Sent by You'}
+          </span>
+        </div>
+        
+        <div class="enquiry-details-wrap">
+          <div class="enquiry-name">
+            <i class="fa-regular fa-user" style="color:var(--royal-blue);font-size:15px;"></i>
+            ${safeContactName}
+          </div>
+          <div class="enquiry-sub">
+            <i class="fa-solid fa-book-open" style="color:#64748B;font-size:12px;"></i>
+            Subject: <strong>${safeSubject}</strong>
+          </div>
+          <div class="enquiry-phone">
+            <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:13px;"></i>
+            WhatsApp: ${safeMobile}
+          </div>
+        </div>
+
+        ${actionButtons}
+      </div>
+    `;
+  }).join("");
 }
 
-function onAvatarFilePicked(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = (event) => {
-    const cropImg = document.getElementById("imageToCrop");
-    cropImg.src = event.target.result;
-    document.body.classList.add("modal-open");
-    document.getElementById("cropModalOverlay").classList.add("active");
-
-    if (cropperInstance) cropperInstance.destroy();
-    cropperInstance = new Cropper(cropImg, {
-      aspectRatio: 1,
-      viewMode: 1,
-      dragMode: 'move',
-      autoCropArea: 0.95,
-      restore: false,
-      guides: true,
-      center: true,
-      highlight: false,
-      cropBoxMovable: true,
-      cropBoxResizable: true
-    });
-  };
-  reader.readAsDataURL(file);
-  e.target.value = '';
-}
-
-function closeCropModal() {
-  document.getElementById("cropModalOverlay").classList.remove("active");
-  document.body.classList.remove("modal-open");
-  if (cropperInstance) {
-    cropperInstance.destroy();
-    cropperInstance = null;
+async function respondEnquiry(id, status) {
+  const updates = { status: status };
+  if (status === 'Confirmed') {
+    updates.confirmed_at = new Date().toISOString();
   }
-}
-
-async function applyAndSaveCroppedAvatar() {
-  if (!cropperInstance || !currentUser) return;
-  const btn = document.getElementById("btnSaveCropped");
-  btn.disabled = true;
-  btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Saving...`;
-
-  const canvas = cropperInstance.getCroppedCanvas({ width: 320, height: 320, imageSmoothingQuality: 'high' });
-  const croppedData = canvas.toDataURL('image/jpeg', 0.85);
-
-  document.getElementById("profileAvatarImg").src = croppedData;
-  const table = (currentRole === 'teacher') ? 'teachers' : 'students';
-  await db.from(table).update({ avatar_url: croppedData }).eq('id', currentUser.id);
-
-  btn.disabled = false;
-  btn.innerHTML = `<i class="fa-solid fa-check"></i> Crop &amp; Save`;
-  closeCropModal();
-}
-
-function populateUI(data) {
-  const name = data.teacher_name || data.student_name || "Member";
-  document.getElementById("profileName").textContent = name;
-  document.getElementById("profileEmail").textContent = currentUser.email || "—";
-  document.getElementById("profileMobile").textContent = data.mobile || "—";
-  document.getElementById("profileMode").textContent = data.tuition_mode || "Online";
-  document.getElementById("profileGrades").textContent = data.classes || data.student_class || "—";
-  document.getElementById("profileBoard").textContent = data.board || "—";
-  document.getElementById("profileSubject").textContent = data.subject || "—";
-  document.getElementById("profileLocation").textContent = data.address || "—";
-  document.getElementById("profileTimings").textContent = data.timing_fee_desc || "Flexible";
-
-  if (currentRole === 'student') {
-    document.getElementById("teacherFeeQualContainer").classList.add("hidden");
+  const { error } = await db.from("enquiries").update(updates).eq("id", id);
+  if (error) {
+    alert("Action failed: " + error.message);
   } else {
-    document.getElementById("teacherFeeQualContainer").classList.remove("hidden");
-    document.getElementById("profileQualExp").textContent = data.qualification || "Educator";
-    document.getElementById("profileFee").textContent = data.fee ? `₹${data.fee}` : "Negotiable";
+    loadEnquiries();
   }
+}
 
-  if (data.avatar_url) {
-    document.getElementById("profileAvatarImg").src = data.avatar_url;
+async function endTuition(id) {
+  if (!confirm("Are you sure you want to end this tuition? Student's WhatsApp contact lock will be revoked.")) return;
+  const { error } = await db.from("enquiries").update({
+    status: 'Completed',
+    ended_at: new Date().toISOString()
+  }).eq("id", id);
+
+  if (error) {
+    alert("Could not end tuition: " + error.message);
+  } else {
+    alert("Tuition ended successfully. The student can now contact a new teacher.");
+    loadEnquiries();
   }
 }
 
 if (localStorage.getItem("apex_cached_auth") === "true") {
-  document.body.classList.add("logged-in-mobile");
+  document.body.classList.add("logged-in-mobile", "is-logged-in");
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
-  populateTeacherGradeChecklist();
-  populateTeacherSubjectChecklist();
-  populateStudentSubjectChecklist();
-
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
     currentUser = session.user;
     localStorage.setItem("apex_cached_auth", "true");
-    document.body.classList.add("logged-in-mobile");
+    document.body.classList.add("logged-in-mobile", "is-logged-in");
 
-    const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
-    if (t) {
-      currentRole = 'teacher';
-      profileRecord = t;
-      document.getElementById("profileRoleBadge").textContent = "Verified Educator 👨‍🏫";
-      document.getElementById("profileRatingBadge").classList.remove("hidden");
-      document.getElementById("teacherStarRatingPanel").classList.remove("hidden");
-      populateUI(t);
-    } else {
-      const { data: s } = await db.from("students").select("*").eq("id", currentUser.id).maybeSingle();
-      currentRole = 'student';
-      profileRecord = s || {};
-      document.getElementById("profileRoleBadge").textContent = "Student / Parent 🎓";
-      document.getElementById("profileRatingBadge").classList.add("hidden");
-      document.getElementById("teacherStarRatingPanel").classList.add("hidden");
-      populateUI(profileRecord);
-    }
+    const { data: teacher } = await db.from("teachers").select("id").eq("id", currentUser.id).maybeSingle();
+    currentRole = teacher ? 'teacher' : 'student';
 
     await updateDockRoleLabel(currentUser.id);
 
-    const { data: enq } = await db.from("enquiries").select("id").eq("recipient_id", currentUser.id).eq("status", "Pending");
+    const { data: enq } = await db.from("enquiries")
+      .select("id")
+      .eq("recipient_id", currentUser.id)
+      .in("status", ["Pending", "pending"]);
+
     if (enq && enq.length > 0) {
       const badge = document.getElementById("dockEnquiryBadge");
       badge.textContent = enq.length;
       badge.classList.remove("hidden");
     }
+
+    await loadEnquiries();
   } else {
+    localStorage.removeItem("apex_cached_auth");
     window.location.href = "index.html?auth=signin";
   }
 });
