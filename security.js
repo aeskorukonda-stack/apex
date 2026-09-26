@@ -1,85 +1,110 @@
-/* security.js - Central Input Sanitation & Moderation */
+/* Updated security.js */
 
-// 1. Comprehensive HTML Escape (Prevents Stored XSS)
-function escapeHtml(str) {
-  if (str === null || str === undefined) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;')
-    .replace(/\//g, '&#x2F;');
-}
-
-// 2. Strip HTML tags from plain input fields
-function stripHtmlTags(input) {
-  if (!input) return '';
-  return String(input).replace(/<[^>]*>?/gm, '').trim();
-}
-
-// 3. Prohibit URLs in identity fields (names, locations, subjects)
-function containsUrls(str) {
-  if (!str) return false;
-  const urlPattern = /(https?:\/\/|www\.|\.com|\.org|\.net|\.xyz|\.io|bit\.ly|t\.co)/i;
-  return urlPattern.test(str);
-}
-
-// 4. Bad word and profanity detector
-// Extend this list with regional terms or variations as needed
-const PROFANITY_LIST = [
+const PROFANITY_AND_DUMMY_WORDS = [
+  // Profanities & Abuse
   "abuse", "idiot", "stupid", "scam", "fraud", "cheat", "bastard", 
-  "asshole", "bitch", "crap", "damn", "fucker", "whore", "slut"
+  "asshole", "bitch", "crap", "damn", "fucker", "whore", "slut",
+  // Dummy / Placeholder / Test terms
+  "test", "tester", "testing", "dummy", "fake", "sample", "demo", 
+  "admin", "administrator", "asdf", "qwerty", "temp", "null", "undefined"
 ];
 
-function checkMaliciousOrAbusiveWords(str) {
+// 1. Detect if name or string contains placeholder / test keywords
+function containsPlaceholderOrAbuse(str) {
   if (!str) return false;
-
-  // Normalize leetspeak substitutions: 0->o, 1->i, @->a, $->s, etc.
-  const normalized = str
-    .toLowerCase()
-    .replace(/[@4]/g, 'a')
-    .replace(/[1!|]/g, 'i')
-    .replace(/[0]/g, 'o')
-    .replace(/[$5]/g, 's')
-    .replace(/[3]/g, 'e')
-    .replace(/[^a-z0-9\s]/g, ' '); // remove symbols to expose words
-
-  // Check whole-word matches
-  return PROFANITY_LIST.some(badWord => {
-    const regex = new RegExp(`\\b${badWord}\\b`, 'i');
-    return regex.test(normalized);
+  const clean = str.toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+  return PROFANITY_AND_DUMMY_WORDS.some(word => {
+    const regex = new RegExp(`\\b${word}\\b`, 'i');
+    return regex.test(clean);
   });
 }
 
-// 5. Unified Form Field Validator
-function validateUserTextField(value, fieldLabel, options = { allowUrls: false, maxLength: 500 }) {
-  const clean = stripHtmlTags(value);
+// 2. Validate legitimate real-name structure
+function isValidRealName(name) {
+  if (!name || name.trim().length < 3) return false;
+  // Must contain only letters, dots, and spaces (no numbers or symbols)
+  const namePattern = /^[a-zA-Z\s\.]+$/;
+  if (!namePattern.test(name.trim())) return false;
+  // Prevent single-word gibberish like 'aaa' or 'xyz'
+  if (/^(.)\1+$/.test(name.replace(/\s+/g, ''))) return false;
+  return true;
+}
 
-  if (!clean && options.required) {
+// 3. Block fake / repeated phone numbers (e.g., 8888888888, 1234567890)
+function isFakePhoneNumber(mobileStr) {
+  const digits = String(mobileStr || '').replace(/\D/g, '');
+  if (digits.length < 10) return true;
+
+  // Extract last 10 digits
+  const last10 = digits.slice(-10);
+
+  // Check all identical digits (e.g. 8888888888, 0000000000)
+  if (/^(\d)\1{9}$/.test(last10)) return true;
+
+  // Check more than 6 identical consecutive digits (e.g. 9888888888)
+  if (/(\d)\1{6,}/.test(last10)) return true;
+
+  // Check simple ascending or descending sequences
+  const sequential = ["0123456789", "1234567890", "9876543210", "8765432109"];
+  if (sequential.includes(last10)) return true;
+
+  // Enforce standard Indian mobile starting digits (6, 7, 8, 9) if 10-digit number
+  if (last10.length === 10 && !/^[6-9]/.test(last10)) return true;
+
+  return false;
+}
+
+// 4. Block placeholder emails (e.g., teacher@gmail.com, test@..., dummy@...)
+function isPlaceholderEmail(email) {
+  if (!email) return false;
+  const lower = email.toLowerCase().trim();
+  const dummyPrefixes = ["test@", "tester@", "dummy@", "fake@", "sample@", "teacher@", "student@", "admin@"];
+  return dummyPrefixes.some(prefix => lower.startsWith(prefix));
+}
+
+// 5. Comprehensive validator
+function validateRegistrationField(value, fieldType, fieldLabel) {
+  const str = String(value || '').trim();
+
+  if (!str) {
     return { valid: false, error: `${fieldLabel} is required.` };
   }
 
-  if (clean.length > options.maxLength) {
-    return { valid: false, error: `${fieldLabel} cannot exceed ${options.maxLength} characters.` };
+  if (fieldType === 'name') {
+    if (!isValidRealName(str)) {
+      return { valid: false, error: `Please enter a valid full name (letters only, min 3 characters).` };
+    }
+    if (containsPlaceholderOrAbuse(str)) {
+      return { valid: false, error: `"${str}" contains disallowed or test placeholder words.` };
+    }
   }
 
-  if (!options.allowUrls && containsUrls(clean)) {
-    return { valid: false, error: `${fieldLabel} cannot contain web links or URLs.` };
+  if (fieldType === 'mobile') {
+    if (isFakePhoneNumber(str)) {
+      return { valid: false, error: `Please enter a valid 10-digit mobile number.` };
+    }
   }
 
-  if (checkMaliciousOrAbusiveWords(clean)) {
-    return { valid: false, error: `${fieldLabel} contains disallowed or inappropriate language.` };
+  if (fieldType === 'email') {
+    if (isPlaceholderEmail(str)) {
+      return { valid: false, error: `Generic placeholder emails (e.g., "${str}") are not permitted.` };
+    }
   }
 
-  return { valid: true, sanitized: clean };
+  if (fieldType === 'text') {
+    if (containsPlaceholderOrAbuse(str)) {
+      return { valid: false, error: `${fieldLabel} contains disallowed terms.` };
+    }
+  }
+
+  return { valid: true };
 }
 
-// Export to window scope so existing HTML scripts can access it immediately
 window.ApexSecurity = {
-  escapeHtml,
-  stripHtmlTags,
-  containsUrls,
-  checkMaliciousOrAbusiveWords,
-  validateUserTextField
+  ...window.ApexSecurity,
+  containsPlaceholderOrAbuse,
+  isValidRealName,
+  isFakePhoneNumber,
+  isPlaceholderEmail,
+  validateRegistrationField
 };
