@@ -337,7 +337,10 @@
 
     /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
     .mobile-bottom-dock {
-      display: none;
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
     }
     body:not(.logged-in-mobile) .mobile-bottom-dock {
       display: none !important;
@@ -400,47 +403,49 @@
     }
 
     /* =========================================================
-       SEAMLESS MOBILE BOTTOM DOCK (MATCHING FEEDBACK PAGE)
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK
        ========================================================= */
     @media (max-width: 768px) {
       body.logged-in-mobile { 
         padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
-      .mobile-bottom-dock {
+      /* Attached rigidly to bottom screen edges: 0 margins, 0 outer curves, 100vw */
+      body.logged-in-mobile .mobile-bottom-dock {
+        display: block !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        width: 100% !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
         margin: 0 !important;
-        padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
-        background: #ffffff !important;
+        padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)) 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
         border-top: 1.5px solid #E2E8F0 !important;
-        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
+        background: #ffffff !important;
+        box-shadow: 0 -2px 10px rgba(10, 25, 47, 0.08) !important;
         z-index: 999999 !important;
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-      }
-
-      body.logged-in-mobile .mobile-bottom-dock {
-        display: block !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
       }
 
+      /* 3-column flush grid filling width without floating side gaps */
       .dock-card-container {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
         background: transparent !important;
         border: none !important;
         border-radius: 0 !important;
-        padding: 6px 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        width: 100% !important;
       }
 
       .dock-item {
@@ -452,10 +457,11 @@
         background: transparent !important;
         border: none !important;
         border-radius: 0 !important;
-        padding: 4px 0 !important;
+        padding: 3px 0 !important;
+        margin: 0 !important;
         box-shadow: none !important;
         position: relative !important;
-        transition: var(--transition);
+        -webkit-tap-highlight-color: transparent !important;
       }
 
       .dock-item.active-tab .dock-title {
@@ -505,12 +511,13 @@
         font-weight: 700 !important;
         color: #475569 !important;
         letter-spacing: -0.2px !important;
+        line-height: 1 !important;
       }
 
       .dock-badge {
         position: absolute !important;
         top: 0px !important;
-        right: 22% !important;
+        right: 20% !important;
         background: #EF4444 !important;
         color: #FFFFFF !important;
         font-size: 9.5px !important;
@@ -642,7 +649,7 @@
   </div>
 </main>
 
-<!-- Unified Bottom Dock (Matching feedback page style) -->
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
     <!-- Enquiries -->
@@ -668,7 +675,7 @@
       </div>
     </a>
 
-    <!-- Browse -->
+    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -802,6 +809,5 @@ window.addEventListener("DOMContentLoaded", async () => {
   });
 });
 </script>
-<script src="mobile-layout-fix.js"></script>
 </body>
 </html>
