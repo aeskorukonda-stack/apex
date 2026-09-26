@@ -602,85 +602,127 @@
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
+    /* =========================================================
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK
+       ========================================================= */
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: 96px !important;
+      body.logged-in-mobile { 
+        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 10px;
+        display: block !important;
         position: fixed !important;
         bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
-        width: 100% !important;
-        background: rgba(255, 255, 255, 0.98) !important;
-        backdrop-filter: blur(18px) !important;
-        padding: 8px 12px max(8px, env(safe-area-inset-bottom)) !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        margin: 0 !important;
+        padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)) 0 !important;
+        border-radius: 0 !important;
+        border: none !important;
         border-top: 1.5px solid #E2E8F0 !important;
-        border-radius: 20px 20px 0 0 !important;
-        box-shadow: 0 -4px 25px rgba(10, 25, 47, 0.09) !important;
-        z-index: 99999 !important;
-        align-items: center;
+        background: #ffffff !important;
+        box-shadow: 0 -2px 10px rgba(10, 25, 47, 0.08) !important;
+        z-index: 999999 !important;
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
       }
 
-      .dock-card-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        background: #FFFFFF;
-        border: 1.5px solid #E2E8F0;
-        border-radius: 14px;
-        padding: 7px 4px 6px;
-        text-decoration: none;
-        position: relative;
-        transition: var(--transition);
-      }
-      .dock-card-btn.active {
-        border-color: #2563EB;
-        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+      .dock-card-container {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
       }
 
-      .dock-icon-squircle {
-        width: 36px;
-        height: 36px;
-        border-radius: 11px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 4px;
-        font-size: 16px;
+      .dock-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 3px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
-      .dock-icon-green { background-color: #ECFDF5; color: #10B981; }
-      .dock-icon-amber { background-color: #FEF3C7; color: #D97706; }
-      .dock-icon-blue { background-color: #EFF6FF; color: #2563EB; }
 
-      .dock-label-text {
-        font-size: 12px;
-        font-weight: 800;
-        color: #0A192F;
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        line-height: 1;
+      .dock-item.active-tab .dock-title {
+        color: var(--royal-blue) !important;
+        font-weight: 800 !important;
+      }
+
+      .dock-icon-wrap {
+        width: 32px !important;
+        height: 32px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin-bottom: 2px !important;
+      }
+
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
+
+      .dock-title {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 3px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #475569 !important;
+        letter-spacing: -0.2px !important;
+        line-height: 1 !important;
       }
 
       .dock-badge {
-        position: absolute;
-        top: -4px;
-        right: 4px;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9.5px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 6px;
+        position: absolute !important;
+        top: 0px !important;
+        right: 20% !important;
+        background: #EF4444 !important;
+        color: #FFFFFF !important;
+        font-size: 9.5px !important;
+        font-weight: 800 !important;
+        border-radius: 10px !important;
+        padding: 1px 5px !important;
+        line-height: 1 !important;
       }
 
       main { padding: 16px 12px 20px !important; }
@@ -899,34 +941,43 @@
   </div>
 </div>
 
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <a href="enquiries.html" class="dock-card-btn" id="dockEnquiriesBtn">
-    <div class="dock-icon-squircle dock-icon-green">
-      <i class="fa-solid fa-comments"></i>
-    </div>
-    <span class="dock-label-text">
-      <i class="fa-regular fa-comment" style="color: #6366F1;"></i> Enquiries
-    </span>
-    <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
-  </a>
+  <div class="dock-card-container">
+    <!-- Enquiries -->
+    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
+      <div class="dock-icon-wrap green-bg">
+        <i class="fa-solid fa-comments"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
+        <span>Enquiries</span>
+      </div>
+      <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
+    </a>
 
-  <a href="profile.html" class="dock-card-btn" id="dockProfileBtn">
-    <div class="dock-icon-squircle dock-icon-amber">
-      <i class="fa-solid fa-id-badge"></i>
-    </div>
-    <span class="dock-label-text">
-      <i class="fa-solid fa-user" style="color: #6366F1;"></i> Profile
-    </span>
-  </a>
+    <!-- Profile -->
+    <a href="profile.html" class="dock-item" id="dockBtnProfile">
+      <div class="dock-icon-wrap yellow-bg">
+        <i class="fa-solid fa-id-card"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
+        <span>Profile</span>
+      </div>
+    </a>
 
-  <a href="browse.html" class="dock-card-btn active" id="dockBrowseBtn">
-    <div class="dock-icon-squircle dock-icon-blue">
-      <i class="fa-solid fa-compass"></i>
-    </div>
-    <span class="dock-label-text">
-      <i class="fa-solid fa-magnifying-glass" style="color: #3B82F6;"></i> <span id="dockBrowseLabel">Students</span>
-    </span>
-  </a>
+    <!-- Browse -->
+    <a href="browse.html" class="dock-item active-tab" id="dockBtnBrowse">
+      <div class="dock-icon-wrap blue-bg">
+        <i class="fa-solid fa-compass"></i>
+      </div>
+      <div class="dock-title">
+        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+        <span id="dockBrowseLabel">Find Tutor</span>
+      </div>
+    </a>
+  </div>
 </nav>
 
 <script>
@@ -1078,7 +1129,6 @@ function renderStarBadge(teacherId) {
 }
 
 async function handleWhatsAppConnect(targetId, targetName, targetMobile, subject) {
-  // IF USER IS NOT LOGGED IN: SHOW POPUP, DO NOT DIRECTLY REDIRECT
   if (!currentUser) {
     openAuthModal();
     return;
@@ -1126,7 +1176,6 @@ async function fetchDirectoryData() {
   const grid = document.getElementById("cardsGrid");
 
   try {
-    // If not logged in: load BOTH teachers and students
     if (!currentUser) {
       document.getElementById("roleNotice").textContent = "Viewing Teachers & Students";
 
@@ -1139,7 +1188,6 @@ async function fetchDirectoryData() {
       const tList = (teachersRes.data || []).map(item => ({ ...item, _entityType: 'teacher' }));
       const sList = (studentsRes.data || []).map(item => ({ ...item, _entityType: 'student' }));
 
-      // Merge and interleave/sort by creation time
       rawData = [...tList, ...sList].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
 
       if (rawData.length === 0) {
@@ -1158,7 +1206,6 @@ async function fetchDirectoryData() {
       return;
     }
 
-    // Logged in: show complementary role
     let targetTable = 'teachers';
     if (currentRole === 'teacher') {
       targetTable = 'students';
@@ -1368,6 +1415,18 @@ function setAuthState(isAuthenticated) {
   }
 }
 
+async function updateDockRoleLabel(userId) {
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (!dockBrowseLabel || !userId) return;
+
+  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
+  if (teacher) {
+    dockBrowseLabel.textContent = "Find Students";
+  } else {
+    dockBrowseLabel.textContent = "Find Tutor";
+  }
+}
+
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
@@ -1394,10 +1453,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       currentProfile = s;
     }
 
-    const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-    if (dockBrowseLabel) {
-      dockBrowseLabel.textContent = (currentRole === 'teacher') ? "Students" : "Teachers";
-    }
+    await updateDockRoleLabel(currentUser.id);
 
     db.from("enquiries")
       .select("id", { count: 'exact', head: true })
@@ -1422,6 +1478,7 @@ window.addEventListener("DOMContentLoaded", async () => {
       currentUser = session.user;
       localStorage.setItem("apex_cached_auth", "true");
       setAuthState(true);
+      await updateDockRoleLabel(session.user.id);
     } else {
       currentUser = null;
       currentRole = null;
