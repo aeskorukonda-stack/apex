@@ -2008,11 +2008,27 @@ function populateUI(data) {
   document.getElementById("profileEmail").textContent = currentUser.email || "—";
   document.getElementById("profileMobile").textContent = data.mobile || "—";
   document.getElementById("profileMode").textContent = data.tuition_mode || "Online";
-  document.getElementById("profileGrades").textContent = data.classes || data.student_class || "—";
-  document.getElementById("profileBoard").textContent = data.board || "—";
-  document.getElementById("profileSubject").textContent = data.subject || "—";
   document.getElementById("profileLocation").textContent = data.address || "—";
   document.getElementById("profileTimings").textContent = data.timing_fee_desc || "Flexible";
+
+  const gradesLabel = document.querySelector("#profileGrades").closest(".detail-card-chip").querySelector(".chip-label");
+  const boardLabel = document.querySelector("#profileBoard").closest(".detail-card-chip").querySelector(".chip-label");
+
+  const classesVal = data.classes || data.student_class || "";
+  
+  if (classesVal.includes("Non-Academic") || classesVal.includes("Competitive") || classesVal.includes("Specialized")) {
+    gradesLabel.innerHTML = `<i class="fa-solid fa-layer-group"></i> CATEGORY TRACK`;
+    boardLabel.innerHTML = `<i class="fa-solid fa-bullseye"></i> PROGRAM TYPE`;
+    document.getElementById("profileGrades").textContent = classesVal;
+    document.getElementById("profileBoard").textContent = data.board || "Specialized Track";
+  } else {
+    gradesLabel.innerHTML = `<i class="fa-solid fa-users"></i> GRADES / CLASSES`;
+    boardLabel.innerHTML = `<i class="fa-solid fa-graduation-cap"></i> CURRICULUM / BOARD`;
+    document.getElementById("profileGrades").textContent = classesVal || "—";
+    document.getElementById("profileBoard").textContent = data.board || "—";
+  }
+
+  document.getElementById("profileSubject").textContent = data.subject || "—";
 
   if (currentRole === 'student') {
     document.getElementById("teacherFeeQualContainer").classList.add("hidden");
@@ -2026,7 +2042,6 @@ function populateUI(data) {
     document.getElementById("profileAvatarImg").src = data.avatar_url;
   }
 }
-
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
