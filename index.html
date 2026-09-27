@@ -3301,7 +3301,7 @@ function handleStudentCompOther() {
     return { rawNonce, hashedNonce };
   }
 
-  async function loginWithOAuth(provider) {
+ async function loginWithOAuth(provider) {
     if (provider === 'google' && window.google) {
       showMsg("heroAuthMsg", "Connecting with Google...", true);
       
@@ -3330,28 +3330,27 @@ function handleStudentCompOther() {
         }
       });
 
+      // Render the Google Sign-In prompt directly inline instead of triggering a full domain redirect
       google.accounts.id.prompt((notification) => {
         if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          // Fallback if One Tap UI is suppressed
-          db.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: window.location.origin + window.location.pathname }
-          });
+          // If the automatic prompt is blocked on mobile, render an explicit button view or fallback cleanly
+          showMsg("heroAuthMsg", "Please tap the Google button or check popup blockers.", false);
         }
       });
       return;
     }
 
-    // Microsoft OAuth flow
-sessionStorage.setItem("apex_oauth_pending", "true");
-const { error } = await db.auth.signInWithOAuth({
-  provider: 'azure',
-  options: { 
-    redirectTo: window.location.origin + window.location.pathname,
-    scopes: 'email openid profile'
+    // Microsoft OAuth flow (Non-Google providers)
+    sessionStorage.setItem("apex_oauth_pending", "true");
+    const { error } = await db.auth.signInWithOAuth({
+      provider: 'azure',
+      options: { 
+        redirectTo: window.location.origin + window.location.pathname,
+        scopes: 'email openid profile'
+      }
+    });
   }
-});
-  }async function handleHeroLogin() {
+  async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
   if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
