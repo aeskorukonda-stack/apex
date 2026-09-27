@@ -3303,7 +3303,7 @@ function handleStudentCompOther() {
 
 async function loginWithOAuth(provider) {
     if (provider === 'google' && window.google) {
-      showMsg("heroAuthMsg", "Initializing Google sign-in...", true);
+      showMsg("heroAuthMsg", "Preparing Google sign-in...", true);
       
       const { rawNonce, hashedNonce } = await generateNonce();
 
@@ -3330,26 +3330,17 @@ async function loginWithOAuth(provider) {
         }
       });
 
-      // Instead of an invisible prompt that gets blocked, 
-      // trigger Google's explicit interactive login dialog directly:
-      google.accounts.id.renderButton(
-        document.createElement('div'), // temporary container for programmatic click
-        { theme: 'outline', size: 'large' }
-      );
-      
-      // Force open the GIS sign-in modal view directly via user action context
-      try {
-        google.accounts.id.prompt((notification) => {
-          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-            // Fallback: If prompt is suppressed, render a clickable button right inside the message area
-            const msgEl = document.getElementById("heroAuthMsg");
-            msgEl.innerHTML = 'Popup blocked. <button onclick="location.reload()" style="background:none;border:underline;color:inherit;cursor:pointer;font-weight:bold;">Click here to retry sign-in</button>';
-            msgEl.className = "msg error";
-            msgEl.classList.remove("hidden");
-          }
-        });
-      } catch (err) {
-        showMsg("heroAuthMsg", "Please tap the Google button again.", false);
+      // Automatically render Google's official sign-in button directly over your existing button area
+      const btnContainer = document.querySelector('.oauth-grid-row');
+      if (btnContainer) {
+        // Clear old buttons and create a secure wrapper container
+        btnContainer.innerHTML = '<div id="googleButtonWrapper" style="grid-column: span 2; display: flex; justify-content: center; width: 100%;"></div>';
+        
+        google.accounts.id.renderButton(
+          document.getElementById('googleButtonWrapper'),
+          { theme: 'outline', size: 'large', width: '380', text: 'signin_with' }
+        );
+        showMsg("heroAuthMsg", "Please tap the official Google button above.", true);
       }
       return;
     }
@@ -3363,7 +3354,8 @@ async function loginWithOAuth(provider) {
         scopes: 'email openid profile'
       }
     });
-  } async function handleHeroLogin() {
+  }
+  async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
   if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
