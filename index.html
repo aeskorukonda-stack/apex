@@ -3625,6 +3625,7 @@ async function renderAuthenticatedHome(user) {
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
   let avatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
+  // Fetch profiles first to prevent flickering
   const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
   if (t) {
     currentRole = 'teacher';
@@ -3643,15 +3644,7 @@ async function renderAuthenticatedHome(user) {
     }
   }
 
-  // >>> FIX: Check if profile is missing AND OAuth pending flag is active <<<
-  if (!currentProfile && sessionStorage.getItem("apex_oauth_pending") === "true") {
-    document.getElementById("heroLoggedInView")?.classList.add("hidden");
-    document.getElementById("viewOAuthRole")?.classList.remove("hidden");
-    setTimeout(scrollToAuthPortal, 60);
-    return;
-  }
-
-  // If no profile exists even without the flag (e.g., brand new OAuth login), show role selection too:
+  // If no profile exists, directly show the registration completion view without flickering the welcome box
   if (!currentProfile) {
     document.getElementById("heroLoggedInView")?.classList.add("hidden");
     document.getElementById("viewOAuthRole")?.classList.remove("hidden");
@@ -3660,6 +3653,7 @@ async function renderAuthenticatedHome(user) {
   }
 
   // Otherwise, render normal logged-in dashboard view
+  document.getElementById("viewOAuthRole")?.classList.add("hidden");
   document.getElementById("heroLoggedInView")?.classList.remove("hidden");
   document.body.classList.add("logged-in-mobile");
 
