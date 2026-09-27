@@ -3302,21 +3302,40 @@ function handleStudentCompOther() {
   }
 
 async function loginWithOAuth(provider) {
-    if (provider === 'google') {
-      showMsg("heroAuthMsg", "Redirecting to Google...", true);
-      sessionStorage.setItem("apex_oauth_pending", "true");
+    if (provider === 'google' && window.google) {
+      showMsg("heroAuthMsg", "Opening Google sign-in...", true);
+      
+      const { rawNonce, hashedNonce } = await generateNonce();
 
-      const { error } = await db.auth.signInWithOAuth({
-        provider: 'google',
-        options: { 
-          redirectTo: window.location.origin + window.location.pathname
+      google.accounts.id.initialize({
+        client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+        nonce: hashedNonce,
+        callback: async (response) => {
+          showMsg("heroAuthMsg", "Signing in with Google...", true);
+          sessionStorage.setItem("apex_oauth_pending", "true");
+
+          const { data, error } = await db.auth.signInWithIdToken({
+            provider: 'google',
+            token: response.credential,
+            nonce: rawNonce
+          });
+
+          if (error) {
+            sessionStorage.removeItem("apex_oauth_pending");
+            showMsg("heroAuthMsg", error.message, false);
+          } else if (data?.user) {
+            localStorage.setItem("apex_cached_auth", "true");
+            renderAuthenticatedHome(data.user);
+          }
         }
       });
 
-      if (error) {
-        sessionStorage.removeItem("apex_oauth_pending");
-        showMsg("heroAuthMsg", error.message, false);
-      }
+      // Trigger Google sign-in prompt cleanly without ever falling back to Supabase redirects
+      google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          showMsg("heroAuthMsg", "Please check browser popup settings or try again.", false);
+        }
+      });
       return;
     }
 
@@ -3329,7 +3348,7 @@ async function loginWithOAuth(provider) {
         scopes: 'email openid profile'
       }
     });
-  }  async function handleHeroLogin() {
+  } async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
   if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
