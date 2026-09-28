@@ -1373,17 +1373,33 @@
   display: flex;
   align-items: center;
   z-index: 9999;
+  /* Matches the exact width of the social bar so it slides completely out of view */
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* When hidden, tuck it neatly so only the tab is visible */
+/* When hidden, slide right by the width of the inner bar (approx 58px) leaving just the toggle tab visible */
 .social-bar-wrapper.is-hidden {
-  transform: translateY(-50%) translateX(42px); /* Matches the width of the social icons so only the toggle button sticks out */
+  transform: translateY(-50%) translateX(58px);
+}
+
+.social-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 8px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.35);
+  width: 58px; /* Fixed width to ensure predictable sliding translation */
 }
 
 .social-toggle-btn {
-  width: 28px;
-  height: 52px;
+  width: 26px;
+  height: 50px;
   background: var(--apex-navy);
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -1392,9 +1408,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px 0 0 8px; /* Rounded on the left edge to attach smoothly */
-  box-shadow: -3px 2px 10px rgba(0, 0, 0, 0.15);
-  font-size: 12px;
+  border-radius: 8px 0 0 8px;
+  box-shadow: -3px 2px 10px rgba(0, 0, 0, 0.2);
+  font-size: 11px;
   padding: 0;
   outline: none;
   transition: background 0.2s ease;
@@ -1408,8 +1424,8 @@
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Rotate chevron when open vs hidden */
-.social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
+/* Rotate the chevron indicator depending on open/closed state */
+.social-bar-wrapper.is-hidden .social-toggle-btn i {
   transform: rotate(180deg);
 }
 
