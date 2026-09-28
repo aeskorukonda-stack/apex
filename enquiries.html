@@ -871,6 +871,11 @@ async function loadEnquiries() {
     return;
   }
 
+  // Check if the current student has ANY confirmed active tuition overall
+  const hasActiveConfirmedTuition = (currentRole === 'student') && data.some(item => 
+    (item.status || '').toLowerCase() === 'confirmed'
+  );
+
   if (!data || data.length === 0) {
     listEl.innerHTML = `
       <div style="text-align:center;padding:40px 14px;">
@@ -914,13 +919,24 @@ async function loadEnquiries() {
           </div>
         `;
       } else {
-        actionButtons = `
-          <div class="action-row">
-            <div class="notice-pending">
-              <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
+        // If student has an active confirmed tuition elsewhere, lock out pending actions/contact triggers too
+        if (hasActiveConfirmedTuition && currentRole === 'student') {
+          actionButtons = `
+            <div class="action-row">
+              <div class="btn-grand btn-tuition-lock">
+                <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Active Elsewhere
+              </div>
             </div>
-          </div>
-        `;
+          `;
+        } else {
+          actionButtons = `
+            <div class="action-row">
+              <div class="notice-pending">
+                <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
+              </div>
+            </div>
+          `;
+        }
       }
     } else {
       let waButtonHtml = '';
