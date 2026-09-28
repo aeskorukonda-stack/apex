@@ -871,8 +871,8 @@ async function loadEnquiries() {
     return;
   }
 
-  // Check if the current student has ANY confirmed active tuition overall
-  const hasActiveConfirmedTuition = (currentRole === 'student') && data.some(item => 
+  // Check if ANY confirmed active tuition exists in the loaded items list
+  const hasActiveConfirmedTuition = data.some(item => 
     (item.status || '').toLowerCase() === 'confirmed'
   );
 
@@ -919,40 +919,21 @@ async function loadEnquiries() {
           </div>
         `;
       } else {
-        // If student has an active confirmed tuition elsewhere, lock out pending actions/contact triggers too
-        if (hasActiveConfirmedTuition && currentRole === 'student') {
-          actionButtons = `
-            <div class="action-row">
-              <div class="btn-grand btn-tuition-lock">
-                <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Active Elsewhere
-              </div>
+        actionButtons = `
+          <div class="action-row">
+            <div class="notice-pending">
+              <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
             </div>
-          `;
-        } else {
-          actionButtons = `
-            <div class="action-row">
-              <div class="notice-pending">
-                <i class="fa-regular fa-clock fa-spin"></i> Enquiry sent. Waiting for educator's response.
-              </div>
-            </div>
-          `;
-        }
-      }
-    } else {
-      let waButtonHtml = '';
-      if (currentRole === 'student') {
-        waButtonHtml = `
-          <div class="btn-grand btn-tuition-lock">
-            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
           </div>
         `;
-      } else {
-        waButtonHtml = `
-          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-grand btn-wa-active">
-            <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
-          </a>
-        `;
       }
+    } else {
+      // If a tuition is confirmed, lock the student's WhatsApp contact option for BOTH Teacher 1 and Teacher 2 ("Tuition Confirmed" button lock)
+      let waButtonHtml = `
+        <div class="btn-grand btn-tuition-lock">
+          <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
+        </div>
+      `;
 
       const donateButtonHtml = `
         <a href="donate.html" class="btn-grand btn-donate-support" title="Apex Tuitions is 100% free! Support our platform.">
