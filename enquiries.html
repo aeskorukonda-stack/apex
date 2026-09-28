@@ -882,8 +882,16 @@ async function loadEnquiries() {
     return;
   }
 
-  // Check if any tuition is confirmed for this student across items to lock student buttons
-  const hasConfirmedTuition = data.some(item => (item.status || '').toLowerCase() === 'confirmed');
+  // Find if this student has a confirmed tuition with ANY teacher globally, 
+  // and identify which specific teacher_id/recipient_id/sender_id it is confirmed with.
+  let confirmedTeacherId = null;
+  if (currentRole === 'student') {
+    const confirmedEnq = data.find(item => (item.status || '').toLowerCase() === 'confirmed');
+    if (confirmedEnq) {
+      // The teacher in this conversation is the other party (either recipient_id or sender_id)
+      confirmedTeacherId = (confirmedEnq.recipient_id === currentUser.id) ? confirmedEnq.sender_id : confirmedEnq.recipient_id;
+    }
+  }
 
   listEl.innerHTML = data.map(item => {
     const isIncoming = (item.recipient_id === currentUser.id);
@@ -928,11 +936,24 @@ async function loadEnquiries() {
     } else {
       let waButtonHtml = '';
 
-      // LOCK REQUIREMENT: If the user is a student, or if there is any confirmed tuition locking out contacts, lock WhatsApp button.
-      if (currentRole === 'student' || hasConfirmedTuition) {
+      // EXACT REQUIREMENT: 
+      // If user is a student AND there is a confirmed tuition with a DIFFERENT teacher (not this row's teacher),
+      // lock/hide the WhatsApp button for this other teacher. 
+      // If this row IS the confirmed teacher (or if user is a teacher viewing their own active chat), keep it active.
+      const rowOtherUserId = isIncoming ? item.sender_id : item.recipient_id;
+      const isTheConfirmedPartner = (currentRole === 'student' && confirmedTeacherId && confirmedTeacherId === rowOtherUserId);
+      const isOtherTeacherChatForStudent = (currentRole === 'student' && confirmedTeacherId && confirmedTeacherId !== rowOtherUserId);
+
+      if (isOtherTeacherChatForStudent) {
+        waButtonHtml = `
+          <div class="btn-grand btn-tuition-lock" title="Tuition confirmed with another teacher">
+            <i class="fa-solid fa-lock" style="color:var(--apex-gold);"></i> Contact Locked (Tuition Confirmed Elsewhere)
+          </div>
+        `;
+      } else if (currentRole === 'student' && isConfirmed && !confirmedTeacherId) {
         waButtonHtml = `
           <div class="btn-grand btn-tuition-lock">
-            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed (Contact Locked)
+            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
           </div>
         `;
       } else {
@@ -962,7 +983,7 @@ async function loadEnquiries() {
           </div>
         </div>
         <div class="support-inline-note">
-          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Contact is locked to prevent disturbance from other teachers.
+          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Please support to keep the platform free.
         </div>
       `;
     }
@@ -991,7 +1012,7 @@ async function loadEnquiries() {
               </span>
               <span class="info-tag info-tag-whatsapp">
                 <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:12px;"></i>
-                <span>${currentRole === 'student' && hasConfirmedTuition ? '🔒 Hidden (Locked)' : safeMobile}</span>
+                <span>${safeMobile}</span>
               </span>
             </div>
           </div>
