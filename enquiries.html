@@ -220,7 +220,6 @@
       width: 100%;
     }
 
-    /* Grand Container Card */
     .enquiries-card {
       background: #FFFFFF;
       border-radius: var(--card-radius);
@@ -274,9 +273,6 @@
       transform: translateY(-1px);
     }
 
-    /* =========================================================
-       ELEVATED & GRAND ENQUIRY ITEM CARD
-       ========================================================= */
     .enquiry-item-box {
       border: 1px solid #E2E8F0;
       border-radius: 20px;
@@ -435,7 +431,6 @@
       border: 1px solid #DCFCE7;
     }
 
-    /* Grand Action Buttons & Actions Layout */
     .action-row {
       display: flex;
       flex-direction: column;
@@ -578,9 +573,6 @@
       margin-top: 4px;
     }
 
-    /* =========================================================
-       NON-FLOATING SCREEN-INTACT BOTTOM DOCK
-       ========================================================= */
     .mobile-bottom-dock {
       display: none;
     }
@@ -657,29 +649,12 @@
         margin-bottom: 2px !important;
       }
 
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
+      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
+      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 16px !important; }
+      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
+      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 16px !important; }
+      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
+      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 16px !important; }
 
       .dock-title {
         display: inline-flex !important;
@@ -734,7 +709,7 @@
     <div class="header-right-actions">
       <nav class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
-        <a href="browse.html" class="nav-link">Browse</a>
+        <a href="browse.html" class="nav-link" id="desktopBrowseLink">Browse</a>
         <a href="resources.html" class="nav-link">Resources</a>
         
         <div class="dropdown-parent">
@@ -762,7 +737,7 @@
 
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
-    <a href="browse.html">🔍 Browse</a>
+    <a href="browse.html" id="mobileDrawerBrowse">🔍 Browse</a>
     <a href="resources.html">📚 Resources</a>
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
@@ -790,10 +765,8 @@
   </div>
 </main>
 
-<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
-    <!-- Enquiries (Active) -->
     <a href="enquiries.html" class="dock-item active-tab" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
@@ -805,7 +778,6 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
-    <!-- Profile -->
     <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -816,7 +788,6 @@
       </div>
     </a>
 
-    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -867,13 +838,20 @@ function toggleMobileNav() {
 
 async function updateDockRoleLabel(userId) {
   const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-  if (!dockBrowseLabel || !userId) return;
+  const desktopBrowseLink = document.getElementById("desktopBrowseLink");
+  const mobileDrawerBrowse = document.getElementById("mobileDrawerBrowse");
+  
+  if (!userId) return;
 
   const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
   if (teacher) {
-    dockBrowseLabel.textContent = "Find Students";
+    if (dockBrowseLabel) dockBrowseLabel.textContent = "Find Students";
+    if (desktopBrowseLink) desktopBrowseLink.innerHTML = '<i class="fa-solid fa-magnifying-glass"></i> Find Students';
+    if (mobileDrawerBrowse) mobileDrawerBrowse.innerHTML = '🔍 Find Students';
   } else {
-    dockBrowseLabel.textContent = "Find Tutor";
+    if (dockBrowseLabel) dockBrowseLabel.textContent = "Find Tutor";
+    if (desktopBrowseLink) desktopBrowseLink.innerHTML = 'Browse';
+    if (mobileDrawerBrowse) mobileDrawerBrowse.innerHTML = '🔍 Browse';
   }
 }
 
@@ -882,7 +860,6 @@ async function loadEnquiries() {
   const listEl = document.getElementById("enquiriesList");
   listEl.innerHTML = "<p style='font-size:13.5px;color:var(--text-muted);padding:14px 0;'>Loading active records...</p>";
 
-  // Explicitly fetch ONLY Pending & Confirmed records
   const { data, error } = await db.from("enquiries")
     .select("*")
     .or(`recipient_id.eq.${currentUser.id},sender_id.eq.${currentUser.id}`)
