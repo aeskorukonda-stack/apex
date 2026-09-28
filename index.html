@@ -1803,13 +1803,10 @@
         <div class="divider-text"><span>or sign in with</span></div>
 
         <div class="oauth-grid-row">
-          <button class="oauth-btn" type="button" onclick="loginWithOAuth('google')">
-            <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98-.66-2.23-1.06-3.71-1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-            Google
-          </button>
-          <button class="oauth-btn" type="button" onclick="loginWithOAuth('azure')">
+          <div id="googleButtonWrapperSignIn" style="grid-column: span 2; display: flex; justify-content: center; width: 100%;"></div>
+          <button class="oauth-btn" type="button" style="grid-column: span 2;" onclick="loginWithOAuth('azure')">
             <svg width="14" height="14" viewBox="0 0 23 23"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
-            Microsoft
+            Microsoft Account
           </button>
         </div>
         <div id="heroAuthMsg" class="msg hidden"></div>
@@ -1839,13 +1836,10 @@
         <div class="divider-text"><span>or sign up with</span></div>
 
         <div class="oauth-grid-row">
-          <button class="oauth-btn" type="button" onclick="loginWithOAuth('google')">
-            <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98-.66-2.23-1.06-3.71-1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-            Google
-          </button>
-          <button class="oauth-btn" type="button" onclick="loginWithOAuth('azure')">
+          <div id="googleButtonWrapperSignUp" style="grid-column: span 2; display: flex; justify-content: center; width: 100%;"></div>
+          <button class="oauth-btn" type="button" style="grid-column: span 2;" onclick="loginWithOAuth('azure')">
             <svg width="14" height="14" viewBox="0 0 23 23"><path fill="#f35325" d="M1 1h10v10H1z"/><path fill="#81bc06" d="M12 1h10v10H12z"/><path fill="#05a6f0" d="M1 12h10v10H1z"/><path fill="#ffba08" d="M12 12h10v10H12z"/></svg>
-            Microsoft
+            Microsoft Account
           </button>
         </div>
       </div>
@@ -2987,15 +2981,12 @@ function handleEducatorButtonClick() {
 }
 
 async function openAuthView(type) {
-  // If currentUser is set, verify with the actual server session first
   if (currentUser) {
     const { data: { session } } = await db.auth.getSession();
     if (session && session.user) {
-      // User is genuinely logged in; redirect to their profile instead of getting stuck
       window.location.href = "profile.html";
       return;
     } else {
-      // Stale or dead state: clear it and proceed to open the login form
       renderGuestHome();
     }
   }
@@ -3005,7 +2996,6 @@ async function openAuthView(type) {
   const btnIn = document.getElementById("navBtnSignIn");
   const btnUp = document.getElementById("navBtnSignUp");
 
-  // Force reveal the portal container
   portal.classList.remove("hidden");
   heroGrid.classList.remove("portal-hidden");
 
@@ -3018,6 +3008,9 @@ async function openAuthView(type) {
     btnIn?.classList.remove("active");
     openAuthForm('signup');
   }
+
+  // Ensure buttons render immediately when modal/view opens
+  initializeGoogleAuth();
 
   setTimeout(scrollToAuthPortal, 60);
 }
@@ -3044,6 +3037,9 @@ function openAuthForm(view) {
   }
   if (view === 'teacher') navTeacherStep(1);
   if (view === 'student') navStudentStep(1);
+
+  // Trigger Google button rendering whenever views toggle
+  setTimeout(initializeGoogleAuth, 50);
 }
 
 function startOAuthRegistration(role) {
@@ -3290,74 +3286,84 @@ function handleStudentCompOther() {
 }
 
 // Helper to generate and hash nonce for Google ID Tokens
-  async function generateNonce() {
-    const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
-    const encoder = new TextEncoder();
-    const data = encoder.encode(rawNonce);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    const hashedNonce = Array.from(new Uint8Array(hash))
-      .map(b => b.toString(16).padStart(2, '0'))
-      .join('');
-    return { rawNonce, hashedNonce };
+async function generateNonce() {
+  const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+  const encoder = new TextEncoder();
+  const data = encoder.encode(rawNonce);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const hashedNonce = Array.from(new Uint8Array(hash))
+    .map(b => b.toString(16).padStart(2, '0'))
+    .join('');
+  return { rawNonce, hashedNonce };
+}
+
+async function initializeGoogleAuth() {
+  if (!window.google) return;
+
+  const { rawNonce, hashedNonce } = await generateNonce();
+
+  google.accounts.id.initialize({
+    client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+    nonce: hashedNonce,
+    callback: async (response) => {
+      showMsg("heroAuthMsg", "Signing in with Google...", true);
+      sessionStorage.setItem("apex_oauth_pending", "true");
+
+      const { data, error } = await db.auth.signInWithIdToken({
+        provider: 'google',
+        token: response.credential,
+        nonce: rawNonce
+      });
+
+      if (error) {
+        sessionStorage.removeItem("apex_oauth_pending");
+        showMsg("heroAuthMsg", error.message, false);
+      } else if (data?.user) {
+        localStorage.setItem("apex_cached_auth", "true");
+        renderAuthenticatedHome(data.user);
+      }
+    },
+    auto_select: false,
+    cancel_on_tap_outside: true
+  });
+
+  // Render buttons seamlessly in both Sign In and Sign Up boxes
+  const signInWrapper = document.getElementById('googleButtonWrapperSignIn');
+  if (signInWrapper && signInWrapper.offsetParent !== null) {
+    signInWrapper.innerHTML = '';
+    google.accounts.id.renderButton(signInWrapper, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      width: '380',
+      text: 'signin_with',
+      shape: 'rectangular'
+    });
   }
 
-async function loginWithOAuth(provider) {
-  if (provider === 'google' && window.google) {
-    showMsg("heroAuthMsg", "Initializing Google Authentication...", true);
-    
-    const { rawNonce, hashedNonce } = await generateNonce();
-
-    google.accounts.id.initialize({
-      client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
-      nonce: hashedNonce,
-      callback: async (response) => {
-        showMsg("heroAuthMsg", "Signing in with Google...", true);
-        sessionStorage.setItem("apex_oauth_pending", "true");
-
-        const { data, error } = await db.auth.signInWithIdToken({
-          provider: 'google',
-          token: response.credential,
-          nonce: rawNonce
-        });
-
-        if (error) {
-          sessionStorage.removeItem("apex_oauth_pending");
-          showMsg("heroAuthMsg", error.message, false);
-        } else if (data?.user) {
-          localStorage.setItem("apex_cached_auth", "true");
-          renderAuthenticatedHome(data.user);
-        }
-      },
-      auto_select: false,
-      cancel_on_tap_outside: true
+  const signUpWrapper = document.getElementById('googleButtonWrapperSignUp');
+  if (signUpWrapper && signUpWrapper.offsetParent !== null) {
+    signUpWrapper.innerHTML = '';
+    google.accounts.id.renderButton(signUpWrapper, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      width: '380',
+      text: 'signup_with',
+      shape: 'rectangular'
     });
+  }
+}
 
-    // Render the Google button seamlessly inside the existing oauth container row
-    const btnContainer = document.querySelector('.oauth-grid-row');
-    if (btnContainer) {
-      btnContainer.innerHTML = '<div id="googleButtonWrapper" style="grid-column: span 2; display: flex; justify-content: center; width: 100%; margin-top: 4px;"></div>';
-      
-      google.accounts.id.renderButton(
-        document.getElementById('googleButtonWrapper'),
-        { 
-          type: 'standard', 
-          theme: 'outline', 
-          size: 'large', 
-          width: '380', 
-          text: 'signin_with',
-          shape: 'rectangular'
-        }
-      );
-      
-      // Trigger the inline One Tap prompt window directly on the page
-      google.accounts.id.prompt((notification) => {
-        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-          console.log("One Tap prompt was skipped or not displayed:", notification.getNotDisplayedReason());
-        }
-      });
-      
-      showMsg("heroAuthMsg", "Please select your Google account from the button above.", true);
-    }
+async function loginWithOAuth(provider) {
+  if (provider === 'google') {
+    await initializeGoogleAuth();
+    google.accounts.id.prompt((notification) => {
+      if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+        console.log("One Tap prompt was skipped or not displayed:", notification.getNotDisplayedReason());
+      }
+    });
+    showMsg("heroAuthMsg", "Please select your Google account from the button above.", true);
     return;
   }
 
@@ -3371,7 +3377,8 @@ async function loginWithOAuth(provider) {
     }
   });
 }
-  async function handleHeroLogin() {
+
+async function handleHeroLogin() {
   const email = document.getElementById("heroEmail").value.trim();
   const password = document.getElementById("heroPassword").value.trim();
   if (!email || !password) return showMsg("heroAuthMsg", "Please enter your registered email and password.", false);
@@ -3624,7 +3631,6 @@ async function renderAuthenticatedHome(user) {
   currentUser = user;
   if (!currentUser) return;
 
-  // Hide guest header elements
   document.getElementById("headerAuthGroup")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.add("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.add("hidden");
@@ -3645,7 +3651,6 @@ async function renderAuthenticatedHome(user) {
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
   let avatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
-  // Fetch profiles first to prevent flickering
   const { data: t } = await db.from("teachers").select("*").eq("id", currentUser.id).maybeSingle();
   if (t) {
     currentRole = 'teacher';
@@ -3664,7 +3669,6 @@ async function renderAuthenticatedHome(user) {
     }
   }
 
-  // If no profile exists, directly show the registration completion view without flickering the welcome box
   if (!currentProfile) {
     document.getElementById("heroLoggedInView")?.classList.add("hidden");
     document.getElementById("viewOAuthRole")?.classList.remove("hidden");
@@ -3672,7 +3676,6 @@ async function renderAuthenticatedHome(user) {
     return;
   }
 
-  // Otherwise, render normal logged-in dashboard view
   document.getElementById("viewOAuthRole")?.classList.add("hidden");
   document.getElementById("heroLoggedInView")?.classList.remove("hidden");
   document.body.classList.add("logged-in-mobile");
@@ -3685,18 +3688,17 @@ async function renderAuthenticatedHome(user) {
 
   await syncUserEnquiryBadge();
 }
+
 function renderGuestHome() {
   currentUser = null;
   currentRole = null;
   currentProfile = null;
   oauthRegistrationMode = false;
 
-  // Ensure bottom dock is completely disabled for guests
   document.body.classList.remove("logged-in-mobile");
   document.getElementById("heroLoggedInView")?.classList.add("hidden");
   document.getElementById("authPanelCloseBtn")?.classList.remove("hidden");
   
-  // Show header and mobile drawer auth buttons for guests
   document.getElementById("headerAuthGroup")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignIn")?.classList.remove("hidden");
   document.getElementById("mobileDrawerSignUp")?.classList.remove("hidden");
@@ -3704,7 +3706,6 @@ function renderGuestHome() {
   document.getElementById("navBtnSignIn")?.classList.remove("active");
   document.getElementById("navBtnSignUp")?.classList.remove("active");
   
-  // Portal hidden by default on guest visits
   document.getElementById("authPortalContainer").classList.add("hidden");
   document.getElementById("heroGridContainer").classList.add("portal-hidden");
 }
@@ -3757,6 +3758,9 @@ window.addEventListener("load", async () => {
   populateTeacherGradeChecklist();
   populateTeacherSubjectChecklist();
   populateStudentSubjectChecklist();
+  
+  // Initialize Google Auth right on startup
+  initializeGoogleAuth();
 
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
