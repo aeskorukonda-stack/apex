@@ -1147,7 +1147,7 @@ function renderCards(list) {
       const isConfirmedWithAnotherTeacher = confirmedPartnerTeacherId && confirmedPartnerTeacherId !== currentUid;
 
       if (isConfirmedWithAnotherTeacher) {
-        actionBtnHtml = `<span class="btn-locked" title="Tuition confirmed with another teacher"><i class="fa-solid fa-lock" style="color:var(--apex-gold);"></i> Contact Locked (Confirmed Elsewhere)</span>`;
+        actionBtnHtml = `<span class="btn-locked" title="Tuition confirmed with another teacher"><i class="fa-solid fa-lock" style="color:var(--apex-gold);"></i> Tuition confirmed</span>`;
       } else if (lockedStudentIds.has(itemId) && !isConfirmedWithAnotherTeacher) {
         // If confirmed with current user or general lock without conflict
         actionBtnHtml = `
