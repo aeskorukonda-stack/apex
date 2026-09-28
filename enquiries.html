@@ -923,14 +923,27 @@ async function loadEnquiries() {
         `;
       }
     } else {
-      // THE FIX: If the tuition is confirmed between a teacher and a student, 
-      // lock the WhatsApp interaction button saying "Tuition Confirmed" for BOTH 
-      // Teacher 1 (the active partner) and Teacher 2 (other teachers) so nobody can disturb or chat.
-      let waButtonHtml = `
-        <div class="btn-grand btn-tuition-lock">
-          <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
-        </div>
-      `;
+      // CORRECTION LOGIC:
+      // If the user is the student in this active pair, their button reads "Tuition Confirmed" (locked).
+      // If the user is the confirmed teacher (Teacher 1), they get the active WhatsApp chat button.
+      // If the user is another teacher (Teacher 2) viewing records or if it's locked for students/others, handle appropriately.
+      let waButtonHtml = '';
+      
+      if (currentRole === 'student') {
+        waButtonHtml = `
+          <div class="btn-grand btn-tuition-lock">
+            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
+          </div>
+        `;
+      } else {
+        // Teacher view: If this specific teacher is part of this confirmed tuition (Teacher 1), keep WhatsApp open. 
+        // Otherwise, if they are an outside teacher or if we want to lock out other contacts, handle it here.
+        waButtonHtml = `
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-grand btn-wa-active">
+            <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
+          </a>
+        `;
+      }
 
       const donateButtonHtml = `
         <a href="donate.html" class="btn-grand btn-donate-support" title="Apex Tuitions is 100% free! Support our platform.">
