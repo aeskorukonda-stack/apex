@@ -882,6 +882,9 @@ async function loadEnquiries() {
     return;
   }
 
+  // Check if any tuition is confirmed for this student across items to lock student buttons
+  const hasConfirmedTuition = data.some(item => (item.status || '').toLowerCase() === 'confirmed');
+
   listEl.innerHTML = data.map(item => {
     const isIncoming = (item.recipient_id === currentUser.id);
     const rawContactName = isIncoming ? item.sender_name : item.recipient_name;
@@ -923,16 +926,13 @@ async function loadEnquiries() {
         `;
       }
     } else {
-      // EXACT REQUIREMENT APPLIED:
-      // - If the current logged-in user viewing this is a STUDENT, lock their button saying "Tuition Confirmed".
-      // - If the current logged-in user viewing this is a TEACHER (whether Teacher 1 or Teacher 2), 
-      //   their WhatsApp button stays active so teachers can always communicate.
       let waButtonHtml = '';
 
-      if (currentRole === 'student') {
+      // LOCK REQUIREMENT: If the user is a student, or if there is any confirmed tuition locking out contacts, lock WhatsApp button.
+      if (currentRole === 'student' || hasConfirmedTuition) {
         waButtonHtml = `
           <div class="btn-grand btn-tuition-lock">
-            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
+            <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed (Contact Locked)
           </div>
         `;
       } else {
@@ -962,7 +962,7 @@ async function loadEnquiries() {
           </div>
         </div>
         <div class="support-inline-note">
-          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Please support to keep the platform free.
+          <i class="fa-solid fa-circle-info"></i> Apex Tuitions charges 0% commission. Contact is locked to prevent disturbance from other teachers.
         </div>
       `;
     }
@@ -991,7 +991,7 @@ async function loadEnquiries() {
               </span>
               <span class="info-tag info-tag-whatsapp">
                 <i class="fa-brands fa-whatsapp" style="color:#10B981;font-size:12px;"></i>
-                <span>${safeMobile}</span>
+                <span>${currentRole === 'student' && hasConfirmedTuition ? '🔒 Hidden (Locked)' : safeMobile}</span>
               </span>
             </div>
           </div>
