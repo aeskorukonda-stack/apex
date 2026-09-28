@@ -1364,7 +1364,7 @@
       margin: 0 auto;
     }
 
-    /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
+   /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
 .social-bar-wrapper {
   position: fixed;
   top: 55%;
@@ -1373,11 +1373,10 @@
   display: flex;
   align-items: center;
   z-index: 9999;
-  /* Matches the exact width of the social bar so it slides completely out of view */
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* When hidden, slide right by the width of the inner bar (approx 58px) leaving just the toggle tab visible */
+/* When hidden, slides completely to the right, leaving only the toggle button tab visible */
 .social-bar-wrapper.is-hidden {
   transform: translateY(-50%) translateX(58px);
 }
@@ -1394,7 +1393,7 @@
   border-right: none;
   border-radius: 14px 0 0 14px;
   box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.35);
-  width: 58px; /* Fixed width to ensure predictable sliding translation */
+  width: 58px;
 }
 
 .social-toggle-btn {
@@ -1424,11 +1423,10 @@
   transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Rotate the chevron indicator depending on open/closed state */
+/* Rotate the chevron indicator when hidden/collapsed */
 .social-bar-wrapper.is-hidden .social-toggle-btn i {
   transform: rotate(180deg);
 }
-
 .social-bar {
   display: flex;
   flex-direction: column;
@@ -2955,9 +2953,10 @@ function toggleMobileNav() { document.getElementById("mobileDrawer").classList.t
 
 function toggleSocialToolbar() {
   const bar = document.getElementById("socialToolbarWrapper");
-  if (bar) bar.classList.toggle("is-hidden");
+  if (bar) {
+    bar.classList.toggle("is-hidden");
+  }
 }
-
 let oauthRegistrationMode = false;
 let oauthProviderPending = false;
 let activeSignUpRole = 'student';
