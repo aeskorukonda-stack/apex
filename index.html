@@ -1365,61 +1365,67 @@
     }
 
     /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
-    .social-bar-wrapper {
-      position: fixed;
-      top: 55%;
-      right: 0;
-      transform: translateY(-50%);
-      display: flex;
-      align-items: center;
-      z-index: 9999;
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    /* Smoothly slide offscreen to the right, leaving the toggle button visible */
-    .social-bar-wrapper.is-hidden {
-      transform: translateY(-50%) translateX(calc(100% - 24px));
-    }
-   .social-toggle-btn {
-      width: 24px;
-      height: 48px;
-      background: var(--apex-navy);
-      color: #ffffff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-left: none; /* Attach seamlessly to the social bar on its left */
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0 8px 8px 0; /* Rounded on the right edge */
-      box-shadow: 3px 2px 10px rgba(0, 0, 0, 0.15);
-      font-size: 11px;
-      padding: 0;
-      outline: none;
-      transition: background 0.2s ease;
-    }
-    .social-toggle-btn:hover {
-      background: var(--royal-blue);
-    }
-    .social-toggle-btn i {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    /* Rotate chevron when open vs hidden */
-    .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
-      transform: rotate(180deg);
-    }
-    .social-bar {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 10px 8px;
-      background: rgba(15, 23, 42, 0.95);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      border-right: none; /* Attach seamlessly to the toggle button on its right */
-      border-radius: 14px 0 0 14px;
-      box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.35);
-    }
+.social-bar-wrapper {
+  position: fixed;
+  top: 55%;
+  right: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 9999;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* When hidden, tuck it neatly so only the tab is visible */
+.social-bar-wrapper.is-hidden {
+  transform: translateY(-50%) translateX(42px); /* Matches the width of the social icons so only the toggle button sticks out */
+}
+
+.social-toggle-btn {
+  width: 28px;
+  height: 52px;
+  background: var(--apex-navy);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-right: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px 0 0 8px; /* Rounded on the left edge to attach smoothly */
+  box-shadow: -3px 2px 10px rgba(0, 0, 0, 0.15);
+  font-size: 12px;
+  padding: 0;
+  outline: none;
+  transition: background 0.2s ease;
+}
+
+.social-toggle-btn:hover {
+  background: var(--royal-blue);
+}
+
+.social-toggle-btn i {
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Rotate chevron when open vs hidden */
+.social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
+  transform: rotate(180deg);
+}
+
+.social-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 8px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  border-right: none;
+  border-radius: 14px 0 0 14px;
+  box-shadow: -4px 6px 20px rgba(0, 0, 0, 0.35);
+}
     .social-link {
       display: flex;
       justify-content: center;
