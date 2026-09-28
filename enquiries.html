@@ -231,6 +231,7 @@
     </a>
     
     <div class="header-right-actions">
+      <!-- Desktop Nav Links (Hidden on Mobile) -->
       <nav class="nav-links-desktop">
         <a href="index.html" class="nav-link">Home</a>
         <a href="browse.html" class="nav-link" id="desktopBrowseLink">Browse</a>
@@ -248,17 +249,20 @@
         </div>
       </nav>
 
+      <!-- Auth Buttons (Hidden on Mobile when logged in) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
       </div>
 
+      <!-- Hamburger Menu Toggle Button (Visible only on Mobile) -->
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
       </button>
     </div>
   </div>
 
+  <!-- Restored Mobile Drawer Menu -->
   <div class="mobile-drawer" id="mobileDrawer">
     <a href="index.html">🏠 Home</a>
     <a href="browse.html" id="mobileDrawerBrowse">🔍 Browse</a>
@@ -268,7 +272,6 @@
     <a href="donate.html">❤️ Donate</a>
   </div>
 </header>
-
 <main>
   <div class="enquiries-card">
     <div class="enquiries-header">
