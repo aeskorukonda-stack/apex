@@ -923,12 +923,12 @@ async function loadEnquiries() {
         `;
       }
     } else {
-      // CORRECTION LOGIC:
-      // If the user is the student in this active pair, their button reads "Tuition Confirmed" (locked).
-      // If the user is the confirmed teacher (Teacher 1), they get the active WhatsApp chat button.
-      // If the user is another teacher (Teacher 2) viewing records or if it's locked for students/others, handle appropriately.
+      // EXACT REQUIREMENT APPLIED:
+      // - If the current logged-in user viewing this is a STUDENT, lock their button saying "Tuition Confirmed".
+      // - If the current logged-in user viewing this is a TEACHER (whether Teacher 1 or Teacher 2), 
+      //   their WhatsApp button stays active so teachers can always communicate.
       let waButtonHtml = '';
-      
+
       if (currentRole === 'student') {
         waButtonHtml = `
           <div class="btn-grand btn-tuition-lock">
@@ -936,8 +936,6 @@ async function loadEnquiries() {
           </div>
         `;
       } else {
-        // Teacher view: If this specific teacher is part of this confirmed tuition (Teacher 1), keep WhatsApp open. 
-        // Otherwise, if they are an outside teacher or if we want to lock out other contacts, handle it here.
         waButtonHtml = `
           <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-grand btn-wa-active">
             <i class="fa-brands fa-whatsapp"></i> Chat WhatsApp
