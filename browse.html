@@ -1,3 +1,4 @@
+<!-- browse.html content -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -224,7 +225,7 @@
       display: flex; justify-content: space-between; align-items: center; padding: 0 4px;
     }
 
-    /* CLEAN & ATTRACTIVE PROFILE CARDS */
+    /* CARDS GRID */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -509,10 +510,7 @@
     .auth-modal-backdrop {
       display: none;
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
+      top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(10, 25, 47, 0.72);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -521,13 +519,10 @@
       justify-content: center;
       padding: 16px;
     }
-    .auth-modal-backdrop.open {
-      display: flex;
-    }
+    .auth-modal-backdrop.open { display: flex; }
     .auth-modal-card {
       background: #FFFFFF;
-      width: 100%;
-      max-width: 420px;
+      width: 100%; max-width: 420px;
       border-radius: 20px;
       padding: 30px 24px;
       text-align: center;
@@ -541,97 +536,40 @@
       100% { opacity: 1; transform: scale(1) translateY(0); }
     }
     .modal-close-btn {
-      position: absolute;
-      top: 14px;
-      right: 14px;
-      background: #F1F5F9;
-      border: none;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #64748B;
-      font-size: 15px;
-      cursor: pointer;
-      transition: var(--transition);
+      position: absolute; top: 14px; right: 14px;
+      background: #F1F5F9; border: none; width: 32px; height: 32px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      color: #64748B; font-size: 15px; cursor: pointer; transition: var(--transition);
     }
-    .modal-close-btn:hover {
-      background: #E2E8F0;
-      color: #0F172A;
-    }
+    .modal-close-btn:hover { background: #E2E8F0; color: #0F172A; }
     .modal-icon-bubble {
-      width: 60px;
-      height: 60px;
+      width: 60px; height: 60px;
       background: linear-gradient(135deg, #EFF6FF, #DBEAFE);
-      color: var(--royal-blue);
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      margin: 0 auto 16px;
+      color: var(--royal-blue); border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin: 0 auto 16px;
       box-shadow: 0 6px 16px rgba(37, 99, 235, 0.15);
     }
-    .auth-modal-card h3 {
-      font-size: 20px;
-      font-weight: 800;
-      color: var(--apex-navy);
-      margin-bottom: 8px;
-    }
-    .auth-modal-card p {
-      font-size: 13.5px;
-      color: var(--text-muted);
-      margin-bottom: 22px;
-      line-height: 1.5;
-    }
-    .modal-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+    .auth-modal-card h3 { font-size: 20px; font-weight: 800; color: var(--apex-navy); margin-bottom: 8px; }
+    .auth-modal-card p { font-size: 13.5px; color: var(--text-muted); margin-bottom: 22px; line-height: 1.5; }
+    .modal-actions { display: flex; flex-direction: column; gap: 10px; }
     .modal-btn-signin {
       background: linear-gradient(135deg, #2563EB, #1D4ED8);
-      color: #FFFFFF;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 800;
-      text-decoration: none;
-      display: block;
-      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-      transition: var(--transition);
+      color: #FFFFFF; padding: 12px; border-radius: 12px;
+      font-size: 14px; font-weight: 800; text-decoration: none; display: block;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25); transition: var(--transition);
     }
-    .modal-btn-signin:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
-    }
+    .modal-btn-signin:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35); }
     .modal-btn-signup {
-      background: #F8FAFC;
-      color: var(--apex-navy);
-      padding: 11px;
-      border-radius: 12px;
-      font-size: 13.5px;
-      font-weight: 700;
-      text-decoration: none;
-      display: block;
-      border: 1.5px solid #CBD5E1;
-      transition: var(--transition);
+      background: #F8FAFC; color: var(--apex-navy); padding: 11px; border-radius: 12px;
+      font-size: 13.5px; font-weight: 700; text-decoration: none; display: block;
+      border: 1.5px solid #CBD5E1; transition: var(--transition);
     }
-    .modal-btn-signup:hover {
-      background: #F1F5F9;
-    }
+    .modal-btn-signup:hover { background: #F1F5F9; }
 
-    /* Bottom Dock (Hidden for non-logged-in) */
-    .mobile-bottom-dock {
-      display: none;
-    }
+    .mobile-bottom-dock { display: none; }
     body:not(.logged-in-mobile) .mobile-bottom-dock {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
+      display: none !important; visibility: hidden !important; opacity: 0 !important; pointer-events: none !important;
     }
 
     .hidden { display: none !important; }
@@ -646,133 +584,37 @@
     }
 
     @media (max-width: 768px) {
-      body.logged-in-mobile {
-        padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
-      }
+      body.logged-in-mobile { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important; }
 
-      /* Edge-to-edge Dock from feedback.html */
       body.logged-in-mobile .mobile-bottom-dock {
-        display: block !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        margin: 0 !important;
-        padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
-        background: #ffffff !important;
-        border-top: 1.5px solid #E2E8F0 !important;
-        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important;
-        z-index: 999999 !important;
-        transform: translateZ(0);
-        -webkit-transform: translateZ(0);
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
+        display: block !important; position: fixed !important; bottom: 0 !important; left: 0 !important; right: 0 !important;
+        width: 100% !important; margin: 0 !important; padding: 0 0 env(safe-area-inset-bottom, 0px) !important;
+        background: #ffffff !important; border-top: 1.5px solid #E2E8F0 !important;
+        box-shadow: 0 -3px 16px rgba(10, 25, 47, 0.08) !important; z-index: 999999 !important;
       }
-
       .dock-card-container {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0 !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 6px 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        width: 100% !important;
+        display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 0 !important;
+        background: transparent !important; border: none !important; padding: 6px 0 !important; margin: 0 !important; width: 100% !important;
       }
-
       .dock-item {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-decoration: none !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 4px 0 !important;
-        box-shadow: none !important;
-        position: relative !important;
-        transition: var(--transition);
+        display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+        text-decoration: none !important; background: transparent !important; border: none !important; padding: 4px 0 !important; position: relative !important;
       }
-
-      .dock-item.active-tab .dock-title {
-        color: var(--royal-blue) !important;
-        font-weight: 800 !important;
-      }
-
-      .dock-icon-wrap {
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 8px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-bottom: 2px !important;
-        position: relative;
-      }
-
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
-
-      .dock-title {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 3px !important;
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        color: #475569 !important;
-        letter-spacing: -0.2px !important;
-      }
-
-      .dock-badge {
-        position: absolute;
-        top: -4px;
-        right: 20%;
-        background: #EF4444;
-        color: #FFFFFF;
-        font-size: 9px;
-        font-weight: 800;
-        border-radius: 10px;
-        padding: 1px 5px;
-        z-index: 2;
-      }
-
+      .dock-item.active-tab .dock-title { color: var(--royal-blue) !important; font-weight: 800 !important; }
+      .dock-icon-wrap { width: 32px !important; height: 32px !important; border-radius: 8px !important; display: flex !important; align-items: center !important; justify-content: center !important; margin-bottom: 2px !important; position: relative; }
+      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
+      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 16px !important; }
+      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
+      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 16px !important; }
+      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
+      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 16px !important; }
+      .dock-title { display: inline-flex !important; align-items: center !important; gap: 3px !important; font-size: 11px !important; font-weight: 700 !important; color: #475569 !important; }
+      .dock-badge { position: absolute; top: -4px; right: 20%; background: #EF4444; color: #FFFFFF; font-size: 9px; font-weight: 800; border-radius: 10px; padding: 1px 5px; z-index: 2; }
       main { padding: 12px 10px 18px !important; }
       .cards-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
       .search-container-card { padding: 10px 10px; }
       .search-bar-input { height: 42px; font-size: 13px; }
       .btn-advanced-toggle { height: 42px; padding: 0 12px; font-size: 12.5px; }
-    }
-
-    @media (max-width: 600px) {
-      .header-logo { width: 36px; height: 36px; }
-      .brand-text h1 { font-size: 16.5px; }
-      .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
     }
   </style>
 </head>
@@ -827,7 +669,6 @@
 </header>
 
 <main>
-  <!-- SEARCH BAR & ADVANCED FILTERS -->
   <section class="search-container-card">
     <div class="search-input-wrapper">
       <input type="text" id="searchInput" class="search-bar-input" placeholder="Search by name, subject, board, or city..." oninput="debounceFilter()">
@@ -938,32 +779,9 @@
       <div class="skeleton-line" style="height:36px;width:100%;margin-top:12px;"></div>
       <div class="skeleton-line" style="height:38px;width:100%;border-radius:10px;"></div>
     </div>
-    <div class="skeleton-card">
-      <div style="display:flex;gap:12px;">
-        <div class="skeleton-line" style="width:48px;height:48px;border-radius:12px;"></div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
-          <div class="skeleton-line" style="height:16px;width:60%;"></div>
-          <div class="skeleton-line" style="height:12px;width:50%;"></div>
-        </div>
-      </div>
-      <div class="skeleton-line" style="height:36px;width:100%;margin-top:12px;"></div>
-      <div class="skeleton-line" style="height:38px;width:100%;border-radius:10px;"></div>
-    </div>
-    <div class="skeleton-card">
-      <div style="display:flex;gap:12px;">
-        <div class="skeleton-line" style="width:48px;height:48px;border-radius:12px;"></div>
-        <div style="flex:1;display:flex;flex-direction:column;gap:8px;">
-          <div class="skeleton-line" style="height:16px;width:65%;"></div>
-          <div class="skeleton-line" style="height:12px;width:35%;"></div>
-        </div>
-      </div>
-      <div class="skeleton-line" style="height:36px;width:100%;margin-top:12px;"></div>
-      <div class="skeleton-line" style="height:38px;width:100%;border-radius:10px;"></div>
-    </div>
   </div>
 </main>
 
-<!-- SIGN IN PROMPT POP-UP MODAL (GUEST USERS) -->
 <div class="auth-modal-backdrop" id="authModalBackdrop" onclick="handleBackdropClick(event)">
   <div class="auth-modal-card">
     <button class="modal-close-btn" onclick="closeAuthModal()" aria-label="Close modal">
@@ -981,10 +799,8 @@
   </div>
 </div>
 
-<!-- UPDATED BOTTOM DOCK (MATCHING feedback.html STYLE) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
-    <!-- 1. Enquiries Button -->
     <a href="enquiries.html" class="dock-item" id="dockEnquiriesBtn">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
@@ -996,7 +812,6 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
-    <!-- 2. Profile Button -->
     <a href="profile.html" class="dock-item" id="dockProfileBtn">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -1007,7 +822,6 @@
       </div>
     </a>
 
-    <!-- 3. Browse Button -->
     <a href="browse.html" class="dock-item active-tab" id="dockBrowseBtn">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -1029,6 +843,7 @@ let currentUser = null;
 let currentRole = null;
 let currentProfile = null;
 let rawData = [];
+let studentConfirmedPartnersMap = {}; // Maps student ID -> confirmed teacher ID
 let lockedStudentIds = new Set();
 let loggedInStudentHasConfirmedTuition = false;
 let myConfirmedTeacherId = null;
@@ -1040,18 +855,9 @@ function cleanDigits(v) { return String(v || '').replace(/\D/g, ''); }
 function toggleMobileNav() { document.getElementById("mobileDrawer").classList.toggle("open"); }
 function toggleAdvancedFilters() { document.getElementById("advancedDrawer").classList.toggle("open"); }
 
-/* MODAL CONTROLS */
-function openAuthModal() {
-  document.getElementById("authModalBackdrop").classList.add("open");
-}
-function closeAuthModal() {
-  document.getElementById("authModalBackdrop").classList.remove("open");
-}
-function handleBackdropClick(e) {
-  if (e.target.id === "authModalBackdrop") {
-    closeAuthModal();
-  }
-}
+function openAuthModal() { document.getElementById("authModalBackdrop").classList.add("open"); }
+function closeAuthModal() { document.getElementById("authModalBackdrop").classList.remove("open"); }
+function handleBackdropClick(e) { if (e.target.id === "authModalBackdrop") closeAuthModal(); }
 
 function debounceFilter() {
   clearTimeout(debounceTimer);
@@ -1115,6 +921,7 @@ const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
 
 async function syncGlobalConfirmedTuitions() {
   lockedStudentIds.clear();
+  studentConfirmedPartnersMap = {};
   loggedInStudentHasConfirmedTuition = false;
   myConfirmedTeacherId = null;
   teacherSuccessfulTuitionMap = {};
@@ -1140,6 +947,14 @@ async function syncGlobalConfirmedTuitions() {
         if (rId) lockedStudentIds.add(rId);
         if (sMob) lockedStudentIds.add(sMob);
         if (rMob) lockedStudentIds.add(rMob);
+
+        // Identify student and teacher pair
+        // Assuming student is the sender or recipient who is NOT the teacher
+        // We record studentId -> teacherId map explicitly
+        if (sId && rId) {
+          studentConfirmedPartnersMap[sId] = rId;
+          studentConfirmedPartnersMap[rId] = sId;
+        }
 
         if (currentRole === 'student') {
           if (sId === currentUid || rId === currentUid || (currentMob && (sMob === currentMob || rMob === currentMob))) {
@@ -1306,10 +1121,11 @@ function renderCards(list) {
     return;
   }
 
+  const currentUid = currentUser ? clean(currentUser.id) : "";
+
   grid.innerHTML = list.map(item => {
     const isTeacher = (item._entityType === 'teacher');
     const itemId = clean(item.id);
-    const itemMobDigits = cleanDigits(item.mobile);
     const name = isTeacher ? (item.teacher_name || 'Educator') : (item.student_name || 'Student');
     const roleTag = isTeacher ? 'Teacher' : 'Student';
     const firstInitial = (name.charAt(0) || (isTeacher ? 'T' : 'S')).toUpperCase();
@@ -1321,8 +1137,31 @@ function renderCards(list) {
     const { qual, exp, price } = parseSpecMetrics(item.qualification, item.timing_fee_desc);
 
     let actionBtnHtml = "";
-    if (!isTeacher && (lockedStudentIds.has(itemId) || (itemMobDigits && lockedStudentIds.has(itemMobDigits)))) {
-      actionBtnHtml = `<span class="btn-locked"><i class="fa-solid fa-circle-check" style="color:var(--emerald);"></i> Tuition Confirmed</span>`;
+
+    // EXACT REQUIREMENT APPLIED:
+    // If viewing a student, check if they have a confirmed tuition partner.
+    // If current logged-in teacher IS the confirmed partner, keep WhatsApp button active.
+    // If current logged-in teacher is a DIFFERENT teacher, lock the student's contact button.
+    if (!isTeacher) {
+      const confirmedPartnerTeacherId = studentConfirmedPartnersMap[itemId];
+      const isConfirmedWithAnotherTeacher = confirmedPartnerTeacherId && confirmedPartnerTeacherId !== currentUid;
+
+      if (isConfirmedWithAnotherTeacher) {
+        actionBtnHtml = `<span class="btn-locked" title="Tuition confirmed with another teacher"><i class="fa-solid fa-lock" style="color:var(--apex-gold);"></i> Contact Locked (Confirmed Elsewhere)</span>`;
+      } else if (lockedStudentIds.has(itemId) && !isConfirmedWithAnotherTeacher) {
+        // If confirmed with current user or general lock without conflict
+        actionBtnHtml = `
+          <button class="btn-connect-wa" onclick="handleWhatsAppConnect('${itemId}', '${name}', '${item.mobile || ''}', '${subject}')">
+            <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i> Contact via WhatsApp
+          </button>
+        `;
+      } else {
+        actionBtnHtml = `
+          <button class="btn-connect-wa" onclick="handleWhatsAppConnect('${itemId}', '${name}', '${item.mobile || ''}', '${subject}')">
+            <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i> Contact via WhatsApp
+          </button>
+        `;
+      }
     } else {
       actionBtnHtml = `
         <button class="btn-connect-wa" onclick="handleWhatsAppConnect('${itemId}', '${name}', '${item.mobile || ''}', '${subject}')">
@@ -1461,9 +1300,7 @@ if (localStorage.getItem("apex_cached_auth") === "true") {
 
 window.addEventListener("DOMContentLoaded", async () => {
   const cachedAuth = localStorage.getItem("apex_cached_auth");
-  if (cachedAuth === "true") {
-    setAuthState(true);
-  }
+  if (cachedAuth === "true") setAuthState(true);
 
   const { data: { session } } = await db.auth.getSession();
   if (session && session.user) {
@@ -1503,20 +1340,6 @@ window.addEventListener("DOMContentLoaded", async () => {
     localStorage.removeItem("apex_cached_auth");
     setAuthState(false);
   }
-
-  db.auth.onAuthStateChange(async (event, session) => {
-    if (session && session.user) {
-      currentUser = session.user;
-      localStorage.setItem("apex_cached_auth", "true");
-      setAuthState(true);
-    } else {
-      currentUser = null;
-      currentRole = null;
-      localStorage.removeItem("apex_cached_auth");
-      setAuthState(false);
-    }
-    await fetchDirectoryData();
-  });
 
   await fetchDirectoryData();
 });
