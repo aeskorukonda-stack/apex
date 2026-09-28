@@ -217,6 +217,27 @@
       .dock-title { display: inline-flex !important; align-items: center !important; gap: 3px !important; font-size: 11px !important; font-weight: 700 !important; color: #475569 !important; }
       .dock-badge { position: absolute !important; top: 0px !important; right: 20% !important; background: #EF4444 !important; color: #FFFFFF !important; font-size: 9.5px !important; font-weight: 800 !important; border-radius: 10px !important; padding: 1px 5px !important; }
     }
+    /* Mobile Header Overrides */
+    @media (max-width: 768px) {
+      .nav-links-desktop {
+        display: none !important;
+      }
+      .header-auth-buttons {
+        display: none !important;
+      }
+      .mobile-menu-toggle {
+        display: block !important;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .mobile-menu-toggle {
+        display: none !important;
+      }
+      .mobile-drawer {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
