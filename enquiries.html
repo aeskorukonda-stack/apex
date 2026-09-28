@@ -871,11 +871,6 @@ async function loadEnquiries() {
     return;
   }
 
-  // Check if ANY confirmed active tuition exists in the loaded items list
-  const hasActiveConfirmedTuition = data.some(item => 
-    (item.status || '').toLowerCase() === 'confirmed'
-  );
-
   if (!data || data.length === 0) {
     listEl.innerHTML = `
       <div style="text-align:center;padding:40px 14px;">
@@ -928,7 +923,9 @@ async function loadEnquiries() {
         `;
       }
     } else {
-      // If a tuition is confirmed, lock the student's WhatsApp contact option for BOTH Teacher 1 and Teacher 2 ("Tuition Confirmed" button lock)
+      // THE FIX: If the tuition is confirmed between a teacher and a student, 
+      // lock the WhatsApp interaction button saying "Tuition Confirmed" for BOTH 
+      // Teacher 1 (the active partner) and Teacher 2 (other teachers) so nobody can disturb or chat.
       let waButtonHtml = `
         <div class="btn-grand btn-tuition-lock">
           <i class="fa-solid fa-lock" style="color:var(--emerald);"></i> Tuition Confirmed
