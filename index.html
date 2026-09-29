@@ -3305,30 +3305,34 @@ async function initializeGoogleAuth() {
 
   const { rawNonce, hashedNonce } = await generateNonce();
 
-  google.accounts.id.initialize({
-    client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
-    nonce: hashedNonce,
-    callback: async (response) => {
-      showMsg("heroAuthMsg", "Signing in with Google...", true);
-      sessionStorage.setItem("apex_oauth_pending", "true");
+  // Guard initialization so it only runs once
+  if (!window._googleInitialized) {
+    google.accounts.id.initialize({
+      client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
+      nonce: hashedNonce,
+      callback: async (response) => {
+        showMsg("heroAuthMsg", "Signing in with Google...", true);
+        sessionStorage.setItem("apex_oauth_pending", "true");
 
-      const { data, error } = await db.auth.signInWithIdToken({
-        provider: 'google',
-        token: response.credential,
-        nonce: rawNonce
-      });
+        const { data, error } = await db.auth.signInWithIdToken({
+          provider: 'google',
+          token: response.credential,
+          nonce: rawNonce
+        });
 
-      if (error) {
-        sessionStorage.removeItem("apex_oauth_pending");
-        showMsg("heroAuthMsg", error.message, false);
-      } else if (data?.user) {
-        localStorage.setItem("apex_cached_auth", "true");
-        renderAuthenticatedHome(data.user);
-      }
-    },
-    auto_select: false,
-    cancel_on_tap_outside: true
-  });
+        if (error) {
+          sessionStorage.removeItem("apex_oauth_pending");
+          showMsg("heroAuthMsg", error.message, false);
+        } else if (data?.user) {
+          localStorage.setItem("apex_cached_auth", "true");
+          renderAuthenticatedHome(data.user);
+        }
+      },
+      auto_select: false,
+      cancel_on_tap_outside: true
+    });
+    window._googleInitialized = true;
+  }
 
   // Render buttons seamlessly in both Sign In and Sign Up boxes
   const signInWrapper = document.getElementById('googleButtonWrapperSignIn');
@@ -3357,7 +3361,6 @@ async function initializeGoogleAuth() {
     });
   }
 }
-
 async function loginWithOAuth(provider) {
   if (provider === 'google') {
     await initializeGoogleAuth();
