@@ -3,39 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
-  <!-- Primary Meta Tags -->
-  <title>About Apex Tuitions | Find Online & Home Tutors with Zero Commission</title>
-  <meta name="description" content="Find home tutors and online teachers across CBSE, ICSE, State Boards, and competitive exams. Connect directly on Apex Tuitions with 0% commission.">
-  <meta name="keywords" content="Apex Tuitions, home tuition, online tutors, CBSE tuition, ICSE tutors, private tutor India, find teachers online, zero commission tutoring">
-  <link rel="canonical" href="https://apextuitions.com/about.html">
-
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://apextuitions.com/about.html">
-  <meta property="og:title" content="About Apex Tuitions | Direct Tutor-Student Learning Network">
-  <meta property="og:description" content="Connecting students with qualified home and online tutors directly. Transparent, authentic, and zero agency cuts.">
-  <meta property="og:image" content="https://apextuitions.com/apex-circle-logo.png">
-
-  <!-- Twitter Meta Tags -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="About Apex Tuitions | Direct Tutor-Student Learning Network">
-  <meta name="twitter:description" content="Connecting students with qualified home and online tutors directly. Transparent, authentic, and zero agency cuts.">
-  <meta name="twitter:image" content="https://apextuitions.com/apex-circle-logo.png">
-
-  <!-- Structured Data: Organization & Educational Organization Schema -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "EducationalOrganization",
-    "name": "Apex Tuitions",
-    "url": "https://apextuitions.com",
-    "logo": "https://apextuitions.com/apex-circle-logo.png",
-    "email": "aeskorukonda@gmail.com",
-    "description": "A direct tutor-student educational platform connecting learners with verified home and online educators without middlemen or commissions.",
-    "sameAs": []
-  }
-  </script>
+  <title>About Apex | Apex Tuitions</title>
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -113,7 +81,7 @@
       object-fit: cover;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
-    .brand-text .brand-title {
+    .brand-text h1 {
       font-size: 21px;
       color: #ffffff;
       font-weight: 800;
@@ -192,12 +160,14 @@
       text-align: center;
     }
 
+    /* Dedicated Header Guest Buttons: Always visible until signed in */
     .header-auth-buttons {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
+    /* Force hide on all screen sizes when authenticated */
     #headerAuthGroup.hidden,
     body.logged-in-mobile #headerAuthGroup {
       display: none !important;
@@ -272,29 +242,23 @@
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-card);
       margin-bottom: 32px;
-      text-align: left;
-    }
-    .hero-banner h1 {
-      font-size: 32px;
-      color: var(--apex-navy);
-      font-weight: 800;
-      margin-bottom: 14px;
-      letter-spacing: -0.6px;
-      line-height: 1.25;
+      text-align: center;
     }
     .hero-banner h2 {
-      font-size: 22px;
-      color: var(--royal-blue);
-      font-weight: 700;
-      margin-top: 28px;
-      margin-bottom: 10px;
-      letter-spacing: -0.3px;
+      font-size: 34px;
+      color: var(--apex-navy);
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -0.6px;
     }
     .hero-banner p {
       font-size: 15.5px;
-      color: #475569;
-      margin: 0 0 12px 0;
-      line-height: 1.75;
+      color: var(--text-muted);
+      max-width: 780px;
+      margin: 0 auto;
+      text-align: justify;
+      text-justify: inter-word;
+      line-height: 1.7;
     }
 
     .pillars-grid {
@@ -338,6 +302,8 @@
     .pillar-card p {
       font-size: 14px;
       color: var(--text-muted);
+      text-align: justify;
+      text-justify: inter-word;
       line-height: 1.65;
     }
 
@@ -364,10 +330,12 @@
     }
     .info-box li {
       margin-bottom: 14px;
+      text-align: justify;
+      text-justify: inter-word;
       line-height: 1.65;
     }
 
-    /* MOBILE DOCK */
+    /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -381,7 +349,6 @@
       pointer-events: none !important;
     }
 
-    /* FOOTER */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
@@ -394,76 +361,33 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 40px;
+      gap: 36px;
       margin-bottom: 36px;
-      align-items: start;
-    }
-    .footer-col {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
       text-align: left;
     }
     .footer-col h4 {
       color: var(--apex-gold);
       font-size: 13.5px;
       font-weight: 800;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
     }
-    .footer-col p {
-      font-size: 13px;
-      color: #94A3B8;
-      line-height: 1.65;
-      margin-bottom: 12px;
-      text-align: left;
-    }
-    .footer-contact {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: #CBD5E1;
-      font-size: 12.5px;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-    .footer-contact:hover {
-      color: #ffffff;
-      text-decoration: underline;
-    }
-    .footer-col ul { 
-      list-style: none; 
-      padding: 0;
-      margin: 0;
-      width: 100%;
-    }
-    .footer-col ul li { 
-      margin-bottom: 10px; 
-      display: flex;
-      align-items: center;
-    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 8px; }
     .footer-col ul li a {
       color: #94A3B8;
       text-decoration: none;
       font-size: 13px;
       transition: var(--transition);
-      display: inline-block;
     }
-    .footer-col ul li a:hover { 
-      color: #ffffff; 
-      transform: translateX(4px); 
-    }
+    .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 24px;
+      padding-top: 22px;
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       color: #64748B;
-      letter-spacing: 0.2px;
     }
 
     .hidden { display: none !important; }
@@ -471,17 +395,22 @@
     @media (max-width: 960px) {
       header { padding: 10px 14px; }
       body { padding-top: 68px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 6px; }
       .btn-header-auth { padding: 6px 12px; font-size: 12px; }
     }
 
+    /* =========================================================
+       NON-FLOATING SCREEN-INTACT BOTTOM DOCK
+       ========================================================= */
     @media (max-width: 768px) {
       body.logged-in-mobile { 
         padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
+
+      /* Attached rigidly to bottom screen edges: 0 margins, 0 outer curves, 100vw */
       body.logged-in-mobile .mobile-bottom-dock {
         display: block !important;
         position: fixed !important;
@@ -502,25 +431,44 @@
         opacity: 1 !important;
         pointer-events: auto !important;
         transform: translateZ(0) !important;
+        -webkit-transform: translateZ(0) !important;
       }
+
+      /* 3-column flush grid filling width without floating side gaps */
       .dock-card-container {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 0 !important;
         width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
       }
+
       .dock-item {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
         text-decoration: none !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
         padding: 3px 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        position: relative !important;
+        -webkit-tap-highlight-color: transparent !important;
       }
+
       .dock-item.active-tab .dock-title {
         color: var(--royal-blue) !important;
         font-weight: 800 !important;
       }
+
       .dock-icon-wrap {
         width: 32px !important;
         height: 32px !important;
@@ -530,12 +478,31 @@
         justify-content: center !important;
         margin-bottom: 2px !important;
       }
-      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
-      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 16px !important; }
-      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
-      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 16px !important; }
-      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
-      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 16px !important; }
+
+      .dock-icon-wrap.green-bg {
+        background-color: #E8FAF2 !important;
+      }
+      .dock-icon-wrap.green-bg i {
+        color: #10B981 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.yellow-bg {
+        background-color: #FEF3C7 !important;
+      }
+      .dock-icon-wrap.yellow-bg i {
+        color: #D97706 !important;
+        font-size: 16px !important;
+      }
+
+      .dock-icon-wrap.blue-bg {
+        background-color: #EFF6FF !important;
+      }
+      .dock-icon-wrap.blue-bg i {
+        color: #2563EB !important;
+        font-size: 16px !important;
+      }
+
       .dock-title {
         display: inline-flex !important;
         align-items: center !important;
@@ -543,7 +510,10 @@
         font-size: 11px !important;
         font-weight: 700 !important;
         color: #475569 !important;
+        letter-spacing: -0.2px !important;
+        line-height: 1 !important;
       }
+
       .dock-badge {
         position: absolute !important;
         top: 0px !important;
@@ -554,17 +524,16 @@
         font-weight: 800 !important;
         border-radius: 10px !important;
         padding: 1px 5px !important;
+        line-height: 1 !important;
       }
     }
 
     @media (max-width: 600px) {
       .header-logo { width: 36px; height: 36px; }
-      .brand-text .brand-title { font-size: 16.5px; }
+      .brand-text h1 { font-size: 16.5px; }
       .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
-      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-      .hero-banner h1 { font-size: 24px; }
-      .hero-banner h2 { font-size: 19px; }
-      .hero-banner p { text-align: left; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .hero-banner h2 { font-size: 28px; }
     }
   </style>
 </head>
@@ -573,9 +542,9 @@
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
-      <img src="apex-circle-logo.png" alt="Apex Tuitions Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
       <div class="brand-text">
-        <span class="brand-title">APEX TUITIONS</span>
+        <h1>APEX TUITIONS</h1>
       </div>
     </a>
     
@@ -603,7 +572,7 @@
         </div>
       </nav>
 
-      <!-- Header Auth Buttons -->
+      <!-- DEDICATED HEADER AUTH BUTTONS (Visible for guests on all pages) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
@@ -628,55 +597,62 @@
 </header>
 
 <main class="about-container">
-  <article class="hero-banner">
-    <h1>Direct Teacher &amp; Student Connections for Home &amp; Online Tuitions</h1>
+  <div class="hero-banner">
+    <h2>Connect Students and Teachers Directly</h2>
     <p>
-      Apex Tuitions is a dedicated, zero-commission educational directory designed to bridge students, parents, and qualified teachers directly. Finding the right private tutor should be transparent, personalized, and free from hidden middleman margins. Learners discover verified educators across specific subjects, classes, academic boards, and modes of instruction, while independent teachers grow their personal tutoring practice autonomously.
-    </p>
+  Apex Tuitions is a platform designed to help students, parents and teachers
+  connect directly for tuition. Students can discover teachers according to
+  their subjects, classes, boards, teaching mode and learning requirements.
+  Teachers can create their profiles and connect with students looking for tuition.
+</p>
+<h2>Online and Home Tuition</h2>
+<p>
+  Find teachers for online tuition or home tuition based on your learning needs.
+  Apex Tuitions supports direct teacher-student communication so that tuition
+  arrangements can be discussed directly between the parties.
+</p>
+<h2>School Subjects, Skills and Competitive Exams</h2>
+<p>
+  Explore teachers for school and college subjects, CBSE, ICSE, State Boards,
+  competitive examinations, languages, music, art, public speaking, creative
+  skills and other learning requirements.
+</p>
+  </div>
 
-    <h2>Personalized Online and In-Person Home Tutoring</h2>
-    <p>
-      Whether you need convenient one-on-one online interactive sessions or hands-on home tuition in your neighbourhood, Apex Tuitions allows you to discuss hourly rates, class frequencies, and curriculum targets directly with educators via WhatsApp or phone.
-    </p>
-
-    <h2>Comprehensive School Curriculum, Exam Prep &amp; Skill Development</h2>
-    <p>
-      Explore specialized mentors for CBSE, ICSE, Cambridge (IGCSE), State Boards, and rigorous entrance examinations (JEE, NEET, CUET, Foundation courses). Beyond academics, find expert instructors in foreign languages, musical instruments, fine arts, public speaking, and creative coding.
-    </p>
-  </article>
-
-  <section class="pillars-grid" aria-label="Core Advantages">
+  <div class="pillars-grid">
     <div class="pillar-card">
-      <div class="pillar-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
-      <h3>Zero Middlemen &amp; 0% Commission</h3>
-      <p>Traditional tutoring agencies take 30% to 50% cuts from educators and inflate parent fees. Apex keeps tuition 100% direct and fee-free for both parties.</p>
+      <div class="pillar-icon"><i class="fa-solid fa-shield-halved"></i></div>
+      <h3>Zero Middlemen & Commissions</h3>
+      <p>Commercial aggregators cut 30% to 50% from teachers and burden parents. Apex connects families directly on WhatsApp with zero cuts.</p>
     </div>
 
     <div class="pillar-card">
-      <div class="pillar-icon"><i class="fa-solid fa-user-check"></i></div>
-      <h3>Verified &amp; Qualified Mentors</h3>
-      <p>Tutor profiles undergo rigorous verification across academic degrees, teaching background, and subject specializations to guarantee educational excellence.</p>
+      <div class="pillar-icon"><i class="fa-solid fa-certificate"></i></div>
+      <h3>Verified Mentors</h3>
+      <p>Every educator profile is checked across school credentials, degree qualifications, and subject specializations.</p>
     </div>
 
     <div class="pillar-card">
-      <div class="pillar-icon"><i class="fa-solid fa-graduation-cap"></i></div>
-      <h3>Flexible &amp; Goal-Oriented Learning</h3>
-      <p>Customized learning plans tailored to your speed, revision calendar, doubt-clearing sessions, and individual board curriculum benchmarks.</p>
+      <div class="pillar-icon"><i class="fa-solid fa-globe"></i></div>
+      <h3>Inclusive & Flexible</h3>
+      <p>Connecting across school curriculums (CBSE, ICSE, State Boards), competitive milestones, and creative arts across global time zones.</p>
     </div>
-  </section>
+  </div>
 
-  <section class="info-box" aria-label="Charter and Principles">
-    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--royal-blue);"></i> Core Charter &amp; Operating Principles</h3>
+  <div class="info-box">
+    <h3><i class="fa-solid fa-scale-balanced" style="color:var(--royal-blue);"></i> Core Charter & Principles</h3>
     <ul>
-      <li><strong>Educator Autonomy:</strong> Teachers independently set their hourly or monthly fees and receive 100% of their compensation directly from parents.</li>
-      <li><strong>Completely Free Access:</strong> Students and parents search, filter, and initiate contact without any registration barriers or agency finder fees.</li>
-      <li><strong>Mutual Accountability:</strong> Both parties maintain schedules and ratings inside their private portal to nurture a trusted, high-standard learning community.</li>
+      <li><b>Direct Autonomy</b>: Educators set their own fair hourly/monthly terms and retain 100% of their compensation directly from families.</li>
+      <li><b>Zero-Commission Access</b>: Free direct connections for students and parents, eliminating agency commission fees.</li>
+      <li><b>Mutual Confirmation</b>: Both educators and students mutually confirm schedules in their portal to maintain genuine community accountability.</li>
     </ul>
-  </section>
+  </div>
 </main>
 
+<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
+    <!-- Enquiries -->
     <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
@@ -688,6 +664,7 @@
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
+    <!-- Profile -->
     <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
@@ -698,6 +675,7 @@
       </div>
     </a>
 
+    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
@@ -714,45 +692,38 @@
   <div class="footer-grid">
     <div class="footer-col">
       <h4 style="color:#ffffff;">APEX TUITIONS</h4>
-      <p>
-        An open educational community connecting verified educators directly with students and parents for transparent home and online tutoring.
+      <p style="font-size:12.5px;color:#CBD5E1;line-height:1.6;margin-bottom:10px;">
+        A non-profit educational network connecting verified educators directly with students worldwide.
       </p>
-      <a href="mailto:aeskorukonda@gmail.com" class="footer-contact">
-        <i class="fa-regular fa-envelope" style="color:var(--apex-gold);"></i> aeskorukonda@gmail.com
-      </a>
+      <p style="font-size:11.5px;color:#94A3B8;">
+       • aeskorukonda@gmail.com
+      </p>
     </div>
-
     <div class="footer-col">
-      <h4><i class="fa-solid fa-book-open-reader"></i> For Students</h4>
+      <h4>For Students</h4>
       <ul>
-        <li><a href="browse.html">Find a Tutor</a></li>
+        <li><a href="browse.html">Search Tutors</a></li>
         <li><a href="resources.html">Study Resources</a></li>
-        <li><a href="browse.html?mode=home">Home Tuitions</a></li>
-        <li><a href="browse.html?mode=online">Online Classes</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
-      <h4><i class="fa-solid fa-chalkboard-user"></i> For Teachers</h4>
+      <h4>For Teachers</h4>
       <ul>
-        <li><a href="profile.html">Teacher Dashboard</a></li>
+        <li><a href="profile.html">Teacher Profile</a></li>
         <li><a href="about.html">Zero Commission Policy</a></li>
-        <li><a href="index.html?auth=signup">Register as a Tutor</a></li>
       </ul>
     </div>
-
     <div class="footer-col">
-      <h4><i class="fa-solid fa-building-columns"></i> Organization</h4>
+      <h4>Society & Trust</h4>
       <ul>
         <li><a href="about.html">About Apex</a></li>
-        <li><a href="feedback.html">Student Reviews</a></li>
-        <li><a href="donate.html">Support Us</a></li>
+        <li><a href="feedback.html">Testimonials</a></li>
+        <li><a href="donate.html">Donate</a></li>
       </ul>
     </div>
   </div>
-
   <div class="footer-bottom">
-    &copy; 2026 Apex Global Educational Society. All rights reserved.
+    © 2026 Apex Global Educational Society. All rights reserved.
   </div>
 </footer>
 
