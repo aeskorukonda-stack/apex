@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <!-- Primary SEO -->
   <title>Apex Tuitions | Find Teachers & Students Directly | Home & Online Tutoring</title>
 
@@ -32,13 +32,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-  <!-- Supabase -->
+  <!-- Supabase & HTML2Canvas -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<style>
+  <style>
     :root {
       --apex-navy: #0A192F;
       --apex-navy-surface: #112240;
@@ -57,7 +58,7 @@
       --text-muted: #64748B;
       --border-subtle: #CBD5E1;
       --border-focus: #93C5FD;
-      --card-radius: 18px;
+      --card-radius: 16px;
       --btn-radius: 10px;
       --shadow-sm: 0 2px 8px rgba(10, 25, 47, 0.04);
       --shadow-card: 0 12px 32px -4px rgba(10, 25, 47, 0.08);
@@ -192,7 +193,6 @@
       transform: translateX(3px);
     }
 
-    /* Header Auth Buttons */
     .header-auth-buttons {
       display: flex;
       align-items: center;
@@ -219,7 +219,6 @@
       align-items: center;
       justify-content: center;
       white-space: nowrap;
-      box-sizing: border-box;
     }
     .btn-header-auth:hover {
       background: rgba(255, 255, 255, 0.16);
@@ -278,7 +277,7 @@
     .grand-hero-wrap {
       background: linear-gradient(180deg, #0A192F 0%, #112240 60%, #1E3A8A 100%);
       color: #ffffff;
-      padding: 42px 24px 60px;
+      padding: 34px 20px 48px;
       position: relative;
       overflow: visible;
       border-bottom: 3px solid var(--apex-gold);
@@ -295,8 +294,8 @@
       max-width: 1280px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1.25fr 0.95fr;
-      gap: 32px;
+      grid-template-columns: 1.15fr 1.05fr;
+      gap: 28px;
       align-items: center;
       position: relative;
       z-index: 1;
@@ -328,15 +327,15 @@
       border-radius: 30px;
       font-size: 12px;
       font-weight: 700;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       letter-spacing: 0.3px;
     }
     .grand-hero-title {
-      font-size: 38px;
+      font-size: 36px;
       font-weight: 800;
       line-height: 1.2;
       color: #ffffff;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       letter-spacing: -0.5px;
     }
     .grand-hero-title span {
@@ -345,59 +344,12 @@
       -webkit-text-fill-color: transparent;
     }
     .grand-hero-subtitle {
-      font-size: 15px;
+      font-size: 14.5px;
       color: #CBD5E1;
-      line-height: 1.7;
-      margin-bottom: 24px;
+      line-height: 1.6;
+      margin-bottom: 20px;
       max-width: 620px;
     }
-    .grand-hero-ctas {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .btn-hero-primary {
-      background: var(--apex-gold);
-      color: #070F1E;
-      font-weight: 800;
-      padding: 12px 24px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.35);
-      transition: var(--transition);
-      border: none;
-      cursor: pointer;
-    }
-    .btn-hero-primary:hover {
-      background: var(--apex-gold-hover);
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-    .btn-hero-secondary {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ffffff;
-      border: 1.5px solid rgba(255, 255, 255, 0.3);
-      font-weight: 700;
-      padding: 12px 22px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .btn-hero-secondary:hover {
-      background: rgba(255, 255, 255, 0.2);
-      border-color: #ffffff;
-    }
-
     .quick-search-pills {
       display: flex;
       flex-wrap: wrap;
@@ -433,20 +385,20 @@
     /* Auth Portal Card */
     .auth-portal-card {
       background: #ffffff;
-      border-radius: 20px;
-      padding: 24px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.24);
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
       width: 100%;
-      max-width: 440px;
+      max-width: 480px;
       margin-left: auto;
       position: relative;
       color: var(--text-main);
     }
     .auth-panel-close {
       position: absolute;
-      top: 14px;
-      right: 14px;
+      top: 12px;
+      right: 12px;
       background: #F1F5F9;
       border: none;
       width: 28px;
@@ -466,10 +418,10 @@
       color: var(--apex-navy);
     }
     .auth-card-title {
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 800;
       color: var(--apex-navy);
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-align: center;
     }
 
@@ -479,15 +431,15 @@
       background: #F1F5F9;
       padding: 4px;
       border-radius: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
     .role-pill-btn {
       flex: 1;
       border: none;
       background: transparent;
-      padding: 9px 10px;
+      padding: 8px;
       border-radius: 7px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       color: #64748B;
       cursor: pointer;
@@ -507,12 +459,12 @@
 
     .btn-primary-action {
       width: 100%;
-      height: 40px;
+      height: 38px;
       border: none;
       border-radius: var(--btn-radius);
       background: var(--royal-blue);
       color: #ffffff;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       cursor: pointer;
       transition: var(--transition);
@@ -520,11 +472,9 @@
       align-items: center;
       justify-content: center;
       gap: 7px;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
     }
     .btn-primary-action:hover {
       background: var(--royal-blue-hover);
-      transform: translateY(-1px);
     }
 
     .oauth-grid-row {
@@ -550,14 +500,12 @@
     }
     .oauth-btn:hover {
       background: #F8FAFC;
-      border-color: #94A3B8;
-      transform: translateY(-1px);
     }
 
     .divider-text {
       position: relative;
       text-align: center;
-      margin: 12px 0;
+      margin: 10px 0;
     }
     .divider-text::before {
       content: "";
@@ -594,7 +542,7 @@
       top: 50%;
       transform: translateY(-50%);
       color: #94A3B8;
-      font-size: 12.5px;
+      font-size: 12px;
     }
     .input-wrap input {
       padding-left: 34px !important;
@@ -603,252 +551,611 @@
       border-radius: 8px !important;
     }
 
-    /* Grand Welcome Card Box */
+    /* ========================================================
+       ATTRACTIVE WELCOME CARD STYLING
+       ======================================================== */
     .welcome-card-box {
-      background: linear-gradient(145deg, #0A192F 0%, #0F284E 55%, #1E3A8A 100%);
-      border: 2px solid rgba(245, 158, 11, 0.45);
-      border-radius: 18px;
-      padding: 22px 20px 20px;
-      box-shadow: 0 20px 45px -8px rgba(10, 25, 47, 0.4), 0 0 24px rgba(245, 158, 11, 0.12);
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 18px 16px 14px;
+      border: 1.5px solid #E2E8F0;
+      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.08);
+      color: var(--text-main);
       position: relative;
-      overflow: hidden;
-      color: #ffffff;
-    }
-    .welcome-card-box::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      right: -30px;
-      width: 130px;
-      height: 130px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.35) 0%, transparent 70%);
-      pointer-events: none;
-      animation: ambientGlow 4s ease-in-out infinite alternate;
-    }
-    .welcome-card-box::after {
-      content: "";
-      position: absolute;
-      bottom: -40px;
-      left: -20px;
-      width: 140px;
-      height: 140px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.4) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    @keyframes ambientGlow {
-      0% { transform: scale(1); opacity: 0.7; }
-      100% { transform: scale(1.3); opacity: 1; }
     }
 
     .welcome-card-topbar {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      position: relative;
-      z-index: 2;
+      justify-content: flex-end;
+      margin-bottom: 6px;
     }
-    .welcome-pill-celebrate {
+    .btn-card-share {
+      background: #EFF6FF;
+      color: var(--royal-blue);
+      border: 1px solid #BFDBFE;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 11px;
-      font-weight: 800;
-      color: #FEF08A;
-      background: rgba(245, 158, 11, 0.22);
-      border: 1px solid rgba(245, 158, 11, 0.5);
-      padding: 3px 10px;
-      border-radius: 20px;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2);
-      animation: gentleBounce 2.4s ease-in-out infinite;
+      transition: var(--transition);
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.08);
     }
+    .btn-card-share:hover {
+      background: var(--royal-blue);
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
     .welcome-card-hero {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 16px;
       margin-bottom: 14px;
-      position: relative;
-      z-index: 2;
     }
     .welcome-avatar-wrapper {
       position: relative;
       flex-shrink: 0;
-    }
-    .welcome-avatar-square {
-      width: 74px;
-      height: 74px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 2.5px solid #F59E0B;
-      background: #FFFFFF;
-      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3), 0 0 12px rgba(245, 158, 11, 0.4);
-      display: block;
-      transition: var(--transition);
-    }
-    .welcome-avatar-wrapper:hover .welcome-avatar-square {
-      transform: scale(1.05) rotate(-2deg);
-      border-color: #FDE68A;
-    }
-    .welcome-online-pulse {
-      position: absolute;
-      bottom: -3px;
-      right: -3px;
-      width: 17px;
-      height: 17px;
+      width: 80px;
+      height: 80px;
       border-radius: 50%;
+      border: 3px solid #93C5FD;
+      padding: 3px;
+      background: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.16);
+    }
+    .welcome-avatar-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+    .welcome-verified-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 24px;
+      height: 24px;
       background: #10B981;
-      border: 2.5px solid #0A192F;
-      box-shadow: 0 0 8px #10B981;
+      border: 2px solid #FFFFFF;
+      border-radius: 50%;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.4);
     }
 
     .welcome-meta {
       flex: 1;
       min-width: 0;
+      text-align: left;
+    }
+    .welcome-meta .welcome-script-title {
+      font-family: 'Caveat', cursive, sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #0F172A;
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+      margin-bottom: 2px;
+    }
+    .welcome-meta .welcome-script-title::after {
+      content: "";
+      position: absolute;
+      left: 8px;
+      bottom: -2px;
+      width: 50px;
+      height: 3px;
+      background: #F59E0B;
+      border-radius: 3px;
     }
     .welcome-meta h3 {
-      font-size: 18.5px;
+      font-size: 20px;
       font-weight: 800;
-      color: #FFFFFF;
+      color: #0F172A;
+      margin-top: 3px;
       margin-bottom: 5px;
-      line-height: 1.25;
-      letter-spacing: -0.2px;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+      line-height: 1.2;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      letter-spacing: -0.3px;
     }
     .welcome-badge-role {
       font-size: 11.5px;
       font-weight: 800;
-      color: #064E3B;
-      background: linear-gradient(135deg, #A7F3D0 0%, #6EE7B7 100%);
-      border: 1px solid #34D399;
-      padding: 3px 11px;
-      border-radius: 20px;
+      color: #065F46;
+      background: #DCFCE7;
+      border: 1px solid #86EFAC;
+      padding: 2.5px 10px;
+      border-radius: 16px;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      box-shadow: 0 3px 8px rgba(16, 185, 129, 0.25);
+      gap: 6px;
+    }
+    .welcome-badge-role i {
+      font-size: 10px;
+      background: #10B981;
+      color: #FFFFFF;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .welcome-intro-quote {
-      font-size: 12.5px;
-      color: #E2E8F0;
-      margin-bottom: 16px;
-      line-height: 1.55;
+    .welcome-sub-quote {
+      font-size: 11.5px;
+      color: #475569;
+      line-height: 1.45;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .welcome-feature-box {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .commission-callout {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
       text-align: left;
-      position: relative;
-      z-index: 2;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      padding: 9px 12px;
-      border-radius: 10px;
-      backdrop-filter: blur(4px);
+      flex: 1;
+    }
+    .megaphone-bubble {
+      width: 38px;
+      height: 38px;
+      background: #EFF6FF;
+      color: #2563EB;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .commission-callout h4 {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #0F172A;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .commission-callout p {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+      text-align: left;
     }
 
-    /* Welcome Card Desktop Action Grid */
     .welcome-action-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 9px;
-      position: relative;
-      z-index: 2;
+      gap: 6px;
+      flex-shrink: 0;
     }
-    .welcome-action-grid .btn-welcome-tile {
-      background: linear-gradient(180deg, #FFFFFF 0%, #F1F5F9 100%);
-      border: 1.5px solid #CBD5E1;
-      color: var(--apex-navy);
-      padding: 12px 6px 10px;
-      border-radius: 12px;
-      font-size: 11.5px;
-      font-weight: 800;
+    .btn-welcome-tile {
+      padding: 8px 6px;
+      border-radius: 10px;
       text-decoration: none;
-      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 6px;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+      gap: 3px;
+      color: #FFFFFF !important;
+      font-size: 10.5px;
+      font-weight: 800;
+      transition: var(--transition);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
       position: relative;
-      cursor: pointer;
+      min-width: 64px;
     }
-    .welcome-action-grid .btn-welcome-tile .tile-icon-bubble {
-      width: 38px;
+    .btn-welcome-tile:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.06);
+    }
+    .btn-welcome-tile i.tile-main-icon {
+      font-size: 15px;
+      margin-bottom: 1px;
+    }
+    .btn-welcome-tile span.arrow-indicator {
+      font-size: 9px;
+      opacity: 0.9;
+    }
+    .tile-enquiries { background: linear-gradient(135deg, #10B981 0%, #059669 100%); }
+    .tile-profile { background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%); }
+    .tile-browse { background: linear-gradient(135deg, #7C3AED 0%, #6366F1 100%); }
+
+    .welcome-card-whatsapp-bar {
+      width: 100%;
       height: 38px;
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 17px;
+      gap: 8px;
+      color: #15803D;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer;
       transition: var(--transition);
     }
-    .welcome-action-grid .btn-welcome-tile.tile-browse .tile-icon-bubble { background: #EFF6FF; color: #2563EB; }
-    .welcome-action-grid .btn-welcome-tile.tile-profile .tile-icon-bubble { background: #FEF3C7; color: #D97706; }
-    .welcome-action-grid .btn-welcome-tile.tile-enquiries .tile-icon-bubble { background: #ECFDF5; color: #059669; }
-
-    .welcome-action-grid .btn-welcome-tile:hover {
-      background: #FFFFFF;
-      transform: translateY(-4px);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25), 0 0 12px rgba(245, 158, 11, 0.3);
-      border-color: var(--apex-gold);
-      color: #070F1E;
+    .welcome-card-whatsapp-bar:hover {
+      background: #DCFCE7;
+      border-color: #86EFAC;
+      transform: translateY(-1px);
+    }
+    .welcome-card-whatsapp-bar .wa-icon-bubble {
+      width: 22px;
+      height: 22px;
+      background: #10B981;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
     }
 
     .badge-counter {
       position: absolute;
-      top: -5px;
-      right: -3px;
-      background: linear-gradient(135deg, #EF4444 0%, #DC2626 100%);
+      top: -4px;
+      right: -2px;
+      background: #EF4444;
       color: #ffffff;
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 800;
-      border-radius: 12px;
-      padding: 1px 7px;
-      box-shadow: 0 2px 6px rgba(239, 68, 68, 0.5);
+      border-radius: 8px;
+      padding: 1px 5px;
       border: 1.5px solid #FFFFFF;
-      animation: badgePulse 2s infinite;
-    }
-    @keyframes badgePulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
     }
 
-    /* Lively Interactive Highlight Box for Mobile */
-    .welcome-lively-mobile-box {
-      display: none;
+    /* ========================================================
+       HIDDEN FLYER CARD TEMPLATE MATCHING PROVIDED SCREENSHOT
+       ======================================================== */
+    #hiddenShareCardSource {
+      position: fixed;
+      left: -9999px;
+      top: -9999px;
+      width: 440px;
+      background: #FFFFFF;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      position: relative;
+      overflow: hidden;
+      border-radius: 24px;
+      padding: 26px 22px 22px;
+    }
+    .card-top-brand-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
       position: relative;
       z-index: 2;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1.5px dashed rgba(245, 158, 11, 0.5);
-      border-radius: 14px;
-      padding: 12px 14px;
-      text-align: center;
-      margin-top: 4px;
     }
-    .lively-emojis-row {
+    .card-top-brand-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+    .card-top-brand-title {
+      font-size: 21px;
+      font-weight: 900;
+      color: #0A192F;
+      letter-spacing: -0.3px;
+    }
+
+    /* Top Split Hero */
+    .card-hero-split {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      position: relative;
+      margin-bottom: 18px;
+      min-height: 160px;
+    }
+    .card-hero-left {
+      flex: 1.15;
+      z-index: 2;
+      text-align: left;
+      padding-top: 4px;
+    }
+    .card-greeting {
+      font-size: 15px;
+      color: #0A192F;
+      font-weight: 800;
+      margin-bottom: 2px;
+    }
+    .card-user-name {
+      font-size: 26px;
+      font-weight: 900;
+      color: #0A192F;
+      line-height: 1.15;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin: 2px 0 8px;
+      word-break: break-word;
+    }
+    .card-user-name .fa-circle-check {
+      color: #0284C7;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .card-hero-desc {
+      font-size: 13px;
+      color: #0A192F;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+    .card-hero-desc b {
+      color: #0284C7;
+      font-weight: 800;
+    }
+
+    .card-hero-right {
+      position: relative;
+      width: 170px;
+      height: 170px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      font-size: 24px;
-      margin-bottom: 6px;
-      animation: floatRow 3s ease-in-out infinite alternate;
+      flex-shrink: 0;
     }
-    @keyframes floatRow {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(-4px); }
+    .card-crescent-yellow {
+      position: absolute;
+      top: -12px;
+      right: -24px;
+      width: 165px;
+      height: 165px;
+      background: radial-gradient(circle at center, #FDE047 0%, #FACC15 100%);
+      border-radius: 50%;
+      z-index: 1;
     }
-    .lively-badge-tag {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #FDE68A;
-      letter-spacing: 0.2px;
+    .card-sparkle-star {
+      position: absolute;
+      top: 6px;
+      right: 18px;
+      font-size: 18px;
+      color: #EA580C;
+      z-index: 2;
+    }
+    .card-avatar-circle-wrap {
+      position: relative;
+      z-index: 3;
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: #BAE6FD;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.15);
+    }
+    .card-avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
-    /* SEO Metrics Bar */
+    /* List Rows with Icons */
+    .card-fields-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 18px;
+      border-top: 1.5px solid #F1F5F9;
+      padding-top: 14px;
+    }
+    .card-field-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-align: left;
+    }
+    .card-field-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .card-icon-blue { background: #38BDF8; }
+    .card-icon-indigo { background: #6366F1; }
+    .card-icon-mint { background: #34D399; }
+    .card-icon-coral { background: #F43F5E; }
+    .card-icon-amber { background: #F59E0B; }
+
+    .card-field-text {
+      flex: 1;
+    }
+    .card-field-text .field-label {
+      font-size: 12px;
+      font-weight: 800;
+      color: #0284C7;
+      line-height: 1.2;
+    }
+    .card-field-text .field-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0A192F;
+      line-height: 1.25;
+      margin-top: 1px;
+    }
+
+    /* WhatsApp Callout */
+    .card-whatsapp-box {
+      background: #F0FDF4;
+      border: 1.5px solid #86EFAC;
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .card-wa-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .card-wa-bubble {
+      width: 46px;
+      height: 46px;
+      background: #22C55E;
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+    .card-wa-content {
+      text-align: left;
+    }
+    .card-wa-content .wa-sub {
+      font-size: 11px;
+      font-weight: 700;
+      color: #14532D;
+    }
+    .card-wa-content .wa-big {
+      font-size: 23px;
+      font-weight: 900;
+      color: #15803D;
+      line-height: 1.05;
+    }
+    .card-wa-content .wa-note {
+      font-size: 11px;
+      font-weight: 800;
+      color: #14532D;
+      margin-top: 2px;
+    }
+    .card-wa-tag {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #166534;
+      line-height: 1.25;
+      text-align: right;
+    }
+    .card-wa-tag span {
+      color: #EA580C;
+    }
+
+    /* Bottom Link Pill Button */
+    .card-link-bar {
+      background: #0284C7;
+      color: #FFFFFF;
+      border-radius: 12px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .card-link-bar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+    }
+    .card-link-icon-circle {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .card-link-sub {
+      font-size: 10.5px;
+      opacity: 0.95;
+      font-weight: 700;
+    }
+    .card-link-url {
+      font-size: 12px;
+      font-weight: 900;
+      display: block;
+    }
+
+    /* SHARE MODAL OVERLAY */
+    .share-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 25, 47, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 999999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .share-modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 440px;
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    .share-modal-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #CBD5E1;
+      margin-bottom: 10px;
+    }
+    .share-link-text-box {
+      background: #EFF6FF;
+      border: 1px dashed #60A5FA;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .share-link-text-box a {
+      color: var(--royal-blue);
+      font-weight: 800;
+      font-size: 13px;
+      text-decoration: underline;
+    }
+
+    /* SEO & SHOWCASE SECTIONS */
     .seo-metrics-bar {
       background: #FFFFFF;
       border-bottom: 1px solid var(--border-subtle);
@@ -886,14 +1193,13 @@
     .seo-metric-text b { display: block; font-size: 16px; color: var(--apex-navy); font-weight: 800; line-height: 1.2; }
     .seo-metric-text span { font-size: 12px; color: var(--text-muted); font-weight: 600; }
 
-    /* Grand Showcase Sections */
     .grand-section {
-      padding: 48px 24px;
+      padding: 44px 20px;
       max-width: 1280px;
       margin: 0 auto;
     }
     .grand-section-header {
-      margin-bottom: 24px;
+      margin-bottom: 22px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -910,7 +1216,6 @@
       margin-top: 4px;
     }
 
-    /* SEO Tabbed Matrix */
     .seo-matrix-card {
       background: #FFFFFF;
       border-radius: 16px;
@@ -926,8 +1231,8 @@
       overflow-x: auto;
     }
     .seo-tab-btn {
-      padding: 14px 22px;
-      font-size: 13.5px;
+      padding: 12px 20px;
+      font-size: 13px;
       font-weight: 700;
       color: #64748B;
       background: transparent;
@@ -946,12 +1251,12 @@
       font-weight: 800;
     }
     .seo-tab-content-panel {
-      padding: 28px;
+      padding: 24px;
     }
     .matrix-links-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 24px 32px;
+      gap: 20px 28px;
     }
     .matrix-col h4 {
       font-size: 13px;
@@ -959,12 +1264,12 @@
       color: var(--apex-navy);
       text-transform: uppercase;
       letter-spacing: 0.6px;
-      margin-bottom: 12px;
-      padding-bottom: 6px;
+      margin-bottom: 10px;
+      padding-bottom: 5px;
       border-bottom: 2px solid #E2E8F0;
     }
     .matrix-col ul { list-style: none; }
-    .matrix-col ul li { margin-bottom: 8px; }
+    .matrix-col ul li { margin-bottom: 6px; }
     .matrix-col ul li a {
       color: #475569;
       text-decoration: none;
@@ -978,16 +1283,15 @@
       transform: translateX(3px);
     }
 
-    /* Photo Category Grid */
     .photo-category-grid {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
+      gap: 14px;
+      margin-bottom: 28px;
     }
     .photo-card {
       background: #FFFFFF;
-      border-radius: 14px;
+      border-radius: 12px;
       overflow: hidden;
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-sm);
@@ -997,131 +1301,32 @@
       flex-direction: column;
     }
     .photo-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-hover);
       border-color: var(--border-focus);
     }
     .photo-img-wrap {
       width: 100%;
-      height: 110px;
+      height: 105px;
       overflow: hidden;
       background: #E2E8F0;
-      position: relative;
     }
     .photo-img-wrap img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .photo-card:hover .photo-img-wrap img {
-      transform: scale(1.08);
     }
     .photo-card-label {
-      padding: 10px 8px;
-      text-align: center;
-      font-size: 12.5px;
-      font-weight: 700;
-      color: var(--apex-navy);
-      background: #FFFFFF;
-    }
-
-    /* Flags Grid */
-    .flag-category-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-      margin-bottom: 36px;
-    }
-    .flag-card {
-      background: #FFFFFF;
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--border-subtle);
-      box-shadow: var(--shadow-sm);
-      text-decoration: none;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-    }
-    .flag-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--royal-blue);
-    }
-    .flag-img-box {
-      width: 100%;
-      height: 90px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #F8FAFC;
-    }
-    .flag-img-box img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .flag-card-label {
-      padding: 9px 8px;
+      padding: 8px 6px;
       text-align: center;
       font-size: 12px;
       font-weight: 700;
       color: var(--apex-navy);
-    }
-
-    /* How It Works Banner */
-    .workflow-banner {
-      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
-      border-radius: 20px;
-      padding: 32px 28px;
-      border: 1.5px solid #BFDBFE;
-      margin-bottom: 40px;
-    }
-    .workflow-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-top: 20px;
-    }
-    .workflow-item {
       background: #FFFFFF;
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-    }
-    .workflow-step-badge {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--royal-blue);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-    .workflow-item h4 {
-      font-size: 15px;
-      color: var(--apex-navy);
-      font-weight: 800;
-      margin-bottom: 6px;
-    }
-    .workflow-item p {
-      font-size: 12.5px;
-      color: var(--text-muted);
-      line-height: 1.5;
     }
 
-    /* Wizard / Forms styling */
+    /* WIZARDS AND FORMS */
     .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 10px; }
-    #sStep1 .form-grid-2, #sStep2 .form-grid-2, #sStep3 .form-grid-2 {
-      align-items: start;
-    }
     .form-group-full { grid-column: span 2; }
     .form-group-half { grid-column: span 1; }
     label {
@@ -1150,7 +1355,7 @@
       outline: none;
       border-color: var(--royal-blue);
       background: #FFFFFF;
-      box-shadow: 0 0 0 3.5px var(--royal-blue-glow);
+      box-shadow: 0 0 0 3px var(--royal-blue-glow);
     }
     textarea { min-height: 54px; height: 54px; padding: 8px 12px; }
 
@@ -1204,7 +1409,6 @@
       font-size: 12px;
       cursor: pointer;
       transition: var(--transition);
-      text-transform: none;
       margin: 0;
       font-weight: 600;
     }
@@ -1225,11 +1429,6 @@
       cursor: pointer;
       margin-top: 10px;
       transition: var(--transition);
-      box-shadow: 0 4px 14px rgba(10, 25, 47, 0.2);
-    }
-    .submit-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 20px rgba(10, 25, 47, 0.3);
     }
 
     .wizard-steps-header {
@@ -1252,13 +1451,11 @@
       grid-column: 1 / -1 !important;
       display: block !important;
       width: 100%;
-      margin: 14px 0 10px;
-      padding: 12px 14px;
+      margin: 12px 0 8px;
+      padding: 10px 12px;
       background: #F8FAFC;
       border: 1px solid #CBD5E1;
       border-radius: 10px;
-      visibility: visible !important;
-      opacity: 1 !important;
     }
     .terms-checkbox {
       display: flex;
@@ -1266,53 +1463,37 @@
       gap: 10px;
       cursor: pointer;
       font-size: 11.5px;
-      line-height: 1.5;
       color: #475569;
-      margin: 0;
     }
     .terms-checkbox input[type="checkbox"] {
-      appearance: auto !important;
-      -webkit-appearance: checkbox !important;
-      display: inline-block !important;
-      visibility: visible !important;
-      opacity: 1 !important;
-      width: 18px;
-      height: 18px;
-      min-width: 18px;
-      margin: 1px 0 0;
+      margin-top: 2px;
       accent-color: var(--royal-blue);
-      cursor: pointer;
     }
     .terms-checkbox a {
       color: var(--royal-blue);
       font-weight: 800;
       text-decoration: underline;
-      text-underline-offset: 2px;
     }
 
-    .oauth-role-card { border: 1.5px solid #BFDBFE; background: linear-gradient(135deg,#F8FBFF,#FFFFFF); border-radius: 14px; padding: 16px; margin-top: 6px; }
-    .oauth-role-card h3 { font-size: 17px; color: var(--apex-navy); margin-bottom: 5px; }
-    .oauth-role-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 13px; text-align: left; }
-    .oauth-role-actions { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
-    .oauth-role-btn { border:1.5px solid var(--border-subtle); background:#fff; border-radius:10px; padding:12px 8px; cursor:pointer; font-weight:800; font-size:11.5px; }
+    .oauth-role-card { border: 1.5px solid #BFDBFE; background: #F8FBFF; border-radius: 14px; padding: 14px; margin-top: 6px; }
+    .oauth-role-card h3 { font-size: 16px; color: var(--apex-navy); margin-bottom: 4px; }
+    .oauth-role-card p { font-size: 11.5px; color: var(--text-muted); margin-bottom: 12px; text-align: left; }
+    .oauth-role-actions { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .oauth-role-btn { border:1.5px solid var(--border-subtle); background:#fff; border-radius:10px; padding:10px 6px; cursor:pointer; font-weight:800; font-size:11px; }
     .oauth-role-btn.student { color:var(--royal-blue); }
     .oauth-role-btn.teacher { color:var(--emerald-dark); }
-    .oauth-role-btn:hover { transform:translateY(-1px); box-shadow:0 5px 14px rgba(10,25,47,.08); }
 
-    .wizard-nav-btns { display: flex; gap: 10px; margin-top: 14px; grid-column: span 2; }
-    .wizard-btn-next { flex: 1; height: 40px; background: var(--royal-blue); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-next:hover { background: var(--royal-blue-hover); }
-    .wizard-btn-back { flex: 1; height: 40px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-back:hover { background: #CBD5E1; }
-    .wizard-btn-submit { flex: 1.5; height: 40px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; transition: var(--transition); }
-    .wizard-btn-submit:hover { background: var(--emerald-dark); }
+    .wizard-nav-btns { display: flex; gap: 10px; margin-top: 12px; grid-column: span 2; }
+    .wizard-btn-next { flex: 1; height: 38px; background: var(--royal-blue); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; }
+    .wizard-btn-back { flex: 1; height: 38px; background: #E2E8F0; color: #475569; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; }
+    .wizard-btn-submit { flex: 1.5; height: 38px; background: var(--emerald); color: #fff; border: none; border-radius: var(--btn-radius); font-size: 13px; font-weight: 800; cursor: pointer; }
 
     .msg { padding: 8px 12px; margin-top: 10px; border-radius: 8px; font-weight: 700; font-size: 12px; text-align: center; }
     .msg.success { background: #DCFCE7; color: #166534; border: 1px solid #BBF7D0; }
     .msg.error { background: #FEE2E2; color: #991B1B; border: 1px solid #FECACA; }
     .hidden { display: none !important; }
 
-    /* ABSOLUTE GUARANTEE: Bottom dock is NEVER displayed to guest visitors */
+    /* SCREEN-INTACT BOTTOM DOCK */
     .mobile-bottom-dock {
       display: none !important;
       visibility: hidden !important;
@@ -1329,7 +1510,7 @@
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
-      padding: 56px 24px 28px;
+      padding: 50px 20px 24px;
       border-top: 1px solid rgba(255,255,255,0.08);
       width: 100%;
     }
@@ -1338,33 +1519,32 @@
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
-      gap: 36px;
-      margin-bottom: 36px;
+      gap: 30px;
+      margin-bottom: 30px;
       text-align: left;
     }
     .footer-col h4 {
       color: var(--apex-gold);
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
     }
     .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 8px; }
-    .footer-col ul li a { color: #94A3B8; text-decoration: none; font-size: 13px; }
+    .footer-col ul li { margin-bottom: 6px; }
+    .footer-col ul li a { color: #94A3B8; text-decoration: none; font-size: 12.5px; }
     .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
     .footer-bottom {
       border-top: 1px solid rgba(255,255,255,0.08);
-      padding-top: 22px;
+      padding-top: 18px;
       text-align: center;
-      font-size: 12px;
+      font-size: 11.5px;
       color: #64748B;
       max-width: 1280px;
       margin: 0 auto;
     }
 
-    /* Elegant Vertical Social Media Toolbar (Right Side Docked) */
     .social-bar-wrapper {
       position: fixed;
       top: 55%;
@@ -1375,7 +1555,6 @@
       z-index: 9999;
       transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    /* Smoothly slide offscreen to the right, leaving the toggle button visible */
     .social-bar-wrapper.is-hidden {
       transform: translateY(-50%) translateX(calc(100% - 24px));
     }
@@ -1391,17 +1570,7 @@
       align-items: center;
       justify-content: center;
       border-radius: 8px 0 0 8px;
-      box-shadow: -3px 2px 10px rgba(0, 0, 0, 0.15);
       font-size: 11px;
-      padding: 0;
-      outline: none;
-      transition: background 0.2s ease;
-    }
-    .social-toggle-btn:hover {
-      background: var(--royal-blue);
-    }
-   .social-toggle-btn i {
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .social-bar-wrapper:not(.is-hidden) .social-toggle-btn i {
       transform: rotate(180deg);
@@ -1409,33 +1578,24 @@
     .social-bar {
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      padding: 10px 8px;
+      gap: 8px;
+      padding: 8px 6px;
       background: rgba(255, 255, 255, 0.95);
       backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-subtle);
       border-right: none;
-      border-radius: 14px 0 0 14px;
-      box-shadow: -4px 6px 20px rgba(10, 25, 47, 0.12);
+      border-radius: 12px 0 0 12px;
     }
     .social-link {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 42px;
-      height: 42px;
-      border-radius: 10px;
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
       color: #ffffff !important;
       text-decoration: none;
-      font-size: 18px;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
-      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease, filter 0.2s ease;
-    }
-    .social-link:hover {
-      filter: brightness(1.1);
-      transform: translateX(-4px) scale(1.06);
-      box-shadow: -2px 5px 14px rgba(0, 0, 0, 0.25);
+      font-size: 16px;
     }
     .social-link.social-fb { background-color: #1877F2; }
     .social-link.social-insta { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); }
@@ -1445,24 +1605,21 @@
     @media (max-width: 960px) {
       header { padding: 10px 14px; }
       body { padding-top: 68px; }
-      .grand-hero-container { display: flex; flex-direction: column; gap: 24px; text-align: center; }
-      .grand-hero-title { font-size: 30px; }
-      .grand-hero-badges, .grand-hero-ctas, .quick-search-pills { justify-content: center; }
+      .grand-hero-container { display: flex; flex-direction: column; gap: 20px; text-align: center; }
+      .grand-hero-title { font-size: 28px; }
+      .grand-hero-badges, .quick-search-pills { justify-content: center; }
       .grand-hero-subtitle { margin-left: auto; margin-right: auto; }
       .auth-portal-card { max-width: 100%; margin: 0; }
       .footer-grid { grid-template-columns: 1fr 1fr; }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 5px; }
-      .btn-header-auth { height: 38px; padding: 7px 14px; font-size: 13px; border-radius: 9px; }
-      .workflow-grid { grid-template-columns: 1fr; }
+      .btn-header-auth { height: 36px; padding: 6px 12px; font-size: 13px; border-radius: 8px; }
     }
 
-   /* ========================================================
-       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
-       ======================================================== */
+    /* MOBILE: HIDE 3 ACTION BUTTONS FROM WELCOME CARD */
     @media (max-width: 768px) {
-      body.logged-in-mobile { padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; }
+      body.logged-in-mobile { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important; }
       
       body.logged-in-mobile .grand-hero-textual {
         display: none !important;
@@ -1470,13 +1627,16 @@
       
       body.logged-in-mobile .auth-portal-card {
         margin: 0 auto !important;
+        padding: 12px !important;
       }
 
-      #heroLoggedInView .welcome-action-grid {
+      /* HIDE 3 ACTION BUTTONS ON MOBILE WELCOME CARD */
+      .welcome-action-grid {
         display: none !important;
       }
-      #heroLoggedInView .welcome-lively-mobile-box {
-        display: block !important;
+      .welcome-feature-box {
+        flex-direction: column;
+        align-items: stretch;
       }
 
       body.logged-in-mobile .mobile-bottom-dock {
@@ -1498,8 +1658,6 @@
         visibility: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
-        transform: translateZ(0) !important;
-        -webkit-transform: translateZ(0) !important;
       }
 
       .dock-card-container {
@@ -1507,12 +1665,8 @@
         grid-template-columns: repeat(3, 1fr) !important;
         gap: 0 !important;
         width: 100% !important;
-        max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
       }
 
       .dock-item {
@@ -1521,14 +1675,8 @@
         align-items: center !important;
         justify-content: center !important;
         text-decoration: none !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
         padding: 3px 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
         position: relative !important;
-        -webkit-tap-highlight-color: transparent !important;
       }
 
       .dock-item.active-tab .dock-title {
@@ -1537,47 +1685,25 @@
       }
 
       .dock-icon-wrap {
-        width: 32px !important;
-        height: 32px !important;
+        width: 30px !important;
+        height: 30px !important;
         border-radius: 8px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         margin-bottom: 2px !important;
       }
-
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
+      .dock-icon-wrap.green-bg { background-color: #E8FAF2 !important; }
+      .dock-icon-wrap.green-bg i { color: #10B981 !important; font-size: 15px !important; }
+      .dock-icon-wrap.yellow-bg { background-color: #FEF3C7 !important; }
+      .dock-icon-wrap.yellow-bg i { color: #D97706 !important; font-size: 15px !important; }
+      .dock-icon-wrap.blue-bg { background-color: #EFF6FF !important; }
+      .dock-icon-wrap.blue-bg i { color: #2563EB !important; font-size: 15px !important; }
 
       .dock-title {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 3px !important;
         font-size: 11px !important;
         font-weight: 700 !important;
         color: #475569 !important;
-        letter-spacing: -0.2px !important;
         line-height: 1 !important;
       }
 
@@ -1587,23 +1713,18 @@
         right: 20% !important;
         background: #EF4444 !important;
         color: #FFFFFF !important;
-        font-size: 9.5px !important;
+        font-size: 9px !important;
         font-weight: 800 !important;
         border-radius: 10px !important;
         padding: 1px 5px !important;
-        line-height: 1 !important;
       }
     }
     @media (max-width: 580px) {
       .header-logo { width: 36px; height: 36px; }
-      .brand-text .brand-title { font-size: 16.5px; }
-      .btn-header-auth { height: 38px; padding: 7px 13px; font-size: 13px; border-radius: 9px; }
-      .grand-hero-title { font-size: 25px; }
+      .brand-text .brand-title { font-size: 16px; }
+      .btn-header-auth { height: 36px; padding: 6px 10px; font-size: 12.5px; border-radius: 8px; }
+      .grand-hero-title { font-size: 24px; }
       .photo-category-grid { grid-template-columns: repeat(2, 1fr); }
-      .flag-category-grid { grid-template-columns: repeat(2, 1fr); }
-      .matrix-links-grid { grid-template-columns: 1fr; }
-      .metrics-bar-inner { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr; }
       .form-grid-2 { grid-template-columns: 1fr; }
       .form-group-half { grid-column: span 2; }
     }
@@ -1635,7 +1756,7 @@
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
-      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <img src="logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='apex-circle-logo.png';">
       <div class="brand-text">
         <div class="brand-title">APEX TUITIONS</div>
       </div>
@@ -1657,7 +1778,6 @@
         </div>
       </nav>
 
-      <!-- Dedicated Header Buttons: Visible only for guests -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <button type="button" onclick="openAuthView('signin')" class="btn-header-auth" id="navBtnSignIn">Sign In</button>
         <button type="button" onclick="openAuthView('signup')" class="btn-header-auth" id="navBtnSignUp">Sign Up</button>
@@ -1670,14 +1790,14 @@
   </div>
 
   <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">🏠 Home</a>
-    <a href="browse.html">📚 Browse</a>
-    <a href="resources.html">📖 Resources</a>
-    <a href="about.html">ℹ️ About Apex</a>
-    <a href="feedback.html">💬 Feedback</a>
-    <a href="donate.html">💛 Donate</a>
-    <button type="button" id="mobileDrawerSignIn" onclick="openAuthView('signin'); toggleMobileNav();">🔑 Sign In</button>
-    <button type="button" id="mobileDrawerSignUp" onclick="openAuthView('signup'); toggleMobileNav();">✍️ Sign Up</button>
+    <a href="index.html">Home</a>
+    <a href="browse.html">Browse</a>
+    <a href="resources.html">Resources</a>
+    <a href="about.html">About Apex</a>
+    <a href="feedback.html">Feedback</a>
+    <a href="donate.html">Donate</a>
+    <button type="button" id="mobileDrawerSignIn" onclick="openAuthView('signin'); toggleMobileNav();">Sign In</button>
+    <button type="button" id="mobileDrawerSignUp" onclick="openAuthView('signup'); toggleMobileNav();">Sign Up</button>
   </div>
 </header>
 
@@ -1702,11 +1822,11 @@
 
       <div class="quick-search-pills">
         <span class="quick-search-label">Popular:</span>
-        <a href="browse.html?subject=Mathematics" class="hero-pill">📐 Class 10 Math</a>
-        <a href="browse.html?subject=Physics" class="hero-pill">⚡ Class 12 Physics</a>
-        <a href="browse.html?subject=NEET/JEE" class="hero-pill">🩺 NEET / IIT-JEE</a>
-        <a href="browse.html?subject=English" class="hero-pill">🗣️ Spoken English</a>
-        <a href="browse.html?subject=Abacus" class="hero-pill">🧮 Abacus & Vedic</a>
+        <a href="browse.html?subject=Mathematics" class="hero-pill">Class 10 Math</a>
+        <a href="browse.html?subject=Physics" class="hero-pill">Class 12 Physics</a>
+        <a href="browse.html?subject=NEET/JEE" class="hero-pill">NEET / IIT-JEE</a>
+        <a href="browse.html?subject=English" class="hero-pill">Spoken English</a>
+        <a href="browse.html?subject=Abacus" class="hero-pill">Abacus & Vedic</a>
       </div>
     </div>
 
@@ -1714,65 +1834,74 @@
     <div class="auth-portal-card hidden" id="authPortalContainer">
       <button class="auth-panel-close" id="authPanelCloseBtn" onclick="closeAuthPortal()" title="Close">✕</button>
 
-      <!-- LOGGED IN USER DASHBOARD: GRAND WELCOME CARD -->
+      <!-- LOGGED IN USER DASHBOARD -->
       <div id="heroLoggedInView" class="hidden">
         <div class="welcome-card-box">
           <div class="welcome-card-topbar">
-            <span class="welcome-pill-celebrate">
-              🎉 Welcome back!
-            </span>
+            <button type="button" class="btn-card-share" onclick="generateAndShareProfileCard()" title="Share Profile Card">
+              <i class="fa-solid fa-share-nodes"></i> Share Profile
+            </button>
           </div>
 
           <div class="welcome-card-hero">
             <div class="welcome-avatar-wrapper">
-              <img id="welcomeAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="welcome-avatar-square" alt="Avatar">
-              <div class="welcome-online-pulse" title="Active now"></div>
+              <img id="welcomeAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="welcome-avatar-circle" alt="Avatar">
+              <div class="welcome-verified-badge" title="Verified Member">
+                <i class="fa-solid fa-check"></i>
+              </div>
             </div>
             <div class="welcome-meta">
+              <div class="welcome-script-title">Welcome back!</div>
               <h3 id="heroWelcomeName">Member Name</h3>
-              <div class="welcome-badge-role" id="heroWelcomeRole">Verified Member ✓</div>
+              <div class="welcome-badge-role" id="heroWelcomeRole">
+                <i class="fa-solid fa-check"></i> <span>Verified Member</span>
+              </div>
+              <div class="welcome-sub-quote">
+                Great to have you on board!<br>Let’s make learning happen.
+              </div>
             </div>
           </div>
 
-          <div class="welcome-intro-quote">
-            🚀 Connect directly with verified members or explore open tutoring opportunities.
-          </div>
-
-          <!-- Desktop Action Grid (Kept on Desktop) -->
-          <div class="welcome-action-grid">
-            <a href="browse.html" class="btn-welcome-tile tile-browse">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-compass"></i>
+          <!-- Feature Banner + Quick Tiles -->
+          <div class="welcome-feature-box">
+            <div class="commission-callout">
+              <div class="megaphone-bubble">
+                <i class="fa-solid fa-bullhorn"></i>
               </div>
-              <span>🔍 Browse</span>
-            </a>
-            <a href="profile.html" class="btn-welcome-tile tile-profile">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-id-badge"></i>
+              <div>
+                <h4>0% commission</h4>
+                <p>Direct learning platform. Connect via WhatsApp and get started — no middlemen, no commission.</p>
               </div>
-              <span>👤 Profile</span>
-            </a>
-            <a href="enquiries.html" class="btn-welcome-tile tile-enquiries">
-              <div class="tile-icon-bubble">
-                <i class="fa-solid fa-comments"></i>
-              </div>
-              <span>💬 Enquiries <span class="badge-counter hidden" id="cardEnquiryBadge">0</span></span>
-            </a>
-          </div>
-
-          <!-- Lively Animated Emojis Box (Shown on Mobile View) -->
-          <div class="welcome-lively-mobile-box">
-            <div class="lively-emojis-row">
-              <span>🌟</span>
-              <span>📚</span>
-              <span>🎯</span>
-              <span>💬</span>
-              <span>🚀</span>
             </div>
-            <div class="lively-badge-tag">
-              ⚡ Verified Direct Learning Network • 0% Commission
+
+            <!-- Action Grid: Retained on desktop only -->
+            <div class="welcome-action-grid">
+              <a href="enquiries.html" class="btn-welcome-tile tile-enquiries">
+                <i class="fa-solid fa-envelope tile-main-icon"></i>
+                <span>Enquiries</span>
+                <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
+                <span class="badge-counter hidden" id="cardEnquiryBadge">0</span>
+              </a>
+              <a href="profile.html" class="btn-welcome-tile tile-profile">
+                <i class="fa-solid fa-user tile-main-icon"></i>
+                <span>My Profile</span>
+                <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
+              </a>
+              <a href="browse.html" class="btn-welcome-tile tile-browse">
+                <i class="fa-solid fa-magnifying-glass tile-main-icon"></i>
+                <span>Browse</span>
+                <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
+              </a>
             </div>
           </div>
+
+          <!-- Connect Via WhatsApp Action Bar -->
+          <a href="browse.html" class="welcome-card-whatsapp-bar" id="heroWaDirectLink">
+            <div class="wa-icon-bubble">
+              <i class="fa-brands fa-whatsapp"></i>
+            </div>
+            <span>CONNECT VIA WHATSAPP →</span>
+          </a>
         </div>
       </div>
 
@@ -1796,9 +1925,7 @@
           <a href="javascript:void(0)" onclick="openForgotPasswordView()" style="font-size: 11px; color: var(--royal-blue); font-weight: 700; text-decoration: none;">Forgot password?</a>
         </div>
 
-        <button class="submit-btn" onclick="handleHeroLogin()">
-          <i class="fa-solid fa-arrow-right-to-bracket"></i> Sign In
-        </button>
+        <button class="submit-btn" onclick="handleHeroLogin()">Sign In</button>
 
         <div class="divider-text"><span>or sign in with</span></div>
 
@@ -1818,15 +1945,15 @@
 
         <div class="role-pill-switch">
           <button type="button" class="role-pill-btn role-student active" id="rolePillStudent" onclick="selectRolePill('student')">
-            <i class="fa-solid fa-graduation-cap"></i> Student / Parent
+            Student / Parent
           </button>
           <button type="button" class="role-pill-btn role-teacher" id="rolePillTeacher" onclick="selectRolePill('teacher')">
-            <i class="fa-solid fa-chalkboard-user"></i> Teacher
+            Teacher
           </button>
         </div>
 
         <button class="btn-primary-action" id="btnContinueRegister" onclick="proceedToRegistration()">
-          <i class="fa-solid fa-user-plus"></i> Continue with Registration
+          Continue with Registration
         </button>
 
         <div style="text-align:center; margin-top:10px;">
@@ -1844,19 +1971,18 @@
         </div>
       </div>
 
-     <!-- OAUTH PROFILE COMPLETION -->
+      <!-- OAUTH PROFILE COMPLETION -->
       <div id="viewOAuthRole" class="hidden">
         <div class="oauth-role-card">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-            <h3>Complete your Apex registration</h3>
-          </div>
-          <p>Your Google/Microsoft account is connected. Choose how you want to use Apex, then complete your profile.</p>
+          <h3 style="font-size:16px;">Complete your registration</h3>
+          <p>Choose your role to finish setting up your account.</p>
           <div class="oauth-role-actions">
-            <button class="oauth-role-btn student" onclick="startOAuthRegistration('student')"><i class="fa-solid fa-graduation-cap"></i><br>Register as Student / Parent</button>
-            <button class="oauth-role-btn teacher" onclick="startOAuthRegistration('teacher')"><i class="fa-solid fa-chalkboard-user"></i><br>Register as Teacher</button>
+            <button class="oauth-role-btn student" onclick="startOAuthRegistration('student')">Register as Student</button>
+            <button class="oauth-role-btn teacher" onclick="startOAuthRegistration('teacher')">Register as Teacher</button>
           </div>
         </div>
       </div>
+
       <!-- FORGOT PASSWORD VIEW -->
       <div id="viewForgotPassword" class="hidden">
         <div style="display:flex;justify-content:space-between;align-items:center; margin-bottom: 12px;">
@@ -1870,9 +1996,7 @@
           <input id="forgotEmail" type="email" placeholder="name@example.com">
         </div>
 
-        <button class="submit-btn" onclick="handlePasswordReset()">
-          <i class="fa-solid fa-paper-plane"></i> Send Reset Link
-        </button>
+        <button class="submit-btn" onclick="handlePasswordReset()">Send Reset Link</button>
         <div id="forgotMsg" class="msg hidden"></div>
       </div>
 
@@ -2213,12 +2337,13 @@
                   <div class="multiselect-item" onclick="selectStudentBoard('Others', 'Others')">Others</div>
                 </div>
               </div>
-            </div>            <div class="form-group-full hidden" id="sBoardOtherGroup">
+            </div>
+
+            <div class="form-group-full hidden" id="sBoardOtherGroup">
               <label>Specify Board</label>
               <input id="sBoardOtherInput" type="text" placeholder="Specify board">
             </div>
 
-            <!-- Student Subject Multi-Select Checklist -->
             <div class="form-group-full" id="sAcademicSubjectGroup">
               <label>Subject Requirement</label>
               <div class="custom-multiselect">
@@ -2424,16 +2549,6 @@
           </ul>
         </div>
         <div class="matrix-col">
-          <h4>Board Year (10th & 12th)</h4>
-          <ul>
-            <li><a href="browse.html?class=Class+10">Class 10 CBSE Boards</a></li>
-            <li><a href="browse.html?class=Class+10">Class 10 ICSE Boards</a></li>
-            <li><a href="browse.html?class=Class+12">Class 12 Physics & Math</a></li>
-            <li><a href="browse.html?class=Class+12">Class 12 Chemistry & Bio</a></li>
-            <li><a href="browse.html?class=Class+12">Class 12 Accountancy</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
           <h4>Curriculum Boards</h4>
           <ul>
             <li><a href="browse.html?board=CBSE">CBSE Board Experts</a></li>
@@ -2453,114 +2568,14 @@
             <li><a href="browse.html?subject=Spoken+English">Fluent Spoken English</a></li>
             <li><a href="browse.html?subject=Business+English">Business Communication</a></li>
             <li><a href="browse.html?subject=Grammar">Grammar & Creative Writing</a></li>
-            <li><a href="browse.html?subject=Public+Speaking">Public Speaking for Kids</a></li>
           </ul>
         </div>
         <div class="matrix-col">
           <h4>Global Languages</h4>
           <ul>
-            <li><a href="browse.html?subject=French">French Language (A1 - B2)</a></li>
-            <li><a href="browse.html?subject=German">German Goethe Certification</a></li>
-            <li><a href="browse.html?subject=Spanish">Spanish DELE Exam Prep</a></li>
-            <li><a href="browse.html?subject=Japanese">Japanese JLPT Training</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Indian Languages</h4>
-          <ul>
-            <li><a href="browse.html?subject=Hindi">Hindi Language Speaking & Script</a></li>
-            <li><a href="browse.html?subject=Sanskrit">Sanskrit Grammar & Shlokas</a></li>
-            <li><a href="browse.html?subject=Telugu">Telugu School & Spoken</a></li>
-            <li><a href="browse.html?subject=Tamil">Tamil Speaking & Writing</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Study Abroad Tests</h4>
-          <ul>
-            <li><a href="browse.html?subject=IELTS">IELTS Academic & General</a></li>
-            <li><a href="browse.html?subject=TOEFL">TOEFL iBT Prep</a></li>
-            <li><a href="browse.html?subject=PTE">PTE Pearson Test Exam</a></li>
-            <li><a href="browse.html?subject=GRE">GRE Verbal Reasoning</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- TAB 4: HOBBY CLASSES -->
-      <div id="tabHobbies" class="matrix-links-grid hidden">
-        <div class="matrix-col">
-          <h4>Music & Vocal</h4>
-          <ul>
-            <li><a href="browse.html?subject=Carnatic">Carnatic Classical Vocal</a></li>
-            <li><a href="browse.html?subject=Hindustani">Hindustani Classical Singing</a></li>
-            <li><a href="browse.html?subject=Western+Music">Western Pop Vocals</a></li>
-            <li><a href="browse.html?subject=Voice+Culture">Voice Culture Training</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Musical Instruments</h4>
-          <ul>
-            <li><a href="browse.html?subject=Guitar">Acoustic & Electric Guitar</a></li>
-            <li><a href="browse.html?subject=Keyboard">Keyboard & Piano Lessons</a></li>
-            <li><a href="browse.html?subject=Violin">Violin Coaching</a></li>
-            <li><a href="browse.html?subject=Flute">Flute & Wind Instruments</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Fine Arts & Design</h4>
-          <ul>
-            <li><a href="browse.html?subject=Drawing">Pencil Sketching & Drawing</a></li>
-            <li><a href="browse.html?subject=Painting">Watercolor & Acrylic Painting</a></li>
-            <li><a href="browse.html?subject=Craft">Origami, Art & Craft</a></li>
-            <li><a href="browse.html?subject=Calligraphy">Calligraphy & Handwriting</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Fitness & Lifestyle</h4>
-          <ul>
-            <li><a href="browse.html?subject=Yoga">Hatha & Power Yoga</a></li>
-            <li><a href="browse.html?subject=Dance">Classical Bharatanatyam</a></li>
-            <li><a href="browse.html?subject=Fitness">Home Personal Training</a></li>
-            <li><a href="browse.html?subject=Chess">Chess Strategy for Kids</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- TAB 5: EXAM COACHING -->
-      <div id="tabExams" class="matrix-links-grid hidden">
-        <div class="matrix-col">
-          <h4>Engineering & Medical</h4>
-          <ul>
-            <li><a href="browse.html?subject=NEET">NEET UG Biology & Physics</a></li>
-            <li><a href="browse.html?subject=JEE+Main">IIT-JEE Main & Advanced</a></li>
-            <li><a href="browse.html?subject=BITSAT">BITSAT & State CETs</a></li>
-            <li><a href="browse.html?subject=KVPY">Olympiads & Science Talent</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Government & Banking</h4>
-          <ul>
-            <li><a href="browse.html?subject=Banking">IBPS & SBI PO / Clerk</a></li>
-            <li><a href="browse.html?subject=SSC">SSC CGL, CHSL Coaching</a></li>
-            <li><a href="browse.html?subject=RRB">RRB Railway NTPC Exam</a></li>
-            <li><a href="browse.html?subject=Civils">UPSC Civils / State PSCs</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Teaching & Professional</h4>
-          <ul>
-            <li><a href="browse.html?subject=TET">AP / TS TET & DSC Coaching</a></li>
-            <li><a href="browse.html?subject=CTET">Central CTET Examination</a></li>
-            <li><a href="browse.html?subject=CA+Foundation">CA Foundation Accounting</a></li>
-            <li><a href="browse.html?subject=CLAT">CLAT Law Entrance Coaching</a></li>
-          </ul>
-        </div>
-        <div class="matrix-col">
-          <h4>Mental Ability & Math</h4>
-          <ul>
-            <li><a href="browse.html?subject=Abacus">Abacus Mental Arithmetic</a></li>
-            <li><a href="browse.html?subject=Vedic+Math">Vedic Speed Mathematics</a></li>
-            <li><a href="browse.html?subject=Reasoning">Quantitative Aptitude</a></li>
-            <li><a href="browse.html?subject=Coding">Python & Coding for Kids</a></li>
+            <li><a href="browse.html?subject=French">French Language</a></li>
+            <li><a href="browse.html?subject=German">German Language</a></li>
+            <li><a href="browse.html?subject=Spanish">Spanish Language</a></li>
           </ul>
         </div>
       </div>
@@ -2584,279 +2599,192 @@
       </div>
       <div class="photo-card-label">Class 9 Tuition</div>
     </a>
-
     <a href="browse.html?class=Class+10" class="photo-card">
       <div class="photo-img-wrap">
         <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&q=80" alt="Class 10 Tuition" loading="lazy">
       </div>
       <div class="photo-card-label">Class 10 Tuition</div>
     </a>
-
     <a href="browse.html?class=Class+11" class="photo-card">
       <div class="photo-img-wrap">
         <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&q=80" alt="Class 11 Tuition" loading="lazy">
       </div>
       <div class="photo-card-label">Class 11 Tuition</div>
     </a>
-
     <a href="browse.html?class=Class+12" class="photo-card">
       <div class="photo-img-wrap">
         <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Class 12 Tuition" loading="lazy">
       </div>
       <div class="photo-card-label">Class 12 Tuition</div>
     </a>
-
     <a href="browse.html?subject=Engineering" class="photo-card">
       <div class="photo-img-wrap">
         <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80" alt="B.Tech Tuition" loading="lazy">
       </div>
       <div class="photo-card-label">B.Tech Tuition</div>
     </a>
-
-    <a href="browse.html?class=Class+1" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80" alt="Nursery & Primary Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Nursery - KG Tuition</div>
-    </a>
-
-    <a href="browse.html?class=Class+5" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=400&q=80" alt="Class 1-5 Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Class I-V Tuition</div>
-    </a>
-
-    <a href="browse.html?class=Class+6" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&q=80" alt="Class 6 Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Class 6 Tuition</div>
-    </a>
-
-    <a href="browse.html?class=Class+7" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80" alt="Class 7 Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Class 7 Tuition</div>
-    </a>
-
-    <a href="browse.html?class=Class+8" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&q=80" alt="Class 8 Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Class 8 Tuition</div>
-    </a>
   </div>
 </section>
 
-<!-- 5. LANGUAGES & STUDY ABROAD -->
-<section class="grand-section">
-  <div class="grand-section-header">
-    <div>
-      <h2 class="grand-section-title">Languages &amp; Global Certifications</h2>
-      <p class="grand-section-sub">Master foreign languages and clear competitive international entrance tests</p>
-    </div>
-  </div>
-
-  <div class="flag-category-grid">
-    <a href="browse.html?subject=IELTS" class="flag-card">
-      <div class="flag-img-box" style="background:#D32F2F; color:#fff; font-weight:800; font-size:26px; letter-spacing:1px;">
-        IELTS
-      </div>
-      <div class="flag-card-label">IELTS Coaching</div>
-    </a>
-
-    <a href="browse.html?subject=English" class="flag-card">
-      <div class="flag-img-box">
-        <img src="https://flagcdn.com/w320/gb.png" alt="United Kingdom Flag" loading="lazy">
-      </div>
-      <div class="flag-card-label">Spoken English</div>
-    </a>
-
-    <a href="browse.html?subject=German" class="flag-card">
-      <div class="flag-img-box">
-        <img src="https://flagcdn.com/w320/de.png" alt="Germany Flag" loading="lazy">
-      </div>
-      <div class="flag-card-label">German Language</div>
-    </a>
-
-    <a href="browse.html?subject=French" class="flag-card">
-      <div class="flag-img-box">
-        <img src="https://flagcdn.com/w320/fr.png" alt="France Flag" loading="lazy">
-      </div>
-      <div class="flag-card-label">French Language</div>
-    </a>
-
-    <a href="browse.html?subject=Hindi" class="flag-card">
-      <div class="flag-img-box">
-        <img src="https://flagcdn.com/w320/in.png" alt="India Flag" loading="lazy">
-      </div>
-      <div class="flag-card-label">Hindi Language</div>
-    </a>
-  </div>
-</section>
-
-<!-- 6. HOBBIES, CREATIVE ARTS & FITNESS -->
-<section class="grand-section" style="padding-top:0;">
-  <div class="grand-section-header">
-    <div>
-      <h2 class="grand-section-title">Hobbies &amp; Creative Skills</h2>
-      <p class="grand-section-sub">Learn music, instruments, yoga, fitness, dance and art at your convenient time</p>
-    </div>
-  </div>
-
-  <div class="photo-category-grid">
-    <a href="browse.html?subject=Yoga" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=400&q=80" alt="Yoga Classes" loading="lazy">
-      </div>
-      <div class="photo-card-label">Yoga & Wellness</div>
-    </a>
-
-    <a href="browse.html?subject=Guitar" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=400&q=80" alt="Guitar Tuition" loading="lazy">
-      </div>
-      <div class="photo-card-label">Guitar Lessons</div>
-    </a>
-
-    <a href="browse.html?subject=Dance" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80" alt="Dance Lessons" loading="lazy">
-      </div>
-      <div class="photo-card-label">Dance Training</div>
-    </a>
-
-    <a href="browse.html?subject=Music" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=400&q=80" alt="Vocal Music" loading="lazy">
-      </div>
-      <div class="photo-card-label">Vocal Music</div>
-    </a>
-
-    <a href="browse.html?subject=Personality" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80" alt="Personality Development" loading="lazy">
-      </div>
-      <div class="photo-card-label">Personality Skills</div>
-    </a>
-
-    <a href="browse.html?subject=Photography" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Photography Lessons" loading="lazy">
-      </div>
-      <div class="photo-card-label">Photography</div>
-    </a>
-
-    <a href="browse.html?subject=Drawing" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=80" alt="Drawing and Art" loading="lazy">
-      </div>
-      <div class="photo-card-label">Drawing & Craft</div>
-    </a>
-
-    <a href="browse.html?subject=Fitness" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80" alt="Personal Fitness Trainer" loading="lazy">
-      </div>
-      <div class="photo-card-label">Personal Trainer</div>
-    </a>
-
-    <a href="browse.html?subject=Cooking" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=80" alt="Cooking & Baking" loading="lazy">
-      </div>
-      <div class="photo-card-label">Culinary Arts</div>
-    </a>
-
-    <a href="browse.html?subject=Keyboard" class="photo-card">
-      <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1520523839898-50712803831b?auto=format&fit=crop&w=400&q=80" alt="Keyboard & Piano" loading="lazy">
-      </div>
-      <div class="photo-card-label">Keyboard & Piano</div>
-    </a>
-  </div>
-</section>
-
-<!-- 7. THREE-STEP HOW IT WORKS -->
-  <!-- Testimonials Section -->
-<section style="max-width: 1100px; margin: 40px auto; padding: 0 20px;">
-  <h2 style="font-size: 22px; font-weight: 800; color: #0A192F; margin-bottom: 16px; text-align: center;">
-    What Our Community Says
-  </h2>
-  <div class="ticker-window" style="height: 260px; overflow: hidden; position: relative; border: 1px solid #E2E8F0; border-radius: 16px; background: #FFFFFF; padding: 16px;">
-    <div class="ticker-track" id="homeTickerTrack">
-      <!-- Loaded dynamically via Supabase -->
-    </div>
-  </div>
-</section>
-
-<section class="grand-section" style="padding-top:0;">
-  <div class="workflow-banner">
-    <h3 style="font-size:22px; font-weight:800; color:var(--apex-navy); text-align:center;">How Apex Tuitions Works</h3>
-    <p style="font-size:13.5px; color:var(--text-muted); text-align:center; max-width:640px; margin:6px auto 0;">Connecting verified tutors and learners with direct communication and full pricing autonomy.</p>
-
-    <div class="workflow-grid">
-      <div class="workflow-item">
-        <div class="workflow-step-badge">1</div>
-        <h4>Post or Search Free</h4>
-        <p>Explore teacher and student profiles filtered by grade, curriculum, syllabus, and online/home mode.</p>
-      </div>
-
-      <div class="workflow-item">
-        <div class="workflow-step-badge">2</div>
-        <h4>Verify Qualifications</h4>
-        <p>Check verified degrees, subject masteries, teaching experience, and reviews before making a choice.</p>
-      </div>
-
-      <div class="workflow-item">
-        <div class="workflow-step-badge">3</div>
-        <h4>Connect Direct on WhatsApp</h4>
-        <p>Fix class schedules, demo sessions, and fees mutually with 0% middleman fees or hidden commissions.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- UNIFIED BOTTOM DOCK (MATCHING FEEDBACK PAGE & SCREEN-INTACT) -->
+<!-- UNIFIED BOTTOM DOCK -->
 <nav class="mobile-bottom-dock" id="mobileBottomDock">
   <div class="dock-card-container">
-    <!-- Enquiries -->
     <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
       <div class="dock-icon-wrap green-bg">
         <i class="fa-solid fa-comments"></i>
       </div>
       <div class="dock-title">
-        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
         <span>Enquiries</span>
       </div>
       <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
     </a>
 
-    <!-- Profile -->
     <a href="profile.html" class="dock-item" id="dockBtnProfile">
       <div class="dock-icon-wrap yellow-bg">
         <i class="fa-solid fa-id-card"></i>
       </div>
       <div class="dock-title">
-        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
         <span>Profile</span>
       </div>
     </a>
 
-    <!-- Browse (Dynamic: Find Students / Find Tutor) -->
     <a href="browse.html" class="dock-item" id="dockBtnBrowse">
       <div class="dock-icon-wrap blue-bg">
         <i class="fa-solid fa-compass"></i>
       </div>
       <div class="dock-title">
-        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
         <span id="dockBrowseLabel">Find Tutor</span>
       </div>
     </a>
   </div>
 </nav>
+
+<!-- ========================================================
+     HIDDEN FLYER CARD TEMPLATE MATCHING PROVIDED SCREENSHOT
+     ======================================================== -->
+<div id="hiddenShareCardSource">
+  <!-- 1. Top Brand Logo & Title -->
+  <div class="card-top-brand-row">
+    <img src="logo.png" alt="Apex Logo" class="card-top-brand-logo" onerror="this.onerror=null; this.src='apex-circle-logo.png';">
+    <div class="card-top-brand-title">Apex Tuitions</div>
+  </div>
+
+  <!-- 2. Hero Split Row -->
+  <div class="card-hero-split">
+    <div class="card-hero-left">
+      <div class="card-greeting">Hello! I am</div>
+      <div class="card-user-name">
+        <span id="snapCardName">User Name</span>
+        <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <div class="card-hero-desc">
+        a verified <span id="snapCardRoleDesc">teacher</span> available on <b>apextuitions.com</b> for home and online tuitions.
+      </div>
+    </div>
+
+    <div class="card-hero-right">
+      <div class="card-crescent-yellow"></div>
+      <div class="card-sparkle-star"><i class="fa-solid fa-sparkles"></i>✦</div>
+      <div class="card-avatar-circle-wrap">
+        <img id="snapCardAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="card-avatar-img" alt="User Avatar" crossorigin="anonymous">
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Details Rows with Matching Colored Icons -->
+  <div class="card-fields-list">
+    <div class="card-field-row">
+      <div class="card-field-icon card-icon-blue"><i class="fa-solid fa-house"></i></div>
+      <div class="card-field-text">
+        <div class="field-label">Tuition Mode:</div>
+        <div class="field-val" id="snapCardMode">Both</div>
+      </div>
+    </div>
+
+    <div class="card-field-row">
+      <div class="card-field-icon card-icon-indigo"><i class="fa-solid fa-book-open"></i></div>
+      <div class="card-field-text">
+        <div class="field-label">Subjects:</div>
+        <div class="field-val" id="snapCardSubjects">All Subjects</div>
+      </div>
+    </div>
+
+    <div class="card-field-row">
+      <div class="card-field-icon card-icon-mint"><i class="fa-solid fa-school"></i></div>
+      <div class="card-field-text">
+        <div class="field-label">Classes / Grades:</div>
+        <div class="field-val" id="snapCardGrades">Non-Academic / Creative Skills</div>
+      </div>
+    </div>
+
+    <div class="card-field-row">
+      <div class="card-field-icon card-icon-coral"><i class="fa-solid fa-bullseye"></i></div>
+      <div class="card-field-text">
+        <div class="field-label">Curriculum / Board:</div>
+        <div class="field-val" id="snapCardBoard">Skill Track</div>
+      </div>
+    </div>
+
+    <div class="card-field-row">
+      <div class="card-field-icon card-icon-amber"><i class="fa-solid fa-location-dot"></i></div>
+      <div class="card-field-text">
+        <div class="field-label">Location:</div>
+        <div class="field-val" id="snapCardLocation">Andhra Pradesh, India</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. WhatsApp Callout -->
+  <div class="card-whatsapp-box">
+    <div class="card-wa-left">
+      <div class="card-wa-bubble"><i class="fa-brands fa-whatsapp"></i></div>
+      <div class="card-wa-content">
+        <div class="wa-sub">Connect with me directly on</div>
+        <div class="wa-big">WhatsApp</div>
+        <div class="wa-note">with 0% middleman fees.</div>
+      </div>
+    </div>
+    <div class="card-wa-tag">
+      Direct<br>Connect <span>⚡</span><br>Save More
+    </div>
+  </div>
+
+  <!-- 5. Blue Link Button -->
+  <div class="card-link-bar">
+    <div class="card-link-bar-left">
+      <div class="card-link-icon-circle"><i class="fa-solid fa-link"></i></div>
+      <div>
+        <div class="card-link-sub">View profile &amp; more tutors:</div>
+        <div class="card-link-url">https://www.apextuitions.com/browse</div>
+      </div>
+    </div>
+    <i class="fa-solid fa-chevron-right" style="font-size:14px;"></i>
+  </div>
+</div>
+
+<!-- SHARE PREVIEW MODAL -->
+<div id="shareCardModal" class="share-modal-overlay hidden">
+  <div class="share-modal-card">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <h3 style="font-size:15px; font-weight:800; color:var(--apex-navy);">Apex Profile Card</h3>
+      <button onclick="closeShareModal()" style="border:none; background:#F1F5F9; border-radius:50%; width:26px; height:26px; cursor:pointer;">✕</button>
+    </div>
+
+    <div id="renderedCardImageContainer"></div>
+
+    <div class="share-link-text-box">
+      <span style="font-size:11px; display:block; color:#64748B; margin-bottom:3px;">Direct Web Link:</span>
+      <a href="https://www.apextuitions.com/browse" target="_blank" rel="noopener noreferrer">www.apextuitions.com/browse</a>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+      <button id="btnDownloadCardSnap" class="btn-primary-action" style="flex:1;">
+        <i class="fa-solid fa-download"></i> Save Image
+      </button>
+      <button onclick="closeShareModal()" class="oauth-btn" style="flex:0.6;">Close</button>
+    </div>
+  </div>
+</div>
 
 <footer>
   <div class="footer-grid">
@@ -2960,7 +2888,6 @@ function proceedToRegistration() {
 
 function scrollToAuthPortal() {
   const portal = document.getElementById("authPortalContainer");
-  // Target the logged-in welcome view if visible, otherwise use the portal container
   const loggedInView = document.getElementById("heroLoggedInView");
   const targetElement = (loggedInView && !loggedInView.classList.contains("hidden")) ? loggedInView : portal;
   
@@ -2974,13 +2901,6 @@ function scrollToAuthPortal() {
     top: offsetPosition,
     behavior: "smooth"
   });
-}
-function handleEducatorButtonClick() {
-  if (currentUser) {
-    window.location.href = "profile.html";
-  } else {
-    openAuthView('signup');
-  }
 }
 
 async function openAuthView(type) {
@@ -3012,11 +2932,10 @@ async function openAuthView(type) {
     openAuthForm('signup');
   }
 
-  // Ensure buttons render immediately when modal/view opens
   initializeGoogleAuth();
-
   setTimeout(scrollToAuthPortal, 60);
 }
+
 function closeAuthPortal() {
   if (currentUser) return;
   document.getElementById("authPortalContainer").classList.add("hidden");
@@ -3041,7 +2960,6 @@ function openAuthForm(view) {
   if (view === 'teacher') navTeacherStep(1);
   if (view === 'student') navStudentStep(1);
 
-  // Trigger Google button rendering whenever views toggle
   setTimeout(initializeGoogleAuth, 50);
 }
 
@@ -3063,12 +2981,6 @@ function startOAuthRegistration(role) {
   }
   showMsg(role === 'teacher' ? "tAppMsg" : "sAppMsg", "Account connected. Complete your profile below.", true);
   setTimeout(scrollToAuthPortal, 60);
-}
-
-async function cancelOAuthRegistration() {
-  oauthRegistrationMode = false;
-  sessionStorage.removeItem("apex_oauth_pending");
-  await db.auth.signOut();
 }
 
 function openForgotPasswordView() { 
@@ -3224,6 +3136,7 @@ function handleTeacherCategoryChange() {
   document.getElementById("tCompetitiveGroup").classList.toggle("hidden", !isComp);
   document.getElementById("tCategoryOtherGroup").classList.toggle("hidden", !isOthers);
 }
+
 function selectStudentClass(val, label) {
   document.getElementById("sClass").value = val;
   document.getElementById("sClassTrigger").innerHTML = `${label} <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i>`;
@@ -3238,6 +3151,7 @@ function selectStudentBoard(val, label) {
   document.getElementById("sBoardTrigger").classList.remove("open");
   handleStudentBoardOther();
 }
+
 function handleBoardOtherToggle(p) {
   const cb = document.getElementById(p + "BoardOtherCb");
   document.getElementById(p + "BoardOtherInput").classList.toggle("hidden", !cb.checked);
@@ -3288,7 +3202,6 @@ function handleStudentCompOther() {
   document.getElementById("sCompOtherInput").classList.toggle("hidden", val !== "Others");
 }
 
-// Helper to generate and hash nonce for Google ID Tokens
 async function generateNonce() {
   const rawNonce = Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
   const encoder = new TextEncoder();
@@ -3305,7 +3218,6 @@ async function initializeGoogleAuth() {
 
   const { rawNonce, hashedNonce } = await generateNonce();
 
-  // Guard initialization so it only runs once
   if (!window._googleInitialized) {
     google.accounts.id.initialize({
       client_id: "112004673201-5o9anh61qui7qikd4uv0gi57c7nhg230.apps.googleusercontent.com",
@@ -3334,7 +3246,6 @@ async function initializeGoogleAuth() {
     window._googleInitialized = true;
   }
 
-  // Render buttons seamlessly in both Sign In and Sign Up boxes
   const signInWrapper = document.getElementById('googleButtonWrapperSignIn');
   if (signInWrapper && signInWrapper.offsetParent !== null) {
     signInWrapper.innerHTML = '';
@@ -3361,21 +3272,21 @@ async function initializeGoogleAuth() {
     });
   }
 }
+
 async function loginWithOAuth(provider) {
   if (provider === 'google') {
     await initializeGoogleAuth();
     google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-        console.log("One Tap prompt was skipped or not displayed:", notification.getNotDisplayedReason());
+        console.log("One Tap skipped:", notification.getNotDisplayedReason());
       }
     });
     showMsg("heroAuthMsg", "Please select your Google account from the button above.", true);
     return;
   }
 
-  // Microsoft OAuth fallback flow
   sessionStorage.setItem("apex_oauth_pending", "true");
-  const { error } = await db.auth.signInWithOAuth({
+  await db.auth.signInWithOAuth({
     provider: 'azure',
     options: { 
       redirectTo: window.location.origin + window.location.pathname,
@@ -3403,7 +3314,7 @@ async function handleTeacherApplication() {
   if (!termsCheckbox.checked) {
     termsBox.classList.add("terms-error");
     termsCheckbox.focus();
-    showMsg("tAppMsg", "Please agree to the Terms & Conditions and Privacy Policy before creating your profile.", false);
+    showMsg("tAppMsg", "Please agree to the Terms & Conditions and Privacy Policy.", false);
     return;
   }
   termsBox.classList.remove("terms-error");
@@ -3511,7 +3422,7 @@ async function handleStudentApplication() {
   if (!termsCheckbox.checked) {
     termsBox.classList.add("terms-error");
     termsCheckbox.focus();
-    showMsg("sAppMsg", "Please agree to the Terms & Conditions and Privacy Policy before creating your profile.", false);
+    showMsg("sAppMsg", "Please agree to the Terms & Conditions and Privacy Policy.", false);
     return;
   }
   termsBox.classList.remove("terms-error");
@@ -3533,7 +3444,6 @@ async function handleStudentApplication() {
 
   if (category === "Academic") {
     classesStr = document.getElementById("sClass").value;
-    
     let bVal = document.getElementById("sBoard").value;
     if (bVal === "Others") {
       bVal = document.getElementById("sBoardOtherInput").value.trim() || "Other Board";
@@ -3633,6 +3543,89 @@ async function updateDockRoleLabel(userId) {
   }
 }
 
+/* ===================================================================
+   GENERATE EXACT PROFILE POSTER AND SHARE TOGETHER WITH CLICKABLE LINK
+   =================================================================== */
+async function generateAndShareProfileCard() {
+  if (!currentProfile) {
+    alert("Profile details not loaded yet.");
+    return;
+  }
+
+  const isTeacher = (currentRole === 'teacher');
+  const name = isTeacher ? (currentProfile.teacher_name || "Educator") : (currentProfile.student_name || "Student");
+  const subjects = currentProfile.subject || "All Subjects";
+  const grades = isTeacher ? (currentProfile.classes || "Grades 1-12") : (currentProfile.student_class || "School Level");
+  const board = currentProfile.board || "CBSE / State";
+  const mode = currentProfile.tuition_mode || "Both";
+  const location = currentProfile.address || "Andhra Pradesh, India";
+  const avatar = currentProfile.avatar_url || (isTeacher ? "https://cdn-icons-png.flaticon.com/512/3135/3135715.png" : "https://cdn-icons-png.flaticon.com/512/3135/3135768.png");
+
+  // Populate hidden flyer template
+  document.getElementById("snapCardName").textContent = name;
+  document.getElementById("snapCardRoleDesc").textContent = isTeacher ? "teacher" : "student";
+  document.getElementById("snapCardMode").textContent = mode;
+  document.getElementById("snapCardSubjects").textContent = subjects;
+  document.getElementById("snapCardGrades").textContent = grades;
+  document.getElementById("snapCardBoard").textContent = board;
+  document.getElementById("snapCardLocation").textContent = location;
+  document.getElementById("snapCardAvatar").src = avatar;
+
+  const cardElement = document.getElementById("hiddenShareCardSource");
+
+  try {
+    const canvas = await html2canvas(cardElement, {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: '#FFFFFF'
+    });
+
+    const dataUrl = canvas.toDataURL("image/png");
+
+    canvas.toBlob(async (blob) => {
+      const file = new File([blob], `${name.replace(/\s+/g, '_')}_profile.png`, { type: "image/png" });
+      const shareUrl = "https://www.apextuitions.com/browse";
+      const shareText = `🎓 Apex Tuitions Profile: ${name}\nDirect connection, 0% commission.\nExplore more on: ${shareUrl}`;
+
+      // Single-click native share: card image + text + clickable link together
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try {
+          await navigator.share({
+            title: `${name} | Apex Tuitions`,
+            text: shareText,
+            url: shareUrl,
+            files: [file]
+          });
+          return;
+        } catch (err) {
+          console.log("Share dismissed or failed:", err);
+        }
+      }
+
+      // Fallback preview modal with direct text link and image download
+      const container = document.getElementById("renderedCardImageContainer");
+      container.innerHTML = `<img src="${dataUrl}" alt="Generated Profile Card">`;
+
+      const downloadBtn = document.getElementById("btnDownloadCardSnap");
+      downloadBtn.onclick = () => {
+        const a = document.createElement("a");
+        a.href = dataUrl;
+        a.download = `${name.replace(/\s+/g, '_')}_Apex_Profile.png`;
+        a.click();
+      };
+
+      document.getElementById("shareCardModal").classList.remove("hidden");
+    });
+  } catch (err) {
+    console.error("Error generating card image:", err);
+    alert("Could not render card image. Direct browse link: https://www.apextuitions.com/browse");
+  }
+}
+
+function closeShareModal() {
+  document.getElementById("shareCardModal").classList.add("hidden");
+}
+
 async function renderAuthenticatedHome(user) {
   currentUser = user;
   if (!currentUser) return;
@@ -3653,7 +3646,7 @@ async function renderAuthenticatedHome(user) {
   document.getElementById("viewRegisterStudent")?.classList.add("hidden");
   document.getElementById("viewRegisterTeacher")?.classList.add("hidden");
 
-  let roleText = "Verified Member ✓";
+  let roleText = "Verified Member";
   let name = currentUser.email ? currentUser.email.split("@")[0] : "Member";
   let avatar = "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
@@ -3661,7 +3654,7 @@ async function renderAuthenticatedHome(user) {
   if (t) {
     currentRole = 'teacher';
     currentProfile = t;
-    roleText = "Verified Educator 👨‍🏫";
+    roleText = "Verified Educator";
     name = t.teacher_name || name;
     avatar = t.avatar_url || avatar;
   } else {
@@ -3669,7 +3662,7 @@ async function renderAuthenticatedHome(user) {
     if (s) {
       currentRole = 'student';
       currentProfile = s;
-      roleText = "Student / Parent 🎓";
+      roleText = "Student / Parent";
       name = s.student_name || name;
       avatar = s.avatar_url || "https://cdn-icons-png.flaticon.com/512/3135/3135768.png";
     }
@@ -3689,7 +3682,8 @@ async function renderAuthenticatedHome(user) {
   await updateDockRoleLabel(currentUser.id);
 
   document.getElementById("heroWelcomeName").textContent = name;
-  document.getElementById("heroWelcomeRole").textContent = roleText;
+  const roleEl = document.getElementById("heroWelcomeRole");
+  if (roleEl) roleEl.innerHTML = `<i class="fa-solid fa-check"></i> <span>${roleText}</span>`;
   document.getElementById("welcomeAvatarImg").src = avatar;
 
   await syncUserEnquiryBadge();
@@ -3716,9 +3710,7 @@ function renderGuestHome() {
   document.getElementById("heroGridContainer").classList.add("portal-hidden");
 }
 
-/* ========================================================
-   ADMIN ACCESS: Alt + Shift + D AND FOOTER MULTI-TAP
-   ======================================================== */
+/* ADMIN SHORTCUTS */
 window.addEventListener("keydown", (e) => {
   const tag = (document.activeElement?.tagName || "").toLowerCase();
   if (tag === "input" || tag === "textarea") return;
@@ -3765,7 +3757,6 @@ window.addEventListener("load", async () => {
   populateTeacherSubjectChecklist();
   populateStudentSubjectChecklist();
   
-  // Initialize Google Auth right on startup
   initializeGoogleAuth();
 
   const { data: { session } } = await db.auth.getSession();
