@@ -294,24 +294,51 @@
       align-items: center;
       gap: 4px;
     }
+
+    .profile-action-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
     .btn-edit-details {
       width: 100%;
-      height: 42px;
+      height: 40px;
       background: var(--royal-blue);
       color: #FFFFFF;
       border: none;
       border-radius: 10px;
-      font-size: 13.5px;
+      font-size: 12.5px;
       font-weight: 800;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 7px;
       transition: var(--transition);
-      margin-bottom: 20px;
     }
     .btn-edit-details:hover { background: var(--royal-blue-hover); }
+
+    .btn-change-pwd {
+      width: 100%;
+      height: 40px;
+      background: #F1F5F9;
+      color: var(--apex-navy);
+      border: 1.5px solid var(--border-subtle);
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: var(--transition);
+    }
+    .btn-change-pwd:hover {
+      background: #E2E8F0;
+      border-color: #94A3B8;
+    }
 
     .fields-two-col {
       display: grid;
@@ -570,6 +597,49 @@
       box-shadow: 0 0 0 3.5px var(--royal-blue-glow);
     }
     textarea { min-height: 54px; height: 54px; padding: 8px 12px; }
+
+    /* Password Input Wrapper */
+    .password-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .password-input-wrap input {
+      padding-right: 38px;
+    }
+    .password-toggle-btn {
+      position: absolute;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .alert-box {
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .alert-danger {
+      background: #FEF2F2;
+      color: #DC2626;
+      border: 1px solid #FECACA;
+    }
+    .alert-success {
+      background: #ECFDF5;
+      color: #059669;
+      border: 1px solid #A7F3D0;
+    }
 
     .custom-multiselect { position: relative; width: 100%; }
     .multiselect-trigger {
@@ -880,9 +950,14 @@
         <span class="badge-pill-gold" id="profileRatingBadge"><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i><i class="fa-regular fa-star"></i> 0/5 Stars</span>
       </div>
 
-      <button class="btn-edit-details" onclick="openEditModal()">
-        <i class="fa-solid fa-pen-to-square"></i> Edit Details
-      </button>
+      <div class="profile-action-buttons">
+        <button class="btn-edit-details" onclick="openEditModal()">
+          <i class="fa-solid fa-pen-to-square"></i> Edit Details
+        </button>
+        <button class="btn-change-pwd" onclick="openPasswordModal()">
+          <i class="fa-solid fa-key"></i> Password
+        </button>
+      </div>
 
       <div class="fields-two-col">
         <div class="detail-card-chip">
@@ -986,6 +1061,47 @@
     </div>
   </div>
 </main>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="app-modal-overlay" id="changePasswordModalOverlay">
+  <div class="app-modal-card">
+    <div class="modal-header">
+      <h3><i class="fa-solid fa-lock"></i> Change Password</h3>
+      <button class="modal-close-btn" onclick="closePasswordModal()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modal-body">
+      <div id="pwdAlert" class="alert-box hidden"></div>
+
+      <form id="changePasswordForm" onsubmit="event.preventDefault(); handleChangePassword();" style="display:flex; flex-direction:column; gap:12px;">
+        <div>
+          <label for="newPassword">New Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="newPassword" placeholder="Minimum 6 characters" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('newPassword', this)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label for="confirmPassword">Confirm New Password</label>
+          <div class="password-input-wrap">
+            <input type="password" id="confirmPassword" placeholder="Re-enter new password" required autocomplete="new-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePasswordVisibility('confirmPassword', this)">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button type="button" class="wizard-btn-back" style="flex:1;" onclick="closePasswordModal()">Cancel</button>
+          <button type="submit" class="wizard-btn-submit" id="btnSubmitPassword" style="flex:1.5;">Update Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- TEACHER EDIT DETAILS MODAL -->
 <div class="app-modal-overlay" id="editTeacherModalOverlay">
@@ -1479,6 +1595,77 @@ async function handleLogout() {
   }
 }
 
+/* PASSWORD MODAL CONTROLS */
+function openPasswordModal() {
+  const alertEl = document.getElementById("pwdAlert");
+  alertEl.className = "alert-box hidden";
+  alertEl.innerHTML = "";
+  document.getElementById("changePasswordForm").reset();
+  document.body.classList.add("modal-open");
+  document.getElementById("changePasswordModalOverlay").classList.add("active");
+}
+
+function closePasswordModal() {
+  document.getElementById("changePasswordModalOverlay").classList.remove("active");
+  document.body.classList.remove("modal-open");
+}
+
+function togglePasswordVisibility(fieldId, triggerBtn) {
+  const field = document.getElementById(fieldId);
+  const icon = triggerBtn.querySelector("i");
+  if (field.type === "password") {
+    field.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    field.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}
+
+async function handleChangePassword() {
+  const alertEl = document.getElementById("pwdAlert");
+  const newPassword = document.getElementById("newPassword").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
+  const submitBtn = document.getElementById("btnSubmitPassword");
+
+  alertEl.className = "alert-box hidden";
+  alertEl.innerHTML = "";
+
+  if (newPassword.length < 6) {
+    alertEl.className = "alert-box alert-danger";
+    alertEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Password must be at least 6 characters long.`;
+    return;
+  }
+
+  if (newPassword !== confirmPassword) {
+    alertEl.className = "alert-box alert-danger";
+    alertEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> Passwords do not match.`;
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Updating...`;
+
+  const { error } = await db.auth.updateUser({ password: newPassword });
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = `Update Password`;
+
+  if (error) {
+    alertEl.className = "alert-box alert-danger";
+    alertEl.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> ${error.message}`;
+  } else {
+    alertEl.className = "alert-box alert-success";
+    alertEl.innerHTML = `<i class="fa-solid fa-circle-check"></i> Password updated successfully!`;
+    document.getElementById("changePasswordForm").reset();
+    setTimeout(() => {
+      closePasswordModal();
+    }, 1500);
+  }
+}
+
 async function updateDockRoleLabel(userId) {
   const dockBrowseLabel = document.getElementById("dockBrowseLabel");
   if (!dockBrowseLabel || !userId) return;
@@ -1742,7 +1929,6 @@ function openEditModal() {
 
     if (profileRecord.student_class) document.getElementById("esClass").value = profileRecord.student_class;
     
-    // Set Board
     const stdBoard = profileRecord.board || "CBSE";
     const boardKnownOptions = ["CBSE", "ICSE", "IGCSE", "IB", "State"];
     if (boardKnownOptions.includes(stdBoard)) {
@@ -1754,7 +1940,6 @@ function openEditModal() {
       document.getElementById("esBoardOtherGroup").classList.remove("hidden");
     }
 
-    // Set Subjects (Multi-select)
     const subs = (profileRecord.subject || "").split(", ");
     setCheckedValues("esSubjectsDropdown", subs, "esSubjects");
 
@@ -2042,6 +2227,7 @@ function populateUI(data) {
     document.getElementById("profileAvatarImg").src = data.avatar_url;
   }
 }
+
 if (localStorage.getItem("apex_cached_auth") === "true") {
   document.body.classList.add("logged-in-mobile");
 }
