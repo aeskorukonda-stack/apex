@@ -18,23 +18,21 @@
       --apex-navy-dark: #070F1E;
       --royal-blue: #2563EB;
       --royal-blue-hover: #1D4ED8;
-      --royal-blue-glow: rgba(37, 99, 235, 0.15);
       --apex-gold: #F59E0B;
-      --apex-gold-hover: #D97706;
       --emerald: #10B981;
       --emerald-glow: rgba(16, 185, 129, 0.15);
-      --crimson: #EF4444;
+      --royal-blue-glow: rgba(37, 99, 235, 0.15);
       --bg-slate: #F8FAFC;
       --text-main: #0F172A;
       --text-muted: #64748B;
-      --border-subtle: #E2E8F0;
       --card-radius: 16px;
       --btn-radius: 10px;
-      --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.05);
-      --transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      --shadow-card: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+      --transition: all 0.2s ease-in-out;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
       font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: radial-gradient(circle at 10% 0%, #EEF2FF 0%, #F8FAFC 50%, #F1F5F9 100%);
@@ -43,24 +41,22 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      -webkit-font-smoothing: antialiased;
       padding-top: 68px;
     }
 
     header {
       background: rgba(10, 25, 47, 0.98);
       backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
       padding: 10px 24px;
       border-bottom: 3px solid var(--apex-gold);
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 10000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      z-index: 100;
       width: 100%;
     }
+
     .header-wrap {
       max-width: 1280px;
       margin: 0 auto;
@@ -69,12 +65,14 @@
       justify-content: space-between;
       width: 100%;
     }
+
     .brand-group {
       display: flex;
       align-items: center;
       gap: 12px;
       text-decoration: none;
     }
+
     .header-logo {
       width: 38px;
       height: 38px;
@@ -82,8 +80,8 @@
       background: #ffffff;
       object-fit: cover;
       border: 2px solid #ffffff;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
+
     .brand-text h1 {
       font-size: 19px;
       color: #ffffff;
@@ -94,14 +92,15 @@
     .header-right-actions {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
     }
 
     .nav-links-desktop {
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 6px;
     }
+
     .nav-link {
       color: #CBD5E1;
       text-decoration: none;
@@ -114,39 +113,21 @@
       align-items: center;
       gap: 6px;
     }
+
     .nav-link:hover, .nav-link.active {
       color: #ffffff;
       background: rgba(255, 255, 255, 0.12);
     }
 
-    .dropdown-parent { 
-      position: relative; 
-      padding-bottom: 6px;
-      margin-bottom: -6px;
-    }
-    .dropdown-menu {
-      position: absolute; top: 100%; right: 0; background: #ffffff;
-      border-radius: 10px; border: 1px solid var(--border-subtle);
-      box-shadow: 0 12px 28px rgba(10, 25, 47, 0.14); min-width: 175px;
-      padding: 6px; display: none; z-index: 2000;
-    }
-    .dropdown-parent:hover .dropdown-menu { display: block; }
-    .dropdown-item {
-      display: flex; align-items: center; gap: 8px; padding: 8px 10px;
-      color: #334155; font-size: 12.5px; font-weight: 700; text-decoration: none;
-      border-radius: 6px;
-    }
-    .dropdown-item:hover { background: #EFF6FF; color: var(--royal-blue); }
-
-    /* Dedicated Header Guest Buttons */
     .header-auth-buttons {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    #headerAuthGroup.hidden,
-    body.logged-in-mobile #headerAuthGroup {
+    /* Keep hidden when logged in */
+    body.is-logged-in #headerAuthGroup,
+    #headerAuthGroup.hidden {
       display: none !important;
     }
 
@@ -160,29 +141,44 @@
       font-size: 12.5px;
       border: 1.5px solid rgba(255, 255, 255, 0.28);
       cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      white-space: nowrap;
-    }
-    .btn-header-auth:hover {
-      background: rgba(255, 255, 255, 0.16);
-      border-color: #ffffff;
-      transform: translateY(-1px);
     }
 
     .mobile-menu-toggle {
-      display: none; background: none; border: none; color: #ffffff; font-size: 20px; cursor: pointer; padding: 4px;
+      display: none;
+      background: none;
+      border: none;
+      color: #ffffff;
+      font-size: 20px;
+      cursor: pointer;
     }
+
     .mobile-drawer {
-      display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--apex-navy);
-      padding: 16px 20px; border-bottom: 3px solid var(--apex-gold); flex-direction: column; gap: 8px; z-index: 9999;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+      display: none;
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      background: var(--apex-navy);
+      padding: 16px 20px;
+      border-bottom: 3px solid var(--apex-gold);
+      flex-direction: column;
+      gap: 8px;
+      z-index: 99;
     }
+
     .mobile-drawer.open { display: flex; }
     .mobile-drawer a {
-      color: #ffffff; text-decoration: none; font-weight: 600; font-size: 14px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    body.is-logged-in #mDrawerSignIn,
+    body.is-logged-in #mDrawerSignUp {
+      display: none !important;
     }
 
     main { 
@@ -191,6 +187,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      z-index: 10;
     }
 
     .hero-banner {
@@ -198,6 +196,7 @@
       text-align: center;
       margin-bottom: 20px;
     }
+
     .badge-pill {
       display: inline-flex;
       align-items: center;
@@ -211,18 +210,19 @@
       font-weight: 700;
       margin-bottom: 8px;
     }
+
     .hero-banner h2 {
-      font-size: 28px;
+      font-size: 26px;
       font-weight: 800;
       color: var(--apex-navy);
       letter-spacing: -0.02em;
-      line-height: 1.2;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
+
     .hero-banner p {
-      font-size: 14px;
+      font-size: 13.5px;
       color: var(--text-muted);
-      max-width: 540px;
+      max-width: 580px;
       margin: 0 auto;
     }
 
@@ -231,7 +231,7 @@
       max-width: 960px;
       background: #FFFFFF;
       border-radius: var(--card-radius);
-      border: 1px solid rgba(226, 232, 240, 0.8);
+      border: 1.5px solid #E2E8F0;
       box-shadow: var(--shadow-card);
       overflow: hidden;
     }
@@ -240,12 +240,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 14px 24px;
+      padding: 12px 20px;
       border-bottom: 1px solid #F1F5F9;
-      background: linear-gradient(to right, #FFFFFF, #F8FAFC);
+      background: #FAF8F5;
     }
+
     .hub-top-bar h3 {
-      font-size: 15.5px;
+      font-size: 15px;
       font-weight: 800;
       color: var(--apex-navy);
       display: flex;
@@ -256,68 +257,72 @@
     .hub-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      padding: 24px;
+      gap: 16px;
+      padding: 20px;
     }
 
     .hub-card {
       background: #FFFFFF;
-      border: 1.5px solid #EDF2F7;
+      border: 1.5px solid #E2E8F0;
       border-radius: 14px;
-      padding: 22px 20px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       transition: var(--transition);
-      position: relative;
-      overflow: hidden;
+      cursor: pointer;
     }
+
     .hub-card.upload-theme:hover {
-      border-color: #A7F3D0;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px var(--emerald-glow);
+      border-color: #34D399;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px var(--emerald-glow);
     }
+
     .hub-card.download-theme:hover {
-      border-color: #BFDBFE;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px var(--royal-blue-glow);
+      border-color: #60A5FA;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px var(--royal-blue-glow);
     }
 
     .hub-card-icon-wrap {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 12px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      margin-bottom: 14px;
+      font-size: 18px;
+      margin-bottom: 12px;
     }
+
     .upload-theme .hub-card-icon-wrap {
       background: #ECFDF5;
       color: var(--emerald);
     }
+
     .download-theme .hub-card-icon-wrap {
       background: #EFF6FF;
       color: var(--royal-blue);
     }
 
     .hub-card h4 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 800;
       color: var(--apex-navy);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
+
     .hub-card p {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-muted);
-      line-height: 1.5;
-      margin-bottom: 18px;
+      line-height: 1.45;
+      margin-bottom: 16px;
     }
 
     .btn-hub-action {
       width: 100%;
-      height: 42px;
+      height: 40px;
       border-radius: var(--btn-radius);
       font-size: 13.5px;
       font-weight: 700;
@@ -325,85 +330,95 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      text-decoration: none;
       border: none;
       cursor: pointer;
-      transition: var(--transition);
-    }
-    .btn-hub-upload { 
-      background: var(--emerald); 
-      color: #ffffff; 
-      box-shadow: 0 3px 10px rgba(16, 185, 129, 0.22); 
-    }
-    .btn-hub-upload:hover { 
-      background: #059669; 
-      transform: translateY(-1px); 
-    }
-    .btn-hub-browse { 
-      background: var(--royal-blue); 
-      color: #ffffff; 
-      box-shadow: 0 3px 10px rgba(37, 99, 235, 0.22); 
-    }
-    .btn-hub-browse:hover { 
-      background: #1D4ED8; 
-      transform: translateY(-1px); 
     }
 
-    .resource-sub-view { padding: 22px 24px 28px; }
-    
-    .file-constraint-notice {
-      background: #FFFBEB;
-      border: 1px solid #FDE68A;
-      color: #B45309;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 12.5px;
-      font-weight: 600;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .btn-hub-upload { background: var(--emerald); color: #ffffff; }
+    .btn-hub-upload:hover { background: #059669; }
+
+    .btn-hub-browse { background: var(--royal-blue); color: #ffffff; }
+    .btn-hub-browse:hover { background: #1D4ED8; }
+
+    .resource-sub-view { padding: 20px; }
+
+    .form-group { margin-bottom: 12px; }
+
+    .form-group label {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #475569;
+      margin-bottom: 4px;
+      display: block;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
     }
 
-    .form-input {
+    .form-input, .form-select {
       width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid #E2E8F0;
+      height: 38px;
+      padding: 8px 12px;
+      border: 1.5px solid #CBD5E1;
       border-radius: 8px;
-      margin-bottom: 12px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-family: inherit;
       background: #FFFFFF;
-      transition: var(--transition);
       outline: none;
     }
-    .form-input:focus {
+
+    .form-input:focus, .form-select:focus {
       border-color: var(--royal-blue);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+
+    .search-filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-box-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .search-box-wrapper i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 38px;
+      padding: 8px 12px 8px 36px;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .filters-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
     }
 
     .access-denied-box {
       background: #FFFFFF;
       border: 1.5px solid #FEE2E2;
       border-radius: 14px;
-      padding: 28px 22px;
-      max-width: 440px;
+      padding: 24px 20px;
+      max-width: 420px;
       margin: 0 auto;
       text-align: center;
-      box-shadow: var(--shadow-card);
-    }
-
-    .mobile-bottom-dock {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    body:not(.logged-in-mobile) .mobile-bottom-dock {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
     }
 
     .hidden { display: none !important; }
@@ -411,151 +426,17 @@
     footer {
       background: var(--apex-navy-dark);
       color: #94A3B8;
-      padding: 18px 20px;
+      padding: 16px 20px;
       text-align: center;
-      font-size: 12.5px;
+      font-size: 12px;
       margin-top: auto;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    @media (max-width: 960px) {
-      header { padding: 8px 14px; }
-      body { padding-top: 62px; }
-      main { padding: 18px 14px 28px; }
-      .hub-grid { 
-        grid-template-columns: 1fr; 
-        gap: 14px;
-        padding: 18px 16px;
-      }
-      .hub-top-bar { padding: 12px 16px; }
+    @media (max-width: 768px) {
+      .hub-grid { grid-template-columns: 1fr; }
+      .filters-row { grid-template-columns: 1fr; }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
-      .header-auth-buttons { display: flex; gap: 6px; }
-      .btn-header-auth { padding: 5px 10px; font-size: 12px; }
-    }
-
-    /* =========================================================
-       NON-FLOATING SCREEN-INTACT BOTTOM DOCK (FROM FEEDBACK PAGE)
-       ========================================================= */
-    @media (max-width: 768px) {
-      body.logged-in-mobile { 
-        padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
-      }
-
-      body.logged-in-mobile .mobile-bottom-dock {
-        display: block !important;
-        position: fixed !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100vw !important;
-        max-width: 100vw !important;
-        margin: 0 !important;
-        padding: 4px 0 calc(4px + env(safe-area-inset-bottom, 0px)) 0 !important;
-        border-radius: 0 !important;
-        border: none !important;
-        border-top: 1.5px solid #E2E8F0 !important;
-        background: #ffffff !important;
-        box-shadow: 0 -2px 10px rgba(10, 25, 47, 0.08) !important;
-        z-index: 999999 !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        transform: translateZ(0) !important;
-        -webkit-transform: translateZ(0) !important;
-      }
-
-      .dock-card-container {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0 !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-      }
-
-      .dock-item {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        justify-content: center !important;
-        text-decoration: none !important;
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 3px 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        position: relative !important;
-        -webkit-tap-highlight-color: transparent !important;
-      }
-
-      .dock-item.active-tab .dock-title {
-        color: var(--royal-blue) !important;
-        font-weight: 800 !important;
-      }
-
-      .dock-icon-wrap {
-        width: 32px !important;
-        height: 32px !important;
-        border-radius: 8px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-bottom: 2px !important;
-      }
-
-      .dock-icon-wrap.green-bg {
-        background-color: #E8FAF2 !important;
-      }
-      .dock-icon-wrap.green-bg i {
-        color: #10B981 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.yellow-bg {
-        background-color: #FEF3C7 !important;
-      }
-      .dock-icon-wrap.yellow-bg i {
-        color: #D97706 !important;
-        font-size: 16px !important;
-      }
-
-      .dock-icon-wrap.blue-bg {
-        background-color: #EFF6FF !important;
-      }
-      .dock-icon-wrap.blue-bg i {
-        color: #2563EB !important;
-        font-size: 16px !important;
-      }
-
-      .dock-title {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 3px !important;
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        color: #475569 !important;
-        letter-spacing: -0.2px !important;
-        line-height: 1 !important;
-      }
-
-      .dock-badge {
-        position: absolute !important;
-        top: 0px !important;
-        right: 20% !important;
-        background: #EF4444 !important;
-        color: #FFFFFF !important;
-        font-size: 9.5px !important;
-        font-weight: 800 !important;
-        border-radius: 10px !important;
-        padding: 1px 5px !important;
-        line-height: 1 !important;
-      }
     }
   </style>
 </head>
@@ -564,7 +445,7 @@
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
-      <img src="apex-circle-logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='logo.png';">
+      <img src="logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='apex-circle-logo.png';">
       <div class="brand-text">
         <h1>APEX TUITIONS</h1>
       </div>
@@ -575,18 +456,8 @@
         <a href="index.html" class="nav-link">Home</a>
         <a href="browse.html" class="nav-link">Browse</a>
         <a href="resources.html" class="nav-link active">Resources</a>
-        
-        <div class="dropdown-parent">
-          <a href="javascript:void(0)" class="nav-link">More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
-          <div class="dropdown-menu">
-            <a href="about.html" class="dropdown-item"><i class="fa-solid fa-circle-info" style="color:var(--royal-blue);"></i> About Apex</a>
-            <a href="feedback.html" class="dropdown-item"><i class="fa-solid fa-comment-dots" style="color:var(--emerald);"></i> Feedback</a>
-            <a href="donate.html" class="dropdown-item"><i class="fa-solid fa-heart" style="color:#E11D48;"></i> Donate</a>
-          </div>
-        </div>
       </nav>
 
-      <!-- DEDICATED HEADER AUTH BUTTONS (Visible for guests on all pages) -->
       <div class="header-auth-buttons" id="headerAuthGroup">
         <a href="index.html?auth=signin" class="btn-header-auth" id="navBtnSignIn">Sign In</a>
         <a href="index.html?auth=signup" class="btn-header-auth" id="navBtnSignUp">Sign Up</a>
@@ -599,369 +470,520 @@
   </div>
 
   <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">🏠 Home</a>
-    <a href="browse.html">🔍 Browse</a>
-    <a href="resources.html">📚 Resources</a>
-    <a href="about.html">ℹ️ About Apex</a>
-    <a href="feedback.html">💬 Feedback</a>
-    <a href="donate.html">💛 Donate</a>
-    <a href="index.html?auth=signin" id="mDrawerSignIn">🔑 Sign In</a>
-    <a href="index.html?auth=signup" id="mDrawerSignUp">✍️ Sign Up</a>
+    <a href="index.html">Home</a>
+    <a href="browse.html">Browse</a>
+    <a href="resources.html">Resources</a>
+    <a href="index.html?auth=signin" id="mDrawerSignIn">Sign In</a>
+    <a href="index.html?auth=signup" id="mDrawerSignUp">Sign Up</a>
   </div>
 </header>
 
 <main>
   <div class="hero-banner">
     <div class="badge-pill">
-      <i class="fa-solid fa-shield-halved"></i> Verified Academic Hub
+      <i class="fa-solid fa-shield-halved"></i> Academic Portal
     </div>
-    <h2>Educational Resources</h2>
-    <p>Exclusive portal for educators to share certified classroom materials, and for students to explore structured study guides.</p>
+    <h2>Verified Study Library</h2>
+    <p>Educators upload certified study materials. Students sign in to browse and download notes, worksheets, and papers.</p>
   </div>
 
   <div class="hub-container">
     <div class="hub-top-bar">
-      <h3><i class="fa-solid fa-book-bookmark" style="color:var(--royal-blue);"></i> Resource Center</h3>
-      <div id="userStatusBadge" style="font-size:12px; font-weight:700; color:var(--text-muted); display:flex; align-items:center; gap:6px;">
-        <!-- Injected via auth state -->
+      <h3><i class="fa-solid fa-book-bookmark" style="color:var(--royal-blue);"></i> Materials Hub</h3>
+      <div id="userStatusBadge">
+        <span style="font-size:12px; font-weight:700; color:var(--text-muted);"><i class="fa-solid fa-circle-user"></i> Guest</span>
       </div>
     </div>
 
-    <!-- Main Navigation Cards -->
     <div class="hub-grid" id="hubMainCards">
-      <div class="hub-card upload-theme">
+      <div class="hub-card upload-theme" onclick="handleUploadClick()">
         <div>
           <div class="hub-card-icon-wrap">
-            <i class="fa-solid fa-lock-open" id="uploadCardIcon"></i>
+            <i class="fa-solid fa-cloud-arrow-up"></i>
           </div>
-          <h4>Contribute Material</h4>
-          <p><strong>Verified Teachers Only:</strong> Upload classroom worksheets, formula sheets, notes, and study PDFs (Max 2MB).</p>
+          <h4>Teacher Upload Center</h4>
+          <p>Verified teachers can publish classroom notes, mock test papers, formula decks, and assignments.</p>
         </div>
-        <button class="btn-hub-action btn-hub-upload" onclick="handleUploadClick()">
+        <button class="btn-hub-action btn-hub-upload" type="button">
           <i class="fa-solid fa-file-arrow-up"></i> Upload Resource
         </button>
       </div>
 
-      <div class="hub-card download-theme">
+      <div class="hub-card download-theme" onclick="handleBrowseClick()">
         <div>
           <div class="hub-card-icon-wrap">
             <i class="fa-solid fa-folder-open"></i>
           </div>
-          <h4>Browse & Download</h4>
-          <p>Access study materials, categorized subject notes, and practice papers for offline revision.</p>
+          <h4>Download Study Materials</h4>
+          <p>Search materials across Academic, Non-Academic, and Competitive streams. Sign in required to download.</p>
         </div>
-        <button class="btn-hub-action btn-hub-browse" onclick="openDownloadBrowser()">
+        <button class="btn-hub-action btn-hub-browse" type="button">
           <i class="fa-solid fa-magnifying-glass"></i> Explore Downloads
         </button>
       </div>
     </div>
 
-    <!-- Upload View (Protected) -->
     <div id="viewUploadSection" class="resource-sub-view hidden">
-      <div style="background:#FFFFFF; border:1.5px solid #E2E8F0; border-radius:14px; padding:22px 20px; max-width:500px; margin:0 auto; box-shadow:var(--shadow-card);">
-        <h4 style="font-size:17px; color:var(--apex-navy); margin-bottom:12px; font-weight:800;">Upload Teacher Resource</h4>
-        
-        <div class="file-constraint-notice">
-          <i class="fa-solid fa-circle-exclamation"></i>
-          <span>Requirement: Upload file must be a PDF document and size up to 2MB.</span>
+      <div style="background:#FFFFFF; border:1.5px solid #CBD5E1; border-radius:14px; padding:20px; max-width:540px; margin:0 auto;">
+        <h4 style="font-size:16px; color:var(--apex-navy); margin-bottom:12px; font-weight:800;">Upload Study Material</h4>
+
+        <div class="form-group">
+          <label>Document Title</label>
+          <input id="resTitle" type="text" class="form-input" placeholder="e.g. Class 10 Quadratic Equations Revision Guide">
         </div>
 
-        <input id="resTitle" type="text" class="form-input" placeholder="Document Title (e.g. CBSE 10 Math Formula Deck)">
-        <input id="resSubject" type="text" class="form-input" placeholder="Subject / Grade (e.g. Mathematics Class 10)">
-        
-        <label style="font-size:11.5px; font-weight:700; color:#475569; text-transform:uppercase; display:block; margin-bottom:4px;">Select Document (PDF Max 2MB)</label>
-        <input id="resFile" type="file" accept=".pdf,application/pdf" style="margin-bottom:16px; display:block; width:100%; font-size:13px; color:#475569;">
-        
-        <div style="display:flex; gap:10px;">
-          <button onclick="closeSubViews()" style="flex:1; padding:10px; border:1.5px solid #CBD5E1; border-radius:8px; background:#fff; cursor:pointer; font-weight:700; color:#475569; font-size:13px;">Cancel</button>
-          <button onclick="submitResource()" class="btn-hub-action btn-hub-upload" style="flex:1;">Submit File</button>
+        <div class="form-group">
+          <label>Category</label>
+          <select id="resCategory" class="form-select" onchange="handleUploadCategoryChange()">
+            <option value="Academic">Academic (School &amp; College)</option>
+            <option value="Non-Academic">Non-Academic &amp; Creative Skills</option>
+            <option value="Competitive">Competitive &amp; Jobs</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <div class="form-group" id="grpGrade">
+            <label id="lblGrade">Grade / Class</label>
+            <select id="resGrade" class="form-select">
+              </select>
+          </div>
+
+          <div class="form-group" id="grpSubject">
+            <label id="lblSubject">Subject</label>
+            <select id="resSubject" class="form-select" onchange="checkUploadSubjectOther()">
+              </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="grpOtherSpecify" style="display:none;">
+          <label id="lblOtherSpecify">Specify Subject / Skill / Exam</label>
+          <input id="resOtherInput" type="text" class="form-input" placeholder="Please specify">
+        </div>
+
+        <div class="form-group">
+          <label>Attach PDF (Max 2MB)</label>
+          <input id="resFile" type="file" accept=".pdf,application/pdf" style="margin-top:4px; display:block; width:100%; font-size:12.5px; color:#475569;">
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:16px;">
+          <button onclick="showHubView()" type="button" style="flex:1; height:38px; border:1.5px solid #CBD5E1; border-radius:8px; background:#fff; cursor:pointer; font-weight:700; color:#475569; font-size:13px;">Cancel</button>
+          <button onclick="handleResourceUploadSubmit()" type="button" class="btn-hub-action btn-hub-upload" style="flex:1;">Submit File</button>
         </div>
       </div>
     </div>
 
-    <!-- Access Denied Modal / Message -->
-    <div id="viewAccessDenied" class="resource-sub-view hidden">
-      <div class="access-denied-box">
-        <div style="width:46px; height:46px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:inline-flex; align-items:center; justify-content:center; font-size:19px; margin-bottom:12px;">
-          <i class="fa-solid fa-user-lock"></i>
-        </div>
-        <h4 style="font-size:18px; color:var(--apex-navy); font-weight:800; margin-bottom:6px;">Access Restricted</h4>
-        <p id="accessDeniedMessage" style="font-size:13.5px; color:var(--text-muted); margin-bottom:18px;">
-          Only logged-in, verified teachers have permission to upload academic resources.
-        </p>
-        <div style="display:flex; gap:10px; justify-content:center;">
-          <button onclick="closeSubViews()" style="padding:8px 16px; border:1.5px solid #CBD5E1; border-radius:8px; background:#fff; cursor:pointer; font-weight:700; color:#475569; font-size:13px;">Back</button>
-          <a id="accessActionBtn" href="index.html?auth=signin" class="btn-hub-action btn-hub-browse" style="height:38px; padding:0 18px; width:auto; text-decoration:none; font-size:13px;">Log In</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Downloads View -->
     <div id="viewDownloadsSection" class="resource-sub-view hidden">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-        <h4 style="font-size:17px; color:var(--apex-navy); font-weight:800;">Verified Downloads</h4>
-        <button onclick="closeSubViews()" style="border:none; background:none; color:var(--royal-blue); font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h4 style="font-size:16px; color:var(--apex-navy); font-weight:800;">Available Study Materials</h4>
+        <button onclick="showHubView()" type="button" style="border:none; background:none; color:var(--royal-blue); font-weight:700; font-size:13px; cursor:pointer; display:flex; align-items:center; gap:6px;">
           <i class="fa-solid fa-arrow-left"></i> Back to Hub
         </button>
       </div>
-      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;">
-        <div style="border:1.5px solid #E2E8F0; border-radius:12px; padding:16px; background:#F8FAFC;">
-          <span style="font-size:10.5px; font-weight:800; color:var(--royal-blue); background:#EFF6FF; padding:3px 6px; border-radius:4px; text-transform:uppercase;">Class 10</span>
-          <h4 style="font-size:15px; color:var(--apex-navy); margin:6px 0 4px; font-weight:800;">CBSE Physics Mechanics Deck</h4>
-          <p style="font-size:12.5px; color:var(--text-muted); margin-bottom:12px;">Motion & Work numerical solutions guide (PDF • 1.4 MB).</p>
-          <a href="#" class="btn-hub-action btn-hub-browse" style="height:36px; font-size:12.5px;">
-            <i class="fa-solid fa-download"></i> Download PDF
-          </a>
+
+      <div class="search-filter-bar">
+        <div class="search-box-wrapper">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="resourceSearchQuery" oninput="renderFilteredList()" class="search-input" placeholder="Search by title, subject, or grade...">
+        </div>
+        <div class="filters-row">
+          <select id="filterCategory" onchange="handleFilterCategoryChange()" class="form-select">
+            <option value="ALL">All Categories</option>
+            <option value="Academic">Academic</option>
+            <option value="Non-Academic">Non-Academic</option>
+            <option value="Competitive">Competitive</option>
+            <option value="Others">Others</option>
+          </select>
+
+          <select id="filterGrade" onchange="renderFilteredList()" class="form-select">
+            <option value="ALL">All Grades / Levels</option>
+          </select>
+
+          <select id="filterSubject" onchange="renderFilteredList()" class="form-select">
+            <option value="ALL">All Subjects</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="resourceGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:14px;"></div>
+    </div>
+
+    <div id="viewAccessDenied" class="resource-sub-view hidden">
+      <div class="access-denied-box">
+        <div style="width:44px; height:44px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:inline-flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:10px;">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+        <h4 style="font-size:17px; color:var(--apex-navy); font-weight:800; margin-bottom:6px;">Access Required</h4>
+        <p id="accessDeniedMessage" style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+          Please sign in to proceed.
+        </p>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button onclick="showHubView()" type="button" style="padding:7px 16px; border:1.5px solid #CBD5E1; border-radius:8px; background:#fff; cursor:pointer; font-weight:700; color:#475569; font-size:13px;">Cancel</button>
+          <a id="accessActionBtn" href="index.html?auth=signin" class="btn-hub-action btn-hub-browse" style="height:36px; padding:0 18px; width:auto; text-decoration:none; font-size:13px;">Sign In</a>
         </div>
       </div>
     </div>
   </div>
 </main>
 
-<!-- Unified Bottom Dock (Matching feedback page style & intact with screen) -->
-<nav class="mobile-bottom-dock" id="mobileBottomDock">
-  <div class="dock-card-container">
-    <!-- Enquiries -->
-    <a href="enquiries.html" class="dock-item" id="dockBtnEnquiries">
-      <div class="dock-icon-wrap green-bg">
-        <i class="fa-solid fa-comments"></i>
-      </div>
-      <div class="dock-title">
-        <i class="fa-solid fa-comment-dots" style="color: #6EE7B7;"></i>
-        <span>Enquiries</span>
-      </div>
-      <span class="dock-badge hidden" id="dockEnquiryBadge">0</span>
-    </a>
-
-    <!-- Profile -->
-    <a href="profile.html" class="dock-item" id="dockBtnProfile">
-      <div class="dock-icon-wrap yellow-bg">
-        <i class="fa-solid fa-id-card"></i>
-      </div>
-      <div class="dock-title">
-        <i class="fa-solid fa-user" style="color: #4C1D95;"></i>
-        <span>Profile</span>
-      </div>
-    </a>
-
-    <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
-    <a href="browse.html" class="dock-item" id="dockBtnBrowse">
-      <div class="dock-icon-wrap blue-bg">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-      <div class="dock-title">
-        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
-        <span id="dockBrowseLabel">Find Tutor</span>
-      </div>
-    </a>
-  </div>
-</nav>
-
 <footer>
   © 2026 Apex Global Educational Society. All rights reserved.
 </footer>
 
 <script>
-const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Data lists with "Others" appended matching index.html
+const ACADEMIC_SUBJECTS = [
+  "Mathematics", "Science (General)", "Physics", "Chemistry", "Biology",
+  "English", "Social Science", "History", "Geography", "Economics",
+  "Accountancy", "Business Studies", "Computer Science", "Informatics Practices",
+  "Hindi", "Sanskrit", "Regional Languages", "Environmental Studies (EVS)", "Others"
+];
 
+const NON_ACADEMIC_SKILLS = [
+  "Abacus", "Music Vocal", "Instruments", "Art & Craft", 
+  "Public Speaking", "Creative Writing", "Foreign Languages", "Others"
+];
+
+const COMPETITIVE_EXAMS = [
+  "NEET/JEE", "RRB", "SSC", "Banking", "Civils", "Dsc TET", "Others"
+];
+
+// Stores genuine uploads only (no sample documents)
+let resources = [];
 let currentUser = null;
 let isVerifiedTeacher = false;
+
+// Immediate cached authentication check to hide Sign In / Sign Up buttons before network resolves
+(function applyImmediateAuthCheck() {
+  if (localStorage.getItem("apex_cached_auth") === "true") {
+    document.body.classList.add("is-logged-in");
+  }
+})();
+
+function setHeaderAuthState(isLoggedIn) {
+  if (isLoggedIn) {
+    document.body.classList.add("is-logged-in");
+    document.getElementById("headerAuthGroup")?.classList.add("hidden");
+    document.getElementById("mDrawerSignIn")?.classList.add("hidden");
+    document.getElementById("mDrawerSignUp")?.classList.add("hidden");
+  } else {
+    document.body.classList.remove("is-logged-in");
+    document.getElementById("headerAuthGroup")?.classList.remove("hidden");
+    document.getElementById("mDrawerSignIn")?.classList.remove("hidden");
+    document.getElementById("mDrawerSignUp")?.classList.remove("hidden");
+  }
+}
 
 function toggleMobileNav() {
   document.getElementById("mobileDrawer").classList.toggle("open");
 }
 
-function closeSubViews() {
+function showHubView() {
   document.getElementById("hubMainCards").classList.remove("hidden");
   document.getElementById("viewUploadSection").classList.add("hidden");
   document.getElementById("viewDownloadsSection").classList.add("hidden");
   document.getElementById("viewAccessDenied").classList.add("hidden");
 }
 
-function openDownloadBrowser() {
+function handleBrowseClick() {
   document.getElementById("hubMainCards").classList.add("hidden");
   document.getElementById("viewDownloadsSection").classList.remove("hidden");
   document.getElementById("viewUploadSection").classList.add("hidden");
   document.getElementById("viewAccessDenied").classList.add("hidden");
+  populateFilterOptions();
+  renderFilteredList();
 }
 
-/* Guarded Access for Uploading */
-async function handleUploadClick() {
+function handleUploadClick() {
   if (!currentUser) {
-    showAccessDenied(
-      "Please log in with your teacher credentials to upload materials.",
-      "Log In",
-      "index.html?auth=signin"
-    );
+    showDeniedPrompt("Only verified teachers can upload study resources. Please sign in to your educator account.", "Teacher Sign In", "index.html?auth=signin");
     return;
   }
-
   if (!isVerifiedTeacher) {
-    showAccessDenied(
-      "Your account is not verified as a teacher. Only verified educators can upload resources.",
-      "Profile Verification",
-      "profile.html"
-    );
+    showDeniedPrompt("Teacher verification required. Your current account does not hold teacher upload rights.", "Verify Profile", "profile.html");
     return;
   }
-
   document.getElementById("hubMainCards").classList.add("hidden");
   document.getElementById("viewUploadSection").classList.remove("hidden");
   document.getElementById("viewDownloadsSection").classList.add("hidden");
   document.getElementById("viewAccessDenied").classList.add("hidden");
+  handleUploadCategoryChange();
 }
 
-function showAccessDenied(msg, btnText, btnLink) {
+function showDeniedPrompt(msg, btnText, btnLink) {
   document.getElementById("hubMainCards").classList.add("hidden");
   document.getElementById("viewUploadSection").classList.add("hidden");
   document.getElementById("viewDownloadsSection").classList.add("hidden");
   
-  const deniedBox = document.getElementById("viewAccessDenied");
+  const box = document.getElementById("viewAccessDenied");
   document.getElementById("accessDeniedMessage").textContent = msg;
   const actionBtn = document.getElementById("accessActionBtn");
   actionBtn.textContent = btnText;
   actionBtn.href = btnLink;
-  
-  deniedBox.classList.remove("hidden");
+  box.classList.remove("hidden");
 }
 
-function setAuthState(isAuthenticated) {
-  const authGroup = document.getElementById("headerAuthGroup");
-  const mSignIn = document.getElementById("mDrawerSignIn");
-  const mSignUp = document.getElementById("mDrawerSignUp");
+function checkUploadSubjectOther() {
+  const category = document.getElementById("resCategory").value;
+  const subjectVal = document.getElementById("resSubject").value;
+  const grpOther = document.getElementById("grpOtherSpecify");
+  const lblOther = document.getElementById("lblOtherSpecify");
 
-  if (isAuthenticated) {
-    document.body.classList.add("logged-in-mobile");
-    authGroup?.classList.add("hidden");
-    mSignIn?.classList.add("hidden");
-    mSignUp?.classList.add("hidden");
+  if (category === "Others") {
+    grpOther.style.display = "block";
+    lblOther.textContent = "Specify Details";
+  } else if (subjectVal === "Others") {
+    grpOther.style.display = "block";
+    lblOther.textContent = category === "Academic" ? "Specify Subject" : (category === "Non-Academic" ? "Specify Skill" : "Specify Exam");
   } else {
-    document.body.classList.remove("logged-in-mobile");
-    authGroup?.classList.remove("hidden");
-    mSignIn?.classList.remove("hidden");
-    mSignUp?.classList.remove("hidden");
+    grpOther.style.display = "none";
   }
 }
 
-async function updateDockRoleLabel(userId) {
-  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
-  if (!dockBrowseLabel || !userId) return;
+// Populate Upload Dropdowns according to chosen category
+function handleUploadCategoryChange() {
+  const category = document.getElementById("resCategory").value;
+  const gradeSelect = document.getElementById("resGrade");
+  const subjectSelect = document.getElementById("resSubject");
+  const grpGrade = document.getElementById("grpGrade");
+  const grpSubject = document.getElementById("grpSubject");
+  const grpOther = document.getElementById("grpOtherSpecify");
+  const lblOther = document.getElementById("lblOtherSpecify");
 
-  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
-  if (teacher) {
-    dockBrowseLabel.textContent = "Find Students";
-  } else {
-    dockBrowseLabel.textContent = "Find Tutor";
-  }
-}
+  grpGrade.style.display = "block";
+  grpSubject.style.display = "block";
+  grpOther.style.display = "none";
 
-if (localStorage.getItem("apex_cached_auth") === "true") {
-  document.body.classList.add("logged-in-mobile");
-}
-
-/* Auth & Role Check */
-async function checkAuthAndRole() {
-  const cachedAuth = localStorage.getItem("apex_cached_auth");
-  setAuthState(cachedAuth === "true");
-
-  const { data: { session } } = await db.auth.getSession();
-  const statusBadge = document.getElementById("userStatusBadge");
-
-  if (session && session.user) {
-    currentUser = session.user;
-    localStorage.setItem("apex_cached_auth", "true");
-    setAuthState(true);
-
-    await updateDockRoleLabel(currentUser.id);
-
-    const { data: teacher } = await db.from("teachers").select("id, verified").eq("id", currentUser.id).maybeSingle();
-
-    if (teacher && teacher.verified) {
-      isVerifiedTeacher = true;
-      if (statusBadge) {
-        statusBadge.innerHTML = `<span style="color:var(--emerald); display:inline-flex; align-items:center; gap:4px;"><i class="fa-solid fa-circle-check"></i> Verified Teacher</span>`;
-      }
-    } else {
-      isVerifiedTeacher = false;
-      if (statusBadge) {
-        statusBadge.innerHTML = `<span style="color:var(--text-muted);"><i class="fa-solid fa-user"></i> Logged In</span>`;
-      }
+  if (category === "Academic") {
+    document.getElementById("lblGrade").textContent = "Grade (1 to 12)";
+    document.getElementById("lblSubject").textContent = "Subject";
+    
+    let gHtml = "";
+    for (let i = 1; i <= 12; i++) {
+      gHtml += `<option value="Class ${i}">Class ${i}</option>`;
     }
-
-    const { data: enquiries } = await db.from("enquiries").select("id").eq("recipient_id", session.user.id).eq("status", "Pending");
-    const count = (enquiries && enquiries.length) ? enquiries.length : 0;
-    const dockBadge = document.getElementById("dockEnquiryBadge");
-    if (dockBadge) {
-      if (count > 0) {
-        dockBadge.textContent = count;
-        dockBadge.classList.remove("hidden");
-      } else {
-        dockBadge.classList.add("hidden");
-      }
-    }
-  } else {
-    currentUser = null;
-    isVerifiedTeacher = false;
-    localStorage.removeItem("apex_cached_auth");
-    setAuthState(false);
-    if (statusBadge) statusBadge.innerHTML = "";
+    gradeSelect.innerHTML = gHtml;
+    subjectSelect.innerHTML = ACADEMIC_SUBJECTS.map(s => `<option value="${s}">${s}</option>`).join("");
+  } 
+  else if (category === "Non-Academic") {
+    document.getElementById("lblGrade").textContent = "Track";
+    document.getElementById("lblSubject").textContent = "Creative Skill";
+    
+    gradeSelect.innerHTML = `<option value="Skill Track">Skill Track</option>`;
+    subjectSelect.innerHTML = NON_ACADEMIC_SKILLS.map(s => `<option value="${s}">${s}</option>`).join("");
+  } 
+  else if (category === "Competitive") {
+    document.getElementById("lblGrade").textContent = "Level";
+    document.getElementById("lblSubject").textContent = "Exam";
+    
+    gradeSelect.innerHTML = `<option value="Competitive Stream">Competitive Stream</option>`;
+    subjectSelect.innerHTML = COMPETITIVE_EXAMS.map(e => `<option value="${e}">${e}</option>`).join("");
+  } 
+  else {
+    grpGrade.style.display = "none";
+    grpSubject.style.display = "none";
+    grpOther.style.display = "block";
+    lblOther.textContent = "Specify Subject / Category";
   }
 
-  db.auth.onAuthStateChange(async (event, session) => {
-    if (session && session.user) {
-      localStorage.setItem("apex_cached_auth", "true");
-      setAuthState(true);
-      await updateDockRoleLabel(session.user.id);
-    } else {
-      localStorage.removeItem("apex_cached_auth");
-      setAuthState(false);
-    }
-  });
+  checkUploadSubjectOther();
 }
 
-async function submitResource() {
-  if (!currentUser || !isVerifiedTeacher) {
-    alert("Unauthorized. Only verified teachers can upload resources.");
-    return;
-  }
+// Populate Download Filters based on Selected Category
+function handleFilterCategoryChange() {
+  populateFilterOptions();
+  renderFilteredList();
+}
 
+function populateFilterOptions() {
+  const cat = document.getElementById("filterCategory").value;
+  const gradeFilter = document.getElementById("filterGrade");
+  const subjectFilter = document.getElementById("filterSubject");
+
+  if (cat === "Academic") {
+    let gHtml = `<option value="ALL">All Grades (1 to 12)</option>`;
+    for (let i = 1; i <= 12; i++) gHtml += `<option value="Class ${i}">Class ${i}</option>`;
+    gradeFilter.innerHTML = gHtml;
+    subjectFilter.innerHTML = `<option value="ALL">All Subjects</option>` + ACADEMIC_SUBJECTS.map(s => `<option value="${s}">${s}</option>`).join("");
+  } 
+  else if (cat === "Non-Academic") {
+    gradeFilter.innerHTML = `<option value="ALL">All Levels</option><option value="Skill Track">Skill Track</option>`;
+    subjectFilter.innerHTML = `<option value="ALL">All Skills</option>` + NON_ACADEMIC_SKILLS.map(s => `<option value="${s}">${s}</option>`).join("");
+  } 
+  else if (cat === "Competitive") {
+    gradeFilter.innerHTML = `<option value="ALL">All Streams</option><option value="Competitive Stream">Competitive Stream</option>`;
+    subjectFilter.innerHTML = `<option value="ALL">All Exams</option>` + COMPETITIVE_EXAMS.map(e => `<option value="${e}">${e}</option>`).join("");
+  } 
+  else {
+    let gHtml = `<option value="ALL">All Grades / Levels</option>`;
+    for (let i = 1; i <= 12; i++) gHtml += `<option value="Class ${i}">Class ${i}</option>`;
+    gHtml += `<option value="Skill Track">Skill Track</option><option value="Competitive Stream">Competitive Stream</option><option value="General">General</option>`;
+    gradeFilter.innerHTML = gHtml;
+
+    const merged = Array.from(new Set(ACADEMIC_SUBJECTS.concat(NON_ACADEMIC_SKILLS, COMPETITIVE_EXAMS)));
+    subjectFilter.innerHTML = `<option value="ALL">All Subjects & Skills</option>` + merged.map(s => `<option value="${s}">${s}</option>`).join("");
+  }
+}
+
+function handleResourceUploadSubmit() {
+  const title = document.getElementById("resTitle").value.trim();
+  const category = document.getElementById("resCategory").value;
   const fileInput = document.getElementById("resFile");
-  const titleInput = document.getElementById("resTitle");
-  const subjectInput = document.getElementById("resSubject");
   const file = fileInput.files[0];
+  const otherInput = document.getElementById("resOtherInput").value.trim();
 
-  if (!titleInput.value.trim() || !subjectInput.value.trim()) {
-    alert("Please enter both title and subject.");
-    return;
+  let grade = "";
+  let subject = "";
+
+  if (category === "Others") {
+    if (!otherInput) { alert("Please specify the custom category/subject."); return; }
+    grade = "General";
+    subject = otherInput;
+  } else {
+    grade = document.getElementById("resGrade").value;
+    const selectedSubject = document.getElementById("resSubject").value;
+    if (selectedSubject === "Others") {
+      if (!otherInput) { alert("Please enter the specific subject/skill name."); return; }
+      subject = otherInput;
+    } else {
+      subject = selectedSubject;
+    }
   }
 
-  if (!file) {
-    alert("Please select a PDF file to upload.");
-    return;
-  }
+  if (!title) { alert("Please provide a title."); return; }
+  if (!file) { alert("Please attach a PDF document."); return; }
+  if (!file.name.toLowerCase().endsWith(".pdf")) { alert("Only PDF files are allowed."); return; }
+  if (file.size > 2 * 1024 * 1024) { alert("File exceeds 2MB limit."); return; }
 
-  const isPdf = file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-  if (!isPdf) {
-    alert("Invalid file format. The file must be a PDF document.");
-    return;
-  }
+  resources.unshift({
+    id: Date.now(),
+    title: title,
+    category: category,
+    grade: grade,
+    subject: subject,
+    blobUrl: URL.createObjectURL(file),
+    size: (file.size / (1024 * 1024)).toFixed(2) + " MB"
+  });
 
-  const maxBytes = 2 * 1024 * 1024;
-  if (file.size > maxBytes) {
-    alert("File size exceeds 2MB limit. Please upload a smaller PDF file.");
-    return;
-  }
-
-  alert("✓ Resource uploaded successfully!");
+  alert("✓ Material uploaded successfully!");
+  document.getElementById("resTitle").value = "";
+  document.getElementById("resOtherInput").value = "";
   fileInput.value = "";
-  titleInput.value = "";
-  subjectInput.value = "";
-  closeSubViews();
+
+  handleBrowseClick();
 }
 
-window.addEventListener("DOMContentLoaded", checkAuthAndRole);
+function executeDownload(id) {
+  if (!currentUser) {
+    showDeniedPrompt("Sign in to unlock and download study files.", "Sign In to Download", "index.html?auth=signin");
+    return;
+  }
+
+  const item = resources.find(r => r.id === id);
+  if (!item) return;
+
+  const a = document.createElement("a");
+  a.href = item.blobUrl;
+  a.download = (item.title.replace(/[^a-zA-Z0-9]/g, "_") || "resource") + ".pdf";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
+function renderFilteredList() {
+  const query = (document.getElementById("resourceSearchQuery").value || "").toLowerCase().trim();
+  const category = document.getElementById("filterCategory").value;
+  const grade = document.getElementById("filterGrade").value;
+  const subject = document.getElementById("filterSubject").value;
+
+  const filtered = resources.filter(r => {
+    const qMatches = !query || r.title.toLowerCase().includes(query) || r.subject.toLowerCase().includes(query) || r.grade.toLowerCase().includes(query);
+    const cMatches = category === "ALL" || r.category === category;
+    const gMatches = grade === "ALL" || r.grade === grade;
+    const sMatches = subject === "ALL" || r.subject === subject || (subject === "Others" && !ACADEMIC_SUBJECTS.includes(r.subject) && !NON_ACADEMIC_SKILLS.includes(r.subject) && !COMPETITIVE_EXAMS.includes(r.subject));
+    return qMatches && cMatches && gMatches && sMatches;
+  });
+
+  const grid = document.getElementById("resourceGrid");
+  if (!grid) return;
+
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div style="grid-column: 1 / -1; text-align:center; padding: 40px 10px; color: var(--text-muted);">
+        <i class="fa-solid fa-folder-open" style="font-size:28px; opacity:0.35; margin-bottom:8px;"></i>
+        <p style="font-weight:600; font-size:13.5px;">No study resources available.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(r => `
+    <div style="background:#FFFFFF; border:1.5px solid #E2E8F0; border-radius:12px; padding:16px; display:flex; flex-direction:column; justify-content:space-between;">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+          <span style="font-size:11px; font-weight:800; color:var(--royal-blue); background:#EFF6FF; padding:3px 8px; border-radius:4px;">${r.grade}</span>
+          <span style="font-size:11px; font-weight:700; color:var(--emerald); background:#ECFDF5; padding:3px 8px; border-radius:4px;">${r.category}</span>
+        </div>
+        <h4 style="font-size:14px; color:var(--apex-navy); font-weight:800; line-height:1.4; margin-bottom:6px;">${r.title}</h4>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+          <i class="fa-solid fa-book-open"></i> ${r.subject} &nbsp;•&nbsp; <i class="fa-solid fa-file-pdf" style="color:#EF4444;"></i> ${r.size}
+        </p>
+      </div>
+      <button onclick="executeDownload(${r.id})" class="btn-hub-action btn-hub-browse" style="height:36px; font-size:12.5px;">
+        <i class="fa-solid fa-download"></i> ${currentUser ? "Download PDF" : "Sign In to Download"}
+      </button>
+    </div>
+  `).join("");
+}
+
+// Background session detection
+(async function syncAuth() {
+  try {
+    const SUPABASE_URL = "https://agxoxrtetmcfwbpzyypo.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0";
+    
+    if (window.supabase) {
+      const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+      const { data: { session } } = await db.auth.getSession();
+      
+      if (session && session.user) {
+        currentUser = session.user;
+        localStorage.setItem("apex_cached_auth", "true");
+        setHeaderAuthState(true);
+
+        const { data: teacher } = await db.from("teachers").select("id, verified").eq("id", currentUser.id).maybeSingle();
+        isVerifiedTeacher = !!(teacher && teacher.verified);
+
+        const statusBadge = document.getElementById("userStatusBadge");
+        if (statusBadge) {
+          statusBadge.innerHTML = isVerifiedTeacher 
+            ? `<span style="color:var(--emerald); font-size:12px; font-weight:700;"><i class="fa-solid fa-circle-check"></i> Teacher</span>`
+            : `<span style="color:var(--royal-blue); font-size:12px; font-weight:700;"><i class="fa-solid fa-user-graduate"></i> Student</span>`;
+        }
+      } else {
+        currentUser = null;
+        isVerifiedTeacher = false;
+        localStorage.removeItem("apex_cached_auth");
+        setHeaderAuthState(false);
+      }
+
+      db.auth.onAuthStateChange((event, session) => {
+        if (session && session.user) {
+          currentUser = session.user;
+          localStorage.setItem("apex_cached_auth", "true");
+          setHeaderAuthState(true);
+        } else {
+          currentUser = null;
+          isVerifiedTeacher = false;
+          localStorage.removeItem("apex_cached_auth");
+          setHeaderAuthState(false);
+        }
+        renderFilteredList();
+      });
+    }
+  } catch (err) {
+    console.warn("Auth check notice:", err);
+  }
+})();
 </script>
 </body>
 </html>
