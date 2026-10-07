@@ -349,45 +349,120 @@
       pointer-events: none !important;
     }
 
+    /* FOOTER STYLES */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
       padding: 56px 24px 28px;
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       margin-top: 50px;
     }
+
     .footer-grid {
       max-width: 1280px;
-      margin: 0 auto;
+      margin: 0 auto 36px;
       display: grid;
       grid-template-columns: 1.5fr 1fr 1fr 1fr;
       gap: 36px;
-      margin-bottom: 36px;
+      text-align: left;
+      align-items: start;
+    }
+
+    .footer-col {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
       text-align: left;
     }
+
     .footer-col h4 {
       color: var(--apex-gold);
       font-size: 13.5px;
       font-weight: 800;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
+      line-height: 1.3;
     }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 8px; }
+
+    .footer-col p {
+      margin: 0 0 10px 0;
+      line-height: 1.6;
+    }
+
+    .footer-col ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col ul li {
+      margin: 0;
+      line-height: 1.4;
+    }
+
     .footer-col ul li a {
       color: #94A3B8;
       text-decoration: none;
       font-size: 13px;
+      display: inline-block;
       transition: var(--transition);
     }
-    .footer-col ul li a:hover { color: #ffffff; padding-left: 4px; }
+
+    .footer-col ul li a:hover {
+      color: #ffffff;
+      transform: translateX(4px);
+    }
+
+    /* Top Tutoring Cities Footer Strip */
+    .footer-cities-strip {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 24px 0 20px;
+      margin: 0 auto 12px;
+      text-align: center;
+      font-size: 12.5px;
+      color: #94A3B8;
+      max-width: 1280px;
+      line-height: 2.2;
+    }
+
+    .footer-cities-label {
+      font-weight: 800;
+      color: #F8FAFC;
+      margin-right: 8px;
+      text-transform: uppercase;
+      font-size: 11.5px;
+      letter-spacing: 0.5px;
+      display: inline-block;
+    }
+
+    .footer-city-link {
+      color: #94A3B8;
+      text-decoration: none;
+      margin: 0 5px;
+      transition: var(--transition);
+      display: inline-block;
+    }
+
+    .footer-city-link:hover {
+      color: var(--apex-gold);
+    }
+
+    .footer-city-sep {
+      color: #475569;
+      user-select: none;
+    }
+
     .footer-bottom {
-      border-top: 1px solid rgba(255,255,255,0.08);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding-top: 22px;
       text-align: center;
       font-size: 12px;
       color: #64748B;
+      line-height: 1.5;
     }
 
     .hidden { display: none !important; }
@@ -395,7 +470,10 @@
     @media (max-width: 960px) {
       header { padding: 10px 14px; }
       body { padding-top: 68px; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px 24px;
+      }
       .nav-links-desktop { display: none; }
       .mobile-menu-toggle { display: block; }
       .header-auth-buttons { display: flex; gap: 6px; }
@@ -410,7 +488,6 @@
         padding-bottom: calc(66px + env(safe-area-inset-bottom, 0px)) !important; 
       }
 
-      /* Attached rigidly to bottom screen edges: 0 margins, 0 outer curves, 100vw */
       body.logged-in-mobile .mobile-bottom-dock {
         display: block !important;
         position: fixed !important;
@@ -434,7 +511,6 @@
         -webkit-transform: translateZ(0) !important;
       }
 
-      /* 3-column flush grid filling width without floating side gaps */
       .dock-card-container {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
@@ -532,8 +608,28 @@
       .header-logo { width: 36px; height: 36px; }
       .brand-text h1 { font-size: 16.5px; }
       .btn-header-auth { padding: 5px 10px; font-size: 11.5px; }
-      .footer-grid { grid-template-columns: 1fr; }
       .hero-banner h2 { font-size: 28px; }
+      
+      footer {
+        padding: 40px 20px 24px;
+        text-align: center;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 28px;
+      }
+      .footer-col {
+        align-items: center;
+        text-align: center;
+      }
+      .footer-col ul li a:hover {
+        transform: none;
+      }
+      .footer-cities-strip {
+        font-size: 12px;
+        line-height: 2;
+      }
     }
   </style>
 </head>
@@ -600,23 +696,23 @@
   <div class="hero-banner">
     <h2>Connect Students and Teachers Directly</h2>
     <p>
-  Apex Tuitions is a platform designed to help students, parents and teachers
-  connect directly for tuition. Students can discover teachers according to
-  their subjects, classes, boards, teaching mode and learning requirements.
-  Teachers can create their profiles and connect with students looking for tuition.
-</p>
-<h2>Online and Home Tuition</h2>
-<p>
-  Find teachers for online tuition or home tuition based on your learning needs.
-  Apex Tuitions supports direct teacher-student communication so that tuition
-  arrangements can be discussed directly between the parties.
-</p>
-<h2>School Subjects, Skills and Competitive Exams</h2>
-<p>
-  Explore teachers for school and college subjects, CBSE, ICSE, State Boards,
-  competitive examinations, languages, music, art, public speaking, creative
-  skills and other learning requirements.
-</p>
+      Apex Tuitions is a platform designed to help students, parents and teachers
+      connect directly for tuition. Students can discover teachers according to
+      their subjects, classes, boards, teaching mode and learning requirements.
+      Teachers can create their profiles and connect with students looking for tuition.
+    </p>
+    <h2>Online and Home Tuition</h2>
+    <p>
+      Find teachers for online tuition or home tuition based on your learning needs.
+      Apex Tuitions supports direct teacher-student communication so that tuition
+      arrangements can be discussed directly between the parties.
+    </p>
+    <h2>School Subjects, Skills and Competitive Exams</h2>
+    <p>
+      Explore teachers for school and college subjects, CBSE, ICSE, State Boards,
+      competitive examinations, languages, music, art, public speaking, creative
+      skills and other learning requirements.
+    </p>
   </div>
 
   <div class="pillars-grid">
@@ -691,14 +787,15 @@
 <footer>
   <div class="footer-grid">
     <div class="footer-col">
-      <h4 style="color:#ffffff;">APEX TUITIONS</h4>
-      <p style="font-size:12.5px;color:#CBD5E1;line-height:1.6;margin-bottom:10px;">
-        A non-profit educational network connecting verified educators directly with students worldwide.
+      <h4 style="color: #ffffff;">APEX TUITIONS</h4>
+      <p style="font-size: 12.5px; color: #CBD5E1;">
+        Apex Global Educational Society connecting verified educators directly with students worldwide.
       </p>
-      <p style="font-size:11.5px;color:#94A3B8;">
-       • aeskorukonda@gmail.com
+      <p style="font-size: 11.5px; color: #94A3B8;">
+        <i class="fa-solid fa-envelope" style="margin-right: 6px;"></i>aeskorukonda@gmail.com
       </p>
     </div>
+
     <div class="footer-col">
       <h4>For Students</h4>
       <ul>
@@ -706,6 +803,7 @@
         <li><a href="resources.html">Study Resources</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
       <h4>For Teachers</h4>
       <ul>
@@ -713,8 +811,9 @@
         <li><a href="about.html">Zero Commission Policy</a></li>
       </ul>
     </div>
+
     <div class="footer-col">
-      <h4>Society & Trust</h4>
+      <h4>Society &amp; Trust</h4>
       <ul>
         <li><a href="about.html">About Apex</a></li>
         <li><a href="feedback.html">Testimonials</a></li>
@@ -722,8 +821,107 @@
       </ul>
     </div>
   </div>
+
+  <!-- Top Tutoring Cities Footer Strip (Tier-1, Tier-2 & Major Education Hubs) -->
+  <div class="footer-cities-strip">
+    <span class="footer-cities-label">Top Tutoring Locations:</span>
+    <a href="browse.html?location=Hyderabad" class="footer-city-link">Tutors in Hyderabad</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Visakhapatnam" class="footer-city-link">Tutors in Visakhapatnam</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Vijayawada" class="footer-city-link">Tutors in Vijayawada</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Bengaluru" class="footer-city-link">Tutors in Bengaluru</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Delhi" class="footer-city-link">Tutors in Delhi NCR</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Mumbai" class="footer-city-link">Tutors in Mumbai</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Chennai" class="footer-city-link">Tutors in Chennai</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Pune" class="footer-city-link">Tutors in Pune</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kolkata" class="footer-city-link">Tutors in Kolkata</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Ahmedabad" class="footer-city-link">Tutors in Ahmedabad</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Noida" class="footer-city-link">Tutors in Noida</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Gurugram" class="footer-city-link">Tutors in Gurugram</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Jaipur" class="footer-city-link">Tutors in Jaipur</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Lucknow" class="footer-city-link">Tutors in Lucknow</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Chandigarh" class="footer-city-link">Tutors in Chandigarh</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Indore" class="footer-city-link">Tutors in Indore</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Bhopal" class="footer-city-link">Tutors in Bhopal</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Surat" class="footer-city-link">Tutors in Surat</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Vadodara" class="footer-city-link">Tutors in Vadodara</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Nagpur" class="footer-city-link">Tutors in Nagpur</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Nashik" class="footer-city-link">Tutors in Nashik</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Coimbatore" class="footer-city-link">Tutors in Coimbatore</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Madurai" class="footer-city-link">Tutors in Madurai</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kochi" class="footer-city-link">Tutors in Kochi</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Thiruvananthapuram" class="footer-city-link">Tutors in Thiruvananthapuram</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Mysuru" class="footer-city-link">Tutors in Mysuru</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Mangalore" class="footer-city-link">Tutors in Mangalore</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Patna" class="footer-city-link">Tutors in Patna</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Bhubaneswar" class="footer-city-link">Tutors in Bhubaneswar</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Ranchi" class="footer-city-link">Tutors in Ranchi</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Guwahati" class="footer-city-link">Tutors in Guwahati</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Raipur" class="footer-city-link">Tutors in Raipur</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Varanasi" class="footer-city-link">Tutors in Varanasi</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kanpur" class="footer-city-link">Tutors in Kanpur</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Agra" class="footer-city-link">Tutors in Agra</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Prayagraj" class="footer-city-link">Tutors in Prayagraj</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Dehradun" class="footer-city-link">Tutors in Dehradun</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kota" class="footer-city-link">Tutors in Kota</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Ludhiana" class="footer-city-link">Tutors in Ludhiana</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Amritsar" class="footer-city-link">Tutors in Amritsar</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Guntur" class="footer-city-link">Tutors in Guntur</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Tirupati" class="footer-city-link">Tutors in Tirupati</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Rajahmundry" class="footer-city-link">Tutors in Rajahmundry</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kakinada" class="footer-city-link">Tutors in Kakinada</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Nellore" class="footer-city-link">Tutors in Nellore</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Kurnool" class="footer-city-link">Tutors in Kurnool</a>
+    <span class="footer-city-sep">•</span>
+    <a href="browse.html?location=Warangal" class="footer-city-link">Tutors in Warangal</a>
+  </div>
+
   <div class="footer-bottom">
-    © 2026 Apex Global Educational Society. All rights reserved.
+    &copy; 2026 Apex Global Educational Society. All rights reserved.
   </div>
 </footer>
 
