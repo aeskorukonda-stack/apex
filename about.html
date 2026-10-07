@@ -418,16 +418,16 @@
     }
 
     /* Top Tutoring Cities Footer Strip */
-    .footer-cities-strip {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 24px 0 20px;
-      margin: 0 auto 12px;
-      text-align: center;
-      font-size: 12.5px;
-      color: #94A3B8;
-      max-width: 1280px;
-      line-height: 2.2;
-    }
+.footer-cities-strip {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 24px 0 20px;
+  margin: 0 auto 12px;
+  text-align: left; /* Changed from center to left */
+  font-size: 12.5px;
+  color: #94A3B8;
+  max-width: 1280px;
+  line-height: 2.2;
+}
 
     .footer-cities-label {
       font-weight: 800;
@@ -627,8 +627,11 @@
         transform: none;
       }
       .footer-cities-strip {
-        font-size: 12px;
-        line-height: 2;
+    text-align: left; /* Changed from default center */
+    font-size: 12px;
+    line-height: 2;
+  }
+}
       }
     }
   </style>
