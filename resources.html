@@ -37,7 +37,7 @@
     .input, .select { width: 100%; height: 36px; padding: 6px 10px; border: 1px solid #CBD5E1; border-radius: 6px; font-size: 13px; background: #FFF; }
     .hidden { display: none !important; }
 
-    /* FOOTER STYLES FROM ABOUT PAGE */
+    /* FOOTER STYLES */
     footer {
       background: var(--apex-navy-dark);
       color: #CBD5E1;
@@ -105,12 +105,12 @@
       transform: translateX(4px);
     }
 
-    /* Top Tutoring Cities Footer Strip */
+    /* Top Tutoring Cities Footer Strip - Left Aligned */
     .footer-cities-strip {
       border-top: 1px solid rgba(255, 255, 255, 0.08);
       padding: 24px 0 20px;
       margin: 0 auto 12px;
-      text-align: center;
+      text-align: left;
       font-size: 12.5px;
       color: #94A3B8;
       max-width: 1280px;
@@ -167,21 +167,22 @@
     @media (max-width: 600px) {
       footer {
         padding: 40px 20px 24px;
-        text-align: center;
+        text-align: left;
       }
       .footer-grid {
         grid-template-columns: 1fr;
-        text-align: center;
+        text-align: left;
         gap: 28px;
       }
       .footer-col {
-        align-items: center;
-        text-align: center;
+        align-items: flex-start;
+        text-align: left;
       }
       .footer-col ul li a:hover {
         transform: none;
       }
       .footer-cities-strip {
+        text-align: left;
         font-size: 12px;
         line-height: 2;
       }
@@ -300,7 +301,7 @@
     <div class="footer-col">
       <h4 style="color: #ffffff;">APEX TUITIONS</h4>
       <p style="font-size: 12.5px; color: #CBD5E1;">
-        Apex Golbal Educational Society connecting verified educators directly with students worldwide.
+        Apex Global Educational Society network connecting verified educators directly with students worldwide.
       </p>
       <p style="font-size: 11.5px; color: #94A3B8;">
         <i class="fa-solid fa-envelope" style="margin-right: 6px;"></i>aeskorukonda@gmail.com
@@ -333,7 +334,7 @@
     </div>
   </div>
 
-  <!-- Top Tutoring Cities Footer Strip (Tier-1, Tier-2 & Major Education Hubs) -->
+  <!-- Top Tutoring Cities Footer Strip (Left Aligned) -->
   <div class="footer-cities-strip">
     <span class="footer-cities-label">Top Tutoring Locations:</span>
     <a href="browse.html?location=Hyderabad" class="footer-city-link">Tutors in Hyderabad</a>
