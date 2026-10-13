@@ -1035,8 +1035,8 @@ async function fetchDirectoryData() {
       document.getElementById("roleNotice").textContent = "Viewing Teachers & Students";
 
       const [teachersRes, studentsRes] = await Promise.all([
-        db.from('teachers').select('*').order('created_at', { ascending: false }).limit(40),
-        db.from('students').select('*').order('created_at', { ascending: false }).limit(40),
+        db.from('teachers').select('*').order('created_at', { ascending: false }),
+        db.from('students').select('*').order('created_at', { ascending: false }),
         syncGlobalConfirmedTuitions()
       ]);
 
@@ -1070,7 +1070,7 @@ async function fetchDirectoryData() {
     }
 
     const [profilesRes] = await Promise.all([
-      db.from(targetTable).select('*').order('created_at', { ascending: false }).limit(60),
+      db.from(targetTable).select('*').order('created_at', { ascending: false }),
       syncGlobalConfirmedTuitions()
     ]);
 
@@ -1237,39 +1237,78 @@ function filterDirectory() {
 
   const filtered = rawData.filter(item => {
     const name = (item.teacher_name || item.student_name || '').toLowerCase();
-    const rawCat = (item.classes || '') + ' ' + (item.subject || '') + ' ' + (item.student_class || '');
-    const rawLevel = (item.classes || '') + ' ' + (item.student_class || '');
-    const rawBoard = item.board || '';
-    const rawSubject = item.subject || '';
-    const rawMode = item.tuition_mode || '';
+    const rawCat = ((item.classes || '') + ' ' + (item.subject || '') + ' ' + (item.student_class || '')).toLowerCase();
+    const rawLevel = ((item.classes || '') + ' ' + (item.student_class || '')).toLowerCase();
+    const rawBoard = (item.board || '').toLowerCase();
+    const rawSubject = (item.subject || '').toLowerCase();
+    const rawMode = (item.tuition_mode || '').toLowerCase();
     const rawLocation = (item.address || '').toLowerCase();
 
+    // 1. Text Search across fields
     const matchesSearch = !searchQuery || 
       name.includes(searchQuery) || 
-      rawSubject.toLowerCase().includes(searchQuery) || 
-      rawBoard.toLowerCase().includes(searchQuery) || 
+      rawSubject.includes(searchQuery) || 
+      rawBoard.includes(searchQuery) || 
+      rawLevel.includes(searchQuery) ||
       rawLocation.includes(searchQuery);
 
     if (!matchesSearch) return false;
 
+    // 2. Category Filter
     let matchCat = (cat === "All");
     if (!matchCat) {
-      if (cat === "Academic") matchCat = rawCat.includes("Class") || rawCat.includes("Grade");
-      else if (cat === "Non-Academic") matchCat = rawCat.includes("Non-Academic") || rawCat.includes("Skill");
-      else if (cat === "Competitive") matchCat = rawCat.includes("Competitive");
-      else matchCat = rawCat.includes("Others");
+      if (cat === "Academic") {
+        matchCat = rawCat.includes("class") || rawCat.includes("grade") || rawCat.includes("academic");
+      } else if (cat === "Non-Academic") {
+        matchCat = rawCat.includes("non-academic") || rawCat.includes("skill") || rawCat.includes("creative");
+      } else if (cat === "Competitive") {
+        matchCat = rawCat.includes("competitive") || rawCat.includes("exam") || rawCat.includes("jobs");
+      } else {
+        matchCat = rawCat.includes("other");
+      }
     }
+    if (!matchCat) return false;
 
+    // 3. Class / Level Filter (Exact Number Boundary Check)
     let matchLevel = (level === "All");
     if (!matchLevel) {
-      matchLevel = rawLevel.includes(level);
+      if (level === "Competitive") {
+        matchLevel = rawLevel.includes("competitive") || rawCat.includes("competitive");
+      } else if (level === "Skills") {
+        matchLevel = rawLevel.includes("skill") || rawCat.includes("non-academic");
+      } else {
+        const numMatch = level.match(/\d+/);
+        if (numMatch) {
+          const num = numMatch[0];
+          // Matches "Class 10", "Grade 10", or "Grades 1-12"
+          const regex = new RegExp(`\\b(class|grade|grades)?\\s*${num}\\b`, 'i');
+          matchLevel = regex.test(rawLevel) || rawLevel.includes(`grades 1-12`);
+        } else {
+          matchLevel = rawLevel.includes(level.toLowerCase());
+        }
+      }
+    }
+    if (!matchLevel) return false;
+
+    // 4. Board Filter
+    const matchBoard = (board === "All") || rawBoard.includes(board.toLowerCase());
+    if (!matchBoard) return false;
+
+    // 5. Subject Filter
+    const matchSubject = (subject === "All") || rawSubject.includes(subject.toLowerCase());
+    if (!matchSubject) return false;
+
+    // 6. Tuition Mode Filter (Handles "Both")
+    let matchMode = (mode === "All");
+    if (!matchMode) {
+      if (rawMode === "both") {
+        matchMode = true; // Both supports Home and Online
+      } else {
+        matchMode = rawMode === mode.toLowerCase();
+      }
     }
 
-    const matchBoard = (board === "All") || rawBoard.toLowerCase().includes(board.toLowerCase());
-    const matchSubject = (subject === "All") || rawSubject.toLowerCase().includes(subject.toLowerCase());
-    const matchMode = (mode === "All") || rawMode.toLowerCase().includes(mode.toLowerCase()) || (rawMode === "Both");
-
-    return matchCat && matchLevel && matchBoard && matchSubject && matchMode;
+    return matchMode;
   });
 
   renderCards(filtered);
