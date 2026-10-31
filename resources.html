@@ -162,9 +162,12 @@
 
     @media(max-width:768px) { 
       .grid { grid-template-columns: 1fr; } 
+      .header-wrap { flex-direction: column; gap: 12px; }
+      body { padding-top: 100px; }
     }
 
     @media (max-width: 600px) {
+      .nav-links a, .auth-btns a { font-size: 12px; padding: 6px 6px; margin-left: 2px; }
       footer {
         padding: 40px 20px 24px;
         text-align: left;
@@ -616,3 +619,6 @@ function renderList() {
 </script>
 </body>
 </html>
+```<ElicitationsGroup>
+</ElicitationsGroup>
+<FollowUp>Is there any other specific styling or element adjustment you need made on this page, or would you like to review how this header behaves on smaller screens first?</FollowUp>
