@@ -448,6 +448,7 @@ const COMPETITIVE_EXAMS = ["NEET/JEE", "RRB", "SSC", "Banking", "Civils", "Dsc T
 let resources = [];
 let currentUser = null;
 let isTeacher = false;
+let db = null;
 
 (function initAuthCheck() {
   if (localStorage.getItem("apex_cached_auth") === "true") {
@@ -462,14 +463,14 @@ function showHubView() {
   document.getElementById("viewDenied").classList.add("hidden");
 }
 
-function handleBrowseClick() {
+async function handleBrowseClick() {
   if (!currentUser) {
     showDenied("Sign In Required", "Please sign in to browse study materials.", "Sign In", "index.html?auth=signin");
     return;
   }
   document.getElementById("hubMainCards").classList.add("hidden");
   document.getElementById("viewDownloads").classList.remove("hidden");
-  renderList();
+  await fetchResourcesFromSupabase();
 }
 
 function handleUploadClick() {
@@ -537,26 +538,90 @@ function showDenied(title, msg, btnText, btnAction) {
   document.getElementById("viewDenied").classList.remove("hidden");
 }
 
-function submitUpload() {
+async function fetchResourcesFromSupabase() {
+  if (!db) return;
+  const grid = document.getElementById("resourceGrid");
+  grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:var(--muted); font-size:13px;">Loading resources...</p>`;
+
+  const { data, error } = await db
+    .from("resources")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching resources:", error);
+    grid.innerHTML = `<p style="grid-column:1/-1; text-align:center; color:#DC2626; font-size:13px;">Failed to load resources.</p>`;
+    return;
+  }
+
+  resources = data || [];
+  renderList();
+}
+
+async function submitUpload() {
   const title = document.getElementById("resTitle").value.trim();
-  const file = document.getElementById("resFile").files[0];
-  if (!title || !file) { alert("Provide title and PDF file."); return; }
-  if (!file.name.toLowerCase().endsWith(".pdf")) { alert("Only PDF files allowed."); return; }
+  const fileInput = document.getElementById("resFile");
+  const file = fileInput.files[0];
 
-  resources.unshift({
-    id: Date.now(),
-    title: title,
-    category: document.getElementById("resCategory").value,
-    grade: document.getElementById("resGrade").value,
-    subject: document.getElementById("resSubject").value,
-    url: URL.createObjectURL(file),
-    size: (file.size / (1024*1024)).toFixed(2) + " MB"
-  });
+  if (!title || !file) {
+    alert("Provide title and PDF file.");
+    return;
+  }
+  if (!file.name.toLowerCase().endsWith(".pdf")) {
+    alert("Only PDF files allowed.");
+    return;
+  }
+  if (file.size > 2 * 1024 * 1024) {
+    alert("File size exceeds 2MB limit.");
+    return;
+  }
 
-  alert("Uploaded successfully!");
-  document.getElementById("resTitle").value = "";
-  document.getElementById("resFile").value = "";
-  handleBrowseClick();
+  const uploadBtn = document.querySelector("#viewUpload .btn-upload");
+  uploadBtn.disabled = true;
+  uploadBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Uploading...`;
+
+  try {
+    const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+    const filePath = `${Date.now()}_${cleanFileName}`;
+
+    const { error: storageError } = await db.storage
+      .from("resources")
+      .upload(filePath, file);
+
+    if (storageError) throw storageError;
+
+    const { data: urlData } = db.storage
+      .from("resources")
+      .getPublicUrl(filePath);
+
+    const publicUrl = urlData.publicUrl;
+    const formattedSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
+
+    const { error: dbError } = await db.from("resources").insert([
+      {
+        title: title,
+        category: document.getElementById("resCategory").value,
+        grade: document.getElementById("resGrade").value,
+        subject: document.getElementById("resSubject").value,
+        url: publicUrl,
+        size: formattedSize,
+        teacher_id: currentUser ? currentUser.id : null
+      }
+    ]);
+
+    if (dbError) throw dbError;
+
+    alert("Uploaded successfully!");
+    document.getElementById("resTitle").value = "";
+    fileInput.value = "";
+    await handleBrowseClick();
+  } catch (err) {
+    console.error("Upload error:", err);
+    alert("Upload failed: " + (err.message || "Please check network or storage permissions."));
+  } finally {
+    uploadBtn.disabled = false;
+    uploadBtn.innerHTML = `<i class="fa-solid fa-file-arrow-up"></i> Submit`;
+  }
 }
 
 function downloadFile(id) {
@@ -565,16 +630,23 @@ function downloadFile(id) {
     return;
   }
   const item = resources.find(r => r.id === id);
-  if (!item) return;
+  if (!item || !item.url) return;
+
   const a = document.createElement("a");
   a.href = item.url;
-  a.download = item.title + ".pdf";
+  a.target = "_blank";
+  a.download = (item.title || "resource") + ".pdf";
+  document.body.appendChild(a);
   a.click();
+  document.body.removeChild(a);
 }
 
 function renderList() {
   const query = (document.getElementById("searchQuery").value || "").toLowerCase();
-  const filtered = resources.filter(r => r.title.toLowerCase().includes(query) || r.subject.toLowerCase().includes(query));
+  const filtered = resources.filter(r => 
+    (r.title && r.title.toLowerCase().includes(query)) || 
+    (r.subject && r.subject.toLowerCase().includes(query))
+  );
   const grid = document.getElementById("resourceGrid");
 
   if (filtered.length === 0) {
@@ -585,9 +657,9 @@ function renderList() {
   grid.innerHTML = filtered.map(r => `
     <div style="border:1px solid #E2E8F0; border-radius:8px; padding:12px; display:flex; flex-direction:column; justify-content:space-between;">
       <div>
-        <span style="font-size:10px; font-weight:700; color:var(--blue); background:#EFF6FF; padding:2px 6px; border-radius:4px;">${r.grade}</span>
+        <span style="font-size:10px; font-weight:700; color:var(--blue); background:#EFF6FF; padding:2px 6px; border-radius:4px;">${r.grade || 'General'}</span>
         <h5 style="font-size:13px; color:var(--navy); margin:6px 0 4px;">${r.title}</h5>
-        <span style="font-size:11px; color:var(--muted);">${r.subject} • ${r.size}</span>
+        <span style="font-size:11px; color:var(--muted);">${r.subject || ''} • ${r.size || ''}</span>
       </div>
       <button onclick="downloadFile(${r.id})" class="btn btn-browse" style="height:32px; font-size:12px; margin-top:8px;">
         <i class="fa-solid fa-download"></i> Download
@@ -599,7 +671,10 @@ function renderList() {
 (async function() {
   try {
     if (window.supabase) {
-      const db = window.supabase.createClient("https://agxoxrtetmcfwbpzyypo.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0");
+      db = window.supabase.createClient(
+        "https://agxoxrtetmcfwbpzyypo.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFneG94cnRldG1jZndicHp5eXBvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxMjg2MDIsImV4cCI6MjEwMjcwNDYwMn0.ASD3Sv83YCdwQURKYsuORWgBnSj37vXlz7EIEMFC3u0"
+      );
       const { data: { session } } = await db.auth.getSession();
       if (session?.user) {
         currentUser = session.user;
@@ -614,11 +689,10 @@ function renderList() {
         localStorage.removeItem("apex_cached_auth");
       }
     }
-  } catch(e) {}
+  } catch(e) {
+    console.error("Initialization error:", e);
+  }
 })();
 </script>
 </body>
 </html>
-```<ElicitationsGroup>
-</ElicitationsGroup>
-<FollowUp>Is there any other specific styling or element adjustment you need made on this page, or would you like to review how this header behaves on smaller screens first?</FollowUp>
