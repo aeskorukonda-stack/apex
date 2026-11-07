@@ -584,12 +584,14 @@ async function submitUpload() {
     const cleanFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
     const filePath = `${Date.now()}_${cleanFileName}`;
 
+    // 1. Upload to Supabase Storage bucket 'resources'
     const { error: storageError } = await db.storage
       .from("resources")
       .upload(filePath, file);
 
     if (storageError) throw storageError;
 
+    // 2. Obtain the public URL
     const { data: urlData } = db.storage
       .from("resources")
       .getPublicUrl(filePath);
@@ -597,14 +599,15 @@ async function submitUpload() {
     const publicUrl = urlData.publicUrl;
     const formattedSize = (file.size / (1024 * 1024)).toFixed(2) + " MB";
 
+    // 3. Insert record into public.resources table
     const { error: dbError } = await db.from("resources").insert([
       {
         title: title,
         category: document.getElementById("resCategory").value,
         grade: document.getElementById("resGrade").value,
         subject: document.getElementById("resSubject").value,
-        url: publicUrl,
-        size: formattedSize,
+        file_url: publicUrl,
+        file_size: formattedSize,
         teacher_id: currentUser ? currentUser.id : null
       }
     ]);
@@ -617,7 +620,7 @@ async function submitUpload() {
     await handleBrowseClick();
   } catch (err) {
     console.error("Upload error:", err);
-    alert("Upload failed: " + (err.message || "Please check network or storage permissions."));
+    alert("Upload failed: " + (err.message || "Please check network or permissions."));
   } finally {
     uploadBtn.disabled = false;
     uploadBtn.innerHTML = `<i class="fa-solid fa-file-arrow-up"></i> Submit`;
@@ -629,11 +632,11 @@ function downloadFile(id) {
     showDenied("Sign In Required", "Please sign in to download study files.", "Sign In", "index.html?auth=signin");
     return;
   }
-  const item = resources.find(r => r.id === id);
-  if (!item || !item.url) return;
+  const item = resources.find(r => String(r.id) === String(id));
+  if (!item || !item.file_url) return;
 
   const a = document.createElement("a");
-  a.href = item.url;
+  a.href = item.file_url;
   a.target = "_blank";
   a.download = (item.title || "resource") + ".pdf";
   document.body.appendChild(a);
@@ -659,9 +662,9 @@ function renderList() {
       <div>
         <span style="font-size:10px; font-weight:700; color:var(--blue); background:#EFF6FF; padding:2px 6px; border-radius:4px;">${r.grade || 'General'}</span>
         <h5 style="font-size:13px; color:var(--navy); margin:6px 0 4px;">${r.title}</h5>
-        <span style="font-size:11px; color:var(--muted);">${r.subject || ''} • ${r.size || ''}</span>
+        <span style="font-size:11px; color:var(--muted);">${r.subject || ''} • ${r.file_size || ''}</span>
       </div>
-      <button onclick="downloadFile(${r.id})" class="btn btn-browse" style="height:32px; font-size:12px; margin-top:8px;">
+      <button onclick="downloadFile('${r.id}')" class="btn btn-browse" style="height:32px; font-size:12px; margin-top:8px;">
         <i class="fa-solid fa-download"></i> Download
       </button>
     </div>
