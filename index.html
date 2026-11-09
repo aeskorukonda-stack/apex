@@ -310,7 +310,8 @@
     }
     .grand-hero-container.portal-hidden .grand-hero-badges,
     .grand-hero-container.portal-hidden .grand-hero-ctas,
-    .grand-hero-container.portal-hidden .quick-search-pills {
+    .grand-hero-container.portal-hidden .quick-search-pills,
+    .grand-hero-container.portal-hidden .hero-cta-actions {
       justify-content: center;
     }
     .grand-hero-container.portal-hidden p {
@@ -383,6 +384,42 @@
       color: #ffffff;
       border-color: var(--apex-gold);
       transform: translateY(-1px);
+    }
+    .hero-cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .hero-cta-btn {
+      min-height: 46px;
+      padding: 11px 17px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      color: #FFFFFF !important;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+      font-weight: 800;
+      border: 1px solid rgba(255,255,255,0.28);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.16);
+      transition: var(--transition);
+    }
+    .hero-cta-parent { background: #2563EB; }
+    .hero-cta-teacher { background: #059669; }
+    .hero-cta-btn:hover {
+      color: #FFFFFF !important;
+      transform: translateY(-2px);
+      filter: brightness(1.08);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+    }
+    @media (max-width: 600px) {
+      .hero-cta-actions { flex-direction: column; align-items: stretch; }
+      .hero-cta-btn { width: 100%; text-align: center; }
     }
 
     /* Auth Portal Card */
@@ -1111,17 +1148,15 @@
       background: linear-gradient(90deg, #002395 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #ED2939 66.6%);
     }
     .flag-india {
-      background: linear-gradient(180deg, #FF9933 33.3%, #FFFFFF 33.3%, #FFFFFF 66.6%, #128807 66.6%);
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: #FFFFFF;
+      display: block;
+      overflow: hidden;
     }
-    .flag-india::after {
-      content: "☸";
-      color: #000088;
-      font-size: 24px;
-      position: absolute;
+    .flag-india svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
     }
 
     /* Testimonials Community Section */
@@ -1637,7 +1672,7 @@
 <header>
   <div class="header-wrap">
     <a href="index.html" class="brand-group">
-      <img src="logo.png" alt="Apex Logo" class="header-logo" onerror="this.onerror=null; this.src='apex-circle-logo.png';">
+      <img src="logo.png" alt="Apex Logo" class="header-logo" onerror="apexImageFallback(this)">
       <div class="brand-text">
         <div class="brand-title">APEX TUITIONS</div>
       </div>
@@ -1701,13 +1736,15 @@
         Join the most transparent education network connecting parents, students, and expert educators for home and online tuition. Discuss terms directly on WhatsApp without agency finder cuts.
       </p>
 
-      <div class="quick-search-pills">
-        <span class="quick-search-label">Popular:</span>
-        <a href="browse.html?subject=Mathematics" class="hero-pill">Class 10 Math</a>
-        <a href="browse.html?subject=Physics" class="hero-pill">Class 12 Physics</a>
-        <a href="browse.html?subject=NEET/JEE" class="hero-pill">NEET / IIT-JEE</a>
-        <a href="browse.html?subject=English" class="hero-pill">Spoken English</a>
-        <a href="browse.html?subject=Abacus" class="hero-pill">Abacus & Vedic</a>
+      <div class="hero-cta-actions">
+        <a href="browse.html" class="hero-cta-btn hero-cta-parent">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          I'm parent/student – Find tuition
+        </a>
+        <a href="browse.html" class="hero-cta-btn hero-cta-teacher">
+          <i class="fa-solid fa-chalkboard-user"></i>
+          I'm teacher/educator – Find tuition
+        </a>
       </div>
     </div>
 
@@ -1726,7 +1763,7 @@
 
           <div class="welcome-card-hero">
             <div class="welcome-avatar-wrapper">
-              <img id="welcomeAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="welcome-avatar-circle" alt="Avatar">
+              <img id="welcomeAvatarImg" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="welcome-avatar-circle" alt="Avatar" onerror="apexImageFallback(this)">
               <div class="welcome-verified-badge" title="Verified Member">
                 <i class="fa-solid fa-check"></i>
               </div>
@@ -2574,38 +2611,38 @@
   <div class="grand-section-header">
     <div>
       <h2 class="grand-section-title">Explore Academic Tuition</h2>
-      <p class="grand-section-sub">Verified home and online educators for school grades & university degrees</p>
+      <p class="grand-section-sub">Verified home and online educators for school grades, university degrees and competitive exams</p>
     </div>
   </div>
 
   <div class="photo-category-grid">
     <a href="browse.html?class=Class+9" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=400&q=80" alt="Class 9 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=400&q=80" alt="Class 9 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 9 Tuition</div>
     </a>
     <a href="browse.html?class=Class+10" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&q=80" alt="Class 10 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=400&q=80" alt="Class 10 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 10 Tuition</div>
     </a>
     <a href="browse.html?class=Class+11" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&q=80" alt="Class 11 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&q=80" alt="Class 11 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 11 Tuition</div>
     </a>
     <a href="browse.html?class=Class+12" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Class 12 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Class 12 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 12 Tuition</div>
     </a>
     <a href="browse.html?subject=Engineering" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80" alt="B.Tech Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80" alt="B.Tech Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">B.Tech Tuition</div>
     </a>
@@ -2614,31 +2651,31 @@
   <div class="photo-category-grid">
     <a href="browse.html?class=Nursery" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80" alt="Nursery - KG Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=400&q=80" alt="Nursery - KG Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Nursery – KG Tuition</div>
     </a>
     <a href="browse.html?class=Class+1" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&q=80" alt="Class I-V Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?auto=format&fit=crop&w=400&q=80" alt="Class I-V Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class I–V Tuition</div>
     </a>
     <a href="browse.html?class=Class+6" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" alt="Class 6 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&w=400&q=80" alt="Class 6 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 6 Tuition</div>
     </a>
     <a href="browse.html?class=Class+7" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&q=80" alt="Class 7 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=400&q=80" alt="Class 7 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 7 Tuition</div>
     </a>
     <a href="browse.html?class=Class+8" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=400&q=80" alt="Class 8 Tuition" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=400&q=80" alt="Class 8 Tuition" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Class 8 Tuition</div>
     </a>
@@ -2664,7 +2701,7 @@
 
     <a href="browse.html?subject=Spoken+English" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=400&q=80" alt="Spoken English" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=400&q=80" alt="Spoken English" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Spoken English</div>
     </a>
@@ -2685,7 +2722,20 @@
 
     <a href="browse.html?subject=Hindi" class="photo-card">
       <div class="photo-img-wrap">
-        <div class="flag-banner flag-india"></div>
+        <div class="flag-banner flag-india" role="img" aria-label="Flag of India">
+          <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect width="300" height="66.667" fill="#FF9933"/>
+            <rect y="66.667" width="300" height="66.666" fill="#FFFFFF"/>
+            <rect y="133.333" width="300" height="66.667" fill="#138808"/>
+            <circle cx="150" cy="100" r="19" fill="none" stroke="#000080" stroke-width="2.4"/>
+            <circle cx="150" cy="100" r="2.7" fill="#000080"/>
+            <g stroke="#000080" stroke-width="1.65" stroke-linecap="round">
+              <path d="M150 81 V119 M131 100 H169 M136.57 86.57 L163.43 113.43 M163.43 86.57 L136.57 113.43"/>
+              <path d="M145.08 81.65 L154.92 118.35 M131.65 95.08 L168.35 104.92 M131.65 104.92 L168.35 95.08 M145.08 118.35 L154.92 81.65"/>
+              <path d="M140.5 83.4 L159.5 116.6 M133.4 90.5 L166.6 109.5 M133.4 109.5 L166.6 90.5 M140.5 116.6 L159.5 83.4"/>
+            </g>
+          </svg>
+        </div>
       </div>
       <div class="photo-card-label">Hindi Language</div>
     </a>
@@ -2704,35 +2754,35 @@
   <div class="photo-category-grid">
     <a href="browse.html?subject=Yoga" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=400&q=80" alt="Yoga & Wellness" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=400&q=80" alt="Yoga & Wellness" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Yoga &amp; Wellness</div>
     </a>
 
     <a href="browse.html?subject=Guitar" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=400&q=80" alt="Guitar Lessons" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=crop&w=400&q=80" alt="Guitar Lessons" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Guitar Lessons</div>
     </a>
 
     <a href="browse.html?subject=Dance" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80" alt="Dance Training" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?auto=format&fit=crop&w=400&q=80" alt="Dance Training" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Dance Training</div>
     </a>
 
     <a href="browse.html?subject=Vocal+Music" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=400&q=80" alt="Vocal Music" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=400&q=80" alt="Vocal Music" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Vocal Music</div>
     </a>
 
     <a href="browse.html?subject=Personality" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Personality Skills" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" alt="Personality Skills" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Personality Skills</div>
     </a>
@@ -2741,35 +2791,35 @@
   <div class="photo-category-grid">
     <a href="browse.html?subject=Photography" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Photography" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=400&q=80" alt="Photography" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Photography</div>
     </a>
 
     <a href="browse.html?subject=Drawing" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=80" alt="Drawing & Craft" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=400&q=80" alt="Drawing & Craft" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Drawing &amp; Craft</div>
     </a>
 
     <a href="browse.html?subject=Fitness" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80" alt="Personal Trainer" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=400&q=80" alt="Personal Trainer" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Personal Trainer</div>
     </a>
 
     <a href="browse.html?subject=Cooking" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=80" alt="Culinary Arts" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=400&q=80" alt="Culinary Arts" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Culinary Arts</div>
     </a>
 
     <a href="browse.html?subject=Keyboard" class="photo-card">
       <div class="photo-img-wrap">
-        <img src="https://images.unsplash.com/photo-1520523839898-50712825e3a7?auto=format&fit=crop&w=400&q=80" alt="Keyboard & Piano" loading="lazy">
+        <img src="https://images.unsplash.com/photo-1520523839898-50712825e3a7?auto=format&fit=crop&w=400&q=80" alt="Keyboard & Piano" loading="lazy" onerror="apexImageFallback(this)">
       </div>
       <div class="photo-card-label">Keyboard &amp; Piano</div>
     </a>
@@ -2868,7 +2918,7 @@
 <!-- OFF-SCREEN FLYER TEMPLATE (CLEAN AVATAR & COMPACT DIRECT LINK) -->
 <div id="hiddenShareCardSource">
   <div class="card-top-brand-row">
-    <img src="logo.png" alt="Apex Logo" class="card-top-brand-logo" onerror="this.onerror=null; this.src='apex-circle-logo.png';">
+    <img src="logo.png" alt="Apex Logo" class="card-top-brand-logo" onerror="apexImageFallback(this)">
     <div class="card-top-brand-title">Apex Tuitions</div>
   </div>
 
@@ -2886,7 +2936,7 @@
 
     <div class="card-hero-right">
       <div class="card-avatar-circle-wrap">
-        <img id="snapCardAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="card-avatar-img" alt="User Avatar" crossorigin="anonymous">
+        <img id="snapCardAvatar" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="card-avatar-img" alt="User Avatar" crossorigin="anonymous" onerror="apexImageFallback(this)">
       </div>
     </div>
   </div>
@@ -3796,7 +3846,7 @@ async function generateAndShareProfileCard() {
       }
 
       const container = document.getElementById("renderedCardImageContainer");
-      container.innerHTML = `<img src="${dataUrl}" alt="Generated Profile Card">`;
+      container.innerHTML = `<img src="${dataUrl}" alt="Generated Profile Card" onerror="apexImageFallback(this)">`;
 
       const downloadBtn = document.getElementById("btnDownloadCardSnap");
       downloadBtn.onclick = () => {
@@ -3974,6 +4024,23 @@ window.addEventListener("load", async () => {
     }
   });
 });
+</script>
+<script>
+/* Graceful image fallback: try the secondary Apex logo once, then show a neutral SVG placeholder. */
+function apexImageFallback(img) {
+  if (!img || img.dataset.apexFallbackDone === "1") return;
+  if ((img.classList.contains("header-logo") || img.classList.contains("card-top-brand-logo")) &&
+      img.dataset.apexTriedLogo !== "1") {
+    img.dataset.apexTriedLogo = "1";
+    img.src = "apex-circle-logo.png";
+    return;
+  }
+  img.dataset.apexFallbackDone = "1";
+  const svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260"><rect width="400" height="260" fill="#EAF0F7"/><circle cx="200" cy="105" r="48" fill="#CBD5E1"/><path d="M120 225c8-48 39-72 80-72s72 24 80 72" fill="#CBD5E1"/><path d="M178 102h44M200 80v44" stroke="#64748B" stroke-width="7" stroke-linecap="round"/></svg>';
+  img.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+  img.style.objectFit = "contain";
+  img.style.backgroundColor = "#EAF0F7";
+}
 </script>
 </body>
 </html>
