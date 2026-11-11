@@ -349,19 +349,17 @@
       document.body.classList.add("has-mobile-dock");
       return;
     }
-
-    const path = window.location.pathname.toLowerCase();
+const path = window.location.pathname.toLowerCase();
     const isEnquiries = path.includes("enquiries");
     const isProfile = path.includes("profile");
-    const isBrowse = path.includes("browse");
+    const isFindTutors = path.includes("find-tutor");
 
-    // Dynamic role check (Default: Teachers)
-    let browseTarget = "Teachers";
-    const cachedProfile = localStorage.getItem("apex_profile_cache");
+    // Dynamic role check (Default: Find Tutors)
+    let browseTarget = "Find Tutors";
     const cachedRole = localStorage.getItem("apex_role_cache");
 
     if (cachedRole === "teacher") {
-      browseTarget = "Students";
+      browseTarget = "Find Students";
     }
 
     const dock = document.createElement("nav");
@@ -381,6 +379,14 @@
           <span>Profile</span>
         </div>
       </a>
+
+      <a href="find-tutors.html" class="dock-item-btn ${isFindTutors ? 'active-tab' : ''}">
+        <i class="fa-solid fa-magnifying-glass" style="${isFindTutors ? '' : 'color:#0284C7;'}"></i>
+        <div class="dock-label-stack">
+          <span id="dockBrowseLabel">${browseTarget}</span>
+        </div>
+      </a>
+    `;
 
       <a href="browse.html" class="dock-item-btn ${isBrowse ? 'active-tab' : ''}">
         <i class="fa-solid fa-magnifying-glass" style="${isBrowse ? '' : 'color:#0284C7;'}"></i>
@@ -407,7 +413,7 @@
           const { data: t } = await client.from("teachers").select("id").eq("id", session.user.id).maybeSingle();
           const labelEl = document.getElementById("dockBrowseLabel");
           if (labelEl) {
-            labelEl.textContent = t ? "Students" : "Teachers";
+            labelEl.textContent = t ? "Find Students" : "Find Tutors";
           }
 
           const { data: enq } = await client
