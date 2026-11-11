@@ -649,9 +649,9 @@
     
     <div class="header-right-actions">
       <nav class="nav-links-desktop">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="browse.html" class="nav-link">Browse</a>
-        <a href="resources.html" class="nav-link">Resources</a>
+  <a href="index.html" class="nav-link">Home</a>
+  <a href="find-tutors.html" class="nav-link">Find Tutors</a>
+  <a href="resources.html" class="nav-link">Resources</a>
         
         <div class="dropdown-parent">
           <a href="javascript:void(0)" class="nav-link active">
@@ -684,9 +684,9 @@
   </div>
 
   <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">🏠 Home</a>
-    <a href="browse.html">🔍 Browse</a>
-    <a href="resources.html">📚 Resources</a>
+  <a href="index.html">🏠 Home</a>
+  <a href="find-tutors.html">🔍 Find Tutors</a>
+  <a href="resources.html">📚 Resources</a>
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback</a>
     <a href="donate.html">💛 Donate</a>
@@ -775,15 +775,15 @@
     </a>
 
     <!-- Browse (Dynamic role label: Find Students / Find Tutor) -->
-    <a href="browse.html" class="dock-item" id="dockBtnBrowse">
-      <div class="dock-icon-wrap blue-bg">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-      <div class="dock-title">
-        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
-        <span id="dockBrowseLabel">Find Tutor</span>
-      </div>
-    </a>
+    <a href="find-tutors.html" class="dock-item" id="dockBtnBrowse">
+  <div class="dock-icon-wrap blue-bg">
+    <i class="fa-solid fa-compass"></i>
+  </div>
+  <div class="dock-title">
+    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+    <span id="dockBrowseLabel">Find Tutors</span>
+  </div>
+</a>
   </div>
 </nav>
 
@@ -800,12 +800,12 @@
     </div>
 
     <div class="footer-col">
-      <h4>For Students</h4>
-      <ul>
-        <li><a href="browse.html">Search Tutors</a></li>
-        <li><a href="resources.html">Study Resources</a></li>
-      </ul>
-    </div>
+  <h4>For Students</h4>
+  <ul>
+    <li><a href="find-tutors.html">Find Tutors</a></li>
+    <li><a href="resources.html">Study Resources</a></li>
+  </ul>
+</div>
 
     <div class="footer-col">
       <h4>For Teachers</h4>
@@ -963,7 +963,7 @@ async function updateDockRoleLabel(userId) {
   if (teacher) {
     dockBrowseLabel.textContent = "Find Students";
   } else {
-    dockBrowseLabel.textContent = "Find Tutor";
+    dockBrowseLabel.textContent = "Find Tutors";
   }
 }
 
