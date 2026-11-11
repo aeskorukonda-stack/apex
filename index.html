@@ -1678,10 +1678,10 @@
     </a>
     
     <div class="header-right-actions">
-      <nav class="nav-links-desktop">
-        <a href="index.html" class="nav-link active">Home</a>
-        <a href="browse.html" class="nav-link">Browse</a>
-        <a href="resources.html" class="nav-link">Resources</a>
+     <nav class="nav-links-desktop">
+  <a href="index.html" class="nav-link active">Home</a>
+  <a href="find-tutors.html" class="nav-link">Find Tutors</a>
+  <a href="resources.html" class="nav-link">Resources</a>
         
         <div class="dropdown-parent">
           <a href="javascript:void(0)" class="nav-link">More <i class="fa-solid fa-chevron-down" style="font-size:10px;"></i></a>
@@ -1693,10 +1693,10 @@
         </div>
       </nav>
 
-      <div class="header-auth-buttons" id="headerAuthGroup">
-        <button type="button" onclick="openAuthView('signin')" class="btn-header-auth" id="navBtnSignIn">Sign In</button>
-        <a href="browse.html" class="btn-header-auth" id="navBtnFindTutor">Find Tutor</a>
-      </div>
+     <div class="header-auth-buttons" id="headerAuthGroup">
+  <button type="button" onclick="openAuthView('signin')" class="btn-header-auth" id="navBtnSignIn">Sign In</button>
+  <a href="find-tutors.html" class="btn-header-auth" id="navBtnFindTutor">Find Tutors</a>
+</div>
 
       <button class="mobile-menu-toggle" onclick="toggleMobileNav()" aria-label="Toggle Menu">
         <i class="fa-solid fa-bars"></i>
@@ -1704,16 +1704,16 @@
     </div>
   </div>
 
-  <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">Home</a>
-    <a href="browse.html">Browse</a>
-    <a href="resources.html">Resources</a>
-    <a href="about.html">About Apex</a>
-    <a href="feedback.html">Feedback</a>
-    <a href="donate.html">Donate</a>
-    <button type="button" id="mobileDrawerSignIn" onclick="openAuthView('signin'); toggleMobileNav();">Sign In</button>
-    <a href="browse.html" id="mobileDrawerFindTutor">🔍 Find Tutor</a>
-  </div>
+ <div class="mobile-drawer" id="mobileDrawer">
+  <a href="index.html">Home</a>
+  <a href="find-tutors.html">Find Tutors</a>
+  <a href="resources.html">Resources</a>
+  <a href="about.html">About Apex</a>
+  <a href="feedback.html">Feedback</a>
+  <a href="donate.html">Donate</a>
+  <button type="button" id="mobileDrawerSignIn" onclick="openAuthView('signin'); toggleMobileNav();">Sign In</button>
+  <a href="find-tutors.html" id="mobileDrawerFindTutor">🔍 Find Tutors</a>
+</div>
 </header>
 
 <!-- 1. GRAND HERO BANNER -->
@@ -1807,21 +1807,21 @@
                 <span>My Profile</span>
                 <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
               </a>
-              <a href="browse.html" class="btn-welcome-tile tile-browse">
-                <i class="fa-solid fa-magnifying-glass tile-main-icon"></i>
-                <span>Browse</span>
-                <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
-              </a>
+             <a href="find-tutors.html" class="btn-welcome-tile tile-browse">
+  <i class="fa-solid fa-magnifying-glass tile-main-icon"></i>
+  <span>Find Tutors</span>
+  <span class="arrow-indicator"><i class="fa-solid fa-arrow-right"></i></span>
+</a>
             </div>
           </div>
 
           <!-- Connect Via WhatsApp Action Bar -->
-          <a href="browse.html" class="welcome-card-whatsapp-bar" id="heroWaDirectLink">
-            <div class="wa-icon-bubble">
-              <i class="fa-brands fa-whatsapp"></i>
-            </div>
-            <span>CONNECT VIA WHATSAPP →</span>
-          </a>
+         <a href="find-tutors.html" class="welcome-card-whatsapp-bar" id="heroWaDirectLink">
+  <div class="wa-icon-bubble">
+    <i class="fa-brands fa-whatsapp"></i>
+  </div>
+  <span>CONNECT VIA WHATSAPP →</span>
+</a>
         </div>
       </div>
 
@@ -2906,15 +2906,14 @@
       </div>
     </a>
 
-    <a href="browse.html" class="dock-item" id="dockBtnBrowse">
-      <div class="dock-icon-wrap blue-bg">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-      <div class="dock-title">
-        <span id="dockBrowseLabel">Find Tutor</span>
-      </div>
-    </a>
+   <a href="find-tutors.html" class="dock-item" id="dockBtnBrowse">
+  <div class="dock-icon-wrap blue-bg">
+    <i class="fa-solid fa-compass"></i>
   </div>
+  <div class="dock-title">
+    <span id="dockBrowseLabel">Find Tutors</span>
+  </div>
+</a>
 </nav>
 
 <!-- OFF-SCREEN FLYER TEMPLATE (CLEAN AVATAR & COMPACT DIRECT LINK) -->
@@ -3774,7 +3773,7 @@ async function updateDockRoleLabel(userId) {
   if (teacher) {
     dockBrowseLabel.textContent = "Find Students";
   } else {
-    dockBrowseLabel.textContent = "Find Tutor";
+    dockBrowseLabel.textContent = "Find Tutors";
   }
 }
 
