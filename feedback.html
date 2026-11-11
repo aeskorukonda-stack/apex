@@ -627,9 +627,9 @@
     
     <div class="header-right-actions">
       <nav class="nav-links-desktop">
-        <a href="index.html" class="nav-link">Home</a>
-        <a href="browse.html" class="nav-link">Browse</a>
-        <a href="resources.html" class="nav-link">Resources</a>
+     <a href="index.html" class="nav-link">Home</a>
+  <a href="find-tutors.html" class="nav-link">Find Tutors</a>
+  <a href="resources.html" class="nav-link">Resources</a>
         
         <div class="dropdown-parent">
           <a href="javascript:void(0)" class="nav-link active">
@@ -657,9 +657,9 @@
 
   <!-- Mobile Drawer -->
   <div class="mobile-drawer" id="mobileDrawer">
-    <a href="index.html">🏠 Home</a>
-    <a href="browse.html">📚 Browse</a>
-    <a href="resources.html">📖 Resources</a>
+  <a href="index.html">🏠 Home</a>
+  <a href="find-tutors.html">🔍 Find Tutors</a>
+  <a href="resources.html">📚 Resources</a>
     <a href="about.html">ℹ️ About Apex</a>
     <a href="feedback.html">💬 Feedback & Help</a>
     <a href="donate.html">💛 Donate</a>
@@ -808,15 +808,15 @@
     </a>
 
     <!-- 3. Students Button -->
-    <a href="students.html" class="dock-item" id="dockBtnStudents">
-      <div class="dock-icon-wrap blue-bg">
-        <i class="fa-solid fa-compass"></i>
-      </div>
-      <div class="dock-title">
-        <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
-        <span>Students</span>
-      </div>
-    </a>
+    <a href="find-tutors.html" class="dock-item" id="dockBtnBrowse">
+  <div class="dock-icon-wrap blue-bg">
+    <i class="fa-solid fa-compass"></i>
+  </div>
+  <div class="dock-title">
+    <i class="fa-solid fa-magnifying-glass" style="color: #0284C7;"></i>
+    <span id="dockBrowseLabel">Find Tutors</span>
+  </div>
+</a>
   </div>
 </nav>
 
@@ -838,13 +838,13 @@
         <li><a href="resources.html">Study Resources</a></li>
       </ul>
     </div>
-    <div class="footer-col">
-      <h4>Support</h4>
-      <ul>
-        <li><a href="javascript:void(0)" onclick="switchTab('help')">Help Center</a></li>
-        <li><a href="about.html">Society Policy</a></li>
-      </ul>
-    </div>
+   <div class="footer-col">
+  <h4>For Students</h4>
+  <ul>
+    <li><a href="find-tutors.html">Find Tutors</a></li>
+    <li><a href="resources.html">Study Resources</a></li>
+  </ul>
+</div>   
     <div class="footer-col">
       <h4>Community</h4>
       <ul>
@@ -1011,7 +1011,17 @@ async function submitFeedback() {
   }
   msgEl.classList.remove("hidden");
 }
+async function updateDockRoleLabel(userId) {
+  const dockBrowseLabel = document.getElementById("dockBrowseLabel");
+  if (!dockBrowseLabel || !userId) return;
 
+  const { data: teacher } = await db.from("teachers").select("id").eq("id", userId).maybeSingle();
+  if (teacher) {
+    dockBrowseLabel.textContent = "Find Students";
+  } else {
+    dockBrowseLabel.textContent = "Find Tutors";
+  }
+}
 async function submitHelpQuery() {
   if (!currentUser) {
     alert("Please sign in to send queries.");
